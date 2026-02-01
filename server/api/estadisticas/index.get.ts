@@ -12,8 +12,8 @@ export default defineEventHandler(async () => {
   await connectMongoose()
 
   const now = new Date()
-  const start = new Date(now.getFullYear(), now.getMonth(), 1)
-  const end = new Date(now.getFullYear(), now.getMonth() + 1, 1)
+  const start = getMonthStartUTC(now)
+  const end = getNextMonthStartUTC(now)
 
   const [ingresosAgg, gastosAgg, categorias] = await Promise.all([
     IngresoModel.aggregate([
@@ -74,10 +74,10 @@ function getRecentMonths(count: number): MonthKey[] {
   const months: MonthKey[] = []
 
   for (let i = 0; i < count; i += 1) {
-    const date = new Date(now.getFullYear(), now.getMonth() - i, 1)
+    const date = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - i, 1))
     months.push({
-      year: date.getFullYear(),
-      month: date.getMonth() + 1
+      year: date.getUTCFullYear(),
+      month: date.getUTCMonth() + 1
     })
   }
 
@@ -110,15 +110,25 @@ async function aggregateByMonth(model: typeof GastoModel | typeof IngresoModel) 
 function formatMonthLong(date: Date) {
   const label = new Intl.DateTimeFormat('es-MX', {
     month: 'long',
-    year: 'numeric'
+    year: 'numeric',
+    timeZone: 'UTC'
   }).format(date)
   return `${label.charAt(0).toUpperCase()}${label.slice(1)}`
 }
 
 function formatMonthShort(year: number, month: number) {
-  const date = new Date(year, month - 1, 1)
+  const date = new Date(Date.UTC(year, month - 1, 1))
   const label = new Intl.DateTimeFormat('es-MX', {
-    month: 'short'
+    month: 'short',
+    timeZone: 'UTC'
   }).format(date)
   return label.replace('.', '')
+}
+
+function getMonthStartUTC(date: Date) {
+  return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), 1))
+}
+
+function getNextMonthStartUTC(date: Date) {
+  return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + 1, 1))
 }

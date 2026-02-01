@@ -7,8 +7,8 @@ export default defineEventHandler(async () => {
   await connectMongoose()
 
   const now = new Date()
-  const start = new Date(now.getFullYear(), now.getMonth(), 1)
-  const end = new Date(now.getFullYear(), now.getMonth() + 1, 1)
+  const start = getMonthStartUTC(now)
+  const end = getNextMonthStartUTC(now)
 
   const [ingresosAgg, gastosAgg] = await Promise.all([
     IngresoModel.aggregate([
@@ -27,7 +27,8 @@ export default defineEventHandler(async () => {
 
   const month = new Intl.DateTimeFormat('es-MX', {
     month: 'long',
-    year: 'numeric'
+    year: 'numeric',
+    timeZone: 'UTC'
   }).format(now)
 
   return {
@@ -37,3 +38,11 @@ export default defineEventHandler(async () => {
     saldo
   }
 })
+
+function getMonthStartUTC(date: Date) {
+  return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), 1))
+}
+
+function getNextMonthStartUTC(date: Date) {
+  return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + 1, 1))
+}
