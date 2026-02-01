@@ -1,10 +1,10 @@
 <script setup lang="ts">
 type Gasto = {
-  _id: string,
-  description: string,
-  category: string,
-  amount: number,
-  date: string,
+  _id: string
+  description: string
+  category: string
+  amount: number
+  date: string
 }
 
 const { data: gastos, pending, error, refresh } = await useFetch<Gasto[]>('/api/gastos', {

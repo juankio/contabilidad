@@ -95,9 +95,15 @@ const submitGasto = async () => {
       Elige la fecha desde el calendario.
     </p>
 
-    <form class="mt-5 grid gap-4" @submit.prevent="submitGasto">
+    <form
+      class="mt-5 grid gap-4"
+      @submit.prevent="submitGasto"
+    >
       <div class="grid gap-2">
-        <label class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400" for="descripcion">
+        <label
+          class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400"
+          for="descripcion"
+        >
           Descripcion
         </label>
         <UInput
@@ -110,7 +116,10 @@ const submitGasto = async () => {
       </div>
 
       <div class="grid gap-2">
-        <label class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400" for="monto">
+        <label
+          class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400"
+          for="monto"
+        >
           Monto
         </label>
         <UInput
@@ -124,7 +133,10 @@ const submitGasto = async () => {
       </div>
 
       <div class="grid gap-2">
-        <label class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400" for="categoria">
+        <label
+          class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400"
+          for="categoria"
+        >
           Categoria
         </label>
         <USelect
@@ -136,10 +148,16 @@ const submitGasto = async () => {
       </div>
 
       <div class="grid gap-2">
-        <label class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400" for="fecha">
+        <label
+          class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400"
+          for="fecha"
+        >
           Fecha
         </label>
-        <UInputDate ref="inputDate" v-model="dateValue">
+        <UInputDate
+          ref="inputDate"
+          v-model="dateValue"
+        >
           <template #trailing>
             <UPopover :reference="inputDate?.inputsRef[3]?.$el">
               <UButton
@@ -151,14 +169,20 @@ const submitGasto = async () => {
                 class="px-0"
               />
               <template #content>
-                <UCalendar v-model="dateValue" class="p-2" />
+                <UCalendar
+                  v-model="dateValue"
+                  class="p-2"
+                />
               </template>
             </UPopover>
           </template>
         </UInputDate>
       </div>
 
-      <p v-if="formError" class="text-sm text-rose-500">
+      <p
+        v-if="formError"
+        class="text-sm text-rose-500"
+      >
         {{ formError }}
       </p>
 

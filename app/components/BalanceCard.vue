@@ -1,9 +1,9 @@
 <script setup lang="ts">
 type Resumen = {
-  month: string,
-  ingresos: number,
-  gastos: number,
-  saldo: number,
+  month: string
+  ingresos: number
+  gastos: number
+  saldo: number
 }
 
 const { data: resumen, pending, error } = await useFetch<Resumen>('/api/resumen', {

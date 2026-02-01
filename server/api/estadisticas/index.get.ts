@@ -4,8 +4,8 @@ import { GastoModel } from '../../models/gasto'
 import { IngresoModel } from '../../models/ingreso'
 
 type MonthKey = {
-  year: number,
-  month: number,
+  year: number
+  month: number
 }
 
 export default defineEventHandler(async () => {
@@ -43,7 +43,7 @@ export default defineEventHandler(async () => {
     aggregateByMonth(GastoModel)
   ])
 
-  const series = months.map(monthKey => {
+  const series = months.map((monthKey) => {
     const key = `${monthKey.year}-${monthKey.month}`
     return {
       month: formatMonthShort(monthKey.year, monthKey.month),
@@ -99,7 +99,7 @@ async function aggregateByMonth(model: typeof GastoModel | typeof IngresoModel) 
 
   const map: Record<string, number> = {}
 
-  results.forEach(row => {
+  results.forEach((row) => {
     const key = `${row._id.year}-${row._id.month}`
     map[key] = row.total
   })

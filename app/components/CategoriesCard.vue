@@ -1,7 +1,7 @@
 <script setup lang="ts">
 type CategoriaResumen = {
-  category: string,
-  total: number,
+  category: string
+  total: number
 }
 
 const { data: categorias, pending, error } = await useFetch<CategoriaResumen[]>('/api/categorias', {
@@ -25,13 +25,22 @@ const formatCurrency = (value: number) =>
       Organiza tus gastos para entender donde se va el dinero.
     </p>
     <div class="mt-4 grid gap-2">
-      <div v-if="pending" class="text-sm text-slate-500">
+      <div
+        v-if="pending"
+        class="text-sm text-slate-500"
+      >
         Cargando categorias...
       </div>
-      <div v-else-if="error" class="text-sm text-rose-500">
+      <div
+        v-else-if="error"
+        class="text-sm text-rose-500"
+      >
         No se pudieron cargar.
       </div>
-      <div v-else-if="!categorias?.length" class="text-sm text-slate-500">
+      <div
+        v-else-if="!categorias?.length"
+        class="text-sm text-slate-500"
+      >
         Sin gastos este mes.
       </div>
       <template v-else>

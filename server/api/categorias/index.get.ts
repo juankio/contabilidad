@@ -3,8 +3,8 @@ import { connectMongoose } from '../../utils/mongoose'
 import { GastoModel } from '../../models/gasto'
 
 type CategoriaResumen = {
-  category: string,
-  total: number,
+  category: string
+  total: number
 }
 
 export default defineEventHandler(async () => {

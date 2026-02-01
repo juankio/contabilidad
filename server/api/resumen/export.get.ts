@@ -5,13 +5,13 @@ import { GastoModel } from '../../models/gasto'
 import { IngresoModel } from '../../models/ingreso'
 
 type MonthKey = {
-  year: number,
-  month: number,
+  year: number
+  month: number
 }
 
 type MonthTotals = {
-  ingresos: number,
-  gastos: number,
+  ingresos: number
+  gastos: number
 }
 
 export default defineEventHandler(async (event) => {
@@ -23,7 +23,7 @@ export default defineEventHandler(async (event) => {
     aggregateByMonth(GastoModel)
   ])
 
-  const rows = months.map(monthKey => {
+  const rows = months.map((monthKey) => {
     const key = `${monthKey.year}-${monthKey.month}`
     const ingresos = ingresosByMonth[key]?.ingresos ?? 0
     const gastos = gastosByMonth[key]?.gastos ?? 0
@@ -47,7 +47,7 @@ export default defineEventHandler(async (event) => {
   ]
 
   sheet.getRow(1).font = { bold: true }
-  sheet.columns.forEach(column => {
+  sheet.columns.forEach((column) => {
     column.alignment = { vertical: 'middle', horizontal: 'left' }
   })
 
@@ -110,7 +110,7 @@ async function aggregateByMonth(model: typeof GastoModel | typeof IngresoModel) 
 
   const map: Record<string, MonthTotals> = {}
 
-  results.forEach(row => {
+  results.forEach((row) => {
     const key = `${row._id.year}-${row._id.month}`
     if (!map[key]) {
       map[key] = { ingresos: 0, gastos: 0 }

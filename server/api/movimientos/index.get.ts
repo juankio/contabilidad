@@ -4,12 +4,12 @@ import { GastoModel } from '../../models/gasto'
 import { IngresoModel } from '../../models/ingreso'
 
 type Movimiento = {
-  _id: string,
-  type: 'Gasto' | 'Ingreso',
-  description: string,
-  category: string,
-  amount: number,
-  date: string,
+  _id: string
+  type: 'Gasto' | 'Ingreso'
+  description: string
+  category: string
+  amount: number
+  date: string
 }
 
 export default defineEventHandler(async (event) => {

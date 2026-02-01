@@ -1,20 +1,20 @@
 <script setup lang="ts">
 type Estadisticas = {
   resumen: {
-    month: string,
-    ingresos: number,
-    gastos: number,
-    saldo: number,
-  },
+    month: string
+    ingresos: number
+    gastos: number
+    saldo: number
+  }
   categorias: Array<{
-    category: string,
-    total: number,
-  }>,
+    category: string
+    total: number
+  }>
   series: Array<{
-    month: string,
-    ingresos: number,
-    gastos: number,
-  }>,
+    month: string
+    ingresos: number
+    gastos: number
+  }>
 }
 
 const { data, pending, error } = await useFetch<Estadisticas>('/api/estadisticas', {
@@ -79,13 +79,22 @@ const maxSeriesValue = computed(() => {
       </div>
     </div>
 
-    <div v-if="pending" class="mt-6 text-sm text-slate-500">
+    <div
+      v-if="pending"
+      class="mt-6 text-sm text-slate-500"
+    >
       Cargando estadisticas...
     </div>
-    <div v-else-if="error" class="mt-6 text-sm text-rose-500">
+    <div
+      v-else-if="error"
+      class="mt-6 text-sm text-rose-500"
+    >
       No se pudieron cargar.
     </div>
-    <div v-else class="mt-6 grid gap-6 lg:grid-cols-3">
+    <div
+      v-else
+      class="mt-6 grid gap-6 lg:grid-cols-3"
+    >
       <div class="rounded-2xl border border-slate-100 p-4">
         <p class="text-xs uppercase tracking-[0.2em] text-slate-400">
           Ingresos vs gastos
@@ -97,11 +106,11 @@ const maxSeriesValue = computed(() => {
                 <div
                   class="bg-emerald-500"
                   :style="{ width: `${ingresosRatio}%` }"
-                ></div>
+                />
                 <div
                   class="bg-amber-500"
                   :style="{ width: `${gastosRatio}%` }"
-                ></div>
+                />
               </div>
             </div>
             <p class="text-xs text-slate-500">
@@ -110,7 +119,7 @@ const maxSeriesValue = computed(() => {
           </div>
           <div class="grid gap-2 text-sm">
             <div class="flex items-center gap-2">
-              <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+              <span class="h-2 w-2 rounded-full bg-emerald-500" />
               <span>Ingresos</span>
               <span class="ml-auto text-xs text-slate-400">{{ ingresosRatio }}%</span>
               <span class="font-semibold">
@@ -118,7 +127,7 @@ const maxSeriesValue = computed(() => {
               </span>
             </div>
             <div class="flex items-center gap-2">
-              <span class="h-2 w-2 rounded-full bg-amber-500"></span>
+              <span class="h-2 w-2 rounded-full bg-amber-500" />
               <span>Gastos</span>
               <span class="ml-auto text-xs text-slate-400">{{ gastosRatio }}%</span>
               <span class="font-semibold">
@@ -126,7 +135,7 @@ const maxSeriesValue = computed(() => {
               </span>
             </div>
             <div class="flex items-center gap-2 text-slate-500">
-              <span class="h-2 w-2 rounded-full bg-slate-300"></span>
+              <span class="h-2 w-2 rounded-full bg-slate-300" />
               <span>Saldo</span>
               <span
                 class="ml-auto font-semibold"
@@ -154,7 +163,7 @@ const maxSeriesValue = computed(() => {
                 <span
                   class="h-2 w-2 rounded-full"
                   :style="{ backgroundColor: categoria.color }"
-                ></span>
+                />
                 <span class="truncate">{{ categoria.label }}</span>
               </div>
               <span class="font-semibold">{{ formatCurrency(categoria.value) }}</span>
@@ -166,10 +175,13 @@ const maxSeriesValue = computed(() => {
                   width: `${(categoria.value / maxCategoryValue) * 100}%`,
                   backgroundColor: categoria.color
                 }"
-              ></div>
+              />
             </div>
           </div>
-          <div v-if="!categoriasSegments.length" class="text-sm text-slate-400">
+          <div
+            v-if="!categoriasSegments.length"
+            class="text-sm text-slate-400"
+          >
             Sin gastos registrados.
           </div>
         </div>
@@ -191,12 +203,12 @@ const maxSeriesValue = computed(() => {
                 class="h-10 w-4 rounded-full bg-emerald-500/80"
                 :style="{ height: `${(row.ingresos / maxSeriesValue) * 40 + 6}px` }"
                 title="Ingresos"
-              ></div>
+              />
               <div
                 class="h-10 w-4 rounded-full bg-amber-500/80"
                 :style="{ height: `${(row.gastos / maxSeriesValue) * 40 + 6}px` }"
                 title="Gastos"
-              ></div>
+              />
               <span class="ml-2 text-xs text-slate-500">
                 {{ formatCurrency(row.ingresos - row.gastos) }}
               </span>
@@ -204,11 +216,11 @@ const maxSeriesValue = computed(() => {
           </div>
           <div class="mt-2 flex items-center gap-4 text-xs text-slate-500">
             <span class="flex items-center gap-2">
-              <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+              <span class="h-2 w-2 rounded-full bg-emerald-500" />
               Ingresos
             </span>
             <span class="flex items-center gap-2">
-              <span class="h-2 w-2 rounded-full bg-amber-500"></span>
+              <span class="h-2 w-2 rounded-full bg-amber-500" />
               Gastos
             </span>
           </div>

@@ -114,9 +114,15 @@ const submitMovement = async () => {
       Llena los datos y guarda en segundos.
     </p>
 
-    <form class="mt-5 grid gap-4" @submit.prevent="submitMovement">
+    <form
+      class="mt-5 grid gap-4"
+      @submit.prevent="submitMovement"
+    >
       <div class="grid gap-2">
-        <label class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400" for="tipo">
+        <label
+          class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400"
+          for="tipo"
+        >
           Tipo
         </label>
         <USelect
@@ -128,7 +134,10 @@ const submitMovement = async () => {
       </div>
 
       <div class="grid gap-2">
-        <label class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400" for="monto">
+        <label
+          class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400"
+          for="monto"
+        >
           Monto
         </label>
         <UInput
@@ -142,7 +151,10 @@ const submitMovement = async () => {
       </div>
 
       <div class="grid gap-2">
-        <label class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400" for="categoria">
+        <label
+          class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400"
+          for="categoria"
+        >
           Categoria
         </label>
         <USelect
@@ -154,10 +166,16 @@ const submitMovement = async () => {
       </div>
 
       <div class="grid gap-2">
-        <label class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400" for="fecha">
+        <label
+          class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400"
+          for="fecha"
+        >
           Fecha
         </label>
-        <UInputDate ref="inputDate" v-model="dateValue">
+        <UInputDate
+          ref="inputDate"
+          v-model="dateValue"
+        >
           <template #trailing>
             <UPopover :reference="inputDate?.inputsRef[3]?.$el">
               <UButton
@@ -169,7 +187,10 @@ const submitMovement = async () => {
                 class="px-0"
               />
               <template #content>
-                <UCalendar v-model="dateValue" class="p-2" />
+                <UCalendar
+                  v-model="dateValue"
+                  class="p-2"
+                />
               </template>
             </UPopover>
           </template>
@@ -177,7 +198,10 @@ const submitMovement = async () => {
       </div>
 
       <div class="grid gap-2">
-        <label class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400" for="nota">
+        <label
+          class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400"
+          for="nota"
+        >
           Nota
         </label>
         <UInput
@@ -189,10 +213,16 @@ const submitMovement = async () => {
         />
       </div>
 
-      <p v-if="formError" class="text-sm text-rose-500">
+      <p
+        v-if="formError"
+        class="text-sm text-rose-500"
+      >
         {{ formError }}
       </p>
-      <p v-if="formSuccess" class="text-sm text-emerald-600">
+      <p
+        v-if="formSuccess"
+        class="text-sm text-emerald-600"
+      >
         {{ formSuccess }}
       </p>
 

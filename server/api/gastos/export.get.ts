@@ -22,11 +22,11 @@ export default defineEventHandler(async (event) => {
   ]
 
   worksheet.getRow(1).font = { bold: true }
-  worksheet.columns.forEach(column => {
+  worksheet.columns.forEach((column) => {
     column.alignment = { vertical: 'middle', horizontal: 'left' }
   })
 
-  gastos.forEach(gasto => {
+  gastos.forEach((gasto) => {
     const date = gasto.date instanceof Date ? gasto.date : new Date(gasto.date)
     worksheet.addRow({
       description: gasto.description ?? '',
@@ -48,11 +48,11 @@ export default defineEventHandler(async (event) => {
   ]
 
   resumen.getRow(1).font = { bold: true }
-  resumen.columns.forEach(column => {
+  resumen.columns.forEach((column) => {
     column.alignment = { vertical: 'middle', horizontal: 'left' }
   })
 
-  resumenSheet.forEach(row => {
+  resumenSheet.forEach((row) => {
     resumen.addRow(row)
   })
 
@@ -74,13 +74,13 @@ export default defineEventHandler(async (event) => {
 })
 
 type MonthKey = {
-  year: number,
-  month: number,
+  year: number
+  month: number
 }
 
 type MonthTotals = {
-  ingresos: number,
-  gastos: number,
+  ingresos: number
+  gastos: number
 }
 
 async function buildResumenSheet() {
@@ -141,7 +141,7 @@ async function aggregateByMonth(model: typeof GastoModel | typeof IngresoModel) 
 
   const map: Record<string, MonthTotals> = {}
 
-  results.forEach(row => {
+  results.forEach((row) => {
     const key = `${row._id.year}-${row._id.month}`
     if (!map[key]) {
       map[key] = { ingresos: 0, gastos: 0 }

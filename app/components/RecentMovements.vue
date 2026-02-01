@@ -1,11 +1,11 @@
 <script setup lang="ts">
 type Movimiento = {
-  _id: string,
-  type: 'Gasto' | 'Ingreso',
-  description: string,
-  category: string,
-  amount: number,
-  date: string,
+  _id: string
+  type: 'Gasto' | 'Ingreso'
+  description: string
+  category: string
+  amount: number
+  date: string
 }
 
 const { data: movimientos, pending, error } = await useFetch<Movimiento[]>('/api/movimientos', {
@@ -38,10 +38,16 @@ const formatDate = (value: string) =>
     </div>
 
     <div class="mt-4 grid gap-3">
-      <div v-if="pending" class="rounded-2xl border border-slate-100 px-4 py-3 text-sm text-slate-500">
+      <div
+        v-if="pending"
+        class="rounded-2xl border border-slate-100 px-4 py-3 text-sm text-slate-500"
+      >
         Cargando movimientos...
       </div>
-      <div v-else-if="error" class="rounded-2xl border border-rose-100 px-4 py-3 text-sm text-rose-500">
+      <div
+        v-else-if="error"
+        class="rounded-2xl border border-rose-100 px-4 py-3 text-sm text-rose-500"
+      >
         No se pudieron cargar los movimientos.
       </div>
       <div
