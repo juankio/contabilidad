@@ -11,8 +11,8 @@ useHead({
   }
 })
 
-const title = 'Nuxt Starter Template'
-const description = 'A production-ready starter template powered by Nuxt UI. Build beautiful, accessible, and performant applications in minutes, not hours.'
+const title = 'Control de ingresos y gastos'
+const description = 'App simple para registrar ingresos, gastos, ver balance mensual y exportar reportes a Excel.'
 
 useSeoMeta({
   title,
@@ -23,56 +23,56 @@ useSeoMeta({
   twitterImage: 'https://ui.nuxt.com/assets/templates/nuxt/starter-light.png',
   twitterCard: 'summary_large_image'
 })
+
+const colorMode = useColorMode()
+colorMode.preference = 'light'
 </script>
 
 <template>
   <UApp>
-    <UHeader>
+    <UHeader
+      class="border-b border-slate-200 bg-white/90 text-slate-900 backdrop-blur"
+    >
       <template #left>
-        <NuxtLink to="/">
-          <AppLogo class="w-auto h-6 shrink-0" />
+        <NuxtLink
+          to="/"
+          class="text-base font-semibold text-slate-900"
+        >
+          Mi Contabilidad
         </NuxtLink>
-
-        <TemplateMenu />
       </template>
 
       <template #right>
-        <UColorModeButton />
-
-        <UButton
-          to="https://github.com/nuxt-ui-templates/starter"
-          target="_blank"
-          icon="i-simple-icons-github"
-          aria-label="GitHub"
-          color="neutral"
-          variant="ghost"
-        />
+        <button
+          class="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-600 sm:hidden"
+        >
+          Menu
+        </button>
+        <nav class="hidden items-center gap-3 text-sm sm:flex">
+          <NuxtLink
+            to="/"
+            class="text-slate-600 hover:text-slate-900"
+          >
+            Inicio
+          </NuxtLink>
+          <NuxtLink
+            to="/gastos"
+            class="text-slate-600 hover:text-slate-900"
+          >
+            Gastos
+          </NuxtLink>
+          <NuxtLink
+            to="/reportes"
+            class="text-slate-600 hover:text-slate-900"
+          >
+            Reportes
+          </NuxtLink>
+        </nav>
       </template>
     </UHeader>
 
     <UMain>
       <NuxtPage />
     </UMain>
-
-    <USeparator icon="i-simple-icons-nuxtdotjs" />
-
-    <UFooter>
-      <template #left>
-        <p class="text-sm text-muted">
-          Built with Nuxt UI • © {{ new Date().getFullYear() }}
-        </p>
-      </template>
-
-      <template #right>
-        <UButton
-          to="https://github.com/nuxt-ui-templates/starter"
-          target="_blank"
-          icon="i-simple-icons-github"
-          aria-label="GitHub"
-          color="neutral"
-          variant="ghost"
-        />
-      </template>
-    </UFooter>
   </UApp>
 </template>

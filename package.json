@@ -11,11 +11,17 @@
     "typecheck": "nuxt typecheck"
   },
   "dependencies": {
-    "@iconify-json/lucide": "^1.2.87",
-    "@iconify-json/simple-icons": "^1.2.68",
+    "@iconify-json/lucide": "^1.2.86",
+    "@iconify-json/simple-icons": "^1.2.67",
     "@nuxt/ui": "^4.4.0",
-    "nuxt": "^4.3.0",
-    "tailwindcss": "^4.1.18"
+    "@types/node": "^25.0.10",
+    "@internationalized/date": "^3.5.0",
+    "exceljs": "^4.4.0",
+    "mongodb": "^6.19.0",
+    "mongoose": "^9.1.5",
+    "nuxt": "^4.2.2",
+    "tailwindcss": "^4.1.18",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@nuxt/eslint": "^1.13.0",

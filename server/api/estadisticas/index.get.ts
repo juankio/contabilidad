@@ -1,0 +1,124 @@
+import { defineEventHandler } from 'h3'
+import { connectMongoose } from '../../utils/mongoose'
+import { GastoModel } from '../../models/gasto'
+import { IngresoModel } from '../../models/ingreso'
+
+type MonthKey = {
+  year: number,
+  month: number,
+}
+
+export default defineEventHandler(async () => {
+  await connectMongoose()
+
+  const now = new Date()
+  const start = new Date(now.getFullYear(), now.getMonth(), 1)
+  const end = new Date(now.getFullYear(), now.getMonth() + 1, 1)
+
+  const [ingresosAgg, gastosAgg, categorias] = await Promise.all([
+    IngresoModel.aggregate([
+      { $match: { date: { $gte: start, $lt: end } } },
+      { $group: { _id: null, total: { $sum: '$amount' } } }
+    ]),
+    GastoModel.aggregate([
+      { $match: { date: { $gte: start, $lt: end } } },
+      { $group: { _id: null, total: { $sum: '$amount' } } }
+    ]),
+    GastoModel.aggregate([
+      { $match: { date: { $gte: start, $lt: end } } },
+      { $group: { _id: '$category', total: { $sum: '$amount' } } },
+      { $sort: { total: -1 } },
+      { $limit: 6 },
+      { $project: { _id: 0, category: '$_id', total: 1 } }
+    ])
+  ])
+
+  const ingresos = ingresosAgg[0]?.total ?? 0
+  const gastos = gastosAgg[0]?.total ?? 0
+  const saldo = ingresos - gastos
+
+  const months = getRecentMonths(6)
+  const [ingresosSeries, gastosSeries] = await Promise.all([
+    aggregateByMonth(IngresoModel),
+    aggregateByMonth(GastoModel)
+  ])
+
+  const series = months.map(monthKey => {
+    const key = `${monthKey.year}-${monthKey.month}`
+    return {
+      month: formatMonthShort(monthKey.year, monthKey.month),
+      ingresos: ingresosSeries[key] ?? 0,
+      gastos: gastosSeries[key] ?? 0
+    }
+  })
+
+  const monthLabel = formatMonthLong(now)
+
+  return {
+    resumen: {
+      month: monthLabel,
+      ingresos,
+      gastos,
+      saldo
+    },
+    categorias: categorias.map(categoria => ({
+      category: categoria.category || 'Sin categoria',
+      total: Number(categoria.total ?? 0)
+    })),
+    series
+  }
+})
+
+function getRecentMonths(count: number): MonthKey[] {
+  const now = new Date()
+  const months: MonthKey[] = []
+
+  for (let i = 0; i < count; i += 1) {
+    const date = new Date(now.getFullYear(), now.getMonth() - i, 1)
+    months.push({
+      year: date.getFullYear(),
+      month: date.getMonth() + 1
+    })
+  }
+
+  return months.reverse()
+}
+
+async function aggregateByMonth(model: typeof GastoModel | typeof IngresoModel) {
+  const results = await model.aggregate<{ _id: MonthKey, total: number }>([
+    {
+      $group: {
+        _id: {
+          year: { $year: '$date' },
+          month: { $month: '$date' }
+        },
+        total: { $sum: '$amount' }
+      }
+    }
+  ])
+
+  const map: Record<string, number> = {}
+
+  results.forEach(row => {
+    const key = `${row._id.year}-${row._id.month}`
+    map[key] = row.total
+  })
+
+  return map
+}
+
+function formatMonthLong(date: Date) {
+  const label = new Intl.DateTimeFormat('es-MX', {
+    month: 'long',
+    year: 'numeric'
+  }).format(date)
+  return `${label.charAt(0).toUpperCase()}${label.slice(1)}`
+}
+
+function formatMonthShort(year: number, month: number) {
+  const date = new Date(year, month - 1, 1)
+  const label = new Intl.DateTimeFormat('es-MX', {
+    month: 'short'
+  }).format(date)
+  return label.replace('.', '')
+}
