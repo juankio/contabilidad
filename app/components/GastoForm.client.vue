@@ -189,7 +189,7 @@ const submitGasto = async () => {
       <UButton
         type="submit"
         size="lg"
-        color="emerald"
+        color="success"
         block
         :loading="isSaving"
       >

@@ -56,7 +56,7 @@ const categories = computed(() =>
 watch(
   () => form.type,
   (nextType) => {
-    form.category = nextType === 'Ingreso' ? incomeCategories[0] : expenseCategories[0]
+    form.category = (nextType === 'Ingreso' ? incomeCategories[0] : expenseCategories[0]) ?? 'Otros'
   }
 )
 
@@ -229,7 +229,7 @@ const submitMovement = async () => {
       <UButton
         type="submit"
         size="lg"
-        color="emerald"
+        color="success"
         block
         :loading="isSaving"
       >

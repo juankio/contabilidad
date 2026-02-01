@@ -36,6 +36,12 @@ export default defineEventHandler(async (event) => {
     amount: parsed.data.amount,
     date
   })
+  if (!doc) {
+    throw createError({
+      statusCode: 500,
+      statusMessage: 'Failed to create gasto'
+    })
+  }
 
   return {
     _id: doc._id.toString(),

@@ -12,6 +12,7 @@ const { data: gastos, pending, error, refresh } = await useFetch<Gasto[]>('/api/
 })
 
 const exporting = ref(false)
+const formError = ref('')
 
 const exportGastos = async () => {
   exporting.value = true
