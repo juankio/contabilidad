@@ -5,10 +5,11 @@ type Profile = {
 }
 
 export const useProfiles = async () => {
+  const headers = import.meta.server ? useRequestHeaders(['cookie']) : undefined
   const { data, pending, refresh } = await useFetch<{
     profiles: Profile[]
     activeProfileId: string | null
-  }>('/api/profiles')
+  }>('/api/profiles', { headers })
 
   const profiles = computed(() => data.value?.profiles ?? [])
   const activeProfileId = computed(() => data.value?.activeProfileId ?? null)

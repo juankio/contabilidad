@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import ProfilesHeader from '~/components/profiles/ProfilesHeader.vue'
+import ProfilesGrid from '~/components/profiles/ProfilesGrid.vue'
+
 const {
   profiles,
   activeProfileId,
