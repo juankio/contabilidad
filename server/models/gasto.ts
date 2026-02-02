@@ -21,4 +21,7 @@ const GastoSchema = new Schema<GastoDocument>(
   }
 )
 
-export const GastoModel = mongoose.models.Gasto || mongoose.model<GastoDocument>('Gasto', GastoSchema, 'gastos')
+type GastoModelType = mongoose.Model<GastoDocument>
+
+export const GastoModel = (mongoose.models.Gasto as GastoModelType)
+  || mongoose.model<GastoDocument>('Gasto', GastoSchema, 'gastos')

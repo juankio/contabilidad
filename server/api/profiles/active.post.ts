@@ -2,7 +2,7 @@ import { defineEventHandler, readBody, createError } from 'h3'
 import { z } from 'zod'
 import { connectMongoose } from '../../utils/mongoose'
 import { requireUser } from '../../utils/auth'
-import { UserModel } from '../../models/user'
+import { UserModel, type ProfileDocument } from '../../models/user'
 import { serializeProfiles } from '../../utils/serialize'
 
 const payloadSchema = z.object({
@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
   const user = await requireUser(event)
 
   const profileExists = (user.profiles || []).some(
-    profile => profile._id?.toString() === body.data.profileId
+    (profile: ProfileDocument) => profile._id?.toString() === body.data.profileId
   )
   if (!profileExists) {
     throw createError({ statusCode: 404, statusMessage: 'Profile not found' })

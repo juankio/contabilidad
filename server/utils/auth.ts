@@ -2,7 +2,7 @@ import type { H3Event } from 'h3'
 import { createError, deleteCookie, getCookie, setCookie } from 'h3'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
-import { UserModel } from '../models/user'
+import { UserModel, type UserDocument } from '../models/user'
 
 type AuthTokenPayload = {
   sub: string
@@ -62,7 +62,7 @@ export async function getUserFromEvent(event: H3Event) {
   }
   try {
     const payload = verifyAuthToken(token)
-    const user = await UserModel.findById(payload.sub).lean()
+    const user = await UserModel.findById(payload.sub).lean<UserDocument>()
     return user
   } catch {
     return null

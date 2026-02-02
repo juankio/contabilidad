@@ -21,4 +21,7 @@ const IngresoSchema = new Schema<IngresoDocument>(
   }
 )
 
-export const IngresoModel = mongoose.models.Ingreso || mongoose.model<IngresoDocument>('Ingreso', IngresoSchema, 'ingresos')
+type IngresoModelType = mongoose.Model<IngresoDocument>
+
+export const IngresoModel = (mongoose.models.Ingreso as IngresoModelType)
+  || mongoose.model<IngresoDocument>('Ingreso', IngresoSchema, 'ingresos')
