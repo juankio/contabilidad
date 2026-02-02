@@ -5,6 +5,10 @@ export default defineNuxtConfig({
     '@nuxt/ui'
   ],
 
+  components: [
+    { path: 'app/components', pathPrefix: false }
+  ],
+
   devtools: {
     enabled: true
   },

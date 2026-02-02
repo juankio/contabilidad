@@ -1,4 +1,9 @@
 <script setup lang="ts">
+import BalanceCard from '../components/BalanceCard.vue'
+import MovementForm from '../components/MovementForm.client.vue'
+import RecentMovements from '../components/RecentMovements.vue'
+import CategoriesCard from '../components/CategoriesCard.vue'
+
 const authUser = useAuthUser()
 
 const logout = async () => {

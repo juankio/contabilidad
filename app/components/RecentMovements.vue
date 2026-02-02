@@ -12,18 +12,7 @@ const { data: movimientos, pending, error } = await useFetch<Movimiento[]>('/api
   key: 'movimientos'
 })
 
-const formatCurrency = (value: number) =>
-  new Intl.NumberFormat('es-MX', {
-    style: 'currency',
-    currency: 'MXN',
-    maximumFractionDigits: 0
-  }).format(value)
-
-const formatDate = (value: string) =>
-  new Intl.DateTimeFormat('es-MX', {
-    day: '2-digit',
-    month: 'short'
-  }).format(new Date(value))
+const { formatCurrency, formatShortDate } = useFormatters()
 </script>
 
 <template>
@@ -67,7 +56,7 @@ const formatDate = (value: string) =>
               {{ movimiento.description }}
             </p>
             <p class="text-xs text-slate-400">
-              {{ movimiento.category }} · {{ formatDate(movimiento.date) }}
+              {{ movimiento.category }} · {{ formatShortDate(movimiento.date) }}
             </p>
           </div>
           <p

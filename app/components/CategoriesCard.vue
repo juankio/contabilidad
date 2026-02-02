@@ -8,12 +8,7 @@ const { data: categorias, pending, error } = await useFetch<CategoriaResumen[]>(
   key: 'categorias'
 })
 
-const formatCurrency = (value: number) =>
-  new Intl.NumberFormat('es-MX', {
-    style: 'currency',
-    currency: 'MXN',
-    maximumFractionDigits: 0
-  }).format(value)
+const { formatCurrency } = useFormatters()
 </script>
 
 <template>
