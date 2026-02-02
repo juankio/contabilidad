@@ -1,60 +1,70 @@
-# Nuxt Starter Template
+# Contabilidad
 
-[![Nuxt UI](https://img.shields.io/badge/Made%20with-Nuxt%20UI-00DC82?logo=nuxt&labelColor=020420)](https://ui.nuxt.com)
+Aplicacion web de contabilidad personal con Nuxt 4, Nuxt UI y MongoDB. Incluye
+login con correo y contrasena, perfiles por usuario y panel para ingresos/gastos.
 
-Use this template to get started with [Nuxt UI](https://ui.nuxt.com) quickly.
+## Funcionalidades
 
-- [Live demo](https://starter-template.nuxt.dev/)
-- [Documentation](https://ui.nuxt.com/docs/getting-started/installation/nuxt)
+- Registro e inicio de sesion (correo + contrasena)
+- Perfiles por usuario con seleccion de perfil activo
+- Ingresos, gastos, movimientos, categorias y resumenes por perfil
+- Exportacion a Excel (gastos y resumen)
 
-<a href="https://starter-template.nuxt.dev/" target="_blank">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://ui.nuxt.com/assets/templates/nuxt/starter-dark.png">
-    <source media="(prefers-color-scheme: light)" srcset="https://ui.nuxt.com/assets/templates/nuxt/starter-light.png">
-    <img alt="Nuxt Starter Template" src="https://ui.nuxt.com/assets/templates/nuxt/starter-light.png">
-  </picture>
-</a>
+## Requisitos
 
-> The starter template for Vue is on https://github.com/nuxt-ui-templates/starter-vue.
+- Node.js 20+
+- Bun 1.3+
+- MongoDB (URI de conexion)
 
-## Quick Start
+## Configuracion
 
-```bash [Terminal]
-npm create nuxt@latest -- -t github:nuxt-ui-templates/starter
+Crea un archivo `.env` con:
+
+```env
+MONGO_URI=tu_uri_de_mongodb
+AUTH_SECRET=una_clave_larga_y_segura
+AUTH_COOKIE_NAME=contabilidad_auth
 ```
 
-## Deploy your own
+`AUTH_COOKIE_NAME` es opcional.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-name=starter&repository-url=https%3A%2F%2Fgithub.com%2Fnuxt-ui-templates%2Fstarter&demo-image=https%3A%2F%2Fui.nuxt.com%2Fassets%2Ftemplates%2Fnuxt%2Fstarter-dark.png&demo-url=https%3A%2F%2Fstarter-template.nuxt.dev%2F&demo-title=Nuxt%20Starter%20Template&demo-description=A%20minimal%20template%20to%20get%20started%20with%20Nuxt%20UI.)
-
-## Setup
-
-Make sure to install the dependencies:
+## Instalar dependencias
 
 ```bash
 bun install
 ```
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
+## Desarrollo
 
 ```bash
-bun dev
+bun run dev
 ```
 
-## Production
+## Lint y types
 
-Build the application for production:
+```bash
+bun run lint
+bun run typecheck
+```
+
+## Produccion
 
 ```bash
 bun run build
-```
-
-Locally preview production build:
-
-```bash
 bun run preview
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## Deploy en Vercel
+
+1. Sube el repo a GitHub.
+2. En Vercel crea un nuevo proyecto y conecta el repo.
+3. Configura variables de entorno:
+   - `MONGO_URI`
+   - `AUTH_SECRET`
+   - `AUTH_COOKIE_NAME` (opcional)
+4. Asegurate de que el build use `bun`.
+
+## Notas sobre datos por perfil
+
+Los datos de ingresos/gastos ahora se guardan por perfil activo. Si tienes datos
+anteriores sin `profileId`, necesitaras migrarlos a un perfil para verlos.
