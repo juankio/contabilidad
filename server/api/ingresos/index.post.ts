@@ -1,6 +1,7 @@
 import { createError, defineEventHandler, readBody } from 'h3'
 import { z } from 'zod'
 import { connectMongoose } from '../../utils/mongoose'
+import { requireActiveProfile } from '../../utils/auth'
 import { IngresoModel } from '../../models/ingreso'
 
 const ingresoSchema = z.object({
@@ -30,7 +31,9 @@ export default defineEventHandler(async (event) => {
   }
 
   await connectMongoose()
+  const { profileId } = await requireActiveProfile(event)
   const doc = await IngresoModel.create({
+    profileId,
     description: parsed.data.description.trim(),
     category: parsed.data.category.trim(),
     amount: parsed.data.amount,

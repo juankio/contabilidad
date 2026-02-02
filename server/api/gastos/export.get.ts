@@ -3,12 +3,16 @@ import ExcelJS from 'exceljs'
 import { connectMongoose } from '../../utils/mongoose'
 import { GastoModel } from '../../models/gasto'
 import { IngresoModel } from '../../models/ingreso'
+import { requireActiveProfile } from '../../utils/auth'
+import mongoose from 'mongoose'
 
 export default defineEventHandler(async (event) => {
   await connectMongoose()
+  const { profileId } = await requireActiveProfile(event)
+  const profileObjectId = new mongoose.Types.ObjectId(profileId)
   const [gastos, resumenSheet] = await Promise.all([
-    GastoModel.find().sort({ date: -1 }).lean(),
-    buildResumenSheet()
+    GastoModel.find({ profileId }).sort({ date: -1 }).lean(),
+    buildResumenSheet(profileObjectId)
   ])
 
   const workbook = new ExcelJS.Workbook()
@@ -83,11 +87,11 @@ type MonthTotals = {
   gastos: number
 }
 
-async function buildResumenSheet() {
+async function buildResumenSheet(profileId: mongoose.Types.ObjectId) {
   const months = getRecentMonths(6)
   const [ingresosByMonth, gastosByMonth] = await Promise.all([
-    aggregateByMonth(IngresoModel),
-    aggregateByMonth(GastoModel)
+    aggregateByMonth(IngresoModel, profileId),
+    aggregateByMonth(GastoModel, profileId)
   ])
 
   return months.map((monthKey, index) => {
@@ -126,8 +130,12 @@ function getRecentMonths(count: number): MonthKey[] {
   return months
 }
 
-async function aggregateByMonth(model: typeof GastoModel | typeof IngresoModel) {
+async function aggregateByMonth(
+  model: typeof GastoModel | typeof IngresoModel,
+  profileId: mongoose.Types.ObjectId
+) {
   const results = await model.aggregate<{ _id: MonthKey, total: number }>([
+    { $match: { profileId } },
     {
       $group: {
         _id: {

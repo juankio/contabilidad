@@ -1,5 +1,6 @@
 import { defineEventHandler, getQuery } from 'h3'
 import { connectMongoose } from '../../utils/mongoose'
+import { requireActiveProfile } from '../../utils/auth'
 import { GastoModel } from '../../models/gasto'
 import { IngresoModel } from '../../models/ingreso'
 
@@ -14,13 +15,14 @@ type Movimiento = {
 
 export default defineEventHandler(async (event) => {
   await connectMongoose()
+  const { profileId } = await requireActiveProfile(event)
   const query = getQuery(event)
   const limit = Number(query.limit ?? 8)
   const safeLimit = Number.isFinite(limit) && limit > 0 ? Math.min(limit, 20) : 8
 
   const [gastos, ingresos] = await Promise.all([
-    GastoModel.find().sort({ date: -1 }).limit(safeLimit * 2).lean(),
-    IngresoModel.find().sort({ date: -1 }).limit(safeLimit * 2).lean()
+    GastoModel.find({ profileId }).sort({ date: -1 }).limit(safeLimit * 2).lean(),
+    IngresoModel.find({ profileId }).sort({ date: -1 }).limit(safeLimit * 2).lean()
   ])
 
   const movimientos: Movimiento[] = [

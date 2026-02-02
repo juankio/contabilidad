@@ -1,10 +1,14 @@
 import { defineEventHandler } from 'h3'
 import { connectMongoose } from '../../utils/mongoose'
+import { requireActiveProfile } from '../../utils/auth'
+import mongoose from 'mongoose'
 import { GastoModel } from '../../models/gasto'
 import { IngresoModel } from '../../models/ingreso'
 
-export default defineEventHandler(async () => {
+export default defineEventHandler(async (event) => {
   await connectMongoose()
+  const { profileId } = await requireActiveProfile(event)
+  const profileObjectId = new mongoose.Types.ObjectId(profileId)
 
   const now = new Date()
   const start = getMonthStartUTC(now)
@@ -12,11 +16,11 @@ export default defineEventHandler(async () => {
 
   const [ingresosAgg, gastosAgg] = await Promise.all([
     IngresoModel.aggregate([
-      { $match: { date: { $gte: start, $lt: end } } },
+      { $match: { profileId: profileObjectId, date: { $gte: start, $lt: end } } },
       { $group: { _id: null, total: { $sum: '$amount' } } }
     ]),
     GastoModel.aggregate([
-      { $match: { date: { $gte: start, $lt: end } } },
+      { $match: { profileId: profileObjectId, date: { $gte: start, $lt: end } } },
       { $group: { _id: null, total: { $sum: '$amount' } } }
     ])
   ])

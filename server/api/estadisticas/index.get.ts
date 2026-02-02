@@ -1,5 +1,7 @@
 import { defineEventHandler } from 'h3'
 import { connectMongoose } from '../../utils/mongoose'
+import { requireActiveProfile } from '../../utils/auth'
+import mongoose from 'mongoose'
 import { GastoModel } from '../../models/gasto'
 import { IngresoModel } from '../../models/ingreso'
 
@@ -8,8 +10,10 @@ type MonthKey = {
   month: number
 }
 
-export default defineEventHandler(async () => {
+export default defineEventHandler(async (event) => {
   await connectMongoose()
+  const { profileId } = await requireActiveProfile(event)
+  const profileObjectId = new mongoose.Types.ObjectId(profileId)
 
   const now = new Date()
   const start = getMonthStartUTC(now)
@@ -17,15 +21,15 @@ export default defineEventHandler(async () => {
 
   const [ingresosAgg, gastosAgg, categorias] = await Promise.all([
     IngresoModel.aggregate([
-      { $match: { date: { $gte: start, $lt: end } } },
+      { $match: { profileId: profileObjectId, date: { $gte: start, $lt: end } } },
       { $group: { _id: null, total: { $sum: '$amount' } } }
     ]),
     GastoModel.aggregate([
-      { $match: { date: { $gte: start, $lt: end } } },
+      { $match: { profileId: profileObjectId, date: { $gte: start, $lt: end } } },
       { $group: { _id: null, total: { $sum: '$amount' } } }
     ]),
     GastoModel.aggregate([
-      { $match: { date: { $gte: start, $lt: end } } },
+      { $match: { profileId: profileObjectId, date: { $gte: start, $lt: end } } },
       { $group: { _id: '$category', total: { $sum: '$amount' } } },
       { $sort: { total: -1 } },
       { $limit: 6 },
@@ -39,8 +43,8 @@ export default defineEventHandler(async () => {
 
   const months = getRecentMonths(6)
   const [ingresosSeries, gastosSeries] = await Promise.all([
-    aggregateByMonth(IngresoModel),
-    aggregateByMonth(GastoModel)
+    aggregateByMonth(IngresoModel, profileObjectId),
+    aggregateByMonth(GastoModel, profileObjectId)
   ])
 
   const series = months.map((monthKey) => {
@@ -84,8 +88,12 @@ function getRecentMonths(count: number): MonthKey[] {
   return months.reverse()
 }
 
-async function aggregateByMonth(model: typeof GastoModel | typeof IngresoModel) {
+async function aggregateByMonth(
+  model: typeof GastoModel | typeof IngresoModel,
+  profileId: mongoose.Types.ObjectId
+) {
   const results = await model.aggregate<{ _id: MonthKey, total: number }>([
+    { $match: { profileId } },
     {
       $group: {
         _id: {

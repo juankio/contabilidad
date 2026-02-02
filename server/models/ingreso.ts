@@ -1,6 +1,7 @@
 import mongoose, { Schema } from 'mongoose'
 
 export type IngresoDocument = mongoose.Document & {
+  profileId: mongoose.Types.ObjectId
   description: string
   category: string
   amount: number
@@ -9,6 +10,7 @@ export type IngresoDocument = mongoose.Document & {
 
 const IngresoSchema = new Schema<IngresoDocument>(
   {
+    profileId: { type: Schema.Types.ObjectId, required: true, index: true },
     description: { type: String, required: true, trim: true },
     category: { type: String, required: true, trim: true },
     amount: { type: Number, required: true, min: 0 },

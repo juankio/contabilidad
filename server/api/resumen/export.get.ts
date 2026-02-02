@@ -3,6 +3,8 @@ import ExcelJS from 'exceljs'
 import { connectMongoose } from '../../utils/mongoose'
 import { GastoModel } from '../../models/gasto'
 import { IngresoModel } from '../../models/ingreso'
+import { requireActiveProfile } from '../../utils/auth'
+import mongoose from 'mongoose'
 
 type MonthKey = {
   year: number
@@ -16,11 +18,13 @@ type MonthTotals = {
 
 export default defineEventHandler(async (event) => {
   await connectMongoose()
+  const { profileId } = await requireActiveProfile(event)
+  const profileObjectId = new mongoose.Types.ObjectId(profileId)
 
   const months = getRecentMonths(6)
   const [ingresosByMonth, gastosByMonth] = await Promise.all([
-    aggregateByMonth(IngresoModel),
-    aggregateByMonth(GastoModel)
+    aggregateByMonth(IngresoModel, profileObjectId),
+    aggregateByMonth(GastoModel, profileObjectId)
   ])
 
   const rows = months.map((monthKey) => {
@@ -95,8 +99,12 @@ function getRecentMonths(count: number): MonthKey[] {
   return months
 }
 
-async function aggregateByMonth(model: typeof GastoModel | typeof IngresoModel) {
+async function aggregateByMonth(
+  model: typeof GastoModel | typeof IngresoModel,
+  profileId: mongoose.Types.ObjectId
+) {
   const results = await model.aggregate<{ _id: MonthKey, total: number }>([
+    { $match: { profileId } },
     {
       $group: {
         _id: {
