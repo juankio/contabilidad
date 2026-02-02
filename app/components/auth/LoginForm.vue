@@ -2,7 +2,6 @@
 const mode = ref<'login' | 'register'>('login')
 const email = ref('')
 const password = ref('')
-const profileName = ref('')
 const loading = ref(false)
 const errorMessage = ref('')
 const showPassword = ref(false)
@@ -12,12 +11,9 @@ const submit = async () => {
   loading.value = true
   try {
     if (mode.value === 'register') {
-      const payload: { email: string, password: string, profileName?: string } = {
+      const payload: { email: string, password: string } = {
         email: email.value,
         password: password.value
-      }
-      if (profileName.value.trim()) {
-        payload.profileName = profileName.value.trim()
       }
       await $fetch('/api/auth/register', {
         method: 'POST',
@@ -30,7 +26,7 @@ const submit = async () => {
       })
     }
     await refreshAuthUser()
-    await navigateTo('/profiles')
+    await navigateTo('/')
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : ''
     errorMessage.value = (error as { data?: { statusMessage?: string } })?.data?.statusMessage
@@ -121,29 +117,6 @@ const submit = async () => {
                 aria-hidden="true"
               />
             </UButton>
-          </template>
-        </UInput>
-      </div>
-
-      <div
-        v-if="mode === 'register'"
-        class="grid gap-2 text-sm text-slate-600"
-      >
-        <label for="profileName">Nombre de perfil</label>
-        <UInput
-          id="profileName"
-          v-model="profileName"
-          type="text"
-          autocomplete="nickname"
-          placeholder="Principal"
-          size="lg"
-        >
-          <template #leading>
-            <UIcon
-              name="lucide:user"
-              class="h-4 w-4 text-slate-400"
-              aria-hidden="true"
-            />
           </template>
         </UInput>
       </div>

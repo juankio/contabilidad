@@ -27,6 +27,14 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 401, statusMessage: 'Invalid credentials' })
   }
 
+  if (!user.activeProfileId && user.profiles.length > 0) {
+    const firstProfile = user.profiles[0]
+    if (firstProfile?._id) {
+      user.activeProfileId = firstProfile._id
+      await user.save()
+    }
+  }
+
   const token = signAuthToken(user._id.toString())
   setAuthCookie(event, token)
 

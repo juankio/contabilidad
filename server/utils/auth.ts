@@ -79,7 +79,18 @@ export async function requireUser(event: H3Event) {
 
 export async function requireActiveProfile(event: H3Event) {
   const user = await requireUser(event)
-  const profileId = user.activeProfileId?.toString()
+  let profileId = user.activeProfileId?.toString()
+  if (!profileId) {
+    const fallbackProfileId = user.profiles?.[0]?._id?.toString()
+    if (fallbackProfileId) {
+      await UserModel.updateOne(
+        { _id: user._id },
+        { $set: { activeProfileId: fallbackProfileId } }
+      )
+      profileId = fallbackProfileId
+    }
+  }
+
   if (!profileId) {
     throw createError({ statusCode: 409, statusMessage: 'Active profile required' })
   }

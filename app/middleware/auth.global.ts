@@ -1,5 +1,5 @@
 export default defineNuxtRouteMiddleware(async (to) => {
-  if (import.meta.server && (to.path === '/login' || to.path === '/profiles')) {
+  if (import.meta.server && to.path === '/login') {
     return
   }
 
@@ -11,16 +11,12 @@ export default defineNuxtRouteMiddleware(async (to) => {
 
   if (to.path === '/login') {
     if (authUser.value) {
-      return navigateTo(authUser.value.activeProfileId ? '/' : '/profiles')
+      return navigateTo('/')
     }
     return
   }
 
   if (!authUser.value) {
     return navigateTo('/login')
-  }
-
-  if (to.path !== '/profiles' && !authUser.value.activeProfileId) {
-    return navigateTo('/profiles')
   }
 })

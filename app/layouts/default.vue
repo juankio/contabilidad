@@ -1,6 +1,6 @@
 <script setup>
 const route = useRoute()
-const showHeader = computed(() => !['/login', '/profiles'].includes(route.path))
+const showHeader = computed(() => route.path !== '/login')
 const isMobileMenuOpen = ref(false)
 
 watch(
