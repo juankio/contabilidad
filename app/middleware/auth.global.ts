@@ -1,4 +1,8 @@
 export default defineNuxtRouteMiddleware(async (to) => {
+  if (import.meta.server && (to.path === '/login' || to.path === '/profiles')) {
+    return
+  }
+
   const authUser = useAuthUser()
 
   if (!authUser.value) {
