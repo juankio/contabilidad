@@ -20,9 +20,9 @@ export default defineNuxtConfig({
     mongoUri: process.env.MONGO_URI || ''
   },
 
-  routeRules: {
-    '/': { prerender: true }
-  },
+  routeRules: process.env.NUXT_PRERENDER === 'true'
+    ? { '/': { prerender: true } }
+    : {},
 
   compatibilityDate: '2025-01-15',
   nitro: { preset: 'vercel' },
