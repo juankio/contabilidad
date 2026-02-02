@@ -5,6 +5,7 @@ const password = ref('')
 const profileName = ref('')
 const loading = ref(false)
 const errorMessage = ref('')
+const showPassword = ref(false)
 
 const submit = async () => {
   errorMessage.value = ''
@@ -77,19 +78,51 @@ const submit = async () => {
           autocomplete="email"
           required
           size="lg"
-        />
+        >
+          <template #leading>
+            <UIcon
+              name="lucide:mail"
+              class="h-4 w-4 text-slate-400"
+              aria-hidden="true"
+            />
+          </template>
+        </UInput>
       </div>
 
       <div class="grid gap-2 text-sm text-slate-600">
-        <label for="password">Contrasena</label>
+        <label for="password">Contraseña</label>
         <UInput
           id="password"
           v-model="password"
-          type="password"
+          :type="showPassword ? 'text' : 'password'"
           autocomplete="current-password"
           required
           size="lg"
-        />
+        >
+          <template #leading>
+            <UIcon
+              name="lucide:lock"
+              class="h-4 w-4 text-slate-400"
+              aria-hidden="true"
+            />
+          </template>
+          <template #trailing>
+            <UButton
+              variant="ghost"
+              color="neutral"
+              size="xs"
+              type="button"
+              :aria-label="showPassword ? 'Ocultar contrasena' : 'Mostrar contrasena'"
+              @click="showPassword = !showPassword"
+            >
+              <UIcon
+                :name="showPassword ? 'lucide:eye-off' : 'lucide:eye'"
+                class="h-4 w-4"
+                aria-hidden="true"
+              />
+            </UButton>
+          </template>
+        </UInput>
       </div>
 
       <div
@@ -104,7 +137,15 @@ const submit = async () => {
           autocomplete="nickname"
           placeholder="Principal"
           size="lg"
-        />
+        >
+          <template #leading>
+            <UIcon
+              name="lucide:user"
+              class="h-4 w-4 text-slate-400"
+              aria-hidden="true"
+            />
+          </template>
+        </UInput>
       </div>
 
       <p
