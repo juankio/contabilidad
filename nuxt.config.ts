@@ -23,7 +23,9 @@ export default defineNuxtConfig({
   runtimeConfig: {
     mongoUri: process.env.MONGO_URI || '',
     authSecret: process.env.AUTH_SECRET || '',
-    authCookieName: process.env.AUTH_COOKIE_NAME || 'contabilidad_auth'
+    authCookieName: process.env.AUTH_COOKIE_NAME || 'contabilidad_auth',
+    resendApiKey: process.env.RESEND_API_KEY || '',
+    resendFrom: process.env.RESEND_FROM || ''
   },
 
   routeRules: process.env.NUXT_PRERENDER === 'true'

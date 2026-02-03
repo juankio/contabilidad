@@ -1,14 +1,14 @@
 # Contabilidad
 
 Aplicacion web de contabilidad personal con Nuxt 4, Nuxt UI y MongoDB. Incluye
-login con correo y contrasena, perfiles por usuario y panel para ingresos/gastos.
+login con correo y contrasena y panel para ingresos/gastos.
 
 ## Funcionalidades
 
 - Registro e inicio de sesion (correo + contrasena)
-- Perfiles por usuario con seleccion de perfil activo
-- Ingresos, gastos, movimientos, categorias y resumenes por perfil
+- Ingresos, gastos, movimientos, categorias y resumenes
 - Exportacion a Excel (gastos y resumen)
+- Envio de correos con Resend (opcional)
 
 ## Requisitos
 
@@ -24,9 +24,12 @@ Crea un archivo `.env` con:
 MONGO_URI=tu_uri_de_mongodb
 AUTH_SECRET=una_clave_larga_y_segura
 AUTH_COOKIE_NAME=contabilidad_auth
+RESEND_API_KEY=tu_api_key_de_resend
+RESEND_FROM="Contabilidad <no-reply@tu-dominio.com>"
 ```
 
-`AUTH_COOKIE_NAME` es opcional.
+`AUTH_COOKIE_NAME` es opcional. `RESEND_API_KEY` y `RESEND_FROM` son necesarios
+solo si vas a usar el envio de correos.
 
 ## Instalar dependencias
 
@@ -64,7 +67,6 @@ bun run preview
    - `AUTH_COOKIE_NAME` (opcional)
 4. Asegurate de que el build use `bun`.
 
-## Notas sobre datos por perfil
+## Notas
 
-Los datos de ingresos/gastos ahora se guardan por perfil activo. Si tienes datos
-anteriores sin `profileId`, necesitaras migrarlos a un perfil para verlos.
+El envio de correos se realiza desde `server/api/emails/send.post.ts`.

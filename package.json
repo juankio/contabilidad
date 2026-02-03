@@ -13,15 +13,16 @@
   "dependencies": {
     "@iconify-json/lucide": "^1.2.86",
     "@iconify-json/simple-icons": "^1.2.67",
+    "@internationalized/date": "^3.5.0",
     "@nuxt/ui": "^4.4.0",
     "@types/node": "^25.0.10",
-    "@internationalized/date": "^3.5.0",
     "bcryptjs": "^2.4.3",
     "exceljs": "^4.4.0",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.19.0",
     "mongoose": "^9.1.5",
     "nuxt": "^4.2.2",
+    "resend": "^6.9.1",
     "tailwindcss": "^4.1.18",
     "zod": "^3.25.76"
   },
