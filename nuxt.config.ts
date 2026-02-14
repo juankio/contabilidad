@@ -25,7 +25,10 @@ export default defineNuxtConfig({
     authSecret: process.env.AUTH_SECRET || '',
     authCookieName: process.env.AUTH_COOKIE_NAME || 'contabilidad_auth',
     resendApiKey: process.env.RESEND_API_KEY || '',
-    resendFrom: process.env.RESEND_FROM || ''
+    resendFrom: process.env.RESEND_FROM || '',
+    public: {
+      googleClientId: process.env.GOOGLE_CLIENT_ID || ''
+    }
   },
 
   routeRules: process.env.NUXT_PRERENDER === 'true'

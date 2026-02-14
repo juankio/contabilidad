@@ -7,7 +7,8 @@ import { serializeProfiles } from '../../utils/serialize'
 
 const payloadSchema = z.object({
   email: z.string().email().transform(value => value.toLowerCase().trim()),
-  password: z.string().min(8)
+  password: z.string().min(8),
+  profileName: z.string().min(2).max(32)
 })
 
 export default defineEventHandler(async (event) => {
@@ -26,10 +27,11 @@ export default defineEventHandler(async (event) => {
   const passwordHash = await hashPassword(body.data.password)
   const avatarColor = pickAvatarColor(body.data.email)
 
+  const profileName = body.data.profileName.trim()
   const user = await UserModel.create({
     email: body.data.email,
     passwordHash,
-    profiles: [{ name: 'Principal', avatarColor }]
+    profiles: [{ name: profileName, avatarColor }]
   })
   user.activeProfileId = user.profiles[0]?._id ?? null
   await user.save()

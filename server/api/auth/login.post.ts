@@ -22,6 +22,10 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 401, statusMessage: 'Invalid credentials' })
   }
 
+  if (!user.passwordHash) {
+    throw createError({ statusCode: 401, statusMessage: 'Use Google sign-in for this account' })
+  }
+
   const ok = await verifyPassword(body.data.password, user.passwordHash)
   if (!ok) {
     throw createError({ statusCode: 401, statusMessage: 'Invalid credentials' })

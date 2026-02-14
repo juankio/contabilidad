@@ -9,7 +9,7 @@ export type ProfileDocument = {
 
 export type UserDocument = mongoose.Document & {
   email: string
-  passwordHash: string
+  passwordHash?: string | null
   profiles: ProfileDocument[]
   activeProfileId?: mongoose.Types.ObjectId | null
   createdAt: Date
@@ -28,7 +28,7 @@ const ProfileSchema = new Schema<ProfileDocument>(
 const UserSchema = new Schema<UserDocument>(
   {
     email: { type: String, required: true, unique: true, lowercase: true, trim: true },
-    passwordHash: { type: String, required: true },
+    passwordHash: { type: String, default: null },
     profiles: { type: [ProfileSchema], default: [] },
     activeProfileId: { type: Schema.Types.ObjectId, default: null }
   },
