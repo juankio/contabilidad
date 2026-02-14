@@ -3,7 +3,7 @@ import { z } from 'zod'
 import { connectMongoose } from '../../utils/mongoose'
 import { UserModel } from '../../models/user'
 import { hashPassword, setAuthCookie, signAuthToken } from '../../utils/auth'
-import { serializeProfiles } from '../../utils/serialize'
+import { serializeProfilesFromCategoryStore } from '../../utils/serialize'
 
 const payloadSchema = z.object({
   email: z.string().email().transform(value => value.toLowerCase().trim()),
@@ -42,7 +42,7 @@ export default defineEventHandler(async (event) => {
   return {
     id: user._id,
     email: user.email,
-    profiles: serializeProfiles(user.profiles),
+    profiles: await serializeProfilesFromCategoryStore(user._id, user.profiles),
     activeProfileId: user.activeProfileId?.toString() ?? null
   }
 })

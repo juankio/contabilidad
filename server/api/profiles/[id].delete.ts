@@ -2,7 +2,8 @@ import { defineEventHandler, createError } from 'h3'
 import { connectMongoose } from '../../utils/mongoose'
 import { requireUser } from '../../utils/auth'
 import { UserModel } from '../../models/user'
-import { serializeProfiles } from '../../utils/serialize'
+import { serializeProfilesFromCategoryStore } from '../../utils/serialize'
+import { removeProfileCategories } from '../../utils/profile-category-store'
 
 export default defineEventHandler(async (event) => {
   await connectMongoose()
@@ -25,8 +26,10 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 404, statusMessage: 'Profile not found' })
   }
 
+  await removeProfileCategories(user._id, profileId)
+
   return {
-    profiles: serializeProfiles(updated.profiles ?? []),
+    profiles: await serializeProfilesFromCategoryStore(user._id, updated.profiles ?? []),
     activeProfileId: updated.activeProfileId?.toString() ?? null
   }
 })

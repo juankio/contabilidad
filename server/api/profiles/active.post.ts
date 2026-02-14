@@ -3,7 +3,7 @@ import { z } from 'zod'
 import { connectMongoose } from '../../utils/mongoose'
 import { requireUser } from '../../utils/auth'
 import { UserModel, type ProfileDocument } from '../../models/user'
-import { serializeProfiles } from '../../utils/serialize'
+import { serializeProfilesFromCategoryStore } from '../../utils/serialize'
 
 const payloadSchema = z.object({
   profileId: z.string().min(1)
@@ -32,7 +32,7 @@ export default defineEventHandler(async (event) => {
   ).lean()
 
   return {
-    profiles: serializeProfiles(updated?.profiles ?? []),
+    profiles: await serializeProfilesFromCategoryStore(user._id, updated?.profiles ?? []),
     activeProfileId: updated?.activeProfileId?.toString() ?? null
   }
 })

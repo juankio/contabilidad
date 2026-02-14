@@ -2,6 +2,12 @@ type AuthProfile = {
   _id: string
   name: string
   avatarColor: string
+  incomeCategories: string[]
+  expenseCategories: string[]
+  defaultIncomeCategories: string[]
+  defaultExpenseCategories: string[]
+  hiddenIncomeDefaults: string[]
+  hiddenExpenseDefaults: string[]
 }
 
 export type AuthUser = {

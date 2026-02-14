@@ -6,6 +6,7 @@ import { GastoModel } from '../../models/gasto'
 import { IngresoModel } from '../../models/ingreso'
 import mongoose from 'mongoose'
 import { getResendClient, getResendFrom } from '../../utils/resend'
+import { upsertProfileCategory } from '../../utils/profile-category-store'
 
 const gastoSchema = z.object({
   description: z.string().trim().min(1),
@@ -119,6 +120,12 @@ export default defineEventHandler(async (event) => {
   } catch (error) {
     await GastoModel.deleteOne({ _id: doc._id })
     throw error
+  }
+
+  try {
+    await upsertProfileCategory(user._id, profileId, 'expense', doc.category)
+  } catch {
+    // Keep movement creation successful even if category sync fails.
   }
 
   return {

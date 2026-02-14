@@ -8,23 +8,38 @@ export function useActiveProfile() {
     }
 
     return user.activeProfileId
-      ? user.profiles.find((profile) => profile._id === user.activeProfileId) ?? null
+      ? user.profiles.find(profile => profile._id === user.activeProfileId) ?? null
       : user.profiles[0] ?? null
   })
 }
 
 export function useProfile() {
   const activeProfile = useActiveProfile()
+  const authUser = useAuthUser()
 
   const activeProfileName = computed(() => activeProfile.value?.name ?? null)
   const activeProfileId = computed(() => activeProfile.value?._id ?? null)
+  const activeIncomeCategories = computed(() => activeProfile.value?.incomeCategories ?? [])
+  const activeExpenseCategories = computed(() => activeProfile.value?.expenseCategories ?? [])
+  const activeDefaultIncomeCategories = computed(() => activeProfile.value?.defaultIncomeCategories ?? [])
+  const activeDefaultExpenseCategories = computed(() => activeProfile.value?.defaultExpenseCategories ?? [])
+  const activeHiddenIncomeDefaults = computed(() => activeProfile.value?.hiddenIncomeDefaults ?? [])
+  const activeHiddenExpenseDefaults = computed(() => activeProfile.value?.hiddenExpenseDefaults ?? [])
 
   const loading = ref(false)
   const errorMessage = ref('')
 
-  const updateProfileName = async (name: string) => {
+  const updateProfileSettings = async ({
+    name,
+    hiddenIncomeDefaults,
+    hiddenExpenseDefaults
+  }: {
+    name: string
+    hiddenIncomeDefaults?: string[]
+    hiddenExpenseDefaults?: string[]
+  }) => {
     const trimmedName = name.trim()
-    if (trimmedName.length < 2) {
+    if (!trimmedName || trimmedName.length < 2) {
       errorMessage.value = 'El nombre debe tener al menos 2 caracteres.'
       return false
     }
@@ -39,7 +54,11 @@ export function useProfile() {
     try {
       await $fetch(`/api/profiles/${activeProfileId.value}`, {
         method: 'PATCH',
-        body: { name: trimmedName }
+        body: {
+          name: trimmedName,
+          ...(hiddenIncomeDefaults ? { hiddenIncomeDefaults } : {}),
+          ...(hiddenExpenseDefaults ? { hiddenExpenseDefaults } : {})
+        }
       })
       await refreshAuthUser()
       return true
@@ -54,12 +73,108 @@ export function useProfile() {
     }
   }
 
+  const updateProfileName = async (name: string) =>
+    updateProfileSettings({ name })
+
+  const removeProfileCategory = async (type: 'income' | 'expense', name: string) => {
+    const trimmedName = name.trim()
+    if (!trimmedName) {
+      return false
+    }
+
+    if (!activeProfileId.value || !authUser.value) {
+      errorMessage.value = 'No hay perfil activo.'
+      return false
+    }
+
+    loading.value = true
+    errorMessage.value = ''
+    try {
+      const data = await $fetch<{
+        profiles: Array<{
+          _id: string
+          name: string
+          avatarColor: string
+          incomeCategories: string[]
+          expenseCategories: string[]
+          defaultIncomeCategories: string[]
+          defaultExpenseCategories: string[]
+          hiddenIncomeDefaults: string[]
+          hiddenExpenseDefaults: string[]
+        }>
+        activeProfileId: string | null
+      }>(`/api/profiles/${activeProfileId.value}/categories`, {
+        method: 'DELETE',
+        body: {
+          type,
+          name: trimmedName
+        }
+      })
+
+      authUser.value = {
+        ...authUser.value,
+        profiles: data.profiles ?? [],
+        activeProfileId: data.activeProfileId
+      }
+      return true
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : ''
+      errorMessage.value = (error as { data?: { statusMessage?: string } })?.data?.statusMessage
+        || message
+        || 'No se pudo eliminar la categoria'
+      return false
+    } finally {
+      loading.value = false
+    }
+  }
+
+  const refreshProfileCatalog = async () => {
+    if (!authUser.value) {
+      return false
+    }
+
+    try {
+      const data = await $fetch<{
+        profiles: Array<{
+          _id: string
+          name: string
+          avatarColor: string
+          incomeCategories: string[]
+          expenseCategories: string[]
+          defaultIncomeCategories: string[]
+          defaultExpenseCategories: string[]
+          hiddenIncomeDefaults: string[]
+          hiddenExpenseDefaults: string[]
+        }>
+        activeProfileId: string | null
+      }>('/api/profiles')
+
+      authUser.value = {
+        ...authUser.value,
+        profiles: data.profiles ?? [],
+        activeProfileId: data.activeProfileId
+      }
+      return true
+    } catch {
+      return false
+    }
+  }
+
   return {
     activeProfile,
     activeProfileId,
     activeProfileName,
+    activeIncomeCategories,
+    activeExpenseCategories,
+    activeDefaultIncomeCategories,
+    activeDefaultExpenseCategories,
+    activeHiddenIncomeDefaults,
+    activeHiddenExpenseDefaults,
     loading,
     errorMessage,
-    updateProfileName
+    updateProfileName,
+    removeProfileCategory,
+    updateProfileSettings,
+    refreshProfileCatalog
   }
 }

@@ -5,37 +5,47 @@ import DateInputField from './DateInputField.vue'
 const form = reactive({
   type: 'Gasto',
   amount: 0,
-  category: 'Alimentacion',
+  category: '',
   note: ''
 })
+const newCategoryInput = ref('')
 
 const { dateValue } = useCalendarDateInput()
 const { amountInput } = useMoneyInput(toRef(form, 'amount'))
 
-const expenseCategories = [
-  'Alimentacion',
-  'Servicios',
-  'Transporte',
-  'Salud',
-  'Otros'
-]
+const {
+  activeExpenseCategories,
+  activeIncomeCategories,
+  refreshProfileCatalog
+} = useProfile()
 
-const incomeCategories = [
-  'Ventas',
-  'Salario',
-  'Servicios',
-  'Otros'
-]
-
-const categories = computed(() =>
-  form.type === 'Ingreso' ? incomeCategories : expenseCategories
+const expenseCategories = computed(() =>
+  activeExpenseCategories.value
 )
 
+const incomeCategories = computed(() =>
+  activeIncomeCategories.value
+)
+
+const categories = computed(() =>
+  form.type === 'Ingreso' ? incomeCategories.value : expenseCategories.value
+)
+
+const normalizeCategory = (value: string) => value.trim().slice(0, 40)
+const selectedCategory = computed(() => {
+  const custom = normalizeCategory(newCategoryInput.value)
+  return custom || form.category
+})
+
 watch(
-  () => form.type,
-  (nextType) => {
-    form.category = (nextType === 'Ingreso' ? incomeCategories[0] : expenseCategories[0]) ?? 'Otros'
-  }
+  [() => form.type, incomeCategories, expenseCategories],
+  ([nextType, nextIncomeCategories, nextExpenseCategories]) => {
+    const list = nextType === 'Ingreso' ? nextIncomeCategories : nextExpenseCategories
+    if (!list.includes(form.category)) {
+      form.category = list[0] ?? ''
+    }
+  },
+  { immediate: true }
 )
 
 const isSaving = ref(false)
@@ -57,6 +67,11 @@ const submitMovement = async () => {
     return
   }
 
+  if (!selectedCategory.value.trim()) {
+    formError.value = 'Selecciona o escribe una categoria.'
+    return
+  }
+
   isSaving.value = true
 
   try {
@@ -66,21 +81,27 @@ const submitMovement = async () => {
       method: 'POST',
       body: {
         description: form.note.trim(),
-        category: form.category,
+        category: selectedCategory.value,
         amount,
         date
       }
     })
+    await refreshProfileCatalog()
     await refreshNuxtData(['resumen', 'movimientos', 'categorias'])
     formSuccess.value = `${form.type} guardado.`
     form.amount = 0
     form.note = ''
+    newCategoryInput.value = ''
   } catch {
     formError.value = 'No se pudo guardar el gasto.'
   } finally {
     isSaving.value = false
   }
 }
+
+onMounted(async () => {
+  await refreshProfileCatalog()
+})
 </script>
 
 <template>
@@ -124,6 +145,17 @@ const submitMovement = async () => {
         :items="categories"
         size="lg"
       />
+      <UInput
+        v-model="newCategoryInput"
+        class="mt-2"
+        type="text"
+        maxlength="40"
+        placeholder="Nueva categoria (opcional)"
+        size="lg"
+      />
+      <p class="mt-1 text-xs text-slate-500">
+        Si escribes una categoria nueva, se guarda en el movimiento y queda disponible para este perfil.
+      </p>
     </FormField>
 
     <DateInputField

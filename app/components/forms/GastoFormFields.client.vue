@@ -8,20 +8,34 @@ const emit = defineEmits<{
 
 const form = reactive({
   description: '',
-  category: 'Alimentacion',
+  category: '',
   amount: 0
 })
+const newCategoryInput = ref('')
 
 const { dateValue } = useCalendarDateInput()
 const { amountInput } = useMoneyInput(toRef(form, 'amount'))
 
-const categories = [
-  'Alimentacion',
-  'Servicios',
-  'Transporte',
-  'Salud',
-  'Otros'
-]
+const { activeExpenseCategories, refreshProfileCatalog } = useProfile()
+const categories = computed(() =>
+  activeExpenseCategories.value
+)
+
+const normalizeCategory = (value: string) => value.trim().slice(0, 40)
+const selectedCategory = computed(() => {
+  const custom = normalizeCategory(newCategoryInput.value)
+  return custom || form.category
+})
+
+watch(
+  categories,
+  (nextCategories) => {
+    if (!nextCategories.includes(form.category)) {
+      form.category = nextCategories[0] ?? ''
+    }
+  },
+  { immediate: true }
+)
 
 const isSaving = ref(false)
 const formError = ref('')
@@ -40,6 +54,11 @@ const submitGasto = async () => {
     return
   }
 
+  if (!selectedCategory.value.trim()) {
+    formError.value = 'Selecciona o escribe una categoria.'
+    return
+  }
+
   isSaving.value = true
 
   try {
@@ -48,20 +67,26 @@ const submitGasto = async () => {
       method: 'POST',
       body: {
         description: form.description.trim(),
-        category: form.category,
+        category: selectedCategory.value,
         amount,
         date
       }
     })
+    await refreshProfileCatalog()
     emit('saved')
     form.description = ''
     form.amount = 0
+    newCategoryInput.value = ''
   } catch {
     formError.value = 'No se pudo guardar el gasto.'
   } finally {
     isSaving.value = false
   }
 }
+
+onMounted(async () => {
+  await refreshProfileCatalog()
+})
 </script>
 
 <template>
@@ -106,6 +131,17 @@ const submitGasto = async () => {
         :items="categories"
         size="lg"
       />
+      <UInput
+        v-model="newCategoryInput"
+        class="mt-2"
+        type="text"
+        maxlength="40"
+        placeholder="Nueva categoria (opcional)"
+        size="lg"
+      />
+      <p class="mt-1 text-xs text-slate-500">
+        Si escribes una categoria nueva, se guarda en el gasto y queda disponible para este perfil.
+      </p>
     </FormField>
 
     <DateInputField

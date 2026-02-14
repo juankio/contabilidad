@@ -1,7 +1,7 @@
 import { defineEventHandler } from 'h3'
 import { connectMongoose } from '../../utils/mongoose'
 import { getUserFromEvent } from '../../utils/auth'
-import { serializeProfiles } from '../../utils/serialize'
+import { serializeProfilesFromCategoryStore } from '../../utils/serialize'
 
 export default defineEventHandler(async (event) => {
   await connectMongoose()
@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
     user: {
       id: user._id,
       email: user.email,
-      profiles: serializeProfiles(user.profiles),
+      profiles: await serializeProfilesFromCategoryStore(user._id, user.profiles),
       activeProfileId: user.activeProfileId?.toString() ?? null
     }
   }

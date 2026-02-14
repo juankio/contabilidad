@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { connectMongoose } from '../../utils/mongoose'
 import { requireActiveProfile } from '../../utils/auth'
 import { IngresoModel } from '../../models/ingreso'
+import { upsertProfileCategory } from '../../utils/profile-category-store'
 
 const ingresoSchema = z.object({
   description: z.string().trim().min(1),
@@ -31,7 +32,7 @@ export default defineEventHandler(async (event) => {
   }
 
   await connectMongoose()
-  const { profileId } = await requireActiveProfile(event)
+  const { profileId, user } = await requireActiveProfile(event)
   const doc = await IngresoModel.create({
     profileId,
     description: parsed.data.description.trim(),
@@ -39,6 +40,12 @@ export default defineEventHandler(async (event) => {
     amount: parsed.data.amount,
     date
   })
+
+  try {
+    await upsertProfileCategory(user._id, profileId, 'income', doc.category)
+  } catch {
+    // Keep movement creation successful even if category sync fails.
+  }
 
   return {
     _id: doc._id.toString(),
