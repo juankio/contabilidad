@@ -3,6 +3,7 @@ import BalanceCard from '../components/BalanceCard.vue'
 import MovementForm from '../components/MovementForm.client.vue'
 import RecentMovements from '../components/RecentMovements.vue'
 import CategoriesCard from '../components/CategoriesCard.vue'
+import { refreshAuthUser, useAuthUser } from '../composables/auth/useAuth'
 
 const authUser = useAuthUser()
 const { activeProfileName } = useProfile()

@@ -3,6 +3,7 @@ import GastosHeader from '../components/gastos/GastosHeader.vue'
 import GastosList from '../components/gastos/GastosList.vue'
 import GastoForm from '../components/GastoForm.client.vue'
 import StatsCharts from '../components/StatsCharts.vue'
+import { useGastos } from '../composables/gastos/useGastos'
 
 const {
   gastos,

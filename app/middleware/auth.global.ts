@@ -1,3 +1,5 @@
+import { refreshAuthUser, useAuthUser } from '../composables/auth/useAuth'
+
 export default defineNuxtRouteMiddleware(async (to) => {
   const authUser = useAuthUser()
 

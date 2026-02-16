@@ -1,3 +1,5 @@
+import { refreshAuthUser, useAuthUser } from './auth/useAuth'
+
 export function useActiveProfile() {
   const authUser = useAuthUser()
 
@@ -8,7 +10,7 @@ export function useActiveProfile() {
     }
 
     return user.activeProfileId
-      ? user.profiles.find(profile => profile._id === user.activeProfileId) ?? null
+      ? user.profiles.find((profile: { _id: string }) => profile._id === user.activeProfileId) ?? null
       : user.profiles[0] ?? null
   })
 }
