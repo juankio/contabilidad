@@ -1,3 +1,6 @@
+import { defineEventHandler } from 'h3'
+import { defineNuxtConfig } from 'nuxt/config'
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   modules: [
@@ -34,6 +37,17 @@ export default defineNuxtConfig({
   routeRules: process.env.NUXT_PRERENDER === 'true'
     ? { '/': { prerender: true } }
     : {},
+
+  devServerHandlers: [
+    {
+      route: '/_nuxt/',
+      handler: defineEventHandler((event) => {
+        // Avoid unhandled 404 noise when a client requests the assets directory root.
+        event.node.res.statusCode = 204
+        return ''
+      })
+    }
+  ],
 
   compatibilityDate: '2025-01-15',
   nitro: { preset: 'vercel' },
