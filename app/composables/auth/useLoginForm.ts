@@ -1,5 +1,6 @@
-type AuthMode = 'login' | 'register'
 import { refreshAuthUser } from './useAuth'
+
+type AuthMode = 'login' | 'register'
 
 type GoogleCredentialResponse = {
   credential: string
