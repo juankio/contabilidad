@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import GastosHeader from '../components/gastos/GastosHeader.vue'
 import GastosList from '../components/gastos/GastosList.vue'
+import GastosByProfile from '../components/gastos/GastosByProfile.vue'
 import GastoForm from '../components/GastoForm.client.vue'
 import StatsCharts from '../components/StatsCharts.vue'
 import { useGastos } from '../composables/gastos/useGastos'
 
 const {
   gastos,
+  groupedByProfile,
+  groupedPending,
+  groupedError,
   pending,
   error,
   exporting,
@@ -15,7 +19,7 @@ const {
   handleGastoSaved,
   formatCurrency,
   formatShortDate
-} = await useGastos()
+} = useGastos()
 </script>
 
 <template>
@@ -43,6 +47,14 @@ const {
             :gastos="gastos"
             :pending="pending"
             :error="!!error"
+            :format-currency="formatCurrency"
+            :format-date="formatShortDate"
+          />
+
+          <GastosByProfile
+            :groups="groupedByProfile"
+            :pending="groupedPending"
+            :error="!!groupedError"
             :format-currency="formatCurrency"
             :format-date="formatShortDate"
           />

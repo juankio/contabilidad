@@ -5,8 +5,13 @@ import { useProfilePage } from '../composables/profile/useProfilePage'
 
 const {
   nameInput,
+  profiles,
+  activeProfileId,
   loading,
   errorMessage,
+  newProfileName,
+  profileActionMessage,
+  profileActionError,
   defaultIncomeCategories,
   defaultExpenseCategories,
   hiddenIncomeSet,
@@ -15,6 +20,8 @@ const {
   customExpenseCategories,
   toggleDefaultVisibility,
   deleteCustomCategory,
+  createNewProfile,
+  activateProfile,
   save
 } = useProfilePage()
 </script>
@@ -32,6 +39,85 @@ const {
       </header>
 
       <div class="rounded-3xl bg-white p-5 shadow-sm">
+        <div class="grid gap-2 text-sm text-slate-600">
+          <p class="font-medium">
+            Perfiles contables
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <button
+              v-for="profile in profiles"
+              :key="profile._id"
+              type="button"
+              class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs"
+              :class="profile._id === activeProfileId ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-700'"
+              :disabled="loading || profile._id === activeProfileId"
+              @click="activateProfile(profile._id)"
+            >
+              {{ profile.name }}
+              <span
+                v-if="profile._id === activeProfileId"
+                class="font-semibold opacity-80"
+              >Activo</span>
+            </button>
+          </div>
+
+          <div class="mt-2 flex flex-col gap-2 sm:flex-row">
+            <UInput
+              v-model="newProfileName"
+              type="text"
+              size="lg"
+              placeholder="Ej: Personal, Empresa ACME"
+              class="sm:flex-1"
+            />
+            <UButton
+              color="neutral"
+              type="button"
+              :loading="loading"
+              :disabled="newProfileName.trim().length < 2"
+              @click="createNewProfile()"
+            >
+              Crear perfil
+            </UButton>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <UButton
+              color="neutral"
+              variant="soft"
+              size="xs"
+              type="button"
+              :loading="loading"
+              @click="createNewProfile('Personal')"
+            >
+              + Personal
+            </UButton>
+            <UButton
+              color="neutral"
+              variant="soft"
+              size="xs"
+              type="button"
+              :loading="loading"
+              @click="createNewProfile('Empresa')"
+            >
+              + Empresa
+            </UButton>
+          </div>
+        </div>
+
+        <p
+          v-if="profileActionMessage"
+          class="mt-3 text-sm text-emerald-600"
+        >
+          {{ profileActionMessage }}
+        </p>
+        <p
+          v-if="profileActionError"
+          class="mt-2 text-sm text-rose-500"
+        >
+          {{ profileActionError }}
+        </p>
+
+        <div class="my-6 border-t border-slate-200" />
+
         <div class="grid gap-2 text-sm text-slate-600">
           <label for="profile-name">Nombre del perfil</label>
           <UInput

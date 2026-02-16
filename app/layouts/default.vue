@@ -2,6 +2,34 @@
 const route = useRoute()
 const showHeader = computed(() => route.path !== '/login')
 const isMobileMenuOpen = ref(false)
+const { profiles, activeProfileId, setActiveProfile } = useProfile()
+const switchingProfile = ref(false)
+const profileSelection = ref('')
+
+const profileItems = computed(() =>
+  profiles.value.map(profile => ({ label: profile.name, value: profile._id }))
+)
+
+watch(
+  activeProfileId,
+  (value) => {
+    profileSelection.value = value ?? ''
+  },
+  { immediate: true }
+)
+
+const onProfileChange = async () => {
+  if (!profileSelection.value || profileSelection.value === activeProfileId.value) {
+    return
+  }
+
+  switchingProfile.value = true
+  const changed = await setActiveProfile(profileSelection.value)
+  if (changed) {
+    await refreshNuxtData(['resumen', 'movimientos', 'categorias', 'gastos', 'gastos-grouped', 'estadisticas'])
+  }
+  switchingProfile.value = false
+}
 
 watch(
   () => route.path,
@@ -93,6 +121,15 @@ watch(
           </svg>
         </button>
         <nav class="hidden items-center gap-3 text-sm sm:flex">
+          <USelect
+            v-if="profileItems.length > 1"
+            v-model="profileSelection"
+            :items="profileItems"
+            size="sm"
+            class="w-52"
+            :loading="switchingProfile"
+            @update:model-value="onProfileChange"
+          />
           <NuxtLink
             to="/"
             no-prefetch
@@ -127,6 +164,14 @@ watch(
       class="border-b border-slate-200 bg-white sm:hidden"
     >
       <nav class="mx-auto flex max-w-5xl flex-col gap-2 px-4 py-4 text-sm">
+        <USelect
+          v-if="profileItems.length > 1"
+          v-model="profileSelection"
+          :items="profileItems"
+          size="sm"
+          :loading="switchingProfile"
+          @update:model-value="onProfileChange"
+        />
         <NuxtLink
           to="/"
           no-prefetch

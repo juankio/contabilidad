@@ -4,6 +4,8 @@ type CategoryType = 'income' | 'expense'
 
 export function useProfilePage() {
   const {
+    profiles,
+    activeProfileId,
     activeProfileName,
     activeIncomeCategories,
     activeExpenseCategories,
@@ -14,7 +16,9 @@ export function useProfilePage() {
     loading,
     errorMessage,
     removeProfileCategory,
-    updateProfileSettings
+    updateProfileSettings,
+    setActiveProfile,
+    createProfile
   } = useProfile()
 
   const nameInput = ref('')
@@ -64,6 +68,38 @@ export function useProfilePage() {
     await removeProfileCategory(type, category)
   }
 
+  const newProfileName = ref('')
+  const profileActionMessage = ref('')
+  const profileActionError = ref('')
+
+  const createNewProfile = async (name?: string) => {
+    const targetName = (name ?? newProfileName.value).trim()
+    profileActionMessage.value = ''
+    profileActionError.value = ''
+    const ok = await createProfile(targetName)
+    if (!ok) {
+      profileActionError.value = errorMessage.value || 'No se pudo crear el perfil.'
+      return false
+    }
+    await refreshNuxtData(['resumen', 'movimientos', 'categorias', 'gastos', 'gastos-grouped', 'estadisticas'])
+    newProfileName.value = ''
+    profileActionMessage.value = 'Perfil creado.'
+    return true
+  }
+
+  const activateProfile = async (profileId: string) => {
+    profileActionMessage.value = ''
+    profileActionError.value = ''
+    const ok = await setActiveProfile(profileId)
+    if (!ok) {
+      profileActionError.value = errorMessage.value || 'No se pudo activar el perfil.'
+      return false
+    }
+    await refreshNuxtData(['resumen', 'movimientos', 'categorias', 'gastos', 'gastos-grouped', 'estadisticas'])
+    profileActionMessage.value = 'Perfil activo actualizado.'
+    return true
+  }
+
   const defaultIncomeCategories = computed(() =>
     activeDefaultIncomeCategories.value.length > 0
       ? activeDefaultIncomeCategories.value
@@ -108,8 +144,13 @@ export function useProfilePage() {
 
   return {
     nameInput,
+    profiles,
+    activeProfileId,
     loading,
     errorMessage,
+    newProfileName,
+    profileActionMessage,
+    profileActionError,
     defaultIncomeCategories,
     defaultExpenseCategories,
     hiddenIncomeSet,
@@ -118,6 +159,8 @@ export function useProfilePage() {
     customExpenseCategories,
     toggleDefaultVisibility,
     deleteCustomCategory,
+    createNewProfile,
+    activateProfile,
     save
   }
 }

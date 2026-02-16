@@ -1,3 +1,5 @@
+import { useProfile } from './useProfile'
+
 type Estadisticas = {
   resumen: {
     month: string
@@ -16,9 +18,39 @@ type Estadisticas = {
   }>
 }
 
-export const useEstadisticas = async () => {
-  const { data, pending, error } = await useFetch<Estadisticas>('/api/estadisticas', {
-    key: 'estadisticas'
+export const useEstadisticas = () => {
+  const { profiles, activeProfileId } = useProfile()
+  const selectedProfileId = ref<string>('all')
+
+  watch(
+    activeProfileId,
+    (value) => {
+      if (!value) {
+        return
+      }
+      if (selectedProfileId.value === 'all') {
+        return
+      }
+      const exists = profiles.value.some(profile => profile._id === selectedProfileId.value)
+      if (!exists) {
+        selectedProfileId.value = value
+      }
+    },
+    { immediate: true }
+  )
+
+  const profileFilterItems = computed(() => [
+    { label: 'Todos', value: 'all' },
+    ...profiles.value.map(profile => ({ label: profile.name, value: profile._id }))
+  ])
+
+  const { data, pending, error } = useFetch<Estadisticas>('/api/estadisticas', {
+    key: 'estadisticas',
+    query: computed(() =>
+      selectedProfileId.value === 'all'
+        ? { scope: 'all' }
+        : { profileId: selectedProfileId.value }
+    )
   })
 
   const categoriasSegments = computed(() => {
@@ -59,6 +91,8 @@ export const useEstadisticas = async () => {
   })
 
   return {
+    selectedProfileId,
+    profileFilterItems,
     data,
     pending,
     error,

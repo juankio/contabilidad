@@ -18,6 +18,7 @@ export function useActiveProfile() {
 export function useProfile() {
   const activeProfile = useActiveProfile()
   const authUser = useAuthUser()
+  const profiles = computed(() => authUser.value?.profiles ?? [])
 
   const activeProfileName = computed(() => activeProfile.value?.name ?? null)
   const activeProfileId = computed(() => activeProfile.value?._id ?? null)
@@ -162,7 +163,100 @@ export function useProfile() {
     }
   }
 
+  const setActiveProfile = async (profileId: string) => {
+    if (!authUser.value) {
+      return false
+    }
+
+    loading.value = true
+    errorMessage.value = ''
+    try {
+      const data = await $fetch<{
+        profiles: Array<{
+          _id: string
+          name: string
+          avatarColor: string
+          incomeCategories: string[]
+          expenseCategories: string[]
+          defaultIncomeCategories: string[]
+          defaultExpenseCategories: string[]
+          hiddenIncomeDefaults: string[]
+          hiddenExpenseDefaults: string[]
+        }>
+        activeProfileId: string | null
+      }>('/api/profiles/active', {
+        method: 'POST',
+        body: { profileId }
+      })
+
+      authUser.value = {
+        ...authUser.value,
+        profiles: data.profiles ?? [],
+        activeProfileId: data.activeProfileId
+      }
+      return true
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : ''
+      errorMessage.value = (error as { data?: { statusMessage?: string } })?.data?.statusMessage
+        || message
+        || 'No se pudo cambiar el perfil activo'
+      return false
+    } finally {
+      loading.value = false
+    }
+  }
+
+  const createProfile = async (name: string) => {
+    const trimmedName = name.trim()
+    if (trimmedName.length < 2) {
+      errorMessage.value = 'El nombre del perfil debe tener al menos 2 caracteres.'
+      return false
+    }
+
+    if (!authUser.value) {
+      return false
+    }
+
+    loading.value = true
+    errorMessage.value = ''
+    try {
+      const data = await $fetch<{
+        profiles: Array<{
+          _id: string
+          name: string
+          avatarColor: string
+          incomeCategories: string[]
+          expenseCategories: string[]
+          defaultIncomeCategories: string[]
+          defaultExpenseCategories: string[]
+          hiddenIncomeDefaults: string[]
+          hiddenExpenseDefaults: string[]
+        }>
+        activeProfileId: string | null
+      }>('/api/profiles', {
+        method: 'POST',
+        body: { name: trimmedName }
+      })
+
+      authUser.value = {
+        ...authUser.value,
+        profiles: data.profiles ?? [],
+        activeProfileId: data.activeProfileId
+      }
+      return true
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : ''
+      errorMessage.value = (error as { data?: { statusMessage?: string } })?.data?.statusMessage
+        || message
+        || 'No se pudo crear el perfil'
+      return false
+    } finally {
+      loading.value = false
+    }
+  }
+
   return {
+    profiles,
     activeProfile,
     activeProfileId,
     activeProfileName,
@@ -177,6 +271,8 @@ export function useProfile() {
     updateProfileName,
     removeProfileCategory,
     updateProfileSettings,
-    refreshProfileCatalog
+    refreshProfileCatalog,
+    setActiveProfile,
+    createProfile
   }
 }

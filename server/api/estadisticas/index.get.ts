@@ -1,6 +1,6 @@
-import { defineEventHandler } from 'h3'
+import { defineEventHandler, getQuery } from 'h3'
 import { connectMongoose } from '../../utils/mongoose'
-import { requireActiveProfile } from '../../utils/auth'
+import { requireActiveProfile, requireUser } from '../../utils/auth'
 import mongoose from 'mongoose'
 import { GastoModel } from '../../models/gasto'
 import { IngresoModel } from '../../models/ingreso'
@@ -12,8 +12,50 @@ type MonthKey = {
 
 export default defineEventHandler(async (event) => {
   await connectMongoose()
-  const { profileId } = await requireActiveProfile(event)
-  const profileObjectId = new mongoose.Types.ObjectId(profileId)
+  const query = getQuery(event)
+  const requestedProfileId = typeof query.profileId === 'string' ? query.profileId.trim() : ''
+  const scope = query.scope === 'all' ? 'all' : 'active'
+
+  let profileObjectIds: mongoose.Types.ObjectId[] = []
+  if (requestedProfileId) {
+    const user = await requireUser(event)
+    const exists = (user.profiles ?? []).some(profile => profile._id?.toString() === requestedProfileId)
+    if (!exists) {
+      profileObjectIds = []
+    } else {
+      profileObjectIds = [new mongoose.Types.ObjectId(requestedProfileId)]
+    }
+  } else if (scope === 'all') {
+    const user = await requireUser(event)
+    profileObjectIds = (user.profiles ?? [])
+      .map(profile => profile._id)
+      .filter((value): value is mongoose.Types.ObjectId => Boolean(value))
+  } else {
+    const { profileId } = await requireActiveProfile(event)
+    profileObjectIds = [new mongoose.Types.ObjectId(profileId)]
+  }
+
+  if (profileObjectIds.length === 0) {
+    const months = getRecentMonths(6)
+    return {
+      resumen: {
+        month: formatMonthLong(new Date()),
+        ingresos: 0,
+        gastos: 0,
+        saldo: 0
+      },
+      categorias: [],
+      series: months.map(monthKey => ({
+        month: formatMonthShort(monthKey.year, monthKey.month),
+        ingresos: 0,
+        gastos: 0
+      }))
+    }
+  }
+
+  const profileMatch: mongoose.Types.ObjectId | { $in: mongoose.Types.ObjectId[] } = profileObjectIds.length === 1
+    ? profileObjectIds[0]!
+    : { $in: profileObjectIds }
 
   const now = new Date()
   const start = getMonthStartUTC(now)
@@ -21,15 +63,15 @@ export default defineEventHandler(async (event) => {
 
   const [ingresosAgg, gastosAgg, categorias] = await Promise.all([
     IngresoModel.aggregate([
-      { $match: { profileId: profileObjectId, date: { $gte: start, $lt: end } } },
+      { $match: { profileId: profileMatch, date: { $gte: start, $lt: end } } },
       { $group: { _id: null, total: { $sum: '$amount' } } }
     ]),
     GastoModel.aggregate([
-      { $match: { profileId: profileObjectId, date: { $gte: start, $lt: end } } },
+      { $match: { profileId: profileMatch, date: { $gte: start, $lt: end } } },
       { $group: { _id: null, total: { $sum: '$amount' } } }
     ]),
     GastoModel.aggregate([
-      { $match: { profileId: profileObjectId, date: { $gte: start, $lt: end } } },
+      { $match: { profileId: profileMatch, date: { $gte: start, $lt: end } } },
       { $group: { _id: '$category', total: { $sum: '$amount' } } },
       { $sort: { total: -1 } },
       { $limit: 6 },
@@ -43,8 +85,8 @@ export default defineEventHandler(async (event) => {
 
   const months = getRecentMonths(6)
   const [ingresosSeries, gastosSeries] = await Promise.all([
-    aggregateByMonth(IngresoModel, profileObjectId),
-    aggregateByMonth(GastoModel, profileObjectId)
+    aggregateByMonth(IngresoModel, profileMatch),
+    aggregateByMonth(GastoModel, profileMatch)
   ])
 
   const series = months.map((monthKey) => {
@@ -90,7 +132,7 @@ function getRecentMonths(count: number): MonthKey[] {
 
 async function aggregateByMonth(
   model: typeof GastoModel | typeof IngresoModel,
-  profileId: mongoose.Types.ObjectId
+  profileId: mongoose.Types.ObjectId | { $in: mongoose.Types.ObjectId[] }
 ) {
   const results = await model.aggregate<{ _id: MonthKey, total: number }>([
     { $match: { profileId } },

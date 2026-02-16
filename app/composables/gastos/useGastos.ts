@@ -6,9 +6,25 @@ type Gasto = {
   date: string
 }
 
-export const useGastos = async () => {
-  const { data: gastos, pending, error, refresh } = await useFetch<Gasto[]>('/api/gastos', {
+type ProfileGastosGroup = {
+  profileId: string
+  profileName: string
+  avatarColor: string
+  total: number
+  gastos: Gasto[]
+}
+
+export const useGastos = () => {
+  const { data: gastos, pending, error, refresh } = useFetch<Gasto[]>('/api/gastos', {
     key: 'gastos'
+  })
+  const {
+    data: groupedByProfile,
+    pending: groupedPending,
+    error: groupedError,
+    refresh: refreshGrouped
+  } = useFetch<ProfileGastosGroup[]>('/api/gastos/grouped', {
+    key: 'gastos-grouped'
   })
 
   const exporting = ref(false)
@@ -41,11 +57,15 @@ export const useGastos = async () => {
 
   const handleGastoSaved = async () => {
     await refresh()
+    await refreshGrouped()
     await refreshNuxtData('estadisticas')
   }
 
   return {
     gastos,
+    groupedByProfile,
+    groupedPending,
+    groupedError,
     pending,
     error,
     exporting,

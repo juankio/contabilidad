@@ -4,6 +4,8 @@ import StatsCategories from './stats/StatsCategories.vue'
 import StatsSeries from './stats/StatsSeries.vue'
 
 const {
+  selectedProfileId,
+  profileFilterItems,
   data,
   pending,
   error,
@@ -12,7 +14,7 @@ const {
   gastosRatio,
   maxCategoryValue,
   maxSeriesValue
-} = await useEstadisticas()
+} = useEstadisticas()
 
 const resumen = computed(() => data.value?.resumen ?? {
   month: '',
@@ -24,14 +26,28 @@ const resumen = computed(() => data.value?.resumen ?? {
 
 <template>
   <div class="rounded-3xl bg-white p-5 shadow-sm md:col-span-2 lg:col-span-3">
-    <div class="flex items-center justify-between">
+    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <div>
         <h2 class="text-lg font-semibold">
           Estadisticas
         </h2>
         <p class="mt-1 text-sm text-slate-500">
-          Resumen visual del mes actual.
+          Resumen visual del mes actual y ultimos 6 meses.
         </p>
+      </div>
+      <div class="overflow-x-auto pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+        <div class="flex w-max items-center gap-2">
+          <button
+            v-for="item in profileFilterItems"
+            :key="item.value"
+            type="button"
+            class="rounded-full px-3 py-1 text-xs font-medium"
+            :class="selectedProfileId === item.value ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600'"
+            @click="selectedProfileId = item.value"
+          >
+            {{ item.label }}
+          </button>
+        </div>
       </div>
     </div>
 
