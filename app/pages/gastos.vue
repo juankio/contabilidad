@@ -1,18 +1,14 @@
 <script setup lang="ts">
 import GastosHeader from '../components/gastos/GastosHeader.vue'
-import GastosList from '../components/gastos/GastosList.vue'
-import GastosByProfile from '../components/gastos/GastosByProfile.vue'
+import GastosProfilesSummary from '../components/gastos/GastosProfilesSummary.vue'
 import GastoForm from '../components/GastoForm.client.vue'
 import StatsCharts from '../components/StatsCharts.vue'
 import { useGastos } from '../composables/gastos/useGastos'
 
 const {
-  gastos,
   groupedByProfile,
   groupedPending,
   groupedError,
-  pending,
-  error,
   exporting,
   exportError,
   exportGastos,
@@ -24,9 +20,10 @@ const {
 
 <template>
   <main class="min-h-screen bg-slate-50 text-slate-900">
-    <section class="mx-auto max-w-6xl px-4 pb-10 pt-6">
-      <div class="grid gap-6 lg:grid-cols-12">
+    <section class="mx-auto max-w-6xl overflow-x-clip px-4 pb-10 pt-6">
+      <div class="grid min-w-0 gap-6 lg:grid-cols-12">
         <GastosHeader
+          class="min-w-0"
           :exporting="exporting"
           :on-export="exportGastos"
         />
@@ -38,20 +35,16 @@ const {
           {{ exportError }}
         </p>
 
-        <GastoForm @saved="handleGastoSaved" />
+        <GastoForm
+          class="min-w-0"
+          @saved="handleGastoSaved"
+        />
 
-        <div class="grid gap-6 lg:col-span-8">
-          <StatsCharts />
+        <div class="grid min-w-0 gap-6 lg:col-span-8">
+          <StatsCharts class="min-w-0" />
 
-          <GastosList
-            :gastos="gastos"
-            :pending="pending"
-            :error="!!error"
-            :format-currency="formatCurrency"
-            :format-date="formatShortDate"
-          />
-
-          <GastosByProfile
+          <GastosProfilesSummary
+            class="min-w-0"
             :groups="groupedByProfile"
             :pending="groupedPending"
             :error="!!groupedError"

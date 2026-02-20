@@ -23,6 +23,7 @@ const inputDate = useTemplateRef('inputDate')
   >
     <UInputDate
       ref="inputDate"
+      class="w-full min-w-0"
       :model-value="modelValue as any"
       @update:model-value="emit('update:modelValue', $event as unknown)"
     >

@@ -42,8 +42,8 @@ const visibleGroups = computed(() => {
       <p class="text-sm font-semibold text-slate-800">
         Gastos por perfil
       </p>
-      <div class="overflow-x-auto pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-        <div class="flex w-max items-center gap-2">
+      <div class="max-w-full overflow-x-auto pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+        <div class="inline-flex min-w-full items-center gap-2">
           <button
             type="button"
             class="rounded-full px-3 py-1 text-xs font-medium"
@@ -114,7 +114,7 @@ const visibleGroups = computed(() => {
             :key="gasto._id"
             class="rounded-xl bg-slate-50 px-3 py-2"
           >
-            <p class="text-sm font-medium text-slate-800">
+            <p class="break-words text-sm font-medium text-slate-800">
               {{ gasto.description }}
             </p>
             <p class="text-xs text-slate-500">

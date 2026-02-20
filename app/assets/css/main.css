@@ -16,3 +16,20 @@
   --color-green-900: #0A5331;
   --color-green-950: #052E16;
 }
+
+html,
+body,
+#__nuxt {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+@media (max-width: 640px) {
+  input,
+  select,
+  textarea,
+  button[role='combobox'] {
+    font-size: 16px !important;
+  }
+}

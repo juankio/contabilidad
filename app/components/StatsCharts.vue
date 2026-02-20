@@ -35,8 +35,8 @@ const resumen = computed(() => data.value?.resumen ?? {
           Resumen visual del mes actual y ultimos 6 meses.
         </p>
       </div>
-      <div class="overflow-x-auto pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-        <div class="flex w-max items-center gap-2">
+      <div class="max-w-full pb-1">
+        <div class="flex flex-wrap items-center gap-2">
           <button
             v-for="item in profileFilterItems"
             :key="item.value"
