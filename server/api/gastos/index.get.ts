@@ -13,6 +13,12 @@ export default defineEventHandler(async (event) => {
     description: gasto.description ?? '',
     category: gasto.category ?? '',
     amount: Number(gasto.amount ?? 0),
-    date: gasto.date instanceof Date ? gasto.date.toISOString() : new Date().toISOString()
+    date: gasto.date instanceof Date ? gasto.date.toISOString() : new Date().toISOString(),
+    receipt: gasto.receipt?.url && gasto.receipt?.publicId
+      ? {
+          url: gasto.receipt.url,
+          publicId: gasto.receipt.publicId
+        }
+      : null
   }))
 })

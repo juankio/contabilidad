@@ -10,6 +10,10 @@ type GroupedGasto = {
   category: string
   amount: number
   date: string
+  receipt?: {
+    url: string
+    publicId: string
+  } | null
 }
 
 type GroupedProfile = {
@@ -62,7 +66,13 @@ export default defineEventHandler(async (event) => {
       description: gasto.description ?? '',
       category: gasto.category ?? '',
       amount,
-      date: gasto.date instanceof Date ? gasto.date.toISOString() : new Date().toISOString()
+      date: gasto.date instanceof Date ? gasto.date.toISOString() : new Date().toISOString(),
+      receipt: gasto.receipt?.url && gasto.receipt?.publicId
+        ? {
+            url: gasto.receipt.url,
+            publicId: gasto.receipt.publicId
+          }
+        : null
     })
   }
 

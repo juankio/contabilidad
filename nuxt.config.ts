@@ -34,6 +34,10 @@ export default defineNuxtConfig({
     authCookieName: process.env.AUTH_COOKIE_NAME || 'contabilidad_auth',
     resendApiKey: process.env.RESEND_API_KEY || '',
     resendFrom: process.env.RESEND_FROM || '',
+    cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME || '',
+    cloudinaryApiKey: process.env.CLOUDINARY_API_KEY || '',
+    cloudinaryApiSecret: process.env.CLOUDINARY_API_SECRET || '',
+    cloudinaryUploadFolder: process.env.CLOUDINARY_UPLOAD_FOLDER || 'contabilidad/receipts',
     public: {
       googleClientId: process.env.GOOGLE_CLIENT_ID || ''
     }

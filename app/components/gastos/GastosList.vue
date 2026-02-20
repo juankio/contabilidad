@@ -5,6 +5,10 @@ type Gasto = {
   category: string
   amount: number
   date: string
+  receipt?: {
+    url: string
+    publicId: string
+  } | null
 }
 
 const props = defineProps<{
@@ -75,6 +79,19 @@ const previewGastos = computed(() => (props.gastos ?? []).slice(0, 3))
               <span class="mt-2 inline-flex items-center rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-amber-700">
                 Gasto
               </span>
+              <a
+                v-if="gasto.receipt?.url"
+                :href="gasto.receipt.url"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-emerald-700 hover:text-emerald-800"
+              >
+                <UIcon
+                  name="i-lucide-paperclip"
+                  class="h-3.5 w-3.5"
+                />
+                Ver comprobante
+              </a>
             </div>
             <p class="shrink-0 whitespace-nowrap text-sm font-semibold text-amber-600">
               -{{ props.formatCurrency(gasto.amount) }}

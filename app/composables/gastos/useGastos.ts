@@ -4,6 +4,10 @@ type Gasto = {
   category: string
   amount: number
   date: string
+  receipt?: {
+    url: string
+    publicId: string
+  } | null
 }
 
 type ProfileGastosGroup = {

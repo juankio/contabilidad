@@ -12,7 +12,11 @@ const gastoSchema = z.object({
   description: z.string().trim().min(1),
   category: z.string().trim().min(1).default('Sin categoria'),
   amount: z.preprocess(value => Number(value), z.number().positive()),
-  date: z.string().optional()
+  date: z.string().optional(),
+  receipt: z.object({
+    url: z.string().url(),
+    publicId: z.string().trim().min(1)
+  }).optional()
 })
 
 export default defineEventHandler(async (event) => {
@@ -41,7 +45,8 @@ export default defineEventHandler(async (event) => {
     description: parsed.data.description.trim(),
     category: parsed.data.category.trim(),
     amount: parsed.data.amount,
-    date
+    date,
+    ...(parsed.data.receipt ? { receipt: parsed.data.receipt } : {})
   })
   if (!doc) {
     throw createError({
@@ -224,6 +229,12 @@ export default defineEventHandler(async (event) => {
     category: doc.category,
     amount: doc.amount,
     date: doc.date.toISOString(),
+    receipt: doc.receipt
+      ? {
+          url: doc.receipt.url,
+          publicId: doc.receipt.publicId
+        }
+      : null,
     emailNotificationSent
   }
 })

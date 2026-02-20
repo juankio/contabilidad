@@ -6,6 +6,10 @@ export type GastoDocument = mongoose.Document & {
   category: string
   amount: number
   date: Date
+  receipt?: {
+    url: string
+    publicId: string
+  }
 }
 
 const GastoSchema = new Schema<GastoDocument>(
@@ -14,7 +18,11 @@ const GastoSchema = new Schema<GastoDocument>(
     description: { type: String, required: true, trim: true },
     category: { type: String, required: true, trim: true },
     amount: { type: Number, required: true, min: 0 },
-    date: { type: Date, required: true }
+    date: { type: Date, required: true },
+    receipt: {
+      url: { type: String, trim: true },
+      publicId: { type: String, trim: true }
+    }
   },
   {
     timestamps: true
