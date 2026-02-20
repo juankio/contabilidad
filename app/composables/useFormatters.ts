@@ -1,4 +1,6 @@
 export const useFormatters = () => {
+  const monthsShort = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic']
+
   const formatCurrency = (value: number) =>
     new Intl.NumberFormat('es-MX', {
       style: 'currency',
@@ -6,11 +8,16 @@ export const useFormatters = () => {
       maximumFractionDigits: 0
     }).format(value)
 
-  const formatShortDate = (value: string) =>
-    new Intl.DateTimeFormat('es-MX', {
-      day: '2-digit',
-      month: 'short'
-    }).format(new Date(value))
+  const formatShortDate = (value: string) => {
+    const parsed = new Date(value)
+    if (Number.isNaN(parsed.getTime())) {
+      return '--'
+    }
+
+    const day = String(parsed.getUTCDate()).padStart(2, '0')
+    const month = monthsShort[parsed.getUTCMonth()] ?? '--'
+    return `${day}-${month}`
+  }
 
   return { formatCurrency, formatShortDate }
 }

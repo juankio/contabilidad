@@ -3,6 +3,7 @@ import { defineEventHandler } from 'h3'
 import { connectMongoose } from '../../utils/mongoose'
 import { requireUser } from '../../utils/auth'
 import { GastoModel } from '../../models/gasto'
+import { toIsoDate } from '../../utils/date'
 
 type GroupedGasto = {
   _id: string
@@ -33,7 +34,7 @@ export default defineEventHandler(async (event) => {
     .filter((value): value is mongoose.Types.ObjectId => Boolean(value))
 
   const gastos = await GastoModel.find({ profileId: { $in: profileIds } })
-    .sort({ date: -1 })
+    .sort({ date: -1, _id: -1 })
     .limit(400)
     .lean()
 
@@ -62,7 +63,7 @@ export default defineEventHandler(async (event) => {
       description: gasto.description ?? '',
       category: gasto.category ?? '',
       amount,
-      date: gasto.date instanceof Date ? gasto.date.toISOString() : new Date().toISOString()
+      date: toIsoDate(gasto.date)
     })
   }
 

@@ -3,6 +3,7 @@ import { connectMongoose } from '../../utils/mongoose'
 import { requireActiveProfile } from '../../utils/auth'
 import { GastoModel } from '../../models/gasto'
 import { IngresoModel } from '../../models/ingreso'
+import { compareByDateDescWithId, toIsoDate } from '../../utils/date'
 
 type Movimiento = {
   _id: string
@@ -21,8 +22,8 @@ export default defineEventHandler(async (event) => {
   const safeLimit = Number.isFinite(limit) && limit > 0 ? Math.min(limit, 20) : 8
 
   const [gastos, ingresos] = await Promise.all([
-    GastoModel.find({ profileId }).sort({ date: -1 }).limit(safeLimit * 2).lean(),
-    IngresoModel.find({ profileId }).sort({ date: -1 }).limit(safeLimit * 2).lean()
+    GastoModel.find({ profileId }).sort({ date: -1, _id: -1 }).limit(safeLimit * 2).lean(),
+    IngresoModel.find({ profileId }).sort({ date: -1, _id: -1 }).limit(safeLimit * 2).lean()
   ])
 
   const movimientos: Movimiento[] = [
@@ -32,7 +33,7 @@ export default defineEventHandler(async (event) => {
       description: gasto.description ?? '',
       category: gasto.category ?? '',
       amount: Number(gasto.amount ?? 0),
-      date: gasto.date instanceof Date ? gasto.date.toISOString() : new Date().toISOString()
+      date: toIsoDate(gasto.date)
     })),
     ...ingresos.map(ingreso => ({
       _id: ingreso._id.toString(),
@@ -40,11 +41,11 @@ export default defineEventHandler(async (event) => {
       description: ingreso.description ?? '',
       category: ingreso.category ?? '',
       amount: Number(ingreso.amount ?? 0),
-      date: ingreso.date instanceof Date ? ingreso.date.toISOString() : new Date().toISOString()
+      date: toIsoDate(ingreso.date)
     }))
   ]
 
-  movimientos.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  movimientos.sort(compareByDateDescWithId)
 
   return movimientos.slice(0, safeLimit)
 })
