@@ -20,7 +20,7 @@ const {
     v-model:open="mobileMenuOpen"
     mode="drawer"
     :menu="{ direction: 'bottom', inset: true }"
-    :toggle="{ color: 'neutral', variant: 'outline', size: 'sm', square: true, class: 'sm:hidden' }"
+    :toggle="false"
     class="border-b border-slate-200 bg-white/90 text-slate-900 backdrop-blur"
     :ui="{
       overlay: 'sm:hidden',
@@ -44,6 +44,23 @@ const {
         :profile-selection="profileSelection"
         :switching-profile="switchingProfile"
         @select-profile="onDesktopProfileSelect"
+      />
+    </template>
+
+    <template #toggle="{ open, toggle }">
+      <UButton
+        class="sm:hidden"
+        color="neutral"
+        :variant="open ? 'soft' : 'ghost'"
+        size="md"
+        square
+        :icon="open ? 'i-lucide-x' : 'i-lucide-align-right'"
+        aria-label="Abrir menu"
+        :ui="{
+          base: 'rounded-xl ring-1 ring-slate-200/80 shadow-sm transition-all',
+          leadingIcon: 'size-5'
+        }"
+        @click="toggle"
       />
     </template>
 
