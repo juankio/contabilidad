@@ -73,7 +73,7 @@ export default defineEventHandler(async (event) => {
     const gastos = gastosAgg[0]?.total ?? 0
     const saldo = ingresos - gastos
 
-    const month = new Intl.DateTimeFormat('es-MX', {
+    const month = new Intl.DateTimeFormat('es-CO', {
       month: 'long',
       year: 'numeric',
       timeZone: 'UTC'
@@ -246,10 +246,11 @@ function escapeHtml(value: string) {
 }
 
 function formatCurrency(value: number) {
-  return new Intl.NumberFormat('es-MX', {
+  return new Intl.NumberFormat('es-CO', {
     style: 'currency',
-    currency: 'MXN',
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
+    currency: 'COP',
+    currencyDisplay: 'code',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0
   }).format(value)
 }

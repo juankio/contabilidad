@@ -2,9 +2,10 @@ export const useFormatters = () => {
   const monthsShort = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic']
 
   const formatCurrency = (value: number) =>
-    new Intl.NumberFormat('es-MX', {
+    new Intl.NumberFormat('es-CO', {
       style: 'currency',
-      currency: 'MXN',
+      currency: 'COP',
+      currencyDisplay: 'code',
       maximumFractionDigits: 0
     }).format(value)
 

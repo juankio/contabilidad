@@ -29,7 +29,7 @@ export default defineEventHandler(async (event) => {
   const gastos = gastosAgg[0]?.total ?? 0
   const saldo = ingresos - gastos
 
-  const month = new Intl.DateTimeFormat('es-MX', {
+  const month = new Intl.DateTimeFormat('es-CO', {
     month: 'long',
     year: 'numeric',
     timeZone: 'UTC'

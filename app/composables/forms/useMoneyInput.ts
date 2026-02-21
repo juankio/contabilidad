@@ -1,6 +1,6 @@
 export const useMoneyInput = (amount: Ref<number>) => {
   const formatAmount = (value: number) =>
-    new Intl.NumberFormat('es-MX', {
+    new Intl.NumberFormat('es-CO', {
       minimumFractionDigits: 0,
       maximumFractionDigits: 0
     }).format(value)

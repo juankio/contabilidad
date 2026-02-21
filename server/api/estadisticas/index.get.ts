@@ -158,7 +158,7 @@ async function aggregateByMonth(
 }
 
 function formatMonthLong(date: Date) {
-  const label = new Intl.DateTimeFormat('es-MX', {
+  const label = new Intl.DateTimeFormat('es-CO', {
     month: 'long',
     year: 'numeric',
     timeZone: 'UTC'
@@ -168,7 +168,7 @@ function formatMonthLong(date: Date) {
 
 function formatMonthShort(year: number, month: number) {
   const date = new Date(Date.UTC(year, month - 1, 1))
-  const label = new Intl.DateTimeFormat('es-MX', {
+  const label = new Intl.DateTimeFormat('es-CO', {
     month: 'short',
     timeZone: 'UTC'
   }).format(date)

@@ -135,7 +135,7 @@ async function aggregateByMonth(
 
 function formatMonth(year: number, month: number) {
   const date = new Date(year, month - 1, 1)
-  const label = new Intl.DateTimeFormat('es-MX', {
+  const label = new Intl.DateTimeFormat('es-CO', {
     month: 'long',
     year: 'numeric'
   }).format(date)

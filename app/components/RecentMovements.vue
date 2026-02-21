@@ -1,14 +1,9 @@
 <script setup lang="ts">
-type Movimiento = {
-  _id: string
-  type: 'Gasto' | 'Ingreso'
-  description: string
-  category: string
-  amount: number
-  date: string
-}
+import MovementDeleteModal from './movements/MovementDeleteModal.vue'
+import MovementEditModal from './movements/MovementEditModal.vue'
+import { useMovementCrud, type MovimientoRow } from '../composables/movimientos/useMovementCrud'
 
-const { data: movimientos, pending, error } = await useFetch<Movimiento[]>('/api/movimientos', {
+const { data: movimientos, pending, error, refresh: refreshMovimientos } = await useFetch<MovimientoRow[]>('/api/movimientos', {
   key: 'movimientos',
   query: { limit: 50 }
 })
@@ -16,6 +11,31 @@ const { data: movimientos, pending, error } = await useFetch<Movimiento[]>('/api
 const { formatCurrency, formatShortDate } = useFormatters()
 const showAllModal = ref(false)
 const previewMovimientos = computed(() => (movimientos.value ?? []).slice(0, 3))
+
+const {
+  editOpen,
+  editType,
+  editDescription,
+  editCategory,
+  editAmountInput,
+  editDate,
+  editLoading,
+  editError,
+  canSubmitEdit,
+  deleteOpen,
+  deleteType,
+  deleteLabel,
+  deleteLoading,
+  deleteError,
+  openEdit,
+  closeEdit,
+  submitEdit,
+  openDelete,
+  closeDelete,
+  confirmDelete
+} = useMovementCrud(async () => {
+  await refreshMovimientos()
+})
 </script>
 
 <template>
@@ -56,9 +76,9 @@ const previewMovimientos = computed(() => (movimientos.value ?? []).slice(0, 3))
         <div
           v-for="movimiento in previewMovimientos"
           :key="movimiento._id"
-          class="flex items-center justify-between rounded-2xl border border-slate-100 px-4 py-3"
+          class="flex items-center justify-between gap-3 rounded-2xl border border-slate-100 px-4 py-3"
         >
-          <div>
+          <div class="min-w-0 flex-1">
             <p class="text-sm font-semibold">
               {{ movimiento.description }}
             </p>
@@ -100,9 +120,9 @@ const previewMovimientos = computed(() => (movimientos.value ?? []).slice(0, 3))
         <div
           v-for="movimiento in movimientos || []"
           :key="`modal-${movimiento._id}`"
-          class="flex items-center justify-between rounded-2xl border border-slate-100 px-4 py-3"
+          class="flex items-center justify-between gap-3 rounded-2xl border border-slate-100 px-4 py-3"
         >
-          <div>
+          <div class="min-w-0 flex-1">
             <p class="text-sm font-semibold">
               {{ movimiento.description }}
             </p>
@@ -110,15 +130,71 @@ const previewMovimientos = computed(() => (movimientos.value ?? []).slice(0, 3))
               {{ movimiento.category }} · {{ formatShortDate(movimiento.date) }}
             </p>
           </div>
-          <p
-            class="text-sm font-semibold"
-            :class="movimiento.type === 'Ingreso' ? 'text-emerald-600' : 'text-amber-600'"
-          >
-            {{ movimiento.type === 'Ingreso' ? '+' : '-' }}
-            {{ formatCurrency(movimiento.amount) }}
-          </p>
+          <div class="flex items-center gap-2">
+            <p
+              class="text-sm font-semibold"
+              :class="movimiento.type === 'Ingreso' ? 'text-emerald-600' : 'text-amber-600'"
+            >
+              {{ movimiento.type === 'Ingreso' ? '+' : '-' }}
+              {{ formatCurrency(movimiento.amount) }}
+            </p>
+            <div class="flex items-center gap-1">
+              <UButton
+                color="neutral"
+                variant="soft"
+                size="xs"
+                @click="openEdit(movimiento)"
+              >
+                <UIcon
+                  name="lucide:pencil"
+                  class="h-3.5 w-3.5"
+                />
+                Editar
+              </UButton>
+              <UButton
+                color="error"
+                variant="soft"
+                size="xs"
+                @click="openDelete(movimiento)"
+              >
+                <UIcon
+                  name="lucide:trash-2"
+                  class="h-3.5 w-3.5"
+                />
+                Eliminar
+              </UButton>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
+
+  <MovementEditModal
+    :open="editOpen"
+    :type="editType"
+    :description="editDescription"
+    :category="editCategory"
+    :amount-input="editAmountInput"
+    :date="editDate"
+    :loading="editLoading"
+    :error="editError"
+    :can-submit="canSubmitEdit"
+    @update:description="editDescription = $event"
+    @update:category="editCategory = $event"
+    @update:amount-input="editAmountInput = $event"
+    @update:date="editDate = $event"
+    @close="closeEdit"
+    @confirm="submitEdit"
+  />
+
+  <MovementDeleteModal
+    :open="deleteOpen"
+    :type="deleteType"
+    :label="deleteLabel"
+    :loading="deleteLoading"
+    :error="deleteError"
+    @close="closeDelete"
+    @confirm="confirmDelete"
+  />
 </template>
