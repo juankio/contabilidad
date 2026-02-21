@@ -2,6 +2,8 @@ import { defineEventHandler, createError } from 'h3'
 import { connectMongoose } from '../../utils/mongoose'
 import { requireUser } from '../../utils/auth'
 import { UserModel } from '../../models/user'
+import { GastoModel } from '../../models/gasto'
+import { IngresoModel } from '../../models/ingreso'
 import { serializeProfilesFromCategoryStore } from '../../utils/serialize'
 import { removeProfileCategories } from '../../utils/profile-category-store'
 
@@ -13,11 +15,30 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, statusMessage: 'Profile id missing' })
   }
 
+  const profiles = user.profiles ?? []
+  const targetExists = profiles.some(profile => profile._id?.toString() === profileId)
+  if (!targetExists) {
+    throw createError({ statusCode: 404, statusMessage: 'Profile not found' })
+  }
+
+  if (profiles.length <= 1) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'At least one profile is required'
+    })
+  }
+
+  const remainingProfiles = profiles.filter(profile => profile._id?.toString() !== profileId)
+  const isDeletingActive = user.activeProfileId?.toString() === profileId
+  const nextActiveProfileId = isDeletingActive
+    ? (remainingProfiles[0]?._id?.toString() ?? null)
+    : (user.activeProfileId?.toString() ?? remainingProfiles[0]?._id?.toString() ?? null)
+
   const updated = await UserModel.findByIdAndUpdate(
     user._id,
     {
       $pull: { profiles: { _id: profileId } },
-      ...(user.activeProfileId?.toString() === profileId ? { activeProfileId: null } : {})
+      $set: { activeProfileId: nextActiveProfileId }
     },
     { new: true }
   ).lean()
@@ -26,7 +47,11 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 404, statusMessage: 'Profile not found' })
   }
 
-  await removeProfileCategories(user._id, profileId)
+  await Promise.all([
+    removeProfileCategories(user._id, profileId),
+    GastoModel.deleteMany({ profileId }),
+    IngresoModel.deleteMany({ profileId })
+  ])
 
   return {
     profiles: await serializeProfilesFromCategoryStore(user._id, updated.profiles ?? []),

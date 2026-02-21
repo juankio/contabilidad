@@ -33,6 +33,23 @@ export default defineEventHandler(async (event) => {
 
   await removeProfileCategory(user._id, profileId, body.data.type, body.data.name)
 
+  const removedKey = body.data.name.trim().toLocaleLowerCase()
+  await UserModel.updateOne(
+    { '_id': user._id, 'profiles._id': profileId },
+    {
+      $set: {
+        'profiles.$.hiddenIncomeCustoms': (user.profiles ?? [])
+          .find(profile => profile._id?.toString() === profileId)
+          ?.hiddenIncomeCustoms
+          ?.filter(value => value.trim().toLocaleLowerCase() !== removedKey) ?? [],
+        'profiles.$.hiddenExpenseCustoms': (user.profiles ?? [])
+          .find(profile => profile._id?.toString() === profileId)
+          ?.hiddenExpenseCustoms
+          ?.filter(value => value.trim().toLocaleLowerCase() !== removedKey) ?? []
+      }
+    }
+  )
+
   const refreshed = await UserModel.findById(user._id).lean()
   if (!refreshed) {
     throw createError({ statusCode: 404, statusMessage: 'User not found' })

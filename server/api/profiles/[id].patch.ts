@@ -7,6 +7,7 @@ import { serializeProfilesFromCategoryStore } from '../../utils/serialize'
 import {
   DEFAULT_EXPENSE_CATEGORIES,
   DEFAULT_INCOME_CATEGORIES,
+  normalizeHiddenCategories,
   normalizeDefaultVisibility
 } from '../../utils/profile-categories'
 
@@ -14,7 +15,9 @@ const payloadSchema = z.object({
   name: z.string().min(2).max(32).optional(),
   avatarColor: z.string().regex(/^#([0-9a-fA-F]{6})$/).optional(),
   hiddenIncomeDefaults: z.array(z.string()).optional(),
-  hiddenExpenseDefaults: z.array(z.string()).optional()
+  hiddenExpenseDefaults: z.array(z.string()).optional(),
+  hiddenIncomeCustoms: z.array(z.string()).optional(),
+  hiddenExpenseCustoms: z.array(z.string()).optional()
 })
 
 export default defineEventHandler(async (event) => {
@@ -43,6 +46,16 @@ export default defineEventHandler(async (event) => {
     update['profiles.$.hiddenExpenseDefaults'] = normalizeDefaultVisibility(
       body.data.hiddenExpenseDefaults,
       DEFAULT_EXPENSE_CATEGORIES
+    )
+  }
+  if (body.data.hiddenIncomeCustoms) {
+    update['profiles.$.hiddenIncomeCustoms'] = normalizeHiddenCategories(
+      body.data.hiddenIncomeCustoms
+    )
+  }
+  if (body.data.hiddenExpenseCustoms) {
+    update['profiles.$.hiddenExpenseCustoms'] = normalizeHiddenCategories(
+      body.data.hiddenExpenseCustoms
     )
   }
 

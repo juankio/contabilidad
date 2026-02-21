@@ -1,4 +1,8 @@
 <script setup lang="ts">
+defineOptions({
+  inheritAttrs: false
+})
+
 type Gasto = {
   _id: string
   description: string
@@ -22,6 +26,7 @@ const props = defineProps<{
   formatCurrency: (value: number) => string
   formatDate: (value: string) => string
 }>()
+const attrs = useAttrs()
 
 const selectedGroup = ref<ProfileGastosGroup | null>(null)
 
@@ -35,7 +40,10 @@ const closeGroupModal = () => {
 </script>
 
 <template>
-  <div class="rounded-3xl bg-white p-5 shadow-sm">
+  <div
+    v-bind="attrs"
+    class="rounded-3xl bg-white p-5 shadow-sm"
+  >
     <div class="mb-4">
       <p class="text-sm font-semibold text-slate-800">
         Resumen por perfil

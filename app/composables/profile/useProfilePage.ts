@@ -1,166 +1,67 @@
-import { useProfile } from '../useProfile'
-
-type CategoryType = 'income' | 'expense'
+import { useProfilePageCategories } from './useProfilePageCategories'
+import { useProfilePageCreateActivate } from './useProfilePageCreateActivate'
+import { useProfilePageData } from './useProfilePageData'
+import { useProfilePageDelete } from './useProfilePageDelete'
+import { useProfilePageFeedback } from './useProfilePageFeedback'
+import { useProfilePageRename } from './useProfilePageRename'
 
 export function useProfilePage() {
-  const {
-    profiles,
-    activeProfileId,
-    activeProfileName,
-    activeIncomeCategories,
-    activeExpenseCategories,
-    activeDefaultIncomeCategories,
-    activeDefaultExpenseCategories,
-    activeHiddenIncomeDefaults,
-    activeHiddenExpenseDefaults,
-    loading,
-    errorMessage,
-    removeProfileCategory,
-    updateProfileSettings,
-    setActiveProfile,
-    createProfile
-  } = useProfile()
+  const data = useProfilePageData()
+  const feedback = useProfilePageFeedback()
+  const categories = useProfilePageCategories({
+    activeIncomeCategories: data.activeIncomeCategories,
+    activeExpenseCategories: data.activeExpenseCategories,
+    activeDefaultIncomeCategories: data.activeDefaultIncomeCategories,
+    activeDefaultExpenseCategories: data.activeDefaultExpenseCategories,
+    activeHiddenIncomeCustoms: data.activeHiddenIncomeCustoms,
+    activeHiddenExpenseCustoms: data.activeHiddenExpenseCustoms,
+    hiddenIncomeDefaultsInput: data.hiddenIncomeDefaultsInput,
+    hiddenExpenseDefaultsInput: data.hiddenExpenseDefaultsInput,
+    hiddenIncomeCustomsInput: data.hiddenIncomeCustomsInput,
+    hiddenExpenseCustomsInput: data.hiddenExpenseCustomsInput
+  })
 
-  const nameInput = ref('')
-  const hiddenIncomeDefaultsInput = ref<string[]>([])
-  const hiddenExpenseDefaultsInput = ref<string[]>([])
+  const createActivate = useProfilePageCreateActivate({
+    createProfile: data.createProfile,
+    setActiveProfile: data.setActiveProfile,
+    errorMessage: data.errorMessage,
+    resetActionFeedback: feedback.resetActionFeedback,
+    setActionError: feedback.setActionError,
+    setActionMessage: feedback.setActionMessage
+  })
 
-  watch(
-    activeProfileName,
-    (value) => {
-      nameInput.value = value ?? ''
-    },
-    { immediate: true }
-  )
+  const rename = useProfilePageRename({
+    activeProfileId: data.activeProfileId,
+    nameInput: data.nameInput,
+    resetActionFeedback: feedback.resetActionFeedback,
+    setActionError: feedback.setActionError,
+    setActionMessage: feedback.setActionMessage
+  })
 
-  watch(
-    activeHiddenIncomeDefaults,
-    (value) => {
-      hiddenIncomeDefaultsInput.value = [...(value ?? [])]
-    },
-    { immediate: true }
-  )
-
-  watch(
-    activeHiddenExpenseDefaults,
-    (value) => {
-      hiddenExpenseDefaultsInput.value = [...(value ?? [])]
-    },
-    { immediate: true }
-  )
-
-  const persistProfile = async (navigateAfterSave = false) => {
-    const ok = await updateProfileSettings({
-      name: nameInput.value,
-      hiddenIncomeDefaults: hiddenIncomeDefaultsInput.value,
-      hiddenExpenseDefaults: hiddenExpenseDefaultsInput.value
-    })
-    if (ok && navigateAfterSave) {
-      await navigateTo('/')
-    }
-  }
-
-  const save = async () => {
-    await persistProfile(true)
-  }
-
-  const deleteCustomCategory = async (type: CategoryType, category: string) => {
-    await removeProfileCategory(type, category)
-  }
-
-  const newProfileName = ref('')
-  const profileActionMessage = ref('')
-  const profileActionError = ref('')
-
-  const createNewProfile = async (name?: string) => {
-    const targetName = (name ?? newProfileName.value).trim()
-    profileActionMessage.value = ''
-    profileActionError.value = ''
-    const ok = await createProfile(targetName)
-    if (!ok) {
-      profileActionError.value = errorMessage.value || 'No se pudo crear el perfil.'
-      return false
-    }
-    await refreshNuxtData(['resumen', 'movimientos', 'categorias', 'gastos', 'gastos-grouped', 'estadisticas'])
-    newProfileName.value = ''
-    profileActionMessage.value = 'Perfil creado.'
-    return true
-  }
-
-  const activateProfile = async (profileId: string) => {
-    profileActionMessage.value = ''
-    profileActionError.value = ''
-    const ok = await setActiveProfile(profileId)
-    if (!ok) {
-      profileActionError.value = errorMessage.value || 'No se pudo activar el perfil.'
-      return false
-    }
-    await refreshNuxtData(['resumen', 'movimientos', 'categorias', 'gastos', 'gastos-grouped', 'estadisticas'])
-    profileActionMessage.value = 'Perfil activo actualizado.'
-    return true
-  }
-
-  const defaultIncomeCategories = computed(() =>
-    activeDefaultIncomeCategories.value.length > 0
-      ? activeDefaultIncomeCategories.value
-      : ['Ventas', 'Servicios', 'Salario', 'Otros']
-  )
-  const defaultExpenseCategories = computed(() =>
-    activeDefaultExpenseCategories.value.length > 0
-      ? activeDefaultExpenseCategories.value
-      : ['Alimentacion', 'Servicios', 'Transporte', 'Salud', 'Otros']
-  )
-
-  const hiddenIncomeSet = computed(() =>
-    new Set(hiddenIncomeDefaultsInput.value.map(value => value.toLocaleLowerCase()))
-  )
-  const hiddenExpenseSet = computed(() =>
-    new Set(hiddenExpenseDefaultsInput.value.map(value => value.toLocaleLowerCase()))
-  )
-
-  const toggleDefaultVisibility = (type: CategoryType, category: string) => {
-    const list = type === 'income' ? hiddenIncomeDefaultsInput : hiddenExpenseDefaultsInput
-    const key = category.toLocaleLowerCase()
-    const next = list.value.filter(item => item.toLocaleLowerCase() !== key)
-    if (next.length === list.value.length) {
-      next.push(category)
-    }
-    list.value = next
-  }
-
-  const incomeDefaultKeys = computed(() =>
-    new Set(defaultIncomeCategories.value.map(value => value.toLocaleLowerCase()))
-  )
-  const expenseDefaultKeys = computed(() =>
-    new Set(defaultExpenseCategories.value.map(value => value.toLocaleLowerCase()))
-  )
-
-  const customIncomeCategories = computed(() =>
-    activeIncomeCategories.value.filter(category => !incomeDefaultKeys.value.has(category.toLocaleLowerCase()))
-  )
-  const customExpenseCategories = computed(() =>
-    activeExpenseCategories.value.filter(category => !expenseDefaultKeys.value.has(category.toLocaleLowerCase()))
-  )
+  const deletion = useProfilePageDelete({
+    profiles: data.profiles,
+    activeProfileId: data.activeProfileId,
+    deleteProfile: data.deleteProfile,
+    errorMessage: data.errorMessage,
+    resetActionFeedback: feedback.resetActionFeedback,
+    setActionError: feedback.setActionError,
+    setActionMessage: feedback.setActionMessage
+  })
 
   return {
-    nameInput,
-    profiles,
-    activeProfileId,
-    loading,
-    errorMessage,
-    newProfileName,
-    profileActionMessage,
-    profileActionError,
-    defaultIncomeCategories,
-    defaultExpenseCategories,
-    hiddenIncomeSet,
-    hiddenExpenseSet,
-    customIncomeCategories,
-    customExpenseCategories,
-    toggleDefaultVisibility,
-    deleteCustomCategory,
-    createNewProfile,
-    activateProfile,
-    save
+    nameInput: data.nameInput,
+    hasUnsavedChanges: data.hasUnsavedChanges,
+    canSaveProfile: data.canSaveProfile,
+    profiles: data.profiles,
+    activeProfileId: data.activeProfileId,
+    loading: data.loading,
+    errorMessage: data.errorMessage,
+    save: data.save,
+    deleteCustomCategory: data.deleteCustomCategory,
+    ...feedback,
+    ...categories,
+    ...createActivate,
+    ...rename,
+    ...deletion
   }
 }

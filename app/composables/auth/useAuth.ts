@@ -8,6 +8,8 @@ type AuthProfile = {
   defaultExpenseCategories: string[]
   hiddenIncomeDefaults: string[]
   hiddenExpenseDefaults: string[]
+  hiddenIncomeCustoms: string[]
+  hiddenExpenseCustoms: string[]
 }
 
 export type AuthUser = {

@@ -48,6 +48,32 @@ export function normalizeDefaultVisibility(
   return hidden
 }
 
+export function normalizeHiddenCategories(hiddenCategories: unknown) {
+  if (!Array.isArray(hiddenCategories)) {
+    return []
+  }
+
+  const hidden: string[] = []
+  const seen = new Set<string>()
+
+  for (const value of hiddenCategories) {
+    if (typeof value !== 'string') {
+      continue
+    }
+
+    const cleaned = value.trim().slice(0, MAX_CATEGORY_LENGTH)
+    const key = cleaned.toLocaleLowerCase()
+    if (!key || seen.has(key)) {
+      continue
+    }
+
+    seen.add(key)
+    hidden.push(cleaned)
+  }
+
+  return hidden
+}
+
 export function normalizeCategories(
   categories: unknown,
   fallback: string[]

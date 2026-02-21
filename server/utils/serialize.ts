@@ -3,6 +3,7 @@ import type { ProfileDocument } from '../models/user'
 import {
   DEFAULT_EXPENSE_CATEGORIES,
   DEFAULT_INCOME_CATEGORIES,
+  normalizeHiddenCategories,
   normalizeDefaultVisibility,
   normalizeCategories
 } from './profile-categories'
@@ -34,9 +35,13 @@ export async function serializeProfilesFromCategoryStore(
       profile.hiddenExpenseDefaults,
       DEFAULT_EXPENSE_CATEGORIES
     )
+    const hiddenIncomeCustoms = normalizeHiddenCategories(profile.hiddenIncomeCustoms)
+    const hiddenExpenseCustoms = normalizeHiddenCategories(profile.hiddenExpenseCustoms)
 
     const hiddenIncomeSet = new Set(hiddenIncomeDefaults.map(value => value.toLocaleLowerCase()))
     const hiddenExpenseSet = new Set(hiddenExpenseDefaults.map(value => value.toLocaleLowerCase()))
+    const hiddenIncomeCustomSet = new Set(hiddenIncomeCustoms.map(value => value.toLocaleLowerCase()))
+    const hiddenExpenseCustomSet = new Set(hiddenExpenseCustoms.map(value => value.toLocaleLowerCase()))
 
     const visibleIncomeDefaults = DEFAULT_INCOME_CATEGORIES.filter(
       category => !hiddenIncomeSet.has(category.toLocaleLowerCase())
@@ -46,10 +51,10 @@ export async function serializeProfilesFromCategoryStore(
     )
 
     const movementIncomeCategories = stored.incomeCategories.filter(
-      category => !hiddenIncomeSet.has(category.toLocaleLowerCase())
+      category => !hiddenIncomeCustomSet.has(category.toLocaleLowerCase())
     )
     const movementExpenseCategories = stored.expenseCategories.filter(
-      category => !hiddenExpenseSet.has(category.toLocaleLowerCase())
+      category => !hiddenExpenseCustomSet.has(category.toLocaleLowerCase())
     )
 
     return {
@@ -61,7 +66,9 @@ export async function serializeProfilesFromCategoryStore(
       defaultIncomeCategories: [...DEFAULT_INCOME_CATEGORIES],
       defaultExpenseCategories: [...DEFAULT_EXPENSE_CATEGORIES],
       hiddenIncomeDefaults,
-      hiddenExpenseDefaults
+      hiddenExpenseDefaults,
+      hiddenIncomeCustoms,
+      hiddenExpenseCustoms
     }
   })
 }

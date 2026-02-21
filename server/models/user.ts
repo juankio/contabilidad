@@ -6,6 +6,8 @@ export type ProfileDocument = {
   avatarColor: string
   hiddenIncomeDefaults: string[]
   hiddenExpenseDefaults: string[]
+  hiddenIncomeCustoms: string[]
+  hiddenExpenseCustoms: string[]
   createdAt: Date
 }
 
@@ -24,6 +26,8 @@ const ProfileSchema = new Schema<ProfileDocument>(
     avatarColor: { type: String, required: true, trim: true },
     hiddenIncomeDefaults: { type: [String], default: [] },
     hiddenExpenseDefaults: { type: [String], default: [] },
+    hiddenIncomeCustoms: { type: [String], default: [] },
+    hiddenExpenseCustoms: { type: [String], default: [] },
     createdAt: { type: Date, default: Date.now }
   },
   { _id: true }
