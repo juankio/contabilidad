@@ -14,20 +14,15 @@ export default defineEventHandler(async (event) => {
   const start = getMonthStartUTC(now)
   const end = getNextMonthStartUTC(now)
 
-  const [ingresosAgg, gastosAgg] = await Promise.all([
-    IngresoModel.aggregate([
-      { $match: { profileId: profileObjectId, date: { $gte: start, $lt: end } } },
-      { $group: { _id: null, total: { $sum: '$amount' } } }
-    ]),
-    GastoModel.aggregate([
-      { $match: { profileId: profileObjectId, date: { $gte: start, $lt: end } } },
-      { $group: { _id: null, total: { $sum: '$amount' } } }
-    ])
+  const [ingresos, gastos, ingresosDisponibles, gastosDisponibles] = await Promise.all([
+    aggregateTotal(IngresoModel, profileObjectId, { $gte: start, $lt: end }),
+    aggregateTotal(GastoModel, profileObjectId, { $gte: start, $lt: end }),
+    aggregateTotal(IngresoModel, profileObjectId, { $lt: end }),
+    aggregateTotal(GastoModel, profileObjectId, { $lt: end })
   ])
 
-  const ingresos = ingresosAgg[0]?.total ?? 0
-  const gastos = gastosAgg[0]?.total ?? 0
   const saldo = ingresos - gastos
+  const saldoDisponible = ingresosDisponibles - gastosDisponibles
 
   const month = new Intl.DateTimeFormat('es-CO', {
     month: 'long',
@@ -39,7 +34,8 @@ export default defineEventHandler(async (event) => {
     month: `${month.charAt(0).toUpperCase()}${month.slice(1)}`,
     ingresos,
     gastos,
-    saldo
+    saldo,
+    saldoDisponible
   }
 })
 
@@ -49,4 +45,17 @@ function getMonthStartUTC(date: Date) {
 
 function getNextMonthStartUTC(date: Date) {
   return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + 1, 1))
+}
+
+async function aggregateTotal(
+  model: typeof GastoModel | typeof IngresoModel,
+  profileId: mongoose.Types.ObjectId,
+  dateRange: { $gte?: Date, $lt?: Date }
+) {
+  const rows = await model.aggregate<{ total: number }>([
+    { $match: { profileId, date: dateRange } },
+    { $group: { _id: null, total: { $sum: '$amount' } } }
+  ])
+
+  return Number(rows[0]?.total ?? 0)
 }

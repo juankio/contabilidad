@@ -42,7 +42,8 @@ export default defineEventHandler(async (event) => {
         month: formatMonthLong(new Date()),
         ingresos: 0,
         gastos: 0,
-        saldo: 0
+        saldo: 0,
+        saldoDisponible: 0
       },
       categorias: [],
       series: months.map(monthKey => ({
@@ -61,27 +62,22 @@ export default defineEventHandler(async (event) => {
   const start = getMonthStartUTC(now)
   const end = getNextMonthStartUTC(now)
 
-  const [ingresosAgg, gastosAgg, categorias] = await Promise.all([
-    IngresoModel.aggregate([
-      { $match: { profileId: profileMatch, date: { $gte: start, $lt: end } } },
-      { $group: { _id: null, total: { $sum: '$amount' } } }
-    ]),
-    GastoModel.aggregate([
-      { $match: { profileId: profileMatch, date: { $gte: start, $lt: end } } },
-      { $group: { _id: null, total: { $sum: '$amount' } } }
-    ]),
+  const [ingresos, gastos, categorias, ingresosDisponibles, gastosDisponibles] = await Promise.all([
+    aggregateTotal(IngresoModel, profileMatch, { $gte: start, $lt: end }),
+    aggregateTotal(GastoModel, profileMatch, { $gte: start, $lt: end }),
     GastoModel.aggregate([
       { $match: { profileId: profileMatch, date: { $gte: start, $lt: end } } },
       { $group: { _id: '$category', total: { $sum: '$amount' } } },
       { $sort: { total: -1 } },
       { $limit: 6 },
       { $project: { _id: 0, category: '$_id', total: 1 } }
-    ])
+    ]),
+    aggregateTotal(IngresoModel, profileMatch, { $lt: end }),
+    aggregateTotal(GastoModel, profileMatch, { $lt: end })
   ])
 
-  const ingresos = ingresosAgg[0]?.total ?? 0
-  const gastos = gastosAgg[0]?.total ?? 0
   const saldo = ingresos - gastos
+  const saldoDisponible = ingresosDisponibles - gastosDisponibles
 
   const months = getRecentMonths(6)
   const [ingresosSeries, gastosSeries] = await Promise.all([
@@ -105,7 +101,8 @@ export default defineEventHandler(async (event) => {
       month: monthLabel,
       ingresos,
       gastos,
-      saldo
+      saldo,
+      saldoDisponible
     },
     categorias: categorias.map(categoria => ({
       category: categoria.category || 'Sin categoria',
@@ -155,6 +152,19 @@ async function aggregateByMonth(
   })
 
   return map
+}
+
+async function aggregateTotal(
+  model: typeof GastoModel | typeof IngresoModel,
+  profileId: mongoose.Types.ObjectId | { $in: mongoose.Types.ObjectId[] },
+  dateRange: { $gte?: Date, $lt?: Date }
+) {
+  const rows = await model.aggregate<{ total: number }>([
+    { $match: { profileId, date: dateRange } },
+    { $group: { _id: null, total: { $sum: '$amount' } } }
+  ])
+
+  return Number(rows[0]?.total ?? 0)
 }
 
 function formatMonthLong(date: Date) {

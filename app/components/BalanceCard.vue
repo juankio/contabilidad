@@ -65,10 +65,10 @@ const {
         </div>
         <div class="rounded-2xl bg-slate-900 px-4 py-3 text-white">
           <p class="text-xs uppercase tracking-[0.2em] text-slate-300">
-            Saldo
+            Saldo disponible
           </p>
           <p class="mt-1 text-xl font-semibold">
-            {{ formatCurrency(resumen?.saldo ?? 0) }}
+            {{ formatCurrency(resumen?.saldoDisponible ?? resumen?.saldo ?? 0) }}
           </p>
         </div>
       </template>

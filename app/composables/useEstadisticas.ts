@@ -6,6 +6,7 @@ type Estadisticas = {
     ingresos: number
     gastos: number
     saldo: number
+    saldoDisponible: number
   }
   categorias: Array<{
     category: string

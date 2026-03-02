@@ -20,7 +20,8 @@ const resumen = computed(() => data.value?.resumen ?? {
   month: '',
   ingresos: 0,
   gastos: 0,
-  saldo: 0
+  saldo: 0,
+  saldoDisponible: 0
 })
 </script>
 

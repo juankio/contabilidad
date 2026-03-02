@@ -4,6 +4,7 @@ type Resumen = {
   ingresos: number
   gastos: number
   saldo: number
+  saldoDisponible: number
 }
 
 const props = defineProps<{
@@ -57,12 +58,12 @@ const { formatCurrency } = useFormatters()
         </div>
         <div class="grid grid-cols-[auto_1fr_auto] items-center gap-2 text-slate-500 sm:flex sm:items-center">
           <span class="h-2 w-2 rounded-full bg-slate-300" />
-          <span>Saldo</span>
+          <span>Saldo disponible</span>
           <span
             class="font-semibold sm:ml-auto"
-            :class="props.resumen.saldo >= 0 ? 'text-emerald-600' : 'text-rose-500'"
+            :class="(props.resumen.saldoDisponible ?? props.resumen.saldo) >= 0 ? 'text-emerald-600' : 'text-rose-500'"
           >
-            {{ formatCurrency(props.resumen.saldo) }}
+            {{ formatCurrency(props.resumen.saldoDisponible ?? props.resumen.saldo) }}
           </span>
         </div>
       </div>

@@ -3,6 +3,7 @@ type Resumen = {
   ingresos: number
   gastos: number
   saldo: number
+  saldoDisponible: number
 }
 
 export const useResumen = async () => {
