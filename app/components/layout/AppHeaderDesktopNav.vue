@@ -43,6 +43,14 @@ const emit = defineEmits<{
       Gastos
     </NuxtLink>
     <NuxtLink
+      to="/prestamos"
+      no-prefetch
+      class="text-slate-600 hover:text-slate-900"
+      exact-active-class="text-slate-900 font-semibold"
+    >
+      Prestamos
+    </NuxtLink>
+    <NuxtLink
       to="/reportes"
       no-prefetch
       class="text-slate-600 hover:text-slate-900"

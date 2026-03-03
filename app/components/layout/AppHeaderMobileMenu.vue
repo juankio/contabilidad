@@ -64,6 +64,15 @@ const emit = defineEmits<{
       Gastos
     </NuxtLink>
     <NuxtLink
+      to="/prestamos"
+      no-prefetch
+      class="rounded-xl border border-transparent px-3 py-2.5 text-slate-600 transition-colors hover:bg-slate-50 hover:text-slate-900"
+      exact-active-class="border-slate-200 bg-slate-100 text-slate-900 font-semibold"
+      @click="emit('closeMenu')"
+    >
+      Prestamos
+    </NuxtLink>
+    <NuxtLink
       to="/reportes"
       no-prefetch
       class="rounded-xl border border-transparent px-3 py-2.5 text-slate-600 transition-colors hover:bg-slate-50 hover:text-slate-900"

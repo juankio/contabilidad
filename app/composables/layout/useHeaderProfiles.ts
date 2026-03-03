@@ -43,7 +43,7 @@ export function useHeaderProfiles() {
     try {
       const changed = await setActiveProfile(nextProfileId)
       if (changed) {
-        await refreshNuxtData(['resumen', 'movimientos', 'categorias', 'gastos', 'gastos-grouped', 'estadisticas'])
+        await refreshNuxtData(['resumen', 'movimientos', 'categorias', 'gastos', 'gastos-grouped', 'estadisticas', 'prestamos'])
       }
     } finally {
       switchingProfile.value = false

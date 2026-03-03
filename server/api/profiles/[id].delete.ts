@@ -4,6 +4,7 @@ import { requireUser } from '../../utils/auth'
 import { UserModel } from '../../models/user'
 import { GastoModel } from '../../models/gasto'
 import { IngresoModel } from '../../models/ingreso'
+import { PrestamoModel } from '../../models/prestamo'
 import { serializeProfilesFromCategoryStore } from '../../utils/serialize'
 import { removeProfileCategories } from '../../utils/profile-category-store'
 
@@ -50,7 +51,8 @@ export default defineEventHandler(async (event) => {
   await Promise.all([
     removeProfileCategories(user._id, profileId),
     GastoModel.deleteMany({ profileId }),
-    IngresoModel.deleteMany({ profileId })
+    IngresoModel.deleteMany({ profileId }),
+    PrestamoModel.deleteMany({ profileId })
   ])
 
   return {

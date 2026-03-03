@@ -34,9 +34,17 @@ const { formatCurrency } = useFormatters()
       </div>
       <div
         v-else-if="!categorias?.length"
-        class="text-sm text-slate-500"
+        class="grid min-h-44 place-items-center rounded-2xl border border-dashed border-slate-200 bg-slate-50/60 px-4 py-6"
       >
-        Sin gastos este mes.
+        <div class="text-center">
+          <UIcon
+            name="i-lucide-layout-grid"
+            class="mx-auto mb-3 text-6xl text-slate-300"
+          />
+          <p class="text-sm text-slate-500">
+            Sin gastos este mes
+          </p>
+        </div>
       </div>
       <template v-else>
         <div

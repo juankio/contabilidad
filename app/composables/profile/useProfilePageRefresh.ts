@@ -4,7 +4,8 @@ const PROFILE_REFRESH_KEYS = [
   'categorias',
   'gastos',
   'gastos-grouped',
-  'estadisticas'
+  'estadisticas',
+  'prestamos'
 ] as const
 
 export async function refreshProfilePageData() {
