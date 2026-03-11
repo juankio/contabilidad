@@ -36,6 +36,7 @@ export function useProfile() {
     activeHiddenExpenseDefaults: state.activeHiddenExpenseDefaults,
     activeHiddenIncomeCustoms: state.activeHiddenIncomeCustoms,
     activeHiddenExpenseCustoms: state.activeHiddenExpenseCustoms,
+    activeModules: state.activeModules,
     loading: state.loading,
     errorMessage: state.errorMessage,
     updateProfileName: settings.updateProfileName,

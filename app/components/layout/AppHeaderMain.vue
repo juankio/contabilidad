@@ -2,6 +2,8 @@
 import AppHeaderDesktopNav from './AppHeaderDesktopNav.vue'
 import AppHeaderMobileMenu from './AppHeaderMobileMenu.vue'
 import { useHeaderProfiles } from '../../composables/layout/useHeaderProfiles'
+import { useModuleNavigation } from '../../composables/modules/useModuleNavigation'
+import type { NavigationMenuItem } from '@nuxt/ui'
 
 const {
   mobileMenuOpen,
@@ -13,6 +15,29 @@ const {
   onDesktopProfileSelect,
   onMobileProfileSelect
 } = useHeaderProfiles()
+
+const { navItems } = useModuleNavigation()
+const route = useRoute()
+
+const iconByRoute: Record<string, string> = {
+  '/': 'i-lucide-home',
+  '/gastos': 'i-lucide-wallet',
+  '/reportes': 'i-lucide-line-chart',
+  '/prestamos': 'i-lucide-handshake',
+  '/catalogo-tienda': 'i-lucide-store',
+  '/catalogo-postres': 'i-lucide-cake',
+  '/granja-cerdos': 'i-lucide-paw-print'
+}
+
+const menuItems = computed<NavigationMenuItem[]>(() => navItems.value.map((item) => {
+  const isRoot = item.to === '/'
+  return {
+    label: item.label,
+    to: item.to,
+    icon: iconByRoute[item.to] ?? 'i-lucide-circle',
+    active: isRoot ? route.path === '/' : route.path.startsWith(item.to)
+  }
+}))
 </script>
 
 <template>
@@ -43,6 +68,7 @@ const {
         :profile-items="profileItems"
         :profile-selection="profileSelection"
         :switching-profile="switchingProfile"
+        :menu-items="menuItems"
         @select-profile="onDesktopProfileSelect"
       />
     </template>
@@ -70,6 +96,7 @@ const {
         :active-profile-id="activeProfileId"
         :profile-selection="profileSelection"
         :switching-profile="switchingProfile"
+        :menu-items="menuItems"
         @select-profile="onMobileProfileSelect"
         @close-menu="mobileMenuOpen = false"
       />

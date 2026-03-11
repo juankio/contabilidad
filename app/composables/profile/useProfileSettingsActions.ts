@@ -7,6 +7,7 @@ type ProfileState = ReturnType<typeof useProfileState>
 
 type UpdatePayload = {
   name: string
+  modules?: string[]
   hiddenIncomeDefaults?: string[]
   hiddenExpenseDefaults?: string[]
   hiddenIncomeCustoms?: string[]
@@ -18,6 +19,7 @@ export function useProfileSettingsActions(state: ProfileState) {
 
   const updateProfileSettings = async ({
     name,
+    modules,
     hiddenIncomeDefaults,
     hiddenExpenseDefaults,
     hiddenIncomeCustoms,
@@ -41,6 +43,7 @@ export function useProfileSettingsActions(state: ProfileState) {
         method: 'PATCH',
         body: {
           name: validation.value,
+          ...(modules ? { modules } : {}),
           ...(hiddenIncomeDefaults ? { hiddenIncomeDefaults } : {}),
           ...(hiddenExpenseDefaults ? { hiddenExpenseDefaults } : {}),
           ...(hiddenIncomeCustoms ? { hiddenIncomeCustoms } : {}),

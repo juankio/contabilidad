@@ -7,6 +7,9 @@ const {
   email,
   password,
   profileName,
+  selectedModules,
+  moduleOptions,
+  toggleModule,
   loading,
   googleLoading,
   errorMessage,
@@ -71,6 +74,40 @@ const {
             />
           </template>
         </UInput>
+      </div>
+
+      <div
+        v-if="mode === 'register'"
+        class="grid gap-2 text-sm text-slate-600"
+      >
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
+          Modulos opcionales
+        </p>
+        <div class="grid gap-2">
+          <label
+            v-for="module in moduleOptions"
+            :key="module.key"
+            class="flex items-start gap-3 rounded-xl border border-slate-200 bg-white px-3 py-2 transition hover:border-slate-300"
+          >
+            <input
+              class="mt-1 h-4 w-4 rounded border-slate-300 text-emerald-500 focus:ring-emerald-500"
+              type="checkbox"
+              :checked="selectedModules.includes(module.key)"
+              @change="toggleModule(module.key)"
+            >
+            <span class="min-w-0">
+              <span class="block text-sm font-semibold text-slate-700">
+                {{ module.label }}
+              </span>
+              <span class="block text-xs text-slate-500">
+                {{ module.description }}
+              </span>
+            </span>
+          </label>
+        </div>
+        <p class="text-xs text-slate-500">
+          Puedes activar o desactivar modulos luego en el perfil.
+        </p>
       </div>
 
       <div class="grid gap-2 text-sm text-slate-600">

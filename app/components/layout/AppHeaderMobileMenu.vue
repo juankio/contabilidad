@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { NavigationMenuItem } from '@nuxt/ui'
+
 type Profile = {
   _id: string
   name: string
@@ -9,6 +11,7 @@ defineProps<{
   activeProfileId: string | null
   profileSelection: string
   switchingProfile: boolean
+  menuItems: NavigationMenuItem[]
 }>()
 
 const emit = defineEmits<{
@@ -18,7 +21,7 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <nav class="grid gap-2 text-sm sm:hidden">
+  <nav class="grid gap-3 text-sm sm:hidden">
     <div
       v-if="profiles.length > 1"
       class="rounded-xl bg-slate-50 p-2"
@@ -44,42 +47,11 @@ const emit = defineEmits<{
         </div>
       </div>
     </div>
-
-    <NuxtLink
-      to="/"
-      no-prefetch
-      class="rounded-xl border border-transparent px-3 py-2.5 text-slate-600 transition-colors hover:bg-slate-50 hover:text-slate-900"
-      exact-active-class="border-slate-200 bg-slate-100 text-slate-900 font-semibold"
+    <UNavigationMenu
+      :items="menuItems"
+      orientation="vertical"
+      class="-mx-2.5"
       @click="emit('closeMenu')"
-    >
-      Inicio
-    </NuxtLink>
-    <NuxtLink
-      to="/gastos"
-      no-prefetch
-      class="rounded-xl border border-transparent px-3 py-2.5 text-slate-600 transition-colors hover:bg-slate-50 hover:text-slate-900"
-      exact-active-class="border-slate-200 bg-slate-100 text-slate-900 font-semibold"
-      @click="emit('closeMenu')"
-    >
-      Gastos
-    </NuxtLink>
-    <NuxtLink
-      to="/prestamos"
-      no-prefetch
-      class="rounded-xl border border-transparent px-3 py-2.5 text-slate-600 transition-colors hover:bg-slate-50 hover:text-slate-900"
-      exact-active-class="border-slate-200 bg-slate-100 text-slate-900 font-semibold"
-      @click="emit('closeMenu')"
-    >
-      Prestamos
-    </NuxtLink>
-    <NuxtLink
-      to="/reportes"
-      no-prefetch
-      class="rounded-xl border border-transparent px-3 py-2.5 text-slate-600 transition-colors hover:bg-slate-50 hover:text-slate-900"
-      exact-active-class="border-slate-200 bg-slate-100 text-slate-900 font-semibold"
-      @click="emit('closeMenu')"
-    >
-      Reportes
-    </NuxtLink>
+    />
   </nav>
 </template>

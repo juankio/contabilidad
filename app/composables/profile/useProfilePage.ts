@@ -50,6 +50,7 @@ export function useProfilePage() {
 
   return {
     nameInput: data.nameInput,
+    modulesInput: data.modulesInput,
     hasUnsavedChanges: data.hasUnsavedChanges,
     canSaveProfile: data.canSaveProfile,
     profiles: data.profiles,

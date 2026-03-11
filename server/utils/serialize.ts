@@ -8,6 +8,7 @@ import {
   normalizeCategories
 } from './profile-categories'
 import { listProfileCategoriesMap } from './profile-category-store'
+import { DEFAULT_OPTIONAL_MODULES, normalizeModules } from './modules'
 
 export async function serializeProfilesFromCategoryStore(
   userId: string | Types.ObjectId,
@@ -37,6 +38,9 @@ export async function serializeProfilesFromCategoryStore(
     )
     const hiddenIncomeCustoms = normalizeHiddenCategories(profile.hiddenIncomeCustoms)
     const hiddenExpenseCustoms = normalizeHiddenCategories(profile.hiddenExpenseCustoms)
+    const modules = Array.isArray(profile.modules)
+      ? normalizeModules(profile.modules)
+      : DEFAULT_OPTIONAL_MODULES
 
     const hiddenIncomeSet = new Set(hiddenIncomeDefaults.map(value => value.toLocaleLowerCase()))
     const hiddenExpenseSet = new Set(hiddenExpenseDefaults.map(value => value.toLocaleLowerCase()))
@@ -68,7 +72,8 @@ export async function serializeProfilesFromCategoryStore(
       hiddenIncomeDefaults,
       hiddenExpenseDefaults,
       hiddenIncomeCustoms,
-      hiddenExpenseCustoms
+      hiddenExpenseCustoms,
+      modules
     }
   })
 }

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { NavigationMenuItem } from '@nuxt/ui'
+
 type ProfileItem = {
   label: string
   value: string
@@ -8,6 +10,7 @@ defineProps<{
   profileItems: ProfileItem[]
   profileSelection: string
   switchingProfile: boolean
+  menuItems: NavigationMenuItem[]
 }>()
 
 const emit = defineEmits<{
@@ -16,47 +19,16 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <nav class="hidden items-center gap-3 text-sm sm:flex">
+  <nav class="hidden items-center gap-4 text-sm sm:flex">
     <USelect
       v-if="profileItems.length > 1"
       :model-value="profileSelection"
       :items="profileItems"
       size="sm"
-      class="w-52"
+      class="w-56"
       :loading="switchingProfile"
       @update:model-value="emit('selectProfile', $event as string)"
     />
-    <NuxtLink
-      to="/"
-      no-prefetch
-      class="text-slate-600 hover:text-slate-900"
-      exact-active-class="text-slate-900 font-semibold"
-    >
-      Inicio
-    </NuxtLink>
-    <NuxtLink
-      to="/gastos"
-      no-prefetch
-      class="text-slate-600 hover:text-slate-900"
-      exact-active-class="text-slate-900 font-semibold"
-    >
-      Gastos
-    </NuxtLink>
-    <NuxtLink
-      to="/prestamos"
-      no-prefetch
-      class="text-slate-600 hover:text-slate-900"
-      exact-active-class="text-slate-900 font-semibold"
-    >
-      Prestamos
-    </NuxtLink>
-    <NuxtLink
-      to="/reportes"
-      no-prefetch
-      class="text-slate-600 hover:text-slate-900"
-      exact-active-class="text-slate-900 font-semibold"
-    >
-      Reportes
-    </NuxtLink>
+    <UNavigationMenu :items="menuItems" />
   </nav>
 </template>

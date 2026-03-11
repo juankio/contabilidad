@@ -22,9 +22,15 @@ export function useProfilePageData() {
   const hiddenExpenseDefaultsInput = ref<string[]>([])
   const hiddenIncomeCustomsInput = ref<string[]>([])
   const hiddenExpenseCustomsInput = ref<string[]>([])
+  const modulesInput = ref<string[]>([])
 
-  const syncList = (source: Ref<string[]>, target: Ref<string[]>) =>
+  const syncList = (source: Ref<string[]> | undefined, target: Ref<string[]>) => {
+    if (!source) {
+      target.value = []
+      return
+    }
     watch(source, value => (target.value = [...(value ?? [])]), { immediate: true })
+  }
   watch(profile.activeProfileName, (value) => {
     nameInput.value = value ?? ''
   }, { immediate: true })
@@ -32,6 +38,7 @@ export function useProfilePageData() {
   syncList(profile.activeHiddenExpenseDefaults, hiddenExpenseDefaultsInput)
   syncList(profile.activeHiddenIncomeCustoms, hiddenIncomeCustomsInput)
   syncList(profile.activeHiddenExpenseCustoms, hiddenExpenseCustomsInput)
+  syncList(profile.activeModules, modulesInput)
 
   const normalizedNameInput = computed(() => nameInput.value.trim())
   const hasNameChanged = computed(() =>
@@ -49,12 +56,16 @@ export function useProfilePageData() {
   const hasHiddenExpenseCustomsChanged = computed(() =>
     !hasSameItems(hiddenExpenseCustomsInput.value, profile.activeHiddenExpenseCustoms.value)
   )
+  const hasModulesChanged = computed(() =>
+    !hasSameItems(modulesInput.value, profile.activeModules.value)
+  )
 
   const hasUnsavedChanges = computed(() => hasNameChanged.value
     || hasHiddenIncomeChanged.value
     || hasHiddenExpenseChanged.value
     || hasHiddenIncomeCustomsChanged.value
-    || hasHiddenExpenseCustomsChanged.value)
+    || hasHiddenExpenseCustomsChanged.value
+    || hasModulesChanged.value)
   const canSaveProfile = computed(() =>
     Boolean(profile.activeProfileId.value)
     && normalizedNameInput.value.length >= 2
@@ -66,6 +77,7 @@ export function useProfilePageData() {
     if (!canSaveProfile.value) return false
     const ok = await profile.updateProfileSettings({
       name: normalizedNameInput.value,
+      modules: modulesInput.value,
       hiddenIncomeDefaults: hiddenIncomeDefaultsInput.value,
       hiddenExpenseDefaults: hiddenExpenseDefaultsInput.value,
       hiddenIncomeCustoms: hiddenIncomeCustomsInput.value,
@@ -86,6 +98,7 @@ export function useProfilePageData() {
     hiddenExpenseDefaultsInput,
     hiddenIncomeCustomsInput,
     hiddenExpenseCustomsInput,
+    modulesInput,
     hasUnsavedChanges,
     canSaveProfile,
     save,

@@ -12,7 +12,7 @@ type RequestConfig = {
 }
 
 export function useProfileLifecycleActions(state: ProfileState) {
-  const { authUser, loading, errorMessage } = state
+  const { authUser, loading, errorMessage, activeModules } = state
 
   const runProfileMutation = async ({ url, method, body, fallback }: RequestConfig) => {
     if (!authUser.value) {
@@ -64,7 +64,7 @@ export function useProfileLifecycleActions(state: ProfileState) {
     return runProfileMutation({
       url: '/api/profiles',
       method: 'POST',
-      body: { name: validation.value },
+      body: { name: validation.value, modules: activeModules.value },
       fallback: 'No se pudo crear el perfil'
     })
   }

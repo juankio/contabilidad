@@ -2,6 +2,7 @@ export type ProfileRecord = {
   _id: string
   name: string
   avatarColor: string
+  modules: string[]
   incomeCategories: string[]
   expenseCategories: string[]
   defaultIncomeCategories: string[]

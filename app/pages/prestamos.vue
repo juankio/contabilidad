@@ -6,6 +6,10 @@ import PrestamosPaidCard from '../components/prestamos/PrestamosPaidCard.vue'
 import PrestamoDeleteModal from '../components/prestamos/PrestamoDeleteModal.vue'
 import { usePrestamos } from '../composables/prestamos/usePrestamos'
 
+definePageMeta({
+  requiresModule: 'prestamos'
+})
+
 const {
   pending, error, summary, prestamosPendientes, prestamosPagados, formatCurrency, formatShortDate,
   form, amountInput, installmentsInput, loanDateValue, collectionDateValue, creating, createError,

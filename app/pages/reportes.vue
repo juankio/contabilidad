@@ -1,3 +1,9 @@
+<script setup lang="ts">
+definePageMeta({
+  requiresModule: 'reportes'
+})
+</script>
+
 <template>
   <main class="min-h-screen bg-slate-50 text-slate-900">
     <section class="mx-auto max-w-4xl px-4 pb-10 pt-6">

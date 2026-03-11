@@ -7,6 +7,7 @@ import ProfileDeleteModal from './ProfileDeleteModal.vue'
 import ProfileFooterSection from './ProfileFooterSection.vue'
 import ProfileHeaderSection from './ProfileHeaderSection.vue'
 import ProfileIdentitySection from './ProfileIdentitySection.vue'
+import ProfileModulesSection from './ProfileModulesSection.vue'
 import ProfileRenameModal from './ProfileRenameModal.vue'
 
 defineOptions({
@@ -45,6 +46,12 @@ const attrs = useAttrs()
     <ProfileActionAlerts
       :message="page.profileActionMessage"
       :error="page.profileActionError"
+    />
+
+    <ProfileModulesSection
+      :selected-modules="page.modulesInput"
+      :loading="page.loading"
+      @update:selected-modules="page.modulesInput = $event"
     />
 
     <div class="rounded-2xl border bg-white border-slate-200 bg-slate-50/70 p-4">

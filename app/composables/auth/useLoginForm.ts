@@ -1,4 +1,5 @@
 import { refreshAuthUser } from './useAuth'
+import { OPTIONAL_MODULE_KEYS, OPTIONAL_MODULES, type OptionalModuleKey } from '../../utils/modules'
 
 type AuthMode = 'login' | 'register'
 
@@ -25,6 +26,7 @@ export function useLoginForm() {
   const email = ref('')
   const password = ref('')
   const profileName = ref('')
+  const selectedModules = ref<OptionalModuleKey[]>([])
   const loading = ref(false)
   const googleLoading = ref(false)
   const errorMessage = ref('')
@@ -33,6 +35,7 @@ export function useLoginForm() {
   const config = useRuntimeConfig()
   const googleClientId = config.public.googleClientId as string
   const canUseGoogle = computed(() => Boolean(googleClientId))
+  const moduleOptions = computed(() => OPTIONAL_MODULES)
 
   async function loadGoogleScript() {
     if (window.google?.accounts?.id) {
@@ -105,12 +108,15 @@ export function useLoginForm() {
     loading.value = true
     try {
       if (mode.value === 'register') {
-        const payload: { email: string, password: string, profileName?: string } = {
+        const payload: { email: string, password: string, profileName?: string, modules?: string[] } = {
           email: email.value,
           password: password.value
         }
         if (profileName.value.trim()) {
           payload.profileName = profileName.value.trim()
+        }
+        if (selectedModules.value.length > 0) {
+          payload.modules = selectedModules.value
         }
         await $fetch('/api/auth/register', {
           method: 'POST',
@@ -157,11 +163,25 @@ export function useLoginForm() {
     renderGoogleButton()
   })
 
+  const toggleModule = (key: OptionalModuleKey) => {
+    if (!OPTIONAL_MODULE_KEYS.includes(key)) {
+      return
+    }
+    if (selectedModules.value.includes(key)) {
+      selectedModules.value = selectedModules.value.filter(item => item !== key)
+      return
+    }
+    selectedModules.value = [...selectedModules.value, key]
+  }
+
   return {
     mode,
     email,
     password,
     profileName,
+    selectedModules,
+    moduleOptions,
+    toggleModule,
     loading,
     googleLoading,
     errorMessage,
