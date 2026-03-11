@@ -84,7 +84,9 @@ const attrs = useAttrs()
     :open="page.showCreateProfileModal"
     :loading="page.loading"
     :name="page.newProfileName"
+    :icon="page.newProfileIcon"
     @update:name="page.newProfileName = $event"
+    @update:icon="page.newProfileIcon = $event"
     @close="page.closeCreateProfileModal"
     @confirm="page.confirmCreateProfile"
   />
@@ -93,7 +95,9 @@ const attrs = useAttrs()
     :open="page.showRenameProfileModal"
     :loading="page.loading"
     :name="page.renameProfileInput"
+    :icon="page.renameProfileIcon"
     @update:name="page.renameProfileInput = $event"
+    @update:icon="page.renameProfileIcon = $event"
     @close="page.closeRenameProfileModal"
     @confirm="page.confirmRenameProfileDraft"
   />

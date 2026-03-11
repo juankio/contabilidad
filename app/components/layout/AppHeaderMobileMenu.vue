@@ -4,6 +4,7 @@ import type { NavigationMenuItem } from '@nuxt/ui'
 type Profile = {
   _id: string
   name: string
+  avatarIcon?: string
 }
 
 defineProps<{
@@ -35,7 +36,7 @@ const emit = defineEmits<{
             v-for="profile in profiles"
             :key="profile._id"
             :label="profile.name"
-            :icon="activeProfileId === profile._id ? 'i-lucide-check' : undefined"
+            :icon="profile.avatarIcon || 'i-lucide-user'"
             :color="activeProfileId === profile._id ? 'primary' : 'neutral'"
             :variant="activeProfileId === profile._id ? 'soft' : 'outline'"
             size="sm"

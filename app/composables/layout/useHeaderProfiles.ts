@@ -1,11 +1,13 @@
 type ProfileLite = {
   _id: string
   name: string
+  avatarIcon?: string
 }
 
 type ProfileItem = {
   label: string
   value: string
+  icon?: string
 }
 
 export function useHeaderProfiles() {
@@ -16,11 +18,19 @@ export function useHeaderProfiles() {
   const { profiles, activeProfileId, setActiveProfile } = useProfile()
 
   const profileList = computed<ProfileLite[]>(() =>
-    profiles.value.map(profile => ({ _id: profile._id, name: profile.name }))
+    profiles.value.map(profile => ({
+      _id: profile._id,
+      name: profile.name,
+      avatarIcon: profile.avatarIcon
+    }))
   )
 
   const profileItems = computed<ProfileItem[]>(() =>
-    profileList.value.map(profile => ({ label: profile.name, value: profile._id }))
+    profileList.value.map(profile => ({
+      label: profile.name,
+      value: profile._id,
+      icon: profile.avatarIcon
+    }))
   )
 
   watch(

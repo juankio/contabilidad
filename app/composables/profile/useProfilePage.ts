@@ -33,6 +33,7 @@ export function useProfilePage() {
   const rename = useProfilePageRename({
     activeProfileId: data.activeProfileId,
     nameInput: data.nameInput,
+    iconInput: data.iconInput,
     resetActionFeedback: feedback.resetActionFeedback,
     setActionError: feedback.setActionError,
     setActionMessage: feedback.setActionMessage
@@ -51,6 +52,7 @@ export function useProfilePage() {
   return {
     nameInput: data.nameInput,
     modulesInput: data.modulesInput,
+    iconInput: data.iconInput,
     hasUnsavedChanges: data.hasUnsavedChanges,
     canSaveProfile: data.canSaveProfile,
     profiles: data.profiles,

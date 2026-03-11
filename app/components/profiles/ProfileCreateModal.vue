@@ -1,12 +1,16 @@
 <script setup lang="ts">
+import { DEFAULT_PROFILE_ICON, PROFILE_ICONS } from '../../utils/profile-icons'
+
 defineProps<{
   open: boolean
   loading: boolean
   name: string
+  icon: string
 }>()
 
 const emit = defineEmits<{
   (e: 'update:name', value: string): void
+  (e: 'update:icon', value: string): void
   (e: 'close' | 'confirm'): void
 }>()
 </script>
@@ -35,6 +39,34 @@ const emit = defineEmits<{
           autofocus
           @update:model-value="emit('update:name', String($event ?? ''))"
         />
+      </div>
+
+      <div class="mt-4">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
+          Icono del perfil
+        </p>
+        <div class="mt-2 grid grid-cols-4 gap-2 sm:grid-cols-6">
+          <button
+            v-for="option in PROFILE_ICONS"
+            :key="option.icon"
+            type="button"
+            class="flex items-center justify-center rounded-xl border p-2 transition"
+            :class="icon === option.icon
+              ? 'border-emerald-400 bg-emerald-50 text-emerald-700'
+              : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'"
+            :disabled="loading"
+            @click="emit('update:icon', option.icon)"
+          >
+            <UIcon
+              :name="option.icon"
+              class="h-5 w-5"
+            />
+          </button>
+        </div>
+        <div class="mt-2 text-xs text-slate-500">
+          <span class="font-semibold text-slate-600">Actual:</span>
+          <UIcon :name="icon || DEFAULT_PROFILE_ICON" class="ml-1 inline-block h-4 w-4" />
+        </div>
       </div>
 
       <div class="mt-3 flex flex-wrap gap-2">

@@ -4,6 +4,7 @@ export type ProfileDocument = {
   _id: mongoose.Types.ObjectId
   name: string
   avatarColor: string
+  avatarIcon?: string
   modules?: string[]
   hiddenIncomeDefaults: string[]
   hiddenExpenseDefaults: string[]
@@ -25,6 +26,7 @@ const ProfileSchema = new Schema<ProfileDocument>(
   {
     name: { type: String, required: true, trim: true },
     avatarColor: { type: String, required: true, trim: true },
+    avatarIcon: { type: String, trim: true },
     modules: { type: [String] },
     hiddenIncomeDefaults: { type: [String], default: [] },
     hiddenExpenseDefaults: { type: [String], default: [] },

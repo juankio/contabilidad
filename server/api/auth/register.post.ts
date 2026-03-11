@@ -5,12 +5,14 @@ import { UserModel } from '../../models/user'
 import { hashPassword, setAuthCookie, signAuthToken } from '../../utils/auth'
 import { serializeProfilesFromCategoryStore } from '../../utils/serialize'
 import { normalizeModules } from '../../utils/modules'
+import { normalizeProfileIcon } from '../../utils/profile-icons'
 
 const payloadSchema = z.object({
   email: z.string().email().transform(value => value.toLowerCase().trim()),
   password: z.string().min(8),
   profileName: z.string().min(2).max(32),
-  modules: z.array(z.string()).optional()
+  modules: z.array(z.string()).optional(),
+  avatarIcon: z.string().min(1).max(64).optional()
 })
 
 export default defineEventHandler(async (event) => {
@@ -31,10 +33,11 @@ export default defineEventHandler(async (event) => {
 
   const profileName = body.data.profileName.trim()
   const modules = normalizeModules(body.data.modules)
+  const avatarIcon = normalizeProfileIcon(body.data.avatarIcon)
   const user = await UserModel.create({
     email: body.data.email,
     passwordHash,
-    profiles: [{ name: profileName, avatarColor, modules }]
+    profiles: [{ name: profileName, avatarColor, avatarIcon, modules }]
   })
   user.activeProfileId = user.profiles[0]?._id ?? null
   await user.save()

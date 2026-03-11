@@ -18,6 +18,7 @@ const hasSameItems = (left: string[] | undefined, right: string[] | undefined) =
 export function useProfilePageData() {
   const profile = useProfile()
   const nameInput = ref('')
+  const iconInput = ref('i-lucide-user')
   const hiddenIncomeDefaultsInput = ref<string[]>([])
   const hiddenExpenseDefaultsInput = ref<string[]>([])
   const hiddenIncomeCustomsInput = ref<string[]>([])
@@ -33,6 +34,9 @@ export function useProfilePageData() {
   }
   watch(profile.activeProfileName, (value) => {
     nameInput.value = value ?? ''
+  }, { immediate: true })
+  watch(profile.activeProfileIcon, (value) => {
+    iconInput.value = value ?? 'i-lucide-user'
   }, { immediate: true })
   syncList(profile.activeHiddenIncomeDefaults, hiddenIncomeDefaultsInput)
   syncList(profile.activeHiddenExpenseDefaults, hiddenExpenseDefaultsInput)
@@ -59,13 +63,15 @@ export function useProfilePageData() {
   const hasModulesChanged = computed(() =>
     !hasSameItems(modulesInput.value, profile.activeModules.value)
   )
+  const hasIconChanged = computed(() => iconInput.value !== profile.activeProfileIcon.value)
 
   const hasUnsavedChanges = computed(() => hasNameChanged.value
     || hasHiddenIncomeChanged.value
     || hasHiddenExpenseChanged.value
     || hasHiddenIncomeCustomsChanged.value
     || hasHiddenExpenseCustomsChanged.value
-    || hasModulesChanged.value)
+    || hasModulesChanged.value
+    || hasIconChanged.value)
   const canSaveProfile = computed(() =>
     Boolean(profile.activeProfileId.value)
     && normalizedNameInput.value.length >= 2
@@ -77,6 +83,7 @@ export function useProfilePageData() {
     if (!canSaveProfile.value) return false
     const ok = await profile.updateProfileSettings({
       name: normalizedNameInput.value,
+      avatarIcon: iconInput.value,
       modules: modulesInput.value,
       hiddenIncomeDefaults: hiddenIncomeDefaultsInput.value,
       hiddenExpenseDefaults: hiddenExpenseDefaultsInput.value,
@@ -94,6 +101,7 @@ export function useProfilePageData() {
   return {
     ...profile,
     nameInput,
+    iconInput,
     hiddenIncomeDefaultsInput,
     hiddenExpenseDefaultsInput,
     hiddenIncomeCustomsInput,

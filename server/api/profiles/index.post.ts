@@ -5,11 +5,13 @@ import { requireUser } from '../../utils/auth'
 import { UserModel } from '../../models/user'
 import { serializeProfilesFromCategoryStore } from '../../utils/serialize'
 import { normalizeModules } from '../../utils/modules'
+import { normalizeProfileIcon } from '../../utils/profile-icons'
 
 const payloadSchema = z.object({
   name: z.string().min(2).max(32),
   avatarColor: z.string().regex(/^#([0-9a-fA-F]{6})$/).optional(),
-  modules: z.array(z.string()).optional()
+  modules: z.array(z.string()).optional(),
+  avatarIcon: z.string().min(1).max(64).optional()
 })
 
 export default defineEventHandler(async (event) => {
@@ -23,9 +25,10 @@ export default defineEventHandler(async (event) => {
 
   const avatarColor = body.data.avatarColor || pickAvatarColor(body.data.name)
   const modules = normalizeModules(body.data.modules)
+  const avatarIcon = normalizeProfileIcon(body.data.avatarIcon)
   const updated = await UserModel.findByIdAndUpdate(
     user._id,
-    { $push: { profiles: { name: body.data.name, avatarColor, modules } } },
+    { $push: { profiles: { name: body.data.name, avatarColor, avatarIcon, modules } } },
     { new: true }
   ).lean()
 

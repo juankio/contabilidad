@@ -11,11 +11,13 @@ import {
   normalizeDefaultVisibility
 } from '../../utils/profile-categories'
 import { normalizeModules } from '../../utils/modules'
+import { normalizeProfileIcon } from '../../utils/profile-icons'
 
 const payloadSchema = z.object({
   name: z.string().min(2).max(32).optional(),
   avatarColor: z.string().regex(/^#([0-9a-fA-F]{6})$/).optional(),
   modules: z.array(z.string()).optional(),
+  avatarIcon: z.string().min(1).max(64).optional(),
   hiddenIncomeDefaults: z.array(z.string()).optional(),
   hiddenExpenseDefaults: z.array(z.string()).optional(),
   hiddenIncomeCustoms: z.array(z.string()).optional(),
@@ -38,6 +40,7 @@ export default defineEventHandler(async (event) => {
   const update: Record<string, string | string[]> = {}
   if (body.data.name) update['profiles.$.name'] = body.data.name
   if (body.data.avatarColor) update['profiles.$.avatarColor'] = body.data.avatarColor
+  if (body.data.avatarIcon) update['profiles.$.avatarIcon'] = normalizeProfileIcon(body.data.avatarIcon)
   if (body.data.modules) {
     update['profiles.$.modules'] = normalizeModules(body.data.modules)
   }

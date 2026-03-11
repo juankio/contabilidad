@@ -6,6 +6,7 @@ import { setAuthCookie, signAuthToken } from '../../utils/auth'
 import { connectMongoose } from '../../utils/mongoose'
 import { serializeProfilesFromCategoryStore } from '../../utils/serialize'
 import { DEFAULT_OPTIONAL_MODULES } from '../../utils/modules'
+import { DEFAULT_PROFILE_ICON } from '../../utils/profile-icons'
 
 const payloadSchema = z.object({
   credential: z.string().min(1)
@@ -67,6 +68,7 @@ export default defineEventHandler(async (event) => {
       profiles: [{
         name: profileName.slice(0, 32),
         avatarColor: pickAvatarColor(email),
+        avatarIcon: DEFAULT_PROFILE_ICON,
         modules: DEFAULT_OPTIONAL_MODULES
       }]
     })
