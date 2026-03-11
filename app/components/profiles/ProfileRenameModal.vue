@@ -13,6 +13,8 @@ const emit = defineEmits<{
   (e: 'update:icon', value: string): void
   (e: 'close' | 'confirm'): void
 }>()
+
+const iconPickerOpen = ref(false)
 </script>
 
 <template>
@@ -46,7 +48,11 @@ const emit = defineEmits<{
           Icono del perfil
         </p>
         <div class="mt-2">
-          <UPopover :disabled="loading">
+          <UPopover
+            v-model:open="iconPickerOpen"
+            :disabled="loading"
+            :content="{ side: 'bottom', align: 'start', sideOffset: 8 }"
+          >
             <UButton
               color="neutral"
               variant="outline"
@@ -62,8 +68,8 @@ const emit = defineEmits<{
             </UButton>
 
             <template #content>
-              <div class="w-64 p-3">
-                <div class="grid grid-cols-6 gap-2">
+              <div class="w-72 p-3">
+                <div class="grid max-h-56 grid-cols-6 gap-2 overflow-y-auto pr-1">
                   <button
                     v-for="option in PROFILE_ICONS"
                     :key="option.icon"
@@ -72,7 +78,10 @@ const emit = defineEmits<{
                     :class="icon === option.icon
                       ? 'border-emerald-400 bg-emerald-50 text-emerald-700'
                       : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'"
-                    @click="emit('update:icon', option.icon)"
+                    @click="
+                      emit('update:icon', option.icon);
+                      iconPickerOpen = false
+                    "
                   >
                     <UIcon
                       :name="option.icon"
