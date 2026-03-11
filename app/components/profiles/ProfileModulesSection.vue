@@ -49,7 +49,7 @@ const setModule = (key: OptionalModuleKey, value: boolean, current: string[]) =>
         :description="module.description"
         :model-value="selectedModules.includes(module.key)"
         :disabled="loading"
-        @update:model-value="setModule(module.key, $event, selectedModules)"
+        @update:model-value="setModule(module.key, Boolean($event), selectedModules)"
       />
     </div>
   </section>

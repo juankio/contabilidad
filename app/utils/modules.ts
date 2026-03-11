@@ -20,6 +20,10 @@ export type ModuleDefinition = {
   alwaysActive?: boolean
 }
 
+export type OptionalModuleDefinition = Omit<ModuleDefinition, 'key'> & {
+  key: OptionalModuleKey
+}
+
 export const MODULES: ModuleDefinition[] = [
   {
     key: 'contabilidad',
@@ -63,7 +67,9 @@ export const MODULES: ModuleDefinition[] = [
   }
 ]
 
-export const OPTIONAL_MODULES = MODULES.filter(module => !module.alwaysActive)
+export const OPTIONAL_MODULES = MODULES.filter(
+  module => !module.alwaysActive
+) as OptionalModuleDefinition[]
 
 export const DEFAULT_OPTIONAL_MODULES: OptionalModuleKey[] = ['prestamos']
 
