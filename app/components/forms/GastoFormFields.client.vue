@@ -31,9 +31,9 @@ const {
       for-id="descripcion"
     >
       <UInput
-        class="w-full min-w-0"
         id="descripcion"
         v-model="form.description"
+        class="w-full min-w-0"
         type="text"
         placeholder="Ej: Supermercado"
         size="lg"
@@ -45,9 +45,9 @@ const {
       for-id="monto"
     >
       <UInput
-        class="w-full min-w-0"
         id="monto"
         v-model="amountInput"
+        class="w-full min-w-0"
         type="text"
         inputmode="numeric"
         placeholder="0"
@@ -60,9 +60,9 @@ const {
       for-id="categoria"
     >
       <USelect
-        class="w-full min-w-0"
         id="categoria"
         v-model="form.category"
+        class="w-full min-w-0"
         :items="categories"
         size="lg"
       />

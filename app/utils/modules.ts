@@ -1,9 +1,9 @@
 export type OptionalModuleKey
   = 'prestamos'
-  | 'reportes'
-  | 'catalogo-tienda'
-  | 'catalogo-postres'
-  | 'granja-cerdos'
+    | 'reportes'
+    | 'catalogo-tienda'
+    | 'catalogo-postres'
+    | 'granja-cerdos'
 
 export type ModuleKey = 'contabilidad' | OptionalModuleKey
 
