@@ -9,8 +9,7 @@ defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'update:name', value: string): void
-  (e: 'update:icon', value: string): void
+  (e: 'update:name' | 'update:icon', value: string): void
   (e: 'close' | 'confirm'): void
 }>()
 </script>
@@ -65,7 +64,10 @@ const emit = defineEmits<{
         </div>
         <div class="mt-2 text-xs text-slate-500">
           <span class="font-semibold text-slate-600">Actual:</span>
-          <UIcon :name="icon || DEFAULT_PROFILE_ICON" class="ml-1 inline-block h-4 w-4" />
+          <UIcon
+            :name="icon || DEFAULT_PROFILE_ICON"
+            class="ml-1 inline-block h-4 w-4"
+          />
         </div>
       </div>
 

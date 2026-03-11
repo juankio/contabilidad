@@ -10,14 +10,6 @@ const emit = defineEmits<{
   (e: 'update:selectedModules', value: string[]): void
 }>()
 
-const toggleModule = (key: OptionalModuleKey, current: string[]) => {
-  if (current.includes(key)) {
-    emit('update:selectedModules', current.filter(item => item !== key))
-    return
-  }
-  emit('update:selectedModules', [...current, key])
-}
-
 const setModule = (key: OptionalModuleKey, value: boolean, current: string[]) => {
   if (value) {
     if (!current.includes(key)) {

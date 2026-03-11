@@ -9,8 +9,7 @@ defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'update:name', value: string): void
-  (e: 'update:icon', value: string): void
+  (e: 'update:name' | 'update:icon', value: string): void
   (e: 'close' | 'confirm'): void
 }>()
 

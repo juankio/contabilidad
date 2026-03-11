@@ -1,5 +1,5 @@
-export type OptionalModuleKey =
-  | 'prestamos'
+export type OptionalModuleKey
+  = 'prestamos'
   | 'reportes'
   | 'catalogo-tienda'
   | 'catalogo-postres'
