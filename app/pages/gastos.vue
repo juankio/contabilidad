@@ -40,18 +40,16 @@ const {
           @saved="handleGastoSaved"
         />
 
-        <div class="grid min-w-0 gap-6 lg:col-span-8">
-          <StatsCharts class="min-w-0" />
+        <StatsCharts class="min-w-0 lg:col-span-8" />
 
-          <GastosProfilesSummary
-            class="min-w-0"
-            :groups="groupedByProfile"
-            :pending="groupedPending"
-            :error="!!groupedError"
-            :format-currency="formatCurrency"
-            :format-date="formatShortDate"
-          />
-        </div>
+        <GastosProfilesSummary
+          class="min-w-0 lg:col-span-8"
+          :groups="groupedByProfile"
+          :pending="groupedPending"
+          :error="!!groupedError"
+          :format-currency="formatCurrency"
+          :format-date="formatShortDate"
+        />
       </div>
     </section>
   </main>

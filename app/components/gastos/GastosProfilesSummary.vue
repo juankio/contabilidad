@@ -42,7 +42,7 @@ const closeGroupModal = () => {
 <template>
   <div
     v-bind="attrs"
-    class="rounded-3xl bg-white p-5 shadow-sm"
+    class="w-full rounded-3xl bg-white p-5 shadow-sm"
   >
     <div class="mb-4">
       <p class="text-sm font-semibold text-slate-800">
@@ -81,12 +81,12 @@ const closeGroupModal = () => {
         class="rounded-2xl border border-slate-100 p-4"
       >
         <div class="flex items-center justify-between gap-3">
-          <div class="flex min-w-0 items-center gap-2">
+          <div class="flex min-w-0 flex-1 items-center gap-2">
             <span
               class="h-3 w-3 rounded-full"
               :style="{ backgroundColor: group.avatarColor }"
             />
-            <p class="truncate text-sm font-semibold text-slate-800">
+            <p class="break-words text-sm font-semibold text-slate-800">
               {{ group.profileName }}
             </p>
           </div>

@@ -7,7 +7,7 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <div class="rounded-3xl bg-white p-5 shadow-sm lg:col-span-4">
+  <div class="self-start rounded-3xl bg-white p-5 shadow-sm lg:col-span-4">
     <h2 class="text-lg font-semibold">
       Agregar gasto
     </h2>

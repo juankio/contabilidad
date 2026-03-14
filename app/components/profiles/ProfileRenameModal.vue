@@ -26,7 +26,7 @@ const iconPickerOpen = ref(false)
       <h3 class="text-lg font-semibold text-slate-900">
         Cambiar nombre del perfil
       </h3>
-      <p class="mt-1 text-sm text-slate-600">
+      <p class="mt-1 text-sm text-slate-700">
         Confirma el nuevo nombre del perfil activo.
       </p>
 
@@ -37,13 +37,14 @@ const iconPickerOpen = ref(false)
           size="lg"
           maxlength="32"
           placeholder="Nuevo nombre del perfil"
+          aria-label="Nuevo nombre del perfil"
           autofocus
           @update:model-value="emit('update:name', String($event ?? ''))"
         />
       </div>
 
       <div class="mt-4">
-        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-600">
           Icono del perfil
         </p>
         <div class="mt-2">
@@ -59,6 +60,7 @@ const iconPickerOpen = ref(false)
               class="h-9 w-12 justify-center"
               type="button"
               :disabled="loading"
+              aria-label="Seleccionar icono del perfil"
             >
               <UIcon
                 :name="icon || 'i-lucide-user'"
@@ -100,6 +102,7 @@ const iconPickerOpen = ref(false)
           variant="ghost"
           type="button"
           :disabled="loading"
+          aria-label="Cancelar"
           @click="emit('close')"
         >
           Cancelar
@@ -108,6 +111,7 @@ const iconPickerOpen = ref(false)
           color="neutral"
           type="button"
           :disabled="name.trim().length < 2 || name.trim().length > 32"
+          aria-label="Usar este nombre"
           @click="emit('confirm')"
         >
           Usar este nombre

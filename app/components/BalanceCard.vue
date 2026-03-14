@@ -10,7 +10,7 @@ const {
 </script>
 
 <template>
-  <div class="rounded-3xl bg-white p-5 shadow-sm md:col-span-2 lg:col-span-1">
+  <div class="self-start rounded-3xl bg-white p-5 shadow-sm md:col-span-2 lg:col-span-1">
     <div class="flex items-start justify-between">
       <div>
         <p class="text-xs uppercase tracking-[0.2em] text-slate-400">
