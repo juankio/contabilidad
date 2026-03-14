@@ -9,8 +9,8 @@ const showHeader = computed(() => route.path !== '/login')
   <div>
     <AppHeaderMain v-if="showHeader" />
 
-    <main class="min-h-screen">
+    <div class="min-h-screen">
       <slot />
-    </main>
+    </div>
   </div>
 </template>

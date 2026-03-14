@@ -7,7 +7,7 @@ import ProfileEditorPanel from '../components/profiles/ProfileEditorPanel.vue'
     <section class="mx-auto max-w-6xl overflow-x-clip px-4 pb-10 pt-6">
       <div class="grid min-w-0 gap-6 lg:grid-cols-12">
         <header class="rounded-3xl bg-white p-5 shadow-sm lg:col-span-12">
-          <p class="text-xs uppercase tracking-[0.3em] text-slate-400">
+          <p class="text-xs uppercase tracking-[0.3em] text-slate-600">
             Perfil
           </p>
           <h1 class="text-2xl font-semibold text-slate-900">

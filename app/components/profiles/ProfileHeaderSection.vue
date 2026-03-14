@@ -77,7 +77,7 @@ const emit = defineEmits<{
     </p>
     <p
       v-if="!canDeleteProfiles"
-      class="mt-1 text-xs text-slate-400"
+      class="mt-1 text-xs text-slate-600"
     >
       Debes mantener al menos un perfil.
     </p>

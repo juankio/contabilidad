@@ -13,7 +13,7 @@ const {
   <div class="self-start rounded-3xl bg-white p-5 shadow-sm md:col-span-2 lg:col-span-1">
     <div class="flex items-start justify-between">
       <div>
-        <p class="text-xs uppercase tracking-[0.2em] text-slate-400">
+        <p class="text-xs uppercase tracking-[0.2em] text-slate-600">
           Balance mensual
         </p>
         <h1 class="mt-2 text-2xl font-semibold">
@@ -48,7 +48,7 @@ const {
       </div>
       <template v-else>
         <div class="rounded-2xl bg-emerald-50 px-4 py-3">
-          <p class="text-xs uppercase tracking-[0.2em] text-emerald-500">
+          <p class="text-xs uppercase tracking-[0.2em] text-emerald-600">
             Ingresos
           </p>
           <p class="mt-1 text-xl font-semibold text-emerald-700">
@@ -56,7 +56,7 @@ const {
           </p>
         </div>
         <div class="rounded-2xl bg-amber-50 px-4 py-3">
-          <p class="text-xs uppercase tracking-[0.2em] text-amber-500">
+          <p class="text-xs uppercase tracking-[0.2em] text-amber-600">
             Gastos
           </p>
           <p class="mt-1 text-xl font-semibold text-amber-700">

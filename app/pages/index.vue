@@ -24,7 +24,7 @@ const goToProfile = async () => {
     <section class="mx-auto max-w-6xl px-4 pb-10 pt-6">
       <header class="mb-6 flex flex-wrap items-center justify-between gap-4 rounded-2xl bg-white/80 p-4 shadow-sm">
         <div>
-          <p class="text-xs uppercase tracking-[0.3em] text-slate-400">
+          <p class="text-xs uppercase tracking-[0.3em] text-slate-600">
             Panel
           </p>
           <h1 class="text-2xl font-semibold text-slate-900">

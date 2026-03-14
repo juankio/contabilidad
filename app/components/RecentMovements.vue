@@ -45,7 +45,7 @@ const {
         Ultimos movimientos
       </h2>
       <button
-        class="text-xs font-semibold text-emerald-600 disabled:cursor-not-allowed disabled:text-slate-400"
+        class="text-xs font-semibold text-emerald-600 disabled:cursor-not-allowed disabled:text-slate-500"
         :disabled="!movimientos?.length"
         @click="showAllModal = true"
       >
@@ -82,7 +82,7 @@ const {
             <p class="text-sm font-semibold">
               {{ movimiento.description }}
             </p>
-            <p class="text-xs text-slate-400">
+            <p class="text-xs text-slate-600">
               {{ movimiento.category }} · {{ formatShortDate(movimiento.date) }}
             </p>
           </div>
@@ -126,7 +126,7 @@ const {
             <p class="text-sm font-semibold">
               {{ movimiento.description }}
             </p>
-            <p class="text-xs text-slate-400">
+            <p class="text-xs text-slate-600">
               {{ movimiento.category }} · {{ formatShortDate(movimiento.date) }}
             </p>
           </div>

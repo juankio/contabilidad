@@ -8,7 +8,7 @@ definePageMeta({
   <main class="min-h-screen bg-slate-50 text-slate-900">
     <section class="mx-auto max-w-5xl px-4 pb-10 pt-6">
       <header class="rounded-3xl bg-white p-5 shadow-sm">
-        <p class="text-xs uppercase tracking-[0.3em] text-slate-400">
+        <p class="text-xs uppercase tracking-[0.3em] text-slate-600">
           Modulo
         </p>
         <h1 class="text-2xl font-semibold text-slate-900">

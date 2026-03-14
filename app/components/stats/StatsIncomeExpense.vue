@@ -18,7 +18,7 @@ const { formatCurrency } = useFormatters()
 
 <template>
   <div class="rounded-2xl border border-slate-100 p-4">
-    <p class="text-xs uppercase tracking-[0.2em] text-slate-400">
+  <p class="text-xs uppercase tracking-[0.2em] text-slate-600">
       Ingresos vs gastos
     </p>
     <div class="mt-4 grid gap-4">
@@ -43,7 +43,7 @@ const { formatCurrency } = useFormatters()
         <div class="grid grid-cols-[auto_1fr_auto] items-center gap-2 sm:flex sm:items-center">
           <span class="h-2 w-2 rounded-full bg-emerald-500" />
           <span>Ingresos</span>
-          <span class="text-xs text-slate-400 sm:ml-auto">{{ props.ingresosRatio }}%</span>
+          <span class="text-xs text-slate-600 sm:ml-auto">{{ props.ingresosRatio }}%</span>
           <span class="font-semibold">
             {{ formatCurrency(props.resumen.ingresos) }}
           </span>
@@ -51,7 +51,7 @@ const { formatCurrency } = useFormatters()
         <div class="grid grid-cols-[auto_1fr_auto] items-center gap-2 sm:flex sm:items-center">
           <span class="h-2 w-2 rounded-full bg-amber-500" />
           <span>Gastos</span>
-          <span class="text-xs text-slate-400 sm:ml-auto">{{ props.gastosRatio }}%</span>
+          <span class="text-xs text-slate-600 sm:ml-auto">{{ props.gastosRatio }}%</span>
           <span class="font-semibold">
             {{ formatCurrency(props.resumen.gastos) }}
           </span>

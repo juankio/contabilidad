@@ -15,7 +15,7 @@ const { formatCurrency } = useFormatters()
 
 <template>
   <div class="rounded-2xl border border-slate-100 p-4">
-    <p class="text-xs uppercase tracking-[0.2em] text-slate-400">
+  <p class="text-xs uppercase tracking-[0.2em] text-slate-600">
       Gastos por categoria
     </p>
     <div class="mt-4 grid gap-3">
@@ -46,7 +46,7 @@ const { formatCurrency } = useFormatters()
       </div>
       <div
         v-if="!props.categorias.length"
-        class="text-sm text-slate-400"
+        class="text-sm text-slate-600"
       >
         Sin gastos registrados.
       </div>

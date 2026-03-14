@@ -41,7 +41,7 @@ const emit = defineEmits<{
       </div>
 
       <div class="mt-4">
-        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-600">
           Icono del perfil
         </p>
         <div class="mt-2 grid grid-cols-4 gap-2 sm:grid-cols-6">

@@ -46,7 +46,7 @@ const {
           <template #leading>
             <UIcon
               name="lucide:mail"
-              class="h-4 w-4 text-slate-400"
+              class="h-4 w-4 text-slate-500"
               aria-hidden="true"
             />
           </template>
@@ -69,7 +69,7 @@ const {
           <template #leading>
             <UIcon
               name="lucide:user"
-              class="h-4 w-4 text-slate-400"
+              class="h-4 w-4 text-slate-500"
               aria-hidden="true"
             />
           </template>
@@ -80,7 +80,7 @@ const {
         v-if="mode === 'register'"
         class="grid gap-2 text-sm text-slate-600"
       >
-        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-600">
           Modulos opcionales
         </p>
         <div class="grid gap-2">
@@ -90,7 +90,7 @@ const {
             class="flex items-start gap-3 rounded-xl border border-slate-200 bg-white px-3 py-2 transition hover:border-slate-300"
           >
             <input
-              class="mt-1 h-4 w-4 rounded border-slate-300 text-emerald-500 focus:ring-emerald-500"
+              class="mt-1 h-4 w-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-600"
               type="checkbox"
               :checked="selectedModules.includes(module.key)"
               @change="toggleModule(module.key)"
@@ -123,7 +123,7 @@ const {
           <template #leading>
             <UIcon
               name="lucide:lock"
-              class="h-4 w-4 text-slate-400"
+              class="h-4 w-4 text-slate-500"
               aria-hidden="true"
             />
           </template>
@@ -167,7 +167,7 @@ const {
         v-if="mode === 'login'"
         class="grid gap-3"
       >
-        <div class="relative text-center text-xs text-slate-400">
+        <div class="relative text-center text-xs text-slate-600">
           <span class="relative z-10 bg-white px-2">o continuar con</span>
           <span class="absolute inset-x-0 top-1/2 block border-t border-slate-200" />
         </div>

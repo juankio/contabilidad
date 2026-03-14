@@ -25,7 +25,7 @@ defineProps<{
         </p>
       </div>
       <div class="rounded-2xl bg-emerald-50 px-4 py-3">
-        <p class="text-xs uppercase tracking-[0.15em] text-emerald-500">
+        <p class="text-xs uppercase tracking-[0.15em] text-emerald-600">
           Recuperado
         </p>
         <p class="mt-1 text-lg font-semibold text-emerald-700">
@@ -33,7 +33,7 @@ defineProps<{
         </p>
       </div>
       <div class="rounded-2xl bg-amber-50 px-4 py-3">
-        <p class="text-xs uppercase tracking-[0.15em] text-amber-500">
+        <p class="text-xs uppercase tracking-[0.15em] text-amber-600">
           Pendiente
         </p>
         <p class="mt-1 text-lg font-semibold text-amber-700">

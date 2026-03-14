@@ -31,7 +31,7 @@ const previewGastos = computed(() => (props.gastos ?? []).slice(0, 3))
         </p>
       </div>
       <button
-        class="text-xs font-semibold text-emerald-600 disabled:cursor-not-allowed disabled:text-slate-400"
+        class="text-xs font-semibold text-emerald-600 disabled:cursor-not-allowed disabled:text-slate-500"
         :disabled="!props.gastos?.length"
         @click="showAllModal = true"
       >

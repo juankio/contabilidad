@@ -26,7 +26,7 @@ definePageMeta({
 
       <div class="mt-6 grid gap-4 md:grid-cols-2">
         <div class="rounded-3xl bg-white p-5 shadow-sm">
-          <p class="text-xs uppercase tracking-[0.2em] text-slate-400">
+          <p class="text-xs uppercase tracking-[0.2em] text-slate-600">
             Resumen
           </p>
           <p class="mt-2 text-lg font-semibold">
@@ -37,7 +37,7 @@ definePageMeta({
           </p>
         </div>
         <div class="rounded-3xl bg-white p-5 shadow-sm">
-          <p class="text-xs uppercase tracking-[0.2em] text-slate-400">
+          <p class="text-xs uppercase tracking-[0.2em] text-slate-600">
             Categorias
           </p>
           <p class="mt-2 text-sm text-slate-500">

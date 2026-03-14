@@ -54,7 +54,7 @@ const emit = defineEmits<{
       </div>
       <p
         v-if="!categories.length"
-        class="text-xs text-slate-400"
+        class="text-xs text-slate-600"
       >
         {{ emptyMessage }}
       </p>
