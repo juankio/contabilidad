@@ -103,7 +103,7 @@ const visibleGroups = computed(() => {
               {{ group.profileName }}
             </p>
           </div>
-          <p class="text-sm font-semibold text-amber-600">
+          <p class="text-sm font-semibold text-amber-700">
             -{{ formatCurrency(group.total) }}
           </p>
         </div>
@@ -117,10 +117,10 @@ const visibleGroups = computed(() => {
             <p class="break-words text-sm font-medium text-slate-800">
               {{ gasto.description }}
             </p>
-            <p class="text-xs text-slate-500">
+            <p class="text-xs text-slate-600">
               {{ gasto.category }} · {{ formatDate(gasto.date) }}
             </p>
-            <p class="mt-1 text-xs font-semibold text-amber-600">
+            <p class="mt-1 text-xs font-semibold text-amber-700">
               -{{ formatCurrency(gasto.amount) }}
             </p>
           </div>

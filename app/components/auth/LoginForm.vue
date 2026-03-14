@@ -99,13 +99,13 @@ const {
               <span class="block text-sm font-semibold text-slate-700">
                 {{ module.label }}
               </span>
-              <span class="block text-xs text-slate-500">
+              <span class="block text-xs text-slate-600">
                 {{ module.description }}
               </span>
             </span>
           </label>
         </div>
-        <p class="text-xs text-slate-500">
+        <p class="text-xs text-slate-600">
           Puedes activar o desactivar modulos luego en el perfil.
         </p>
       </div>
@@ -181,13 +181,13 @@ const {
 
         <p
           v-else
-          class="text-xs text-slate-500"
+          class="text-xs text-slate-600"
         >
           Google login no esta configurado (falta GOOGLE_CLIENT_ID).
         </p>
       </div>
 
-      <p class="text-xs text-slate-500">
+      <p class="text-xs text-slate-600">
         Al continuar aceptas que este es un acceso privado.
       </p>
     </form>

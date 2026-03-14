@@ -43,7 +43,7 @@ defineProps<{
             <span class="font-medium text-slate-900">
               {{ prestamo.borrower }}
             </span>
-            <p class="text-xs text-slate-500">
+            <p class="text-xs text-slate-600">
               {{ paymentPlanLabel(prestamo.paymentPlan, prestamo.installmentsCount) }}
               <span v-if="prestamo.collectionDate"> · Cobro: {{ formatShortDate(prestamo.collectionDate) }}</span>
             </p>

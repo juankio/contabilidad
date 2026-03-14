@@ -62,7 +62,7 @@ const emit = defineEmits<{
             />
           </button>
         </div>
-        <div class="mt-2 text-xs text-slate-500">
+        <div class="mt-2 text-xs text-slate-600">
           <span class="font-semibold text-slate-600">Actual:</span>
           <UIcon
             :name="icon || DEFAULT_PROFILE_ICON"

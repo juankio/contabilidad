@@ -48,7 +48,7 @@ const closeGroupModal = () => {
       <p class="text-sm font-semibold text-slate-800">
         Resumen por perfil
       </p>
-      <p class="text-xs text-slate-500">
+      <p class="text-xs text-slate-600">
         Totales de gastos de cada perfil activo.
       </p>
     </div>
@@ -90,14 +90,14 @@ const closeGroupModal = () => {
               {{ group.profileName }}
             </p>
           </div>
-          <p class="shrink-0 whitespace-nowrap text-sm font-semibold text-amber-600">
+          <p class="shrink-0 whitespace-nowrap text-sm font-semibold text-amber-700">
             -{{ props.formatCurrency(group.total) }}
           </p>
         </div>
 
         <div class="mt-3 grid grid-cols-2 gap-2 text-xs">
           <div class="rounded-xl bg-slate-50 px-3 py-2">
-            <p class="text-[11px] leading-tight text-slate-500">
+            <p class="text-[11px] leading-tight text-slate-600">
               Movimientos
             </p>
             <p class="mt-1 font-semibold text-slate-800">
@@ -105,7 +105,7 @@ const closeGroupModal = () => {
             </p>
           </div>
           <div class="rounded-xl bg-slate-50 px-3 py-2">
-            <p class="text-[11px] leading-tight text-slate-500">
+            <p class="text-[11px] leading-tight text-slate-600">
               Ultimo gasto
             </p>
             <p class="mt-1 font-semibold text-slate-800">
@@ -138,7 +138,7 @@ const closeGroupModal = () => {
           <p class="truncate text-lg font-semibold text-slate-900">
             Movimientos de {{ selectedGroup.profileName }}
           </p>
-          <p class="text-xs text-slate-500">
+          <p class="text-xs text-slate-600">
             {{ selectedGroup.gastos.length }} gastos registrados
           </p>
         </div>
@@ -161,11 +161,11 @@ const closeGroupModal = () => {
               <p class="break-words text-sm font-semibold text-slate-800">
                 {{ gasto.description }}
               </p>
-              <p class="mt-1 text-xs text-slate-500">
+              <p class="mt-1 text-xs text-slate-600">
                 {{ gasto.category }} · {{ props.formatDate(gasto.date) }}
               </p>
             </div>
-            <p class="shrink-0 whitespace-nowrap text-sm font-semibold text-amber-600">
+            <p class="shrink-0 whitespace-nowrap text-sm font-semibold text-amber-700">
               -{{ props.formatCurrency(gasto.amount) }}
             </p>
           </div>

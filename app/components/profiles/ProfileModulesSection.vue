@@ -35,7 +35,7 @@ const setModule = (key: OptionalModuleKey, value: boolean, current: string[]) =>
       </p>
     </div>
 
-    <p class="mt-2 text-xs text-slate-500">
+    <p class="mt-2 text-xs text-slate-600">
       Activa solo los modulos que uses en tu negocio.
     </p>
 

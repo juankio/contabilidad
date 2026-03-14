@@ -72,7 +72,7 @@ const emit = defineEmits<{
       </UButton>
     </div>
 
-    <p class="mt-2 text-xs text-slate-500">
+    <p class="mt-2 text-xs text-slate-600">
       Antes de crear o eliminar, te pediremos confirmacion.
     </p>
     <p

@@ -21,6 +21,8 @@ const collectionDateValue = defineModel<unknown | null>('collectionDateValue', {
         { label: 'Cuotas', value: 'installments' }
       ]"
       size="lg"
+      placeholder="Selecciona un tipo de cobro"
+      :aria-label="paymentPlan === 'installments' ? 'Cuotas' : 'Pago unico'"
     />
   </FormField>
 

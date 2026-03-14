@@ -26,7 +26,7 @@ const { formatCurrency } = useFormatters()
         class="rounded-xl bg-slate-50 p-3"
       >
         <div class="mb-2 flex items-center justify-between">
-          <span class="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">{{ row.month }}</span>
+          <span class="text-xs font-semibold uppercase tracking-[0.14em] text-slate-600">{{ row.month }}</span>
           <span
             class="text-xs font-semibold"
             :class="row.ingresos - row.gastos >= 0 ? 'text-emerald-700' : 'text-rose-600'"
@@ -37,7 +37,7 @@ const { formatCurrency } = useFormatters()
 
         <div class="space-y-2">
           <div>
-            <div class="mb-1 flex items-center justify-between text-[11px] text-slate-500">
+            <div class="mb-1 flex items-center justify-between text-[11px] text-slate-600">
               <span class="flex items-center gap-1">
                 <span class="h-2 w-2 rounded-full bg-emerald-500" />
                 Ingresos
@@ -53,7 +53,7 @@ const { formatCurrency } = useFormatters()
           </div>
 
           <div>
-            <div class="mb-1 flex items-center justify-between text-[11px] text-slate-500">
+            <div class="mb-1 flex items-center justify-between text-[11px] text-slate-600">
               <span class="flex items-center gap-1">
                 <span class="h-2 w-2 rounded-full bg-amber-500" />
                 Gastos
@@ -78,7 +78,7 @@ const { formatCurrency } = useFormatters()
         class="rounded-xl border border-slate-100 p-3"
       >
         <div class="mb-2 flex items-center justify-between">
-          <span class="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">{{ row.month }}</span>
+          <span class="text-xs font-semibold uppercase tracking-[0.12em] text-slate-600">{{ row.month }}</span>
           <span
             class="text-xs font-semibold"
             :class="row.ingresos - row.gastos >= 0 ? 'text-emerald-700' : 'text-rose-600'"
@@ -89,7 +89,7 @@ const { formatCurrency } = useFormatters()
 
         <div class="space-y-2">
           <div>
-            <div class="mb-1 flex items-center justify-between text-[11px] text-slate-500">
+            <div class="mb-1 flex items-center justify-between text-[11px] text-slate-600">
               <span class="flex items-center gap-1">
                 <span class="h-2 w-2 rounded-full bg-emerald-500" />
                 Ingresos
@@ -105,7 +105,7 @@ const { formatCurrency } = useFormatters()
           </div>
 
           <div>
-            <div class="mb-1 flex items-center justify-between text-[11px] text-slate-500">
+            <div class="mb-1 flex items-center justify-between text-[11px] text-slate-600">
               <span class="flex items-center gap-1">
                 <span class="h-2 w-2 rounded-full bg-amber-500" />
                 Gastos
@@ -129,7 +129,7 @@ const { formatCurrency } = useFormatters()
         :key="`desktop-${row.month}`"
         class="grid grid-cols-[32px_1fr] items-center gap-2 sm:grid-cols-[40px_1fr] sm:gap-3"
       >
-        <span class="text-xs text-slate-500">{{ row.month }}</span>
+        <span class="text-xs text-slate-600">{{ row.month }}</span>
         <div class="flex items-end gap-2">
           <div
             class="h-10 w-4 rounded-full bg-emerald-500/80"
@@ -141,12 +141,12 @@ const { formatCurrency } = useFormatters()
             :style="{ height: `${(row.gastos / props.maxValue) * 40 + 6}px` }"
             title="Gastos"
           />
-          <span class="ml-1 text-xs text-slate-500 sm:ml-2">
+          <span class="ml-1 text-xs text-slate-600 sm:ml-2">
             {{ formatCurrency(row.ingresos - row.gastos) }}
           </span>
         </div>
       </div>
-      <div class="mt-2 flex items-center gap-4 text-xs text-slate-500">
+      <div class="mt-2 flex items-center gap-4 text-xs text-slate-600">
         <span class="flex items-center gap-2">
           <span class="h-2 w-2 rounded-full bg-emerald-500" />
           Ingresos

@@ -15,7 +15,7 @@ const { formatCurrency } = useFormatters()
 
 <template>
   <div class="rounded-2xl border border-slate-100 p-4">
-  <p class="text-xs uppercase tracking-[0.2em] text-slate-600">
+    <p class="text-xs uppercase tracking-[0.2em] text-slate-600">
       Gastos por categoria
     </p>
     <div class="mt-4 grid gap-3">

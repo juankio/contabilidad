@@ -27,7 +27,7 @@ const emit = defineEmits<{
       v-if="profiles.length > 1"
       class="rounded-xl bg-slate-50 p-2"
     >
-      <p class="mb-2 px-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">
+      <p class="mb-2 px-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-600">
         Perfil activo
       </p>
       <div class="overflow-x-auto pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">

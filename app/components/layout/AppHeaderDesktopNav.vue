@@ -24,6 +24,9 @@ const { profileItems, profileSelection, switchingProfile, menuItems } = toRefs(p
 const activeProfileIcon = computed(() =>
   props.profileItems.find(item => item.value === props.profileSelection)?.icon
 )
+const activeProfileLabel = computed(() =>
+  props.profileItems.find(item => item.value === props.profileSelection)?.label
+)
 </script>
 
 <template>
@@ -36,6 +39,8 @@ const activeProfileIcon = computed(() =>
       label-key="label"
       size="sm"
       class="w-60"
+      placeholder="Selecciona un perfil"
+      :aria-label="activeProfileLabel || 'Selecciona un perfil'"
       :loading="switchingProfile"
       @update:model-value="emit('selectProfile', $event as string)"
     >

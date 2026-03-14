@@ -48,7 +48,7 @@ const {
       </div>
       <template v-else>
         <div class="rounded-2xl bg-emerald-50 px-4 py-3">
-          <p class="text-xs uppercase tracking-[0.2em] text-emerald-600">
+          <p class="text-xs uppercase tracking-[0.2em] text-emerald-700">
             Ingresos
           </p>
           <p class="mt-1 text-xl font-semibold text-emerald-700">
@@ -56,7 +56,7 @@ const {
           </p>
         </div>
         <div class="rounded-2xl bg-amber-50 px-4 py-3">
-          <p class="text-xs uppercase tracking-[0.2em] text-amber-600">
+          <p class="text-xs uppercase tracking-[0.2em] text-amber-700">
             Gastos
           </p>
           <p class="mt-1 text-xl font-semibold text-amber-700">

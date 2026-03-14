@@ -45,7 +45,7 @@ const {
         Ultimos movimientos
       </h2>
       <button
-        class="text-xs font-semibold text-emerald-600 disabled:cursor-not-allowed disabled:text-slate-500"
+        class="text-xs font-semibold text-emerald-600 disabled:cursor-not-allowed disabled:text-slate-600"
         :disabled="!movimientos?.length"
         @click="showAllModal = true"
       >
@@ -88,7 +88,7 @@ const {
           </div>
           <p
             class="text-sm font-semibold"
-            :class="movimiento.type === 'Ingreso' ? 'text-emerald-600' : 'text-amber-600'"
+            :class="movimiento.type === 'Ingreso' ? 'text-emerald-700' : 'text-amber-700'"
           >
             {{ movimiento.type === 'Ingreso' ? '+' : '-' }}
             {{ formatCurrency(movimiento.amount) }}
@@ -133,7 +133,7 @@ const {
           <div class="flex items-center gap-2">
             <p
               class="text-sm font-semibold"
-              :class="movimiento.type === 'Ingreso' ? 'text-emerald-600' : 'text-amber-600'"
+              :class="movimiento.type === 'Ingreso' ? 'text-emerald-700' : 'text-amber-700'"
             >
               {{ movimiento.type === 'Ingreso' ? '+' : '-' }}
               {{ formatCurrency(movimiento.amount) }}

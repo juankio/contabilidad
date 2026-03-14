@@ -25,13 +25,13 @@ const emit = defineEmits<{
       <p class=" text-2xl font-semibold text-slate-900">
         {{ profileName || 'Sin nombre' }}
       </p>
-      <p class="mt-2 text-xs text-slate-500">
+      <p class="mt-2 text-xs text-slate-600">
         Este perfil se usa para registrar y agrupar tus movimientos.
       </p>
     </div>
 
     <div class="mt-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-      <p class="text-xs text-slate-500">
+      <p class="text-xs text-slate-600">
         Te pediremos confirmacion antes de cambiar el nombre.
       </p>
       <UButton

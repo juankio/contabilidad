@@ -18,7 +18,7 @@ const { formatCurrency } = useFormatters()
 
 <template>
   <div class="rounded-2xl border border-slate-100 p-4">
-  <p class="text-xs uppercase tracking-[0.2em] text-slate-600">
+    <p class="text-xs uppercase tracking-[0.2em] text-slate-600">
       Ingresos vs gastos
     </p>
     <div class="mt-4 grid gap-4">
@@ -35,7 +35,7 @@ const { formatCurrency } = useFormatters()
             />
           </div>
         </div>
-        <p class="text-xs text-slate-500">
+        <p class="text-xs text-slate-600">
           {{ props.resumen.month }}
         </p>
       </div>

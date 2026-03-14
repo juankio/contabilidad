@@ -65,6 +65,8 @@ const {
         class="w-full min-w-0"
         :items="categories"
         size="lg"
+        placeholder="Selecciona una categoria"
+        :aria-label="form.category || 'Selecciona una categoria'"
       />
       <UInput
         v-model="newCategoryInput"
@@ -74,7 +76,7 @@ const {
         placeholder="Nueva categoria (opcional)"
         size="lg"
       />
-      <p class="mt-1 break-words text-xs text-slate-500">
+      <p class="mt-1 break-words text-xs text-slate-600">
         Si escribes una categoria nueva, se guarda en el gasto y queda disponible para este perfil.
       </p>
     </FormField>

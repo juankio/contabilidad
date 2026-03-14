@@ -26,12 +26,12 @@ const previewGastos = computed(() => (props.gastos ?? []).slice(0, 3))
         <p class="text-sm font-semibold text-slate-800">
           Gastos recientes
         </p>
-        <p class="text-xs text-slate-500">
+        <p class="text-xs text-slate-600">
           Perfil activo
         </p>
       </div>
       <button
-        class="text-xs font-semibold text-emerald-600 disabled:cursor-not-allowed disabled:text-slate-500"
+        class="text-xs font-semibold text-emerald-600 disabled:cursor-not-allowed disabled:text-slate-600"
         :disabled="!props.gastos?.length"
         @click="showAllModal = true"
       >
@@ -69,14 +69,14 @@ const previewGastos = computed(() => (props.gastos ?? []).slice(0, 3))
               <p class="text-sm font-semibold text-slate-800">
                 {{ gasto.description }}
               </p>
-              <p class="mt-1 text-xs text-slate-500">
+              <p class="mt-1 text-xs text-slate-600">
                 {{ gasto.category }} · {{ props.formatDate(gasto.date) }}
               </p>
               <span class="mt-2 inline-flex items-center rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-amber-700">
                 Gasto
               </span>
             </div>
-            <p class="shrink-0 whitespace-nowrap text-sm font-semibold text-amber-600">
+            <p class="shrink-0 whitespace-nowrap text-sm font-semibold text-amber-700">
               -{{ props.formatCurrency(gasto.amount) }}
             </p>
           </div>
@@ -114,11 +114,11 @@ const previewGastos = computed(() => (props.gastos ?? []).slice(0, 3))
               <p class="text-sm font-semibold text-slate-800">
                 {{ gasto.description }}
               </p>
-              <p class="mt-1 text-xs text-slate-500">
+              <p class="mt-1 text-xs text-slate-600">
                 {{ gasto.category }} · {{ props.formatDate(gasto.date) }}
               </p>
             </div>
-            <p class="shrink-0 whitespace-nowrap text-sm font-semibold text-amber-600">
+            <p class="shrink-0 whitespace-nowrap text-sm font-semibold text-amber-700">
               -{{ props.formatCurrency(gasto.amount) }}
             </p>
           </div>

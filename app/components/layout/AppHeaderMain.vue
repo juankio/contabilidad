@@ -81,7 +81,7 @@ const menuItems = computed<NavigationMenuItem[]>(() => navItems.value.map((item)
         size="md"
         square
         :icon="open ? 'i-lucide-x' : 'i-lucide-align-right'"
-        aria-label="Abrir menu"
+        :aria-label="open ? 'Cerrar menu' : 'Abrir menu'"
         :ui="{
           base: 'rounded-xl ring-1 ring-slate-200/80 shadow-sm transition-all',
           leadingIcon: 'size-5'

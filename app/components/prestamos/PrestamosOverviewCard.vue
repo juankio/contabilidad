@@ -17,7 +17,7 @@ defineProps<{
     </p>
     <div class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
       <div class="rounded-2xl bg-slate-100 px-4 py-3">
-        <p class="text-xs uppercase tracking-[0.15em] text-slate-500">
+        <p class="text-xs uppercase tracking-[0.15em] text-slate-600">
           Prestado
         </p>
         <p class="mt-1 text-lg font-semibold text-slate-900">
@@ -25,7 +25,7 @@ defineProps<{
         </p>
       </div>
       <div class="rounded-2xl bg-emerald-50 px-4 py-3">
-        <p class="text-xs uppercase tracking-[0.15em] text-emerald-600">
+        <p class="text-xs uppercase tracking-[0.15em] text-emerald-700">
           Recuperado
         </p>
         <p class="mt-1 text-lg font-semibold text-emerald-700">
@@ -33,7 +33,7 @@ defineProps<{
         </p>
       </div>
       <div class="rounded-2xl bg-amber-50 px-4 py-3">
-        <p class="text-xs uppercase tracking-[0.15em] text-amber-600">
+        <p class="text-xs uppercase tracking-[0.15em] text-amber-700">
           Pendiente
         </p>
         <p class="mt-1 text-lg font-semibold text-amber-700">
@@ -41,7 +41,7 @@ defineProps<{
         </p>
       </div>
       <div class="rounded-2xl bg-white px-4 py-3 ring-1 ring-slate-200">
-        <p class="text-xs uppercase tracking-[0.15em] text-slate-500">
+        <p class="text-xs uppercase tracking-[0.15em] text-slate-600">
           Abiertos
         </p>
         <p class="mt-1 text-lg font-semibold text-slate-900">
@@ -49,7 +49,7 @@ defineProps<{
         </p>
       </div>
       <div class="rounded-2xl bg-white px-4 py-3 ring-1 ring-slate-200">
-        <p class="text-xs uppercase tracking-[0.15em] text-slate-500">
+        <p class="text-xs uppercase tracking-[0.15em] text-slate-600">
           Pagados
         </p>
         <p class="mt-1 text-lg font-semibold text-slate-900">
