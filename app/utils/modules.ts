@@ -4,6 +4,7 @@ export type OptionalModuleKey
     | 'catalogo-tienda'
     | 'catalogo-postres'
     | 'granja-cerdos'
+    | 'planeador'
 
 export type ModuleKey = 'contabilidad' | OptionalModuleKey
 
@@ -64,6 +65,12 @@ export const MODULES: ModuleDefinition[] = [
     label: 'Granja de cerdos',
     description: 'Control de animales, peso y ventas.',
     nav: [{ label: 'Granja', to: '/granja-cerdos' }]
+  },
+  {
+    key: 'planeador',
+    label: 'Planeador de compras',
+    description: 'Planea compras futuras y controla su impacto en tu presupuesto.',
+    nav: [{ label: 'Planeador', to: '/planeador' }]
   }
 ]
 

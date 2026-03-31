@@ -57,7 +57,7 @@ const emit = defineEmits<{ (e: 'submit'): void }>()
       <UButton
         type="submit"
         size="lg"
-        color="success"
+        color="primary"
         block
         :loading="creating"
       >

@@ -1,4 +1,7 @@
 <script setup>
+const { initTheme } = useTheme()
+onMounted(() => initTheme())
+
 useHead({
   meta: [
     { name: 'viewport', content: 'width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover' }
@@ -31,7 +34,8 @@ colorMode.preference = 'light'
 <template>
   <UApp>
     <NuxtLayout>
-      <NuxtPage />
+      <NuxtPage :transition="{ name: 'page', mode: 'out-in' }" />
     </NuxtLayout>
   </UApp>
 </template>
+

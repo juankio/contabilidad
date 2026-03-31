@@ -23,7 +23,7 @@ const {
     <section class="mx-auto max-w-6xl overflow-x-clip px-4 pb-10 pt-6">
       <div class="grid min-w-0 gap-6 lg:grid-cols-12">
         <GastosHeader
-          class="min-w-0"
+          class="anim-up min-w-0"
           :exporting="exporting"
           :on-export="exportGastos"
         />
@@ -36,14 +36,14 @@ const {
         </p>
 
         <GastoForm
-          class="min-w-0"
+          class="anim-up-1 min-w-0"
           @saved="handleGastoSaved"
         />
 
-        <StatsCharts class="min-w-0 lg:col-span-8" />
+        <StatsCharts class="anim-up-2 min-w-0 lg:col-span-8" />
 
         <GastosProfilesSummary
-          class="min-w-0 lg:col-span-8"
+          class="anim-up-3 min-w-0 lg:col-span-8"
           :groups="groupedByProfile"
           :pending="groupedPending"
           :error="!!groupedError"

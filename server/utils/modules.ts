@@ -3,7 +3,8 @@ export const OPTIONAL_MODULES = [
   'reportes',
   'catalogo-tienda',
   'catalogo-postres',
-  'granja-cerdos'
+  'granja-cerdos',
+  'planeador'
 ] as const
 
 export type OptionalModuleKey = typeof OPTIONAL_MODULES[number]

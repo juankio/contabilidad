@@ -110,7 +110,7 @@ const {
     <UButton
       type="submit"
       size="lg"
-      color="success"
+      color="primary"
       block
       :loading="isSaving"
     >

@@ -41,11 +41,20 @@ export function useHeaderProfiles() {
     { immediate: true }
   )
 
+  const { loadProfileTheme } = useTheme()
+
+  // Aplica el tema del perfil activo en cada cambio
+  watch(
+    activeProfileId,
+    (id) => {
+      if (id && import.meta.client) loadProfileTheme(id)
+    },
+    { immediate: true }
+  )
+
   const applyProfileChange = async (nextProfileId: string, closeMenu = false) => {
     if (!nextProfileId || nextProfileId === activeProfileId.value) {
-      if (closeMenu) {
-        mobileMenuOpen.value = false
-      }
+      if (closeMenu) mobileMenuOpen.value = false
       return
     }
 
@@ -53,13 +62,12 @@ export function useHeaderProfiles() {
     try {
       const changed = await setActiveProfile(nextProfileId)
       if (changed) {
+        loadProfileTheme(nextProfileId)
         await refreshNuxtData(['resumen', 'movimientos', 'categorias', 'gastos', 'gastos-grouped', 'estadisticas', 'prestamos'])
       }
     } finally {
       switchingProfile.value = false
-      if (closeMenu) {
-        mobileMenuOpen.value = false
-      }
+      if (closeMenu) mobileMenuOpen.value = false
     }
   }
 

@@ -26,7 +26,8 @@ const iconByRoute: Record<string, string> = {
   '/prestamos': 'i-lucide-handshake',
   '/catalogo-tienda': 'i-lucide-store',
   '/catalogo-postres': 'i-lucide-cake',
-  '/granja-cerdos': 'i-lucide-paw-print'
+  '/granja-cerdos': 'i-lucide-paw-print',
+  '/planeador': 'i-lucide-shopping-bag'
 }
 
 const menuItems = computed<NavigationMenuItem[]>(() => navItems.value.map((item) => {
@@ -64,13 +65,15 @@ const menuItems = computed<NavigationMenuItem[]>(() => navItems.value.map((item)
     </template>
 
     <template #right>
-      <AppHeaderDesktopNav
-        :profile-items="profileItems"
-        :profile-selection="profileSelection"
-        :switching-profile="switchingProfile"
-        :menu-items="menuItems"
-        @select-profile="onDesktopProfileSelect"
-      />
+      <div class="hidden items-center sm:flex">
+        <AppHeaderDesktopNav
+          :profile-items="profileItems"
+          :profile-selection="profileSelection"
+          :switching-profile="switchingProfile"
+          :menu-items="menuItems"
+          @select-profile="onDesktopProfileSelect"
+        />
+      </div>
     </template>
 
     <template #toggle="{ open, toggle }">

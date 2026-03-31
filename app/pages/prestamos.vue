@@ -22,12 +22,35 @@ const {
 <template>
   <main class="min-h-screen bg-slate-50 text-slate-900">
     <section class="mx-auto max-w-6xl overflow-x-clip px-4 pb-10 pt-6">
+      <!-- Page header -->
+      <div class="anim-up mb-6 flex items-center gap-3">
+        <div
+          class="flex h-10 w-10 items-center justify-center rounded-2xl shadow-sm"
+          style="background: var(--brand-600)"
+        >
+          <UIcon
+            name="lucide:handshake"
+            class="h-5 w-5 text-white"
+          />
+        </div>
+        <div>
+          <h1 class="text-lg font-semibold text-slate-900">
+            Préstamos
+          </h1>
+          <p class="text-xs text-slate-400">
+            Gestiona lo que prestas y lo que te deben
+          </p>
+        </div>
+      </div>
+
       <div class="grid min-w-0 gap-6 lg:grid-cols-12">
         <PrestamosOverviewCard
+          class="anim-up-1"
           :summary="summary"
           :format-currency="formatCurrency"
         />
         <PrestamoCreateFormCard
+          class="anim-up-2"
           v-model:borrower="form.borrower"
           v-model:amount-input="amountInput"
           v-model:payment-plan="form.paymentPlan"
@@ -44,18 +67,19 @@ const {
         <div class="grid gap-6 lg:col-span-8">
           <div
             v-if="pending"
-            class="rounded-2xl bg-white p-4 text-sm text-slate-500 shadow-sm"
+            class="anim-up-3 rounded-2xl bg-white p-4 text-sm text-slate-500 shadow-sm"
           >
             Cargando prestamos...
           </div>
           <div
             v-else-if="error"
-            class="rounded-2xl bg-white p-4 text-sm text-rose-500 shadow-sm"
+            class="anim-up-3 rounded-2xl bg-white p-4 text-sm text-rose-500 shadow-sm"
           >
             No se pudieron cargar los prestamos.
           </div>
           <template v-else>
             <PrestamosPendingCard
+              class="anim-up-3"
               v-model:abono-amount-input="abonoAmountInput"
               v-model:abono-date-value="abonoDateValue"
               v-model:abono-note="abonoForm.note"
@@ -73,6 +97,7 @@ const {
               @submit-abono="submitAbono"
             />
             <PrestamosPaidCard
+              class="anim-up-4"
               :prestamos-pagados="prestamosPagados"
               :format-currency="formatCurrency"
               :format-short-date="formatShortDate"
