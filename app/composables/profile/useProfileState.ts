@@ -25,6 +25,7 @@ export function useProfileState() {
   const activeHiddenIncomeCustoms = computed(() => activeProfile.value?.hiddenIncomeCustoms ?? [])
   const activeHiddenExpenseCustoms = computed(() => activeProfile.value?.hiddenExpenseCustoms ?? [])
   const activeProfileIcon = computed(() => activeProfile.value?.avatarIcon ?? 'i-lucide-user')
+  const activeProfileThemeColor = computed(() => activeProfile.value?.themeColor ?? 'violet')
   const activeModules = computed(() => activeProfile.value?.modules ?? [])
   const loading = ref(false)
   const errorMessage = ref('')
@@ -44,6 +45,7 @@ export function useProfileState() {
     activeHiddenIncomeCustoms,
     activeHiddenExpenseCustoms,
     activeProfileIcon,
+    activeProfileThemeColor,
     activeModules,
     loading,
     errorMessage

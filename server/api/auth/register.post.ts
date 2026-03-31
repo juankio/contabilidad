@@ -37,7 +37,7 @@ export default defineEventHandler(async (event) => {
   const user = await UserModel.create({
     email: body.data.email,
     passwordHash,
-    profiles: [{ name: profileName, avatarColor, avatarIcon, modules }]
+    profiles: [{ name: profileName, avatarColor, themeColor: 'violet', avatarIcon, modules }]
   })
   user.activeProfileId = user.profiles[0]?._id ?? null
   await user.save()

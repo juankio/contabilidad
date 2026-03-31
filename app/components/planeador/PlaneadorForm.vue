@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import type { NuevoPlan } from '../../composables/planeador/usePlaneador'
+import DateInputField from '../forms/DateInputField.vue'
+import FormField from '../forms/FormField.vue'
+import { useCalendarDateInput } from '../../composables/forms/useCalendarDateInput'
+import { useMoneyInput } from '../../composables/forms/useMoneyInput'
 
 const emit = defineEmits<{
   submit: [plan: NuevoPlan]
@@ -10,35 +14,56 @@ const props = defineProps<{
   submitError: string | null
 }>()
 
-const form = reactive<NuevoPlan>({
+type PlaneadorFormValues = Omit<NuevoPlan, 'fechaPlaneada'>
+
+const form = reactive<PlaneadorFormValues>({
   nombre: '',
-  monto: '',
-  fechaPlaneada: '',
+  monto: '0',
   descripcion: ''
 })
+const { dateValue: fechaPlaneadaValue } = useCalendarDateInput()
+const monto = ref(0)
+const { amountInput } = useMoneyInput(monto)
 
-const minMes = computed(() => {
-  const now = new Date()
-  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`
-})
+const fechaPlaneada = computed(() => toMonthKey(fechaPlaneadaValue.value))
 
 const canSubmit = computed(() =>
   form.nombre.trim().length > 0
-  && Number(form.monto) > 0
-  && form.fechaPlaneada.length > 0
+  && monto.value > 0
+  && fechaPlaneada.value.length === 7
   && !props.submitting
 )
 
 function reset() {
   form.nombre = ''
-  form.monto = ''
-  form.fechaPlaneada = ''
+  monto.value = 0
+  form.monto = '0'
   form.descripcion = ''
 }
 
 function onSubmit() {
   if (!canSubmit.value) return
-  emit('submit', { ...form })
+  emit('submit', {
+    ...form,
+    monto: String(monto.value),
+    fechaPlaneada: fechaPlaneada.value
+  })
+}
+
+function toMonthKey(value: unknown): string {
+  if (!value) {
+    return ''
+  }
+
+  if (typeof value === 'string') {
+    return value.slice(0, 7)
+  }
+
+  if (typeof value === 'object' && 'toString' in value) {
+    return (value as { toString: () => string }).toString().slice(0, 7)
+  }
+
+  return ''
 }
 
 defineExpose({ reset })
@@ -56,64 +81,61 @@ defineExpose({ reset })
     </div>
 
     <form
-      class="space-y-3"
+      class="mt-5 grid gap-4"
       @submit.prevent="onSubmit"
     >
-      <!-- Nombre -->
-      <div class="anim-up-1">
-        <label class="mb-1.5 block text-xs font-medium text-slate-500">
-          ¿Qué quieres comprar?
-        </label>
-        <input
+      <FormField
+        label="¿Qué quieres comprar?"
+        for-id="planeador-nombre"
+        class="anim-up-1"
+      >
+        <UInput
+          id="planeador-nombre"
           v-model="form.nombre"
           type="text"
           placeholder="Ej: Zapatos, celular, viaje..."
           maxlength="80"
-          class="input-field w-full"
+          size="lg"
+        />
+      </FormField>
+
+      <div class="anim-up-2 grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <FormField
+          label="Cuánto cuesta"
+          for-id="planeador-monto"
         >
-      </div>
-
-      <!-- Monto + Fecha -->
-      <div class="anim-up-2 grid grid-cols-2 gap-3">
-        <div>
-          <label class="mb-1.5 block text-xs font-medium text-slate-500">
-            Cuánto cuesta
-          </label>
-          <input
-            v-model="form.monto"
-            type="number"
-            min="1"
-            step="any"
+          <UInput
+            id="planeador-monto"
+            v-model="amountInput"
+            type="text"
+            inputmode="numeric"
             placeholder="0"
-            class="input-field w-full"
-          >
-        </div>
-        <div>
-          <label class="mb-1.5 block text-xs font-medium text-slate-500">
-            ¿Para cuándo?
-          </label>
-          <input
-            v-model="form.fechaPlaneada"
-            type="month"
-            :min="minMes"
-            class="input-field w-full"
-          >
-        </div>
+            size="lg"
+          />
+        </FormField>
+
+        <DateInputField
+          label="¿Para cuándo?"
+          for-id="planeador-fecha"
+          :model-value="fechaPlaneadaValue"
+          @update:model-value="fechaPlaneadaValue = $event as typeof fechaPlaneadaValue"
+        />
       </div>
 
-      <!-- Nota -->
-      <div class="anim-up-3">
-        <label class="mb-1.5 block text-xs font-medium text-slate-500">
-          Nota <span class="font-normal text-slate-300">(opcional)</span>
-        </label>
-        <input
+      <FormField
+        label="Nota"
+        for-id="planeador-descripcion"
+        class="anim-up-3"
+      >
+        <UInput
+          id="planeador-descripcion"
           v-model="form.descripcion"
           type="text"
           placeholder="Por qué lo necesitas, dónde comprarlo..."
           maxlength="200"
-          class="input-field w-full"
-        >
-      </div>
+          size="lg"
+        />
+      </FormField>
 
       <!-- Error -->
       <Transition name="slide-down">
@@ -126,52 +148,22 @@ defineExpose({ reset })
       </Transition>
 
       <!-- Submit -->
-      <button
+      <UButton
         type="submit"
         :disabled="!canSubmit"
-        class="anim-up-4 flex w-full items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40"
-        :style="{
-          background: submitting ? 'var(--brand-400)' : 'var(--brand-600)',
-        }"
+        class="anim-up-4"
+        size="lg"
+        color="primary"
+        block
+        :loading="submitting"
       >
-        <UIcon
-          v-if="submitting"
-          name="lucide:loader-2"
-          class="h-4 w-4 animate-spin"
-        />
-        <UIcon
-          v-else
-          name="lucide:plus"
-          class="h-4 w-4 transition-transform duration-200 group-hover:rotate-90"
-        />
         {{ submitting ? 'Guardando...' : 'Agregar al planeador' }}
-      </button>
+      </UButton>
     </form>
   </div>
 </template>
 
 <style scoped>
-.input-field {
-  border-radius: 0.75rem;
-  border: 1px solid #e2e8f0;
-  background: #f8fafc;
-  padding: 0.5rem 0.75rem;
-  font-size: 0.875rem;
-  color: #0f172a;
-  outline: none;
-  transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
-}
-
-.input-field::placeholder {
-  color: #94a3b8;
-}
-
-.input-field:focus {
-  border-color: #c4b5fd;
-  background: #ffffff;
-  box-shadow: 0 0 0 3px rgb(139 92 246 / 0.08);
-}
-
 /* Error slide */
 .slide-down-enter-active { transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1); }
 .slide-down-leave-active { transition: all 0.15s ease; }

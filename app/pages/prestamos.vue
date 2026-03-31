@@ -23,25 +23,30 @@ const {
   <main class="min-h-screen bg-slate-50 text-slate-900">
     <section class="mx-auto max-w-6xl overflow-x-clip px-4 pb-10 pt-6">
       <!-- Page header -->
-      <div class="anim-up mb-6 flex items-center gap-3">
-        <div
-          class="flex h-10 w-10 items-center justify-center rounded-2xl shadow-sm"
-          style="background: var(--brand-600)"
-        >
-          <UIcon
-            name="lucide:handshake"
-            class="h-5 w-5 text-white"
-          />
+      <header class="anim-up mb-6 rounded-3xl bg-white p-5 shadow-sm">
+        <div class="flex items-center gap-3">
+          <div
+            class="flex h-10 w-10 items-center justify-center rounded-2xl shadow-sm"
+            style="background: var(--brand-600)"
+          >
+            <UIcon
+              name="lucide:handshake"
+              class="h-5 w-5 text-white"
+            />
+          </div>
+          <div>
+            <p class="text-xs uppercase tracking-[0.2em] text-slate-400">
+              Módulo
+            </p>
+            <h1 class="text-lg font-semibold text-slate-900">
+              Préstamos
+            </h1>
+            <p class="text-xs text-slate-400">
+              Gestiona lo que prestas y lo que te deben
+            </p>
+          </div>
         </div>
-        <div>
-          <h1 class="text-lg font-semibold text-slate-900">
-            Préstamos
-          </h1>
-          <p class="text-xs text-slate-400">
-            Gestiona lo que prestas y lo que te deben
-          </p>
-        </div>
-      </div>
+      </header>
 
       <div class="grid min-w-0 gap-6 lg:grid-cols-12">
         <PrestamosOverviewCard

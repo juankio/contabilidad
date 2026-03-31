@@ -10,6 +10,7 @@ import {
 import { listProfileCategoriesMap } from './profile-category-store'
 import { DEFAULT_OPTIONAL_MODULES, normalizeModules } from './modules'
 import { DEFAULT_PROFILE_ICON, normalizeProfileIcon } from './profile-icons'
+import { normalizeThemeColor } from './theme'
 
 export async function serializeProfilesFromCategoryStore(
   userId: string | Types.ObjectId,
@@ -45,6 +46,7 @@ export async function serializeProfilesFromCategoryStore(
     const avatarIcon = profile.avatarIcon
       ? normalizeProfileIcon(profile.avatarIcon)
       : DEFAULT_PROFILE_ICON
+    const themeColor = normalizeThemeColor(profile.themeColor)
 
     const hiddenIncomeSet = new Set(hiddenIncomeDefaults.map(value => value.toLocaleLowerCase()))
     const hiddenExpenseSet = new Set(hiddenExpenseDefaults.map(value => value.toLocaleLowerCase()))
@@ -69,6 +71,7 @@ export async function serializeProfilesFromCategoryStore(
       _id: profileId,
       name: profile.name,
       avatarColor: profile.avatarColor,
+      themeColor,
       avatarIcon,
       incomeCategories: normalizeCategories(movementIncomeCategories, visibleIncomeDefaults),
       expenseCategories: normalizeCategories(movementExpenseCategories, visibleExpenseDefaults),

@@ -2,6 +2,7 @@ type ProfileLite = {
   _id: string
   name: string
   avatarIcon?: string
+  themeColor: string
 }
 
 type ProfileItem = {
@@ -15,13 +16,14 @@ export function useHeaderProfiles() {
   const switchingProfile = ref(false)
   const profileSelection = ref('')
 
-  const { profiles, activeProfileId, setActiveProfile } = useProfile()
+  const { profiles, activeProfile, activeProfileId, setActiveProfile } = useProfile()
 
   const profileList = computed<ProfileLite[]>(() =>
     profiles.value.map(profile => ({
       _id: profile._id,
       name: profile.name,
-      avatarIcon: profile.avatarIcon
+      avatarIcon: profile.avatarIcon,
+      themeColor: profile.themeColor
     }))
   )
 
@@ -45,9 +47,11 @@ export function useHeaderProfiles() {
 
   // Aplica el tema del perfil activo en cada cambio
   watch(
-    activeProfileId,
-    (id) => {
-      if (id && import.meta.client) loadProfileTheme(id)
+    activeProfile,
+    (profile) => {
+      if (profile?._id && import.meta.client) {
+        loadProfileTheme(profile._id, profile.themeColor)
+      }
     },
     { immediate: true }
   )
@@ -62,7 +66,6 @@ export function useHeaderProfiles() {
     try {
       const changed = await setActiveProfile(nextProfileId)
       if (changed) {
-        loadProfileTheme(nextProfileId)
         await refreshNuxtData(['resumen', 'movimientos', 'categorias', 'gastos', 'gastos-grouped', 'estadisticas', 'prestamos'])
       }
     } finally {

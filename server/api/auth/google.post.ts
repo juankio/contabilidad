@@ -68,6 +68,7 @@ export default defineEventHandler(async (event) => {
       profiles: [{
         name: profileName.slice(0, 32),
         avatarColor: pickAvatarColor(email),
+        themeColor: 'violet',
         avatarIcon: DEFAULT_PROFILE_ICON,
         modules: DEFAULT_OPTIONAL_MODULES
       }]

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import AppHeaderDesktopNav from './AppHeaderDesktopNav.vue'
 import AppHeaderMobileMenu from './AppHeaderMobileMenu.vue'
+import ThemePicker from './ThemePicker.vue'
 import { useHeaderProfiles } from '../../composables/layout/useHeaderProfiles'
 import { useModuleNavigation } from '../../composables/modules/useModuleNavigation'
 import type { NavigationMenuItem } from '@nuxt/ui'
@@ -65,14 +66,17 @@ const menuItems = computed<NavigationMenuItem[]>(() => navItems.value.map((item)
     </template>
 
     <template #right>
-      <div class="hidden items-center sm:flex">
-        <AppHeaderDesktopNav
-          :profile-items="profileItems"
-          :profile-selection="profileSelection"
-          :switching-profile="switchingProfile"
-          :menu-items="menuItems"
-          @select-profile="onDesktopProfileSelect"
-        />
+      <div class="flex items-center gap-2">
+        <ThemePicker v-if="activeProfileId" />
+        <div class="hidden items-center sm:flex">
+          <AppHeaderDesktopNav
+            :profile-items="profileItems"
+            :profile-selection="profileSelection"
+            :switching-profile="switchingProfile"
+            :menu-items="menuItems"
+            @select-profile="onDesktopProfileSelect"
+          />
+        </div>
       </div>
     </template>
 

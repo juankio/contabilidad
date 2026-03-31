@@ -2,12 +2,25 @@
 import { useTheme, THEMES } from '../../composables/useTheme'
 
 const { activeColor, setProfileTheme } = useTheme()
-const { activeProfileId } = useProfile()
+const { activeProfile, activeProfileId, updateProfileThemeColor } = useProfile()
 const open = ref(false)
+const saving = ref(false)
 
-function select(key: typeof THEMES[number]['key']) {
-  setProfileTheme(key, activeProfileId.value ?? 'global')
+async function select(key: typeof THEMES[number]['key']) {
+  const profileId = activeProfileId.value
+  setProfileTheme(key, profileId ?? 'global')
   open.value = false
+
+  if (!profileId || activeProfile.value?.themeColor === key) {
+    return
+  }
+
+  saving.value = true
+  try {
+    await updateProfileThemeColor(key)
+  } finally {
+    saving.value = false
+  }
 }
 
 function onClickOutside(e: MouseEvent) {
@@ -56,13 +69,14 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside))
             class="group relative flex h-7 w-7 items-center justify-center rounded-full transition-all duration-200 hover:scale-110 active:scale-95"
             :style="{ background: t.swatch }"
             :title="t.label"
+            :disabled="saving"
             @click="select(t.key)"
           >
             <Transition name="check-mini">
               <span
                 v-if="activeColor === t.key"
                 class="absolute inset-0 flex items-center justify-center rounded-full ring-2 ring-white ring-offset-1"
-                :style="{ ringOffsetColor: t.swatch }"
+                :style="{ '--tw-ring-offset-color': t.swatch }"
               >
                 <svg
                   class="h-3 w-3 text-white"
