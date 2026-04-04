@@ -26,21 +26,19 @@ function formatDate(d: string) {
 <template>
   <section class="rounded-3xl bg-white p-5 shadow-sm">
     <!-- Header -->
-    <div class="mb-4 flex items-center gap-2.5">
-      <div class="flex h-8 w-8 items-center justify-center rounded-xl bg-sky-50">
+    <div class="mb-4">
+      <div class="flex items-center gap-2 text-slate-700">
         <UIcon
           name="lucide:shopping-bag"
-          class="h-4 w-4 text-sky-500"
+          class="h-4 w-4"
         />
-      </div>
-      <div>
-        <h2 class="text-sm font-semibold text-slate-900">
+        <p class="text-sm font-semibold">
           Ventas
-        </h2>
-        <p class="text-xs text-slate-400">
-          Registro diario de ventas
         </p>
       </div>
+      <p class="mt-1 text-xs text-slate-400">
+        Registro diario de ventas
+      </p>
     </div>
 
     <!-- Form -->
@@ -108,7 +106,7 @@ function formatDate(d: string) {
               {{ formatDate(venta.date) }}
             </p>
           </div>
-          <span class="rounded-lg bg-sky-50 px-2 py-0.5 text-xs font-semibold text-sky-700">
+          <span class="rounded-lg bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-700">
             × {{ venta.qty }}
           </span>
         </li>

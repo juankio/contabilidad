@@ -32,10 +32,19 @@ const alertaConfig = computed(() => ({
     <!-- Header -->
     <div class="anim-up flex items-start justify-between gap-3">
       <div>
-        <p class="text-xs uppercase tracking-[0.2em] text-slate-400">
-          Impacto en presupuesto
+        <div class="flex items-center gap-2 text-slate-700">
+          <UIcon
+            name="lucide:bar-chart-2"
+            class="h-4 w-4"
+          />
+          <p class="text-sm font-semibold">
+            Impacto en presupuesto
+          </p>
+        </div>
+        <p class="mt-1 text-xs text-slate-400">
+          Presupuesto del perfil activo
         </p>
-        <h2 class="mt-1 text-lg font-semibold text-slate-900">
+        <h2 class="mt-0.5 text-3xl font-bold text-slate-900">
           Vista general
         </h2>
       </div>
@@ -49,8 +58,11 @@ const alertaConfig = computed(() => ({
 
     <div class="mt-4 space-y-3">
       <!-- Saldo disponible -->
-      <div class="anim-up-1 rounded-2xl bg-slate-900 px-4 py-3 text-white">
-        <p class="text-xs uppercase tracking-[0.2em] text-slate-400">
+      <div
+        class="anim-up-1 rounded-2xl px-4 py-3 text-white"
+        style="background: var(--brand-600)"
+      >
+        <p class="text-xs uppercase tracking-[0.2em] text-white/70">
           Saldo disponible
         </p>
         <p class="mt-1 text-xl font-semibold tabular-nums">

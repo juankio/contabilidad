@@ -45,7 +45,16 @@ const closeGroupModal = () => {
     class="w-full rounded-3xl bg-white p-5 shadow-sm"
   >
     <div class="mb-4">
-      <p class="text-sm font-semibold text-slate-800">
+      <div class="flex items-center gap-2 text-slate-700">
+        <UIcon
+          name="lucide:users"
+          class="h-4 w-4"
+        />
+        <p class="text-sm font-semibold">
+          Resumen por perfil
+        </p>
+      </div>
+      <p class="mt-1 text-xs text-slate-400">
         Resumen por perfil
       </p>
       <p class="text-xs text-slate-600">

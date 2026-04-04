@@ -9,7 +9,16 @@ defineProps<{
 
 <template>
   <div class="rounded-3xl bg-white p-5 shadow-sm lg:col-span-12">
-    <h1 class="text-2xl font-semibold">
+    <div class="flex items-center gap-2 text-slate-700">
+      <UIcon
+        name="lucide:bar-chart-2"
+        class="h-4 w-4"
+      />
+      <p class="text-sm font-semibold">
+        Prestamos y abonos
+      </p>
+    </div>
+    <h1 class="mt-0.5 text-3xl font-bold text-slate-900">
       Prestamos y abonos
     </h1>
     <p class="mt-1 text-sm text-slate-500">

@@ -30,6 +30,8 @@ const formRef = ref<InstanceType<typeof PlaneadorForm> | null>(null)
 
 const totalCompletado = computed(() => planes.value.filter(p => p.completado).length)
 const totalPendiente = computed(() => planes.value.filter(p => !p.completado).length)
+const { activeProfileName } = useProfile()
+const profileInitial = computed(() => activeProfileName.value?.trim().charAt(0).toUpperCase() || 'M')
 
 await fetchPlanes()
 
@@ -49,13 +51,18 @@ async function onSubmit(nuevo: Parameters<typeof crearPlan>[0]) {
         <div class="flex flex-wrap items-start justify-between gap-4">
           <div class="flex items-center gap-3">
             <div
-              class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl shadow-sm"
+              class="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl shadow-sm"
               style="background: var(--brand-600)"
             >
-              <UIcon
-                name="lucide:shopping-bag"
-                class="h-5 w-5 text-white"
-              />
+              <span class="text-sm font-bold text-white">
+                {{ profileInitial }}
+              </span>
+              <span class="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full border-2 border-white bg-slate-700">
+                <UIcon
+                  name="lucide:shopping-bag"
+                  class="h-3 w-3 text-white"
+                />
+              </span>
             </div>
             <div>
               <p class="text-xs uppercase tracking-[0.2em] text-slate-400">

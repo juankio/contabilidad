@@ -21,21 +21,19 @@ const submit = () => {
 <template>
   <section class="rounded-3xl bg-white p-5 shadow-sm">
     <!-- Header -->
-    <div class="mb-4 flex items-center gap-2.5">
-      <div class="flex h-8 w-8 items-center justify-center rounded-xl bg-amber-50">
+    <div class="mb-4">
+      <div class="flex items-center gap-2 text-slate-700">
         <UIcon
           name="lucide:cake"
-          class="h-4 w-4 text-amber-500"
+          class="h-4 w-4"
         />
-      </div>
-      <div>
-        <h2 class="text-sm font-semibold text-slate-900">
+        <p class="text-sm font-semibold">
           Postres
-        </h2>
-        <p class="text-xs text-slate-400">
-          Precio de venta por postre
         </p>
       </div>
+      <p class="mt-1 text-xs text-slate-400">
+        Precio de venta por postre
+      </p>
     </div>
 
     <!-- Form -->
@@ -91,8 +89,7 @@ const submit = () => {
         >
           <span class="text-sm font-medium text-slate-800">{{ postre.name }}</span>
           <span
-            class="rounded-lg px-2 py-0.5 text-xs font-semibold"
-            style="background: var(--brand-50); color: var(--brand-700)"
+            class="rounded-lg bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-700"
           >
             COP {{ postre.price.toLocaleString() }}
           </span>

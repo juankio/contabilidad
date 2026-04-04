@@ -29,21 +29,19 @@ const units = [
 <template>
   <section class="rounded-3xl bg-white p-5 shadow-sm">
     <!-- Header -->
-    <div class="mb-4 flex items-center gap-2.5">
-      <div class="flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-50">
+    <div class="mb-4">
+      <div class="flex items-center gap-2 text-slate-700">
         <UIcon
           name="lucide:package"
-          class="h-4 w-4 text-emerald-500"
+          class="h-4 w-4"
         />
-      </div>
-      <div>
-        <h2 class="text-sm font-semibold text-slate-900">
+        <p class="text-sm font-semibold">
           Insumos
-        </h2>
-        <p class="text-xs text-slate-400">
-          Costo del paquete y medida
         </p>
       </div>
+      <p class="mt-1 text-xs text-slate-400">
+        Costo del paquete y medida
+      </p>
     </div>
 
     <!-- Form -->
@@ -69,9 +67,8 @@ const units = [
           type="button"
           class="rounded-lg px-3 py-1 text-xs font-semibold transition-all duration-150 active:scale-95"
           :class="unit === item.value
-            ? 'text-white shadow-sm'
+            ? 'bg-slate-900 text-white shadow-sm'
             : 'border border-slate-200 bg-slate-50 text-slate-500 hover:bg-slate-100'"
-          :style="unit === item.value ? { background: 'var(--brand-600)' } : {}"
           @click="unit = item.value"
         >
           {{ item.label }}

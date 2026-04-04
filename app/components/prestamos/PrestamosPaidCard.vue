@@ -12,7 +12,16 @@ defineProps<{
 
 <template>
   <div class="rounded-3xl bg-white p-5 shadow-sm">
-    <h2 class="text-lg font-semibold">
+    <div class="flex items-center gap-2 text-slate-700">
+      <UIcon
+        name="lucide:circle-check-big"
+        class="h-4 w-4"
+      />
+      <p class="text-sm font-semibold">
+        Prestamos pagados
+      </p>
+    </div>
+    <h2 class="mt-0.5 text-2xl font-bold text-slate-900">
       Prestamos pagados
     </h2>
     <div

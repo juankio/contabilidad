@@ -17,6 +17,9 @@ const {
   abonoForm, abonoSaving, abonoError, abonoSuccess, toggleAbonoForm, submitAbono, paymentPlanLabel,
   requestDeletePrestamo, cancelDeletePrestamo, confirmDeletePrestamo, deletingTarget, deleteError
 } = usePrestamos()
+
+const { activeProfileName } = useProfile()
+const profileInitial = computed(() => activeProfileName.value?.trim().charAt(0).toUpperCase() || 'M')
 </script>
 
 <template>
@@ -26,13 +29,18 @@ const {
       <header class="anim-up mb-6 rounded-3xl bg-white p-5 shadow-sm">
         <div class="flex items-center gap-3">
           <div
-            class="flex h-10 w-10 items-center justify-center rounded-2xl shadow-sm"
+            class="relative flex h-10 w-10 items-center justify-center rounded-2xl shadow-sm"
             style="background: var(--brand-600)"
           >
-            <UIcon
-              name="lucide:handshake"
-              class="h-5 w-5 text-white"
-            />
+            <span class="text-sm font-bold text-white">
+              {{ profileInitial }}
+            </span>
+            <span class="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full border-2 border-white bg-slate-700">
+              <UIcon
+                name="lucide:handshake"
+                class="h-3 w-3 text-white"
+              />
+            </span>
           </div>
           <div>
             <p class="text-xs uppercase tracking-[0.2em] text-slate-400">

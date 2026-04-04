@@ -26,21 +26,19 @@ const submit = () => {
 <template>
   <section class="rounded-3xl bg-white p-5 shadow-sm">
     <!-- Header -->
-    <div class="mb-4 flex items-center gap-2.5">
-      <div class="flex h-8 w-8 items-center justify-center rounded-xl bg-violet-50">
+    <div class="mb-4">
+      <div class="flex items-center gap-2 text-slate-700">
         <UIcon
           name="lucide:book-open"
-          class="h-4 w-4 text-violet-500"
+          class="h-4 w-4"
         />
-      </div>
-      <div>
-        <h2 class="text-sm font-semibold text-slate-900">
+        <p class="text-sm font-semibold">
           Recetas
-        </h2>
-        <p class="text-xs text-slate-400">
-          Rendimiento por insumo
         </p>
       </div>
+      <p class="mt-1 text-xs text-slate-400">
+        Rendimiento por insumo
+      </p>
     </div>
 
     <!-- Form -->

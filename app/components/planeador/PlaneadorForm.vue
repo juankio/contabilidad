@@ -72,10 +72,19 @@ defineExpose({ reset })
 <template>
   <div class="rounded-3xl bg-white p-5 shadow-sm">
     <div class="anim-up mb-4">
-      <p class="text-xs uppercase tracking-[0.2em] text-slate-400">
+      <div class="flex items-center gap-2 text-slate-700">
+        <UIcon
+          name="lucide:plus-circle"
+          class="h-4 w-4"
+        />
+        <p class="text-sm font-semibold">
+          Nueva compra
+        </p>
+      </div>
+      <p class="mt-1 text-xs text-slate-400">
         Nueva compra
       </p>
-      <h2 class="mt-1 text-lg font-semibold text-slate-900">
+      <h2 class="mt-0.5 text-2xl font-bold text-slate-900">
         Agregar al plan
       </h2>
     </div>

@@ -35,10 +35,19 @@ const mesActual = new Date().toISOString().slice(0, 7)
     <!-- Header -->
     <div class="anim-up mb-5 flex items-center justify-between">
       <div>
-        <p class="text-xs uppercase tracking-[0.2em] text-slate-400">
-          Mis planes
+        <div class="flex items-center gap-2 text-slate-700">
+          <UIcon
+            name="lucide:list"
+            class="h-4 w-4"
+          />
+          <p class="text-sm font-semibold">
+            Mis planes
+          </p>
+        </div>
+        <p class="mt-1 text-xs text-slate-400">
+          Agrupado por mes
         </p>
-        <h2 class="mt-1 text-lg font-semibold text-slate-900">
+        <h2 class="mt-0.5 text-3xl font-bold text-slate-900">
           Compras planeadas
         </h2>
       </div>
