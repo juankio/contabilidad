@@ -1,25 +1,27 @@
-export function useProfilePageFeedback() {
-  const profileActionMessage = ref('')
-  const profileActionError = ref('')
+import { useToast } from '#imports'
 
-  const resetActionFeedback = () => {
-    profileActionMessage.value = ''
-    profileActionError.value = ''
-  }
+export function useProfilePageFeedback() {
+  const toast = useToast()
+
+  const resetActionFeedback = () => {}
 
   const setActionMessage = (message: string) => {
-    profileActionMessage.value = message
-    profileActionError.value = ''
+    toast.add({
+      title: message,
+      color: 'primary',
+      icon: 'i-lucide-check-circle'
+    })
   }
 
   const setActionError = (message: string) => {
-    profileActionError.value = message
-    profileActionMessage.value = ''
+    toast.add({
+      title: message,
+      color: 'error',
+      icon: 'i-lucide-alert-circle'
+    })
   }
 
   return {
-    profileActionMessage,
-    profileActionError,
     resetActionFeedback,
     setActionMessage,
     setActionError

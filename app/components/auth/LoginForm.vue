@@ -7,6 +7,9 @@ const {
   email,
   password,
   profileName,
+  selectedModules,
+  moduleOptions,
+  toggleModule,
   loading,
   googleLoading,
   errorMessage,
@@ -43,7 +46,7 @@ const {
           <template #leading>
             <UIcon
               name="lucide:mail"
-              class="h-4 w-4 text-slate-400"
+              class="h-4 w-4 text-slate-500"
               aria-hidden="true"
             />
           </template>
@@ -66,11 +69,45 @@ const {
           <template #leading>
             <UIcon
               name="lucide:user"
-              class="h-4 w-4 text-slate-400"
+              class="h-4 w-4 text-slate-500"
               aria-hidden="true"
             />
           </template>
         </UInput>
+      </div>
+
+      <div
+        v-if="mode === 'register'"
+        class="grid gap-2 text-sm text-slate-600"
+      >
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-600">
+          Modulos opcionales
+        </p>
+        <div class="grid gap-2">
+          <label
+            v-for="module in moduleOptions"
+            :key="module.key"
+            class="flex items-start gap-3 rounded-xl border border-slate-200 bg-white px-3 py-2 transition hover:border-slate-300"
+          >
+            <input
+              class="mt-1 h-4 w-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-600"
+              type="checkbox"
+              :checked="selectedModules.includes(module.key)"
+              @change="toggleModule(module.key)"
+            >
+            <span class="min-w-0">
+              <span class="block text-sm font-semibold text-slate-700">
+                {{ module.label }}
+              </span>
+              <span class="block text-xs text-slate-600">
+                {{ module.description }}
+              </span>
+            </span>
+          </label>
+        </div>
+        <p class="text-xs text-slate-600">
+          Puedes activar o desactivar modulos luego en el perfil.
+        </p>
       </div>
 
       <div class="grid gap-2 text-sm text-slate-600">
@@ -86,7 +123,7 @@ const {
           <template #leading>
             <UIcon
               name="lucide:lock"
-              class="h-4 w-4 text-slate-400"
+              class="h-4 w-4 text-slate-500"
               aria-hidden="true"
             />
           </template>
@@ -130,7 +167,7 @@ const {
         v-if="mode === 'login'"
         class="grid gap-3"
       >
-        <div class="relative text-center text-xs text-slate-400">
+        <div class="relative text-center text-xs text-slate-600">
           <span class="relative z-10 bg-white px-2">o continuar con</span>
           <span class="absolute inset-x-0 top-1/2 block border-t border-slate-200" />
         </div>
@@ -144,13 +181,13 @@ const {
 
         <p
           v-else
-          class="text-xs text-slate-500"
+          class="text-xs text-slate-600"
         >
           Google login no esta configurado (falta GOOGLE_CLIENT_ID).
         </p>
       </div>
 
-      <p class="text-xs text-slate-500">
+      <p class="text-xs text-slate-600">
         Al continuar aceptas que este es un acceso privado.
       </p>
     </form>

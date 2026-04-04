@@ -39,16 +39,16 @@ const reachedInstallmentsLimit = computed(() =>
         <p class="text-sm font-semibold text-slate-900">
           {{ prestamo.borrower }}
         </p>
-        <p class="mt-1 text-xs text-slate-500">
+        <p class="mt-1 text-xs text-slate-600">
           {{ prestamo.description || 'Sin descripcion' }} · {{ formatShortDate(prestamo.date) }}
         </p>
-        <p class="mt-1 text-xs text-slate-500">
+        <p class="mt-1 text-xs text-slate-600">
           {{ paymentPlanLabel(prestamo.paymentPlan, prestamo.installmentsCount) }}
           <span v-if="prestamo.collectionDate"> · Cobro: {{ formatShortDate(prestamo.collectionDate) }}</span>
         </p>
         <p
           v-if="cuotasProgress"
-          class="mt-1 text-xs text-slate-500"
+          class="mt-1 text-xs text-slate-600"
         >
           {{ cuotasProgress }}
         </p>

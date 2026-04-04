@@ -28,7 +28,16 @@ const emit = defineEmits<{
 
 <template>
   <div class="rounded-3xl bg-white p-5 shadow-sm">
-    <h2 class="text-lg font-semibold">
+    <div class="flex items-center gap-2 text-slate-700">
+      <UIcon
+        name="lucide:hand-coins"
+        class="h-4 w-4"
+      />
+      <p class="text-sm font-semibold">
+        Prestamos pendientes
+      </p>
+    </div>
+    <h2 class="mt-0.5 text-2xl font-bold text-slate-900">
       Prestamos pendientes
     </h2>
     <p class="mt-1 text-sm text-slate-500">

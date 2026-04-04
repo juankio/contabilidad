@@ -17,7 +17,7 @@ defineProps<{
     class="mt-4 border-t border-slate-200 pt-3"
   >
     <div class="flex items-center justify-between gap-2">
-      <p class="text-xs uppercase tracking-[0.12em] text-slate-500">
+      <p class="text-xs uppercase tracking-[0.12em] text-slate-600">
         Abonos
       </p>
       <UButton
@@ -41,7 +41,7 @@ defineProps<{
           <p class="truncate text-lg font-semibold text-slate-900">
             {{ borrower ? `Abonos de ${borrower}` : 'Abonos registrados' }}
           </p>
-          <p class="text-xs text-slate-500">
+          <p class="text-xs text-slate-600">
             {{ abonos.length }} pagos registrados
           </p>
         </div>

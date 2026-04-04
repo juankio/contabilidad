@@ -72,12 +72,12 @@ const emit = defineEmits<{
       </UButton>
     </div>
 
-    <p class="mt-2 text-xs text-slate-500">
+    <p class="mt-2 text-xs text-slate-600">
       Antes de crear o eliminar, te pediremos confirmacion.
     </p>
     <p
       v-if="!canDeleteProfiles"
-      class="mt-1 text-xs text-slate-400"
+      class="mt-1 text-xs text-slate-600"
     >
       Debes mantener al menos un perfil.
     </p>

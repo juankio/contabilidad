@@ -30,6 +30,8 @@ const {
         v-model="form.type"
         :items="['Gasto', 'Ingreso']"
         size="lg"
+        placeholder="Selecciona un tipo"
+        :aria-label="form.type || 'Selecciona un tipo'"
       />
     </FormField>
 
@@ -56,6 +58,8 @@ const {
         v-model="form.category"
         :items="categories"
         size="lg"
+        placeholder="Selecciona una categoria"
+        :aria-label="form.category || 'Selecciona una categoria'"
       />
       <UInput
         v-model="newCategoryInput"
@@ -65,7 +69,7 @@ const {
         placeholder="Nueva categoria (opcional)"
         size="lg"
       />
-      <p class="mt-1 text-xs text-slate-500">
+      <p class="mt-1 text-xs text-slate-600">
         Si escribes una categoria nueva, se guarda en el movimiento y queda disponible para este perfil.
       </p>
     </FormField>
@@ -106,7 +110,7 @@ const {
     <UButton
       type="submit"
       size="lg"
-      color="success"
+      color="primary"
       block
       :loading="isSaving"
     >

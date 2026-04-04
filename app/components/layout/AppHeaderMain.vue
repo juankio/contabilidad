@@ -2,6 +2,8 @@
 import AppHeaderDesktopNav from './AppHeaderDesktopNav.vue'
 import AppHeaderMobileMenu from './AppHeaderMobileMenu.vue'
 import { useHeaderProfiles } from '../../composables/layout/useHeaderProfiles'
+import { useModuleNavigation } from '../../composables/modules/useModuleNavigation'
+import type { NavigationMenuItem } from '@nuxt/ui'
 
 const {
   mobileMenuOpen,
@@ -13,6 +15,30 @@ const {
   onDesktopProfileSelect,
   onMobileProfileSelect
 } = useHeaderProfiles()
+
+const { navItems } = useModuleNavigation()
+const route = useRoute()
+
+const iconByRoute: Record<string, string> = {
+  '/': 'i-lucide-home',
+  '/gastos': 'i-lucide-wallet',
+  '/reportes': 'i-lucide-line-chart',
+  '/prestamos': 'i-lucide-handshake',
+  '/catalogo-tienda': 'i-lucide-store',
+  '/catalogo-postres': 'i-lucide-cake',
+  '/granja-cerdos': 'i-lucide-paw-print',
+  '/planeador': 'i-lucide-shopping-bag'
+}
+
+const menuItems = computed<NavigationMenuItem[]>(() => navItems.value.map((item) => {
+  const isRoot = item.to === '/'
+  return {
+    label: item.label,
+    to: item.to,
+    icon: iconByRoute[item.to] ?? 'i-lucide-circle',
+    active: isRoot ? route.path === '/' : route.path.startsWith(item.to)
+  }
+}))
 </script>
 
 <template>
@@ -32,19 +58,67 @@ const {
       <NuxtLink
         to="/"
         no-prefetch
-        class="text-base font-semibold text-slate-900"
+        class="flex items-center gap-2.5 group"
       >
-        Mi Contabilidad
+        <!-- Logomark SVG -->
+        <svg
+          width="30"
+          height="30"
+          viewBox="0 0 30 30"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          class="shrink-0 transition-transform duration-200 group-hover:scale-105"
+        >
+          <rect
+            width="30"
+            height="30"
+            rx="8"
+            style="fill: var(--brand-600)"
+          />
+          <!-- Líneas de libro contable -->
+          <path
+            d="M9 11h12"
+            stroke="white"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+          <path
+            d="M9 15.5h8"
+            stroke="white"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+          <path
+            d="M9 20h10"
+            stroke="white"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+          <!-- Pequeño acento superior derecho -->
+          <circle
+            cx="21.5"
+            cy="9.5"
+            r="2.5"
+            fill="white"
+            fill-opacity="0.35"
+          />
+        </svg>
+        <span class="text-base font-semibold text-slate-900 tracking-tight">Mi Contabilidad</span>
       </NuxtLink>
     </template>
 
     <template #right>
-      <AppHeaderDesktopNav
-        :profile-items="profileItems"
-        :profile-selection="profileSelection"
-        :switching-profile="switchingProfile"
-        @select-profile="onDesktopProfileSelect"
-      />
+      <div class="flex items-center gap-2">
+        <div class="hidden items-center sm:flex">
+          <AppHeaderDesktopNav
+            :profile-items="profileItems"
+            :profile-selection="profileSelection"
+            :switching-profile="switchingProfile"
+            :menu-items="menuItems"
+            @select-profile="onDesktopProfileSelect"
+          />
+        </div>
+      </div>
     </template>
 
     <template #toggle="{ open, toggle }">
@@ -55,7 +129,7 @@ const {
         size="md"
         square
         :icon="open ? 'i-lucide-x' : 'i-lucide-align-right'"
-        aria-label="Abrir menu"
+        :aria-label="open ? 'Cerrar menu' : 'Abrir menu'"
         :ui="{
           base: 'rounded-xl ring-1 ring-slate-200/80 shadow-sm transition-all',
           leadingIcon: 'size-5'
@@ -70,6 +144,7 @@ const {
         :active-profile-id="activeProfileId"
         :profile-selection="profileSelection"
         :switching-profile="switchingProfile"
+        :menu-items="menuItems"
         @select-profile="onMobileProfileSelect"
         @close-menu="mobileMenuOpen = false"
       />

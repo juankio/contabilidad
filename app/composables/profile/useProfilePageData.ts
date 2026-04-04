@@ -1,5 +1,6 @@
-import { useProfile } from '../useProfile'
+import { ref, computed, watch } from 'vue'
 import type { Ref } from 'vue'
+import { useProfile } from '../useProfile'
 
 export type CategoryType = 'income' | 'expense'
 
@@ -15,23 +16,34 @@ const hasSameItems = (left: string[] | undefined, right: string[] | undefined) =
     && leftNormalized.every((item, index) => item === rightNormalized[index])
 }
 
-export function useProfilePageData() {
+export function useProfilePageData(setActionError?: (msg: string) => void) {
   const profile = useProfile()
   const nameInput = ref('')
+  const iconInput = ref('i-lucide-user')
   const hiddenIncomeDefaultsInput = ref<string[]>([])
   const hiddenExpenseDefaultsInput = ref<string[]>([])
   const hiddenIncomeCustomsInput = ref<string[]>([])
   const hiddenExpenseCustomsInput = ref<string[]>([])
+  const modulesInput = ref<string[]>([])
 
-  const syncList = (source: Ref<string[]>, target: Ref<string[]>) =>
+  const syncList = (source: Ref<string[]> | undefined, target: Ref<string[]>) => {
+    if (!source) {
+      target.value = []
+      return
+    }
     watch(source, value => (target.value = [...(value ?? [])]), { immediate: true })
+  }
   watch(profile.activeProfileName, (value) => {
     nameInput.value = value ?? ''
+  }, { immediate: true })
+  watch(profile.activeProfileIcon, (value) => {
+    iconInput.value = value ?? 'i-lucide-user'
   }, { immediate: true })
   syncList(profile.activeHiddenIncomeDefaults, hiddenIncomeDefaultsInput)
   syncList(profile.activeHiddenExpenseDefaults, hiddenExpenseDefaultsInput)
   syncList(profile.activeHiddenIncomeCustoms, hiddenIncomeCustomsInput)
   syncList(profile.activeHiddenExpenseCustoms, hiddenExpenseCustomsInput)
+  syncList(profile.activeModules, modulesInput)
 
   const normalizedNameInput = computed(() => nameInput.value.trim())
   const hasNameChanged = computed(() =>
@@ -49,12 +61,18 @@ export function useProfilePageData() {
   const hasHiddenExpenseCustomsChanged = computed(() =>
     !hasSameItems(hiddenExpenseCustomsInput.value, profile.activeHiddenExpenseCustoms.value)
   )
+  const hasModulesChanged = computed(() =>
+    !hasSameItems(modulesInput.value, profile.activeModules.value)
+  )
+  const hasIconChanged = computed(() => iconInput.value !== profile.activeProfileIcon.value)
 
   const hasUnsavedChanges = computed(() => hasNameChanged.value
     || hasHiddenIncomeChanged.value
     || hasHiddenExpenseChanged.value
     || hasHiddenIncomeCustomsChanged.value
-    || hasHiddenExpenseCustomsChanged.value)
+    || hasHiddenExpenseCustomsChanged.value
+    || hasModulesChanged.value
+    || hasIconChanged.value)
   const canSaveProfile = computed(() =>
     Boolean(profile.activeProfileId.value)
     && normalizedNameInput.value.length >= 2
@@ -66,6 +84,8 @@ export function useProfilePageData() {
     if (!canSaveProfile.value) return false
     const ok = await profile.updateProfileSettings({
       name: normalizedNameInput.value,
+      avatarIcon: iconInput.value,
+      modules: modulesInput.value,
       hiddenIncomeDefaults: hiddenIncomeDefaultsInput.value,
       hiddenExpenseDefaults: hiddenExpenseDefaultsInput.value,
       hiddenIncomeCustoms: hiddenIncomeCustomsInput.value,
@@ -73,6 +93,8 @@ export function useProfilePageData() {
     })
     if (ok) {
       await navigateTo('/')
+    } else {
+      setActionError?.(profile.errorMessage.value || 'No se pudo guardar el perfil.')
     }
   }
 
@@ -82,10 +104,12 @@ export function useProfilePageData() {
   return {
     ...profile,
     nameInput,
+    iconInput,
     hiddenIncomeDefaultsInput,
     hiddenExpenseDefaultsInput,
     hiddenIncomeCustomsInput,
     hiddenExpenseCustomsInput,
+    modulesInput,
     hasUnsavedChanges,
     canSaveProfile,
     save,

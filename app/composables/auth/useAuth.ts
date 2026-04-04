@@ -2,6 +2,9 @@ type AuthProfile = {
   _id: string
   name: string
   avatarColor: string
+  themeColor: string
+  avatarIcon: string
+  modules: string[]
   incomeCategories: string[]
   expenseCategories: string[]
   defaultIncomeCategories: string[]

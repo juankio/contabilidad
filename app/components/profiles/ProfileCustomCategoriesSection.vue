@@ -45,7 +45,7 @@ const emit = defineEmits<{
         </button>
         <button
           type="button"
-          class="rounded-full px-2 py-1 text-[11px] font-semibold text-slate-500 hover:bg-rose-100 hover:text-rose-700 disabled:cursor-not-allowed disabled:opacity-50"
+          class="rounded-full px-2 py-1 text-[11px] font-semibold text-slate-600 hover:bg-rose-100 hover:text-rose-700 disabled:cursor-not-allowed disabled:opacity-50"
           :disabled="loading"
           @click="emit('remove', type, category)"
         >
@@ -54,7 +54,7 @@ const emit = defineEmits<{
       </div>
       <p
         v-if="!categories.length"
-        class="text-xs text-slate-400"
+        class="text-xs text-slate-600"
       >
         {{ emptyMessage }}
       </p>

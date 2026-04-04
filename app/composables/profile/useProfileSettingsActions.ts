@@ -2,11 +2,14 @@ import { refreshAuthUser } from '../auth/useAuth'
 import { getProfileRequestError, isProfileNameValid, syncAuthProfiles } from './profileApiHelpers'
 import type { ProfilesResponse } from './profileApiTypes'
 import type { useProfileState } from './useProfileState'
+import { normalizeThemeKey, type ThemeKey } from '../useTheme'
 
 type ProfileState = ReturnType<typeof useProfileState>
 
 type UpdatePayload = {
   name: string
+  avatarIcon?: string
+  modules?: string[]
   hiddenIncomeDefaults?: string[]
   hiddenExpenseDefaults?: string[]
   hiddenIncomeCustoms?: string[]
@@ -18,6 +21,8 @@ export function useProfileSettingsActions(state: ProfileState) {
 
   const updateProfileSettings = async ({
     name,
+    avatarIcon,
+    modules,
     hiddenIncomeDefaults,
     hiddenExpenseDefaults,
     hiddenIncomeCustoms,
@@ -41,6 +46,8 @@ export function useProfileSettingsActions(state: ProfileState) {
         method: 'PATCH',
         body: {
           name: validation.value,
+          ...(avatarIcon ? { avatarIcon } : {}),
+          ...(modules ? { modules } : {}),
           ...(hiddenIncomeDefaults ? { hiddenIncomeDefaults } : {}),
           ...(hiddenExpenseDefaults ? { hiddenExpenseDefaults } : {}),
           ...(hiddenIncomeCustoms ? { hiddenIncomeCustoms } : {}),
@@ -82,6 +89,28 @@ export function useProfileSettingsActions(state: ProfileState) {
   }
 
   const updateProfileName = async (name: string) => updateProfileSettings({ name })
+  const updateProfileThemeColor = async (themeColor: ThemeKey) => {
+    if (!activeProfileId.value || !authUser.value) {
+      errorMessage.value = 'No hay perfil activo.'
+      return false
+    }
 
-  return { updateProfileSettings, updateProfileName, removeProfileCategory }
+    loading.value = true
+    errorMessage.value = ''
+    try {
+      const data = await $fetch<ProfilesResponse>(`/api/profiles/${activeProfileId.value}`, {
+        method: 'PATCH',
+        body: { themeColor: normalizeThemeKey(themeColor) }
+      })
+      syncAuthProfiles(authUser, data)
+      return true
+    } catch (error: unknown) {
+      errorMessage.value = getProfileRequestError(error, 'No se pudo actualizar el color del perfil')
+      return false
+    } finally {
+      loading.value = false
+    }
+  }
+
+  return { updateProfileSettings, updateProfileName, updateProfileThemeColor, removeProfileCategory }
 }

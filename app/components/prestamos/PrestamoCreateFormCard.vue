@@ -22,7 +22,16 @@ const emit = defineEmits<{ (e: 'submit'): void }>()
 
 <template>
   <div class="rounded-3xl bg-white p-5 shadow-sm lg:col-span-4">
-    <h2 class="text-lg font-semibold">
+    <div class="flex items-center gap-2 text-slate-700">
+      <UIcon
+        name="lucide:plus-circle"
+        class="h-4 w-4"
+      />
+      <p class="text-sm font-semibold">
+        Nuevo prestamo
+      </p>
+    </div>
+    <h2 class="mt-0.5 text-2xl font-bold text-slate-900">
       Nuevo prestamo
     </h2>
     <p class="mt-1 text-sm text-slate-500">
@@ -57,7 +66,7 @@ const emit = defineEmits<{ (e: 'submit'): void }>()
       <UButton
         type="submit"
         size="lg"
-        color="success"
+        color="primary"
         block
         :loading="creating"
       >

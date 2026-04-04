@@ -3,6 +3,7 @@ import type { ComputedRef, Ref } from 'vue'
 type Inputs = {
   activeProfileId: ComputedRef<string | null>
   nameInput: Ref<string>
+  iconInput: Ref<string>
   resetActionFeedback: () => void
   setActionError: (message: string) => void
   setActionMessage: (message: string) => void
@@ -11,6 +12,7 @@ type Inputs = {
 export function useProfilePageRename(inputs: Inputs) {
   const showRenameProfileModal = ref(false)
   const renameProfileInput = ref('')
+  const renameProfileIcon = ref('')
 
   const openRenameProfileModal = () => {
     if (!inputs.activeProfileId.value) {
@@ -20,12 +22,14 @@ export function useProfilePageRename(inputs: Inputs) {
 
     inputs.resetActionFeedback()
     renameProfileInput.value = inputs.nameInput.value.trim()
+    renameProfileIcon.value = inputs.iconInput.value
     showRenameProfileModal.value = true
   }
 
   const closeRenameProfileModal = () => {
     showRenameProfileModal.value = false
     renameProfileInput.value = ''
+    renameProfileIcon.value = ''
   }
 
   const confirmRenameProfileDraft = () => {
@@ -40,14 +44,19 @@ export function useProfilePageRename(inputs: Inputs) {
     }
 
     inputs.nameInput.value = trimmed
+    if (renameProfileIcon.value) {
+      inputs.iconInput.value = renameProfileIcon.value
+    }
     showRenameProfileModal.value = false
     renameProfileInput.value = ''
+    renameProfileIcon.value = ''
     inputs.setActionMessage('Nombre actualizado. Pulsa "Guardar perfil" para aplicar el cambio.')
   }
 
   return {
     showRenameProfileModal,
     renameProfileInput,
+    renameProfileIcon,
     openRenameProfileModal,
     closeRenameProfileModal,
     confirmRenameProfileDraft

@@ -1,3 +1,4 @@
+import { computed } from 'vue'
 import { useAuthUser } from './auth/useAuth'
 import { useProfileLifecycleActions } from './profile/useProfileLifecycleActions'
 import { useProfileSettingsActions } from './profile/useProfileSettingsActions'
@@ -36,9 +37,13 @@ export function useProfile() {
     activeHiddenExpenseDefaults: state.activeHiddenExpenseDefaults,
     activeHiddenIncomeCustoms: state.activeHiddenIncomeCustoms,
     activeHiddenExpenseCustoms: state.activeHiddenExpenseCustoms,
+    activeProfileIcon: state.activeProfileIcon,
+    activeProfileThemeColor: state.activeProfileThemeColor,
+    activeModules: state.activeModules,
     loading: state.loading,
     errorMessage: state.errorMessage,
     updateProfileName: settings.updateProfileName,
+    updateProfileThemeColor: settings.updateProfileThemeColor,
     removeProfileCategory: settings.removeProfileCategory,
     updateProfileSettings: settings.updateProfileSettings,
     refreshProfileCatalog: lifecycle.refreshProfileCatalog,

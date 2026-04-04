@@ -31,9 +31,9 @@ const {
       for-id="descripcion"
     >
       <UInput
-        class="w-full min-w-0"
         id="descripcion"
         v-model="form.description"
+        class="w-full min-w-0"
         type="text"
         placeholder="Ej: Supermercado"
         size="lg"
@@ -45,9 +45,9 @@ const {
       for-id="monto"
     >
       <UInput
-        class="w-full min-w-0"
         id="monto"
         v-model="amountInput"
+        class="w-full min-w-0"
         type="text"
         inputmode="numeric"
         placeholder="0"
@@ -60,11 +60,13 @@ const {
       for-id="categoria"
     >
       <USelect
-        class="w-full min-w-0"
         id="categoria"
         v-model="form.category"
+        class="w-full min-w-0"
         :items="categories"
         size="lg"
+        placeholder="Selecciona una categoria"
+        :aria-label="form.category || 'Selecciona una categoria'"
       />
       <UInput
         v-model="newCategoryInput"
@@ -74,7 +76,7 @@ const {
         placeholder="Nueva categoria (opcional)"
         size="lg"
       />
-      <p class="mt-1 break-words text-xs text-slate-500">
+      <p class="mt-1 break-words text-xs text-slate-600">
         Si escribes una categoria nueva, se guarda en el gasto y queda disponible para este perfil.
       </p>
     </FormField>
@@ -96,7 +98,7 @@ const {
     <UButton
       type="submit"
       size="lg"
-      color="success"
+      color="primary"
       block
       :loading="isSaving"
     >

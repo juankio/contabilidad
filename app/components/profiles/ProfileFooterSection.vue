@@ -11,17 +11,11 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <p
-    v-if="errorMessage"
-    class="mt-3 text-sm text-red-500"
-  >
-    {{ errorMessage }}
-  </p>
-
   <div class="mt-6 flex items-center justify-end gap-3">
     <UButton
       color="neutral"
       variant="ghost"
+      icon="lucide:x"
       type="button"
       :disabled="loading"
       @click="emit('cancel')"
@@ -29,7 +23,8 @@ const emit = defineEmits<{
       Cancelar
     </UButton>
     <UButton
-      color="neutral"
+      color="primary"
+      icon="lucide:save"
       type="button"
       :loading="loading"
       :disabled="!canSave"

@@ -15,6 +15,11 @@
   --color-green-800: #016538;
   --color-green-900: #0A5331;
   --color-green-950: #052E16;
+
+  /* Easing curves de alta calidad */
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-snappy: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 html,
@@ -31,5 +36,122 @@ body,
   textarea,
   button[role='combobox'] {
     font-size: 16px !important;
+  }
+}
+
+/* ─────────────────────────────────────────
+   KEYFRAMES
+───────────────────────────────────────── */
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideRight {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ─────────────────────────────────────────
+   UTILIDADES DE ANIMACIÓN
+───────────────────────────────────────── */
+
+.anim-up   { animation: fadeUp 0.4s var(--ease-out-snappy, cubic-bezier(0.22, 1, 0.36, 1)) both; }
+.anim-up-1 { animation: fadeUp 0.4s var(--ease-out-snappy, cubic-bezier(0.22, 1, 0.36, 1)) 60ms  both; }
+.anim-up-2 { animation: fadeUp 0.4s var(--ease-out-snappy, cubic-bezier(0.22, 1, 0.36, 1)) 120ms both; }
+.anim-up-3 { animation: fadeUp 0.4s var(--ease-out-snappy, cubic-bezier(0.22, 1, 0.36, 1)) 180ms both; }
+.anim-up-4 { animation: fadeUp 0.4s var(--ease-out-snappy, cubic-bezier(0.22, 1, 0.36, 1)) 240ms both; }
+.anim-up-5 { animation: fadeUp 0.4s var(--ease-out-snappy, cubic-bezier(0.22, 1, 0.36, 1)) 300ms both; }
+
+.anim-scale   { animation: scaleIn 0.3s var(--ease-out-snappy, cubic-bezier(0.22, 1, 0.36, 1)) both; }
+.anim-scale-1 { animation: scaleIn 0.3s var(--ease-out-snappy, cubic-bezier(0.22, 1, 0.36, 1)) 80ms both; }
+.anim-scale-2 { animation: scaleIn 0.3s var(--ease-out-snappy, cubic-bezier(0.22, 1, 0.36, 1)) 160ms both; }
+
+.anim-fade   { animation: fadeIn 0.3s ease both; }
+.anim-fade-1 { animation: fadeIn 0.3s ease 80ms both; }
+.anim-fade-2 { animation: fadeIn 0.3s ease 160ms both; }
+
+/* Barra de progreso animada al entrar */
+.anim-bar {
+  transform-origin: left center;
+  animation: slideRight 0.6s var(--ease-out-expo, cubic-bezier(0.16, 1, 0.3, 1)) both;
+}
+.anim-bar-1 { animation: slideRight 0.6s var(--ease-out-expo, cubic-bezier(0.16, 1, 0.3, 1)) 80ms  both; transform-origin: left center; }
+.anim-bar-2 { animation: slideRight 0.6s var(--ease-out-expo, cubic-bezier(0.16, 1, 0.3, 1)) 160ms both; transform-origin: left center; }
+.anim-bar-3 { animation: slideRight 0.6s var(--ease-out-expo, cubic-bezier(0.16, 1, 0.3, 1)) 240ms both; transform-origin: left center; }
+.anim-bar-4 { animation: slideRight 0.6s var(--ease-out-expo, cubic-bezier(0.16, 1, 0.3, 1)) 320ms both; transform-origin: left center; }
+.anim-bar-5 { animation: slideRight 0.6s var(--ease-out-expo, cubic-bezier(0.16, 1, 0.3, 1)) 400ms both; transform-origin: left center; }
+
+/* Skeleton más pulido */
+.skeleton {
+  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 1rem;
+}
+
+/* ─────────────────────────────────────────
+   TRANSICIÓN DE PÁGINA
+───────────────────────────────────────── */
+
+.page-enter-active {
+  transition: opacity 0.22s ease, transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.page-leave-active {
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.page-enter-from {
+  opacity: 0;
+  transform: translateY(10px);
+}
+.page-leave-to {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+
+/* ─────────────────────────────────────────
+   TEMA BASE (violet por defecto)
+   El JS sobreescribe estas vars en runtime
+   vía document.documentElement.style.setProperty()
+   usando useTheme → applyColorVars()
+───────────────────────────────────────── */
+
+:root {
+  --brand-50: oklch(96.9% 0.016 293.756);
+  --brand-100: oklch(94.3% 0.029 294.588);
+  --brand-200: oklch(89.4% 0.057 293.283);
+  --brand-300: oklch(81.1% 0.111 293.571);
+  --brand-400: oklch(70.2% 0.183 293.541);
+  --brand-600: oklch(54.1% 0.281 293.009);
+  --brand-700: oklch(49.1% 0.27 292.581);
+}
+
+/* ─────────────────────────────────────────
+   PREFERS-REDUCED-MOTION
+───────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

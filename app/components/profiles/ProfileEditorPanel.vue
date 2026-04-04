@@ -1,17 +1,16 @@
 <script setup lang="ts">
+import { reactive, useAttrs } from 'vue'
 import { useProfilePage } from '../../composables/profile/useProfilePage'
-import ProfileActionAlerts from './ProfileActionAlerts.vue'
 import ProfileCategoriesSection from './ProfileCategoriesSection.vue'
 import ProfileCreateModal from './ProfileCreateModal.vue'
 import ProfileDeleteModal from './ProfileDeleteModal.vue'
 import ProfileFooterSection from './ProfileFooterSection.vue'
 import ProfileHeaderSection from './ProfileHeaderSection.vue'
 import ProfileIdentitySection from './ProfileIdentitySection.vue'
+import ProfileModulesSection from './ProfileModulesSection.vue'
 import ProfileRenameModal from './ProfileRenameModal.vue'
 
-defineOptions({
-  inheritAttrs: false
-})
+defineOptions({ inheritAttrs: false })
 
 const page = reactive(useProfilePage())
 const attrs = useAttrs()
@@ -42,12 +41,13 @@ const attrs = useAttrs()
       />
     </div>
 
-    <ProfileActionAlerts
-      :message="page.profileActionMessage"
-      :error="page.profileActionError"
+    <ProfileModulesSection
+      :selected-modules="page.modulesInput"
+      :loading="page.loading"
+      @update:selected-modules="page.modulesInput = $event"
     />
 
-    <div class="rounded-2xl border bg-white border-slate-200 bg-slate-50/70 p-4">
+    <div class="rounded-2xl border border-slate-200 bg-white p-4">
       <ProfileCategoriesSection
         :loading="page.loading"
         :default-income-categories="page.defaultIncomeCategories"
@@ -77,7 +77,9 @@ const attrs = useAttrs()
     :open="page.showCreateProfileModal"
     :loading="page.loading"
     :name="page.newProfileName"
+    :icon="page.newProfileIcon"
     @update:name="page.newProfileName = $event"
+    @update:icon="page.newProfileIcon = $event"
     @close="page.closeCreateProfileModal"
     @confirm="page.confirmCreateProfile"
   />
@@ -86,7 +88,9 @@ const attrs = useAttrs()
     :open="page.showRenameProfileModal"
     :loading="page.loading"
     :name="page.renameProfileInput"
+    :icon="page.renameProfileIcon"
     @update:name="page.renameProfileInput = $event"
+    @update:icon="page.renameProfileIcon = $event"
     @close="page.closeRenameProfileModal"
     @confirm="page.confirmRenameProfileDraft"
   />

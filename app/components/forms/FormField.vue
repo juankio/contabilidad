@@ -8,7 +8,7 @@ defineProps<{
 <template>
   <div class="grid gap-2">
     <label
-      class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400"
+      class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-600"
       :for="forId"
     >
       {{ label }}

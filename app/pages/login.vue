@@ -10,7 +10,7 @@ import LoginPattern from '../components/backgrounds/LoginPattern.vue'
     <section class="relative z-10 mx-auto flex min-h-screen w-full max-w-6xl flex-col gap-10 px-4 py-16 lg:justify-center">
       <header class="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <p class="text-xs uppercase tracking-[0.3em] text-slate-400">
+          <p class="text-xs uppercase tracking-[0.3em] text-slate-600">
             Acceso
           </p>
           <h1 class="text-3xl font-semibold text-slate-900">

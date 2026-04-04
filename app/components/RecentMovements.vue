@@ -1,174 +1,106 @@
 <script setup lang="ts">
-import MovementDeleteModal from './movements/MovementDeleteModal.vue'
+import MovementListModal from './movements/MovementListModal.vue'
 import MovementEditModal from './movements/MovementEditModal.vue'
-import { useMovementCrud, type MovimientoRow } from '../composables/movimientos/useMovementCrud'
+import MovementDeleteModal from './movements/MovementDeleteModal.vue'
+import MovementItem from './movements/MovementItem.vue'
+import { useRecentMovements } from '../composables/movimientos/useRecentMovements'
 
-const { data: movimientos, pending, error, refresh: refreshMovimientos } = await useFetch<MovimientoRow[]>('/api/movimientos', {
-  key: 'movimientos',
-  query: { limit: 50 }
-})
-
-const { formatCurrency, formatShortDate } = useFormatters()
-const showAllModal = ref(false)
-const previewMovimientos = computed(() => (movimientos.value ?? []).slice(0, 3))
+defineOptions({ inheritAttrs: false })
 
 const {
-  editOpen,
-  editType,
-  editDescription,
-  editCategory,
-  editAmountInput,
-  editDate,
-  editLoading,
-  editError,
-  canSubmitEdit,
-  deleteOpen,
-  deleteType,
-  deleteLabel,
-  deleteLoading,
-  deleteError,
-  openEdit,
-  closeEdit,
-  submitEdit,
-  openDelete,
-  closeDelete,
-  confirmDelete
-} = useMovementCrud(async () => {
-  await refreshMovimientos()
-})
+  movimientos, pending, error, showAllModal, previewMovimientos,
+  editOpen, editType, editDescription, editCategory, editAmountInput, editDate,
+  editLoading, editError, canSubmitEdit,
+  deleteOpen, deleteType, deleteLabel, deleteLoading, deleteError,
+  openEdit, closeEdit, submitEdit, openDelete, closeDelete, confirmDelete
+} = useRecentMovements()
 </script>
 
 <template>
-  <div class="rounded-3xl bg-white p-5 shadow-sm md:col-span-2 lg:col-span-2">
+  <div
+    v-bind="$attrs"
+    class="rounded-2xl border border-slate-200 bg-white p-4 md:col-span-2 lg:col-span-2"
+  >
     <div class="flex items-center justify-between">
-      <h2 class="text-lg font-semibold">
-        Ultimos movimientos
-      </h2>
-      <button
-        class="text-xs font-semibold text-emerald-600 disabled:cursor-not-allowed disabled:text-slate-400"
+      <div class="flex items-center gap-2 text-slate-700">
+        <UIcon
+          name="lucide:list"
+          class="h-4 w-4"
+        />
+        <p class="text-sm font-semibold">
+          Últimos movimientos
+        </p>
+      </div>
+      <UButton
+        color="neutral"
+        variant="ghost"
+        size="xs"
         :disabled="!movimientos?.length"
         @click="showAllModal = true"
       >
         Ver todos
-      </button>
+      </UButton>
     </div>
 
-    <div class="mt-4 grid gap-3">
+    <div class="mt-4 space-y-2">
       <div
         v-if="pending"
-        class="rounded-2xl border border-slate-100 px-4 py-3 text-sm text-slate-500"
+        class="space-y-2"
       >
-        Cargando movimientos...
+        <div
+          v-for="i in 3"
+          :key="i"
+          class="skeleton h-14 w-full"
+        />
       </div>
+
       <div
         v-else-if="error"
-        class="rounded-2xl border border-rose-100 px-4 py-3 text-sm text-rose-500"
+        class="rounded-2xl border border-rose-100 bg-rose-50 px-4 py-3 text-sm text-rose-500"
       >
         No se pudieron cargar los movimientos.
       </div>
+
       <div
         v-else-if="!movimientos?.length"
-        class="rounded-2xl border border-slate-100 px-4 py-3 text-sm text-slate-500"
+        class="grid min-h-32 place-items-center rounded-2xl border border-dashed border-slate-200 bg-slate-50/60 py-6"
       >
-        Aun no hay movimientos registrados.
-      </div>
-      <template v-else>
-        <div
-          v-for="movimiento in previewMovimientos"
-          :key="movimiento._id"
-          class="flex items-center justify-between gap-3 rounded-2xl border border-slate-100 px-4 py-3"
-        >
-          <div class="min-w-0 flex-1">
-            <p class="text-sm font-semibold">
-              {{ movimiento.description }}
-            </p>
-            <p class="text-xs text-slate-400">
-              {{ movimiento.category }} · {{ formatShortDate(movimiento.date) }}
-            </p>
-          </div>
-          <p
-            class="text-sm font-semibold"
-            :class="movimiento.type === 'Ingreso' ? 'text-emerald-600' : 'text-amber-600'"
-          >
-            {{ movimiento.type === 'Ingreso' ? '+' : '-' }}
-            {{ formatCurrency(movimiento.amount) }}
+        <div class="text-center">
+          <UIcon
+            name="lucide:inbox"
+            class="mx-auto mb-2 h-8 w-8 text-slate-200"
+          />
+          <p class="text-sm font-medium text-slate-400">
+            Sin movimientos aún
+          </p>
+          <p class="mt-0.5 text-xs text-slate-300">
+            Registra un ingreso o gasto para empezar.
           </p>
         </div>
-      </template>
+      </div>
+
+      <TransitionGroup
+        v-else
+        name="mov"
+        tag="div"
+        class="space-y-2"
+      >
+        <MovementItem
+          v-for="movimiento in previewMovimientos"
+          :key="movimiento._id"
+          :movimiento="movimiento"
+        />
+      </TransitionGroup>
     </div>
   </div>
 
-  <div
-    v-if="showAllModal"
-    class="fixed inset-0 z-50 grid place-items-center bg-slate-900/50 p-4"
-    @click.self="showAllModal = false"
-  >
-    <div class="w-full max-w-2xl rounded-3xl bg-white p-5 shadow-xl">
-      <div class="mb-4 flex items-center justify-between">
-        <h3 class="text-lg font-semibold text-slate-900">
-          Todos los movimientos
-        </h3>
-        <button
-          class="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-600"
-          @click="showAllModal = false"
-        >
-          Cerrar
-        </button>
-      </div>
-
-      <div class="grid max-h-[65vh] gap-3 overflow-y-auto pr-1">
-        <div
-          v-for="movimiento in movimientos || []"
-          :key="`modal-${movimiento._id}`"
-          class="flex items-center justify-between gap-3 rounded-2xl border border-slate-100 px-4 py-3"
-        >
-          <div class="min-w-0 flex-1">
-            <p class="text-sm font-semibold">
-              {{ movimiento.description }}
-            </p>
-            <p class="text-xs text-slate-400">
-              {{ movimiento.category }} · {{ formatShortDate(movimiento.date) }}
-            </p>
-          </div>
-          <div class="flex items-center gap-2">
-            <p
-              class="text-sm font-semibold"
-              :class="movimiento.type === 'Ingreso' ? 'text-emerald-600' : 'text-amber-600'"
-            >
-              {{ movimiento.type === 'Ingreso' ? '+' : '-' }}
-              {{ formatCurrency(movimiento.amount) }}
-            </p>
-            <div class="flex items-center gap-1">
-              <UButton
-                color="neutral"
-                variant="soft"
-                size="xs"
-                @click="openEdit(movimiento)"
-              >
-                <UIcon
-                  name="lucide:pencil"
-                  class="h-3.5 w-3.5"
-                />
-                Editar
-              </UButton>
-              <UButton
-                color="error"
-                variant="soft"
-                size="xs"
-                @click="openDelete(movimiento)"
-              >
-                <UIcon
-                  name="lucide:trash-2"
-                  class="h-3.5 w-3.5"
-                />
-                Eliminar
-              </UButton>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <MovementListModal
+    :open="showAllModal"
+    :movimientos="movimientos ?? null"
+    @close="showAllModal = false"
+    @edit="openEdit"
+    @delete="openDelete"
+  />
 
   <MovementEditModal
     :open="editOpen"
@@ -198,3 +130,11 @@ const {
     @confirm="confirmDelete"
   />
 </template>
+
+<style scoped>
+.mov-enter-active { transition: all 0.28s cubic-bezier(0.22, 1, 0.36, 1); }
+.mov-leave-active { transition: all 0.18s ease; }
+.mov-enter-from   { opacity: 0; transform: translateY(-8px); }
+.mov-leave-to     { opacity: 0; transform: translateX(16px); }
+.mov-move         { transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1); }
+</style>
