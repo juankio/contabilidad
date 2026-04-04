@@ -2,6 +2,7 @@
 import MovementListModal from './movements/MovementListModal.vue'
 import MovementEditModal from './movements/MovementEditModal.vue'
 import MovementDeleteModal from './movements/MovementDeleteModal.vue'
+import MovementItem from './movements/MovementItem.vue'
 import { useRecentMovements } from '../composables/movimientos/useRecentMovements'
 
 defineOptions({ inheritAttrs: false })
