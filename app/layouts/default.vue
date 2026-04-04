@@ -1,16 +1,21 @@
 <script setup lang="ts">
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 import AppHeaderMain from '../components/layout/AppHeaderMain.vue'
+import AppFooter from '../components/layout/AppFooter.vue'
 
 const route = useRoute()
 const showHeader = computed(() => route.path !== '/login')
 </script>
 
 <template>
-  <div>
+  <div class="flex min-h-screen flex-col">
     <AppHeaderMain v-if="showHeader" />
 
-    <div class="min-h-screen">
+    <main class="flex-1">
       <slot />
-    </div>
+    </main>
+
+    <AppFooter v-if="showHeader" />
   </div>
 </template>

@@ -1,8 +1,11 @@
 <script setup>
+import { buildThemeInitScript } from '~/composables/useTheme'
+
 const { initTheme } = useTheme()
 onMounted(() => initTheme())
 
 useHead({
+  script: [{ innerHTML: buildThemeInitScript(), tagPosition: 'head' }],
   meta: [
     { name: 'viewport', content: 'width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover' }
   ],

@@ -328,6 +328,22 @@ function applyColorVars(colorName: string) {
 
 const STORAGE_PREFIX = 'theme:'
 
+/**
+ * Genera el script inline para el <head> que aplica toda la paleta de colores
+ * sincrónicamente, antes del primer paint, evitando el flash de color en cada reload.
+ * Incluye todos los shades para que Nuxt UI no use su paleta violet por defecto.
+ */
+export function buildThemeInitScript(): string {
+  const paletteMap = Object.fromEntries(
+    THEME_KEYS.map(k => [k, THEME_PALETTES[k]])
+  )
+  const shadeIndices = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]
+  const p = JSON.stringify(paletteMap)
+  const sh = JSON.stringify(shadeIndices)
+  const def = DEFAULT_THEME_KEY
+  return `(function(){var p=${p},sh=${sh},def='${def}';try{var k=localStorage.getItem('theme:global')||def;var pal=p[k]||p[def];var el=document.documentElement;sh.forEach(function(s,i){el.style.setProperty('--ui-color-primary-'+s,pal[i]);el.style.setProperty('--color-primary-'+s,pal[i]);});el.style.setProperty('--ui-primary',pal[5]);el.style.setProperty('--color-primary',pal[5]);el.style.setProperty('--brand-50',pal[0]);el.style.setProperty('--brand-100',pal[1]);el.style.setProperty('--brand-200',pal[2]);el.style.setProperty('--brand-300',pal[3]);el.style.setProperty('--brand-400',pal[4]);el.style.setProperty('--brand-600',pal[6]);el.style.setProperty('--brand-700',pal[7]);}catch(e){}})()`
+}
+
 export function useTheme() {
   const activeColor = useState<ThemeKey>('app:theme-color', () => DEFAULT_THEME_KEY)
 
@@ -335,6 +351,8 @@ export function useTheme() {
     const normalized = normalizeThemeKey(colorKey)
     if (import.meta.client) {
       applyColorVars(normalized)
+      // Persists the last used color so initTheme() reads it correctly on reload
+      localStorage.setItem(`${STORAGE_PREFIX}global`, normalized)
     }
     activeColor.value = normalized
   }

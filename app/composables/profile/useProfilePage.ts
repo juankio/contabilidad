@@ -6,8 +6,8 @@ import { useProfilePageFeedback } from './useProfilePageFeedback'
 import { useProfilePageRename } from './useProfilePageRename'
 
 export function useProfilePage() {
-  const data = useProfilePageData()
   const feedback = useProfilePageFeedback()
+  const data = useProfilePageData(feedback.setActionError)
   const categories = useProfilePageCategories({
     activeIncomeCategories: data.activeIncomeCategories,
     activeExpenseCategories: data.activeExpenseCategories,

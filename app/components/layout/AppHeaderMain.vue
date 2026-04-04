@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import AppHeaderDesktopNav from './AppHeaderDesktopNav.vue'
 import AppHeaderMobileMenu from './AppHeaderMobileMenu.vue'
-import ThemePicker from './ThemePicker.vue'
 import { useHeaderProfiles } from '../../composables/layout/useHeaderProfiles'
 import { useModuleNavigation } from '../../composables/modules/useModuleNavigation'
 import type { NavigationMenuItem } from '@nuxt/ui'
@@ -59,15 +58,31 @@ const menuItems = computed<NavigationMenuItem[]>(() => navItems.value.map((item)
       <NuxtLink
         to="/"
         no-prefetch
-        class="text-base font-semibold text-slate-900"
+        class="flex items-center gap-2.5 group"
       >
-        Mi Contabilidad
+        <!-- Logomark SVG -->
+        <svg
+          width="30"
+          height="30"
+          viewBox="0 0 30 30"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          class="shrink-0 transition-transform duration-200 group-hover:scale-105"
+        >
+          <rect width="30" height="30" rx="8" style="fill: var(--brand-600)" />
+          <!-- Líneas de libro contable -->
+          <path d="M9 11h12" stroke="white" stroke-width="2" stroke-linecap="round" />
+          <path d="M9 15.5h8" stroke="white" stroke-width="2" stroke-linecap="round" />
+          <path d="M9 20h10" stroke="white" stroke-width="2" stroke-linecap="round" />
+          <!-- Pequeño acento superior derecho -->
+          <circle cx="21.5" cy="9.5" r="2.5" fill="white" fill-opacity="0.35" />
+        </svg>
+        <span class="text-base font-semibold text-slate-900 tracking-tight">Mi Contabilidad</span>
       </NuxtLink>
     </template>
 
     <template #right>
       <div class="flex items-center gap-2">
-        <ThemePicker v-if="activeProfileId" />
         <div class="hidden items-center sm:flex">
           <AppHeaderDesktopNav
             :profile-items="profileItems"

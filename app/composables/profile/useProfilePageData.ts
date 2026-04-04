@@ -1,5 +1,6 @@
-import { useProfile } from '../useProfile'
+import { ref, computed, watch } from 'vue'
 import type { Ref } from 'vue'
+import { useProfile } from '../useProfile'
 
 export type CategoryType = 'income' | 'expense'
 
@@ -15,7 +16,7 @@ const hasSameItems = (left: string[] | undefined, right: string[] | undefined) =
     && leftNormalized.every((item, index) => item === rightNormalized[index])
 }
 
-export function useProfilePageData() {
+export function useProfilePageData(setActionError?: (msg: string) => void) {
   const profile = useProfile()
   const nameInput = ref('')
   const iconInput = ref('i-lucide-user')
@@ -92,6 +93,8 @@ export function useProfilePageData() {
     })
     if (ok) {
       await navigateTo('/')
+    } else {
+      setActionError?.(profile.errorMessage.value || 'No se pudo guardar el perfil.')
     }
   }
 

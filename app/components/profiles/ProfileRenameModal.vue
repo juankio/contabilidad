@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import { PROFILE_ICONS } from '../../utils/profile-icons'
+import { useProfileColorPicker } from '../../composables/useProfileColorPicker'
+import ProfileEditPreview from './ProfileEditPreview.vue'
+import ProfileIconPicker from './ProfileIconPicker.vue'
+import ProfileColorPicker from './ProfileColorPicker.vue'
 
-defineProps<{
+const props = defineProps<{
   open: boolean
   loading: boolean
   name: string
@@ -13,108 +16,103 @@ const emit = defineEmits<{
   (e: 'close' | 'confirm'): void
 }>()
 
-const iconPickerOpen = ref(false)
+const colorPicker = useProfileColorPicker()
 </script>
 
 <template>
   <div
     v-if="open"
-    class="fixed inset-0 z-50 grid place-items-center bg-slate-900/50 p-4"
+    class="fixed inset-0 z-50 grid place-items-center bg-slate-900/60 p-4 backdrop-blur-sm"
     @click.self="emit('close')"
   >
-    <div class="w-full max-w-md rounded-3xl bg-white p-5 shadow-xl">
-      <h3 class="text-lg font-semibold text-slate-900">
-        Cambiar nombre del perfil
-      </h3>
-      <p class="mt-1 text-sm text-slate-700">
-        Confirma el nuevo nombre del perfil activo.
-      </p>
+    <div class="w-full max-w-md rounded-3xl bg-white shadow-2xl">
 
-      <div class="mt-4">
-        <UInput
-          :model-value="name"
-          type="text"
-          size="lg"
-          maxlength="32"
-          placeholder="Nuevo nombre del perfil"
-          aria-label="Nuevo nombre del perfil"
-          autofocus
-          @update:model-value="emit('update:name', String($event ?? ''))"
-        />
+      <!-- Header -->
+      <div class="flex items-center justify-between border-b border-slate-100 px-6 py-4">
+        <div>
+          <h3 class="text-base font-semibold text-slate-900">
+            Editar perfil
+          </h3>
+          <p class="text-xs text-slate-500">
+            Nombre, ícono y color
+          </p>
+        </div>
+        <button
+          type="button"
+          class="flex h-8 w-8 items-center justify-center rounded-full text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
+          @click="emit('close')"
+        >
+          <UIcon name="lucide:x" class="h-4 w-4" />
+        </button>
       </div>
 
-      <div class="mt-4">
-        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-600">
-          Icono del perfil
-        </p>
-        <div class="mt-2">
-          <UPopover
-            v-model:open="iconPickerOpen"
-            :disabled="loading"
-            :content="{ side: 'bottom', align: 'start', sideOffset: 8 }"
-          >
-            <UButton
-              color="neutral"
-              variant="outline"
-              size="sm"
-              class="h-9 w-12 justify-center"
-              type="button"
-              :disabled="loading"
-              aria-label="Seleccionar icono del perfil"
-            >
-              <UIcon
-                :name="icon || 'i-lucide-user'"
-                class="h-5 w-5"
-              />
-            </UButton>
+      <div class="space-y-5 px-6 py-5">
+        <ProfileEditPreview
+          :name="props.name"
+          :icon="props.icon"
+          :swatch="colorPicker.activeSwatch.value"
+        />
 
-            <template #content>
-              <div class="w-72 p-3">
-                <div class="grid max-h-56 grid-cols-6 gap-2 overflow-y-auto pr-1">
-                  <button
-                    v-for="option in PROFILE_ICONS"
-                    :key="option.icon"
-                    type="button"
-                    class="flex items-center justify-center rounded-lg border p-2 transition"
-                    :class="icon === option.icon
-                      ? 'border-emerald-400 bg-emerald-50 text-emerald-700'
-                      : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'"
-                    @click="
-                      emit('update:icon', option.icon);
-                      iconPickerOpen = false
-                    "
-                  >
-                    <UIcon
-                      :name="option.icon"
-                      class="h-4 w-4"
-                    />
-                  </button>
-                </div>
-              </div>
-            </template>
-          </UPopover>
+        <div>
+          <p class="mb-1.5 text-xs font-semibold uppercase tracking-widest text-slate-400">
+            Nombre
+          </p>
+          <UInput
+            :model-value="props.name"
+            type="text"
+            size="lg"
+            maxlength="32"
+            placeholder="Nombre del perfil"
+            aria-label="Nombre del perfil"
+            autofocus
+            @update:model-value="emit('update:name', String($event ?? ''))"
+          />
+        </div>
+
+        <div>
+          <p class="mb-1.5 text-xs font-semibold uppercase tracking-widest text-slate-400">
+            Ícono
+          </p>
+          <ProfileIconPicker
+            :icon="props.icon"
+            :disabled="props.loading"
+            @update:icon="emit('update:icon', $event)"
+          />
+        </div>
+
+        <div>
+          <p class="mb-2 text-xs font-semibold uppercase tracking-widest text-slate-400">
+            Color
+          </p>
+          <ProfileColorPicker
+            :active-color="colorPicker.activeColor.value"
+            :saving="colorPicker.saving.value"
+            @select="colorPicker.selectColor"
+          />
         </div>
       </div>
 
-      <div class="mt-5 flex justify-end gap-2">
+      <!-- Footer -->
+      <div class="flex items-center justify-end gap-2 border-t border-slate-100 px-6 py-4">
         <UButton
           color="neutral"
           variant="ghost"
           type="button"
-          :disabled="loading"
-          aria-label="Cancelar"
+          icon="lucide:x"
+          :disabled="props.loading"
           @click="emit('close')"
         >
           Cancelar
         </UButton>
         <UButton
-          color="neutral"
+          color="primary"
           type="button"
-          :disabled="name.trim().length < 2 || name.trim().length > 32"
-          aria-label="Usar este nombre"
+          icon="lucide:check"
+          :disabled="props.name.trim().length < 2 || props.name.trim().length > 32"
+          :loading="props.loading"
           @click="emit('confirm')"
         >
-          Usar este nombre
+          Guardar cambios
         </UButton>
       </div>
     </div>
