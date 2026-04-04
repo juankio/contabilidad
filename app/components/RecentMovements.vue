@@ -95,7 +95,7 @@ const {
 
   <MovementListModal
     :open="showAllModal"
-    :movimientos="movimientos"
+    :movimientos="movimientos ?? null"
     @close="showAllModal = false"
     @edit="openEdit"
     @delete="openDelete"

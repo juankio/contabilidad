@@ -51,7 +51,7 @@ async function select(key: typeof THEMES[number]['key']) {
           <span
             v-if="activeColor === t.key"
             class="absolute inset-0 flex items-center justify-center rounded-full ring-2 ring-white ring-offset-2"
-            :style="{ ringOffsetColor: t.swatch }"
+            :style="{ '--tw-ring-offset-color': t.swatch }"
           >
             <svg
               class="h-3.5 w-3.5 text-white"
