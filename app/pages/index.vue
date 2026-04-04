@@ -28,11 +28,11 @@ const goToProfile = async () => {
 <template>
   <main class="min-h-screen bg-slate-50 text-slate-900">
     <section class="mx-auto max-w-6xl px-4 pb-12 pt-6">
-      <header class="anim-up mb-6 rounded-3xl bg-white p-5 shadow-sm">
+      <header class="anim-up mb-6 rounded-2xl border border-slate-200 bg-white p-5">
         <div class="flex flex-wrap items-center justify-between gap-4">
           <div class="flex items-center gap-3">
             <div
-              class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl shadow-sm"
+              class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full"
               style="background: var(--brand-600)"
             >
               <UIcon
@@ -50,20 +50,24 @@ const goToProfile = async () => {
             </div>
           </div>
           <div class="flex items-center gap-2">
-            <button
-              class="rounded-full border border-slate-200 bg-white px-3.5 py-1.5 text-sm font-medium text-slate-600 shadow-sm transition-all duration-200 hover:border-slate-300 hover:shadow active:scale-95"
-              type="button"
+            <UButton
+              color="neutral"
+              variant="soft"
+              icon="lucide:settings"
+              size="sm"
               @click="goToProfile"
             >
               Perfil
-            </button>
-            <button
-              class="rounded-full border border-slate-200 bg-white px-3.5 py-1.5 text-sm font-medium text-slate-600 shadow-sm transition-all duration-200 hover:border-rose-200 hover:bg-rose-50 hover:text-rose-600 active:scale-95"
-              type="button"
+            </UButton>
+            <UButton
+              color="error"
+              variant="soft"
+              icon="lucide:log-out"
+              size="sm"
               @click="logout"
             >
               Salir
-            </button>
+            </UButton>
           </div>
         </div>
       </header>

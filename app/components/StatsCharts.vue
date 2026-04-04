@@ -26,14 +26,15 @@ const resumen = computed(() => data.value?.resumen ?? {
 </script>
 
 <template>
-  <div class="rounded-3xl bg-white p-5 shadow-sm md:col-span-2 lg:col-span-3">
+  <div class="self-start rounded-2xl border border-slate-200 bg-white p-4 md:col-span-2 lg:col-span-3">
     <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-      <div>
-        <h2 class="text-lg font-semibold">
-          Estadisticas
-        </h2>
-        <p class="mt-1 text-sm text-slate-500">
-          Resumen visual del mes actual y ultimos 6 meses.
+      <div class="flex items-center gap-2 text-slate-700">
+        <UIcon
+          name="lucide:chart-bar"
+          class="h-4 w-4"
+        />
+        <p class="text-sm font-semibold">
+          Estadísticas
         </p>
       </div>
       <div class="max-w-full pb-1">
@@ -42,8 +43,9 @@ const resumen = computed(() => data.value?.resumen ?? {
             v-for="item in profileFilterItems"
             :key="item.value"
             type="button"
-            class="rounded-full px-3 py-1 text-xs font-medium"
-            :class="selectedProfileId === item.value ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600'"
+            class="rounded-full px-3 py-1 text-xs font-medium transition-all duration-150"
+            :class="selectedProfileId === item.value ? 'text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'"
+            :style="selectedProfileId === item.value ? { background: 'var(--brand-600)' } : {}"
             @click="selectedProfileId = item.value"
           >
             {{ item.label }}

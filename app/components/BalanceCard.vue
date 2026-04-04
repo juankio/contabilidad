@@ -24,25 +24,33 @@ const saludColor = computed(() => {
 </script>
 
 <template>
-  <div class="self-start rounded-3xl bg-white p-5 shadow-sm md:col-span-2 lg:col-span-1">
+  <div class="self-start rounded-2xl border border-slate-200 bg-white p-4 md:col-span-2 lg:col-span-1">
     <!-- Header -->
     <div class="flex items-start justify-between">
       <div>
-        <p class="text-xs uppercase tracking-[0.2em] text-slate-400">
-          Balance mensual
-        </p>
-        <h1 class="mt-1.5 text-2xl font-semibold text-slate-900">
+        <div class="flex items-center gap-2 text-slate-700">
+          <UIcon
+            name="lucide:bar-chart-2"
+            class="h-4 w-4"
+          />
+          <p class="text-sm font-semibold">
+            Balance mensual
+          </p>
+        </div>
+        <p class="mt-1.5 text-2xl font-bold text-slate-900">
           {{ resumen?.month || 'Mes actual' }}
-        </h1>
+        </p>
       </div>
-      <button
-        type="button"
-        class="mt-1 rounded-full border border-slate-200 px-3 py-1 text-xs font-medium text-slate-500 transition-all duration-200 hover:border-slate-300 hover:bg-slate-50 hover:text-slate-700 active:scale-95 disabled:opacity-40"
+      <UButton
+        color="neutral"
+        variant="ghost"
+        size="xs"
+        :loading="exporting"
         :disabled="exporting"
         @click="exportResumen"
       >
-        {{ exporting ? '...' : 'Excel' }}
-      </button>
+        Excel
+      </UButton>
     </div>
 
     <!-- Skeletons -->
@@ -101,8 +109,11 @@ const saludColor = computed(() => {
       </div>
 
       <!-- Saldo -->
-      <div class="anim-up-2 rounded-2xl bg-slate-900 px-4 py-3 text-white">
-        <p class="text-xs uppercase tracking-[0.2em] text-slate-400">
+      <div
+        class="anim-up-2 rounded-2xl px-4 py-3 text-white"
+        style="background: var(--brand-600)"
+      >
+        <p class="text-xs uppercase tracking-[0.2em] text-white/70">
           Disponible
         </p>
         <p class="mt-1 text-xl font-semibold">
