@@ -26,10 +26,10 @@ definePageMeta({
       -->
       <div class="bento-grid mt-6 grid gap-5">
         <PostresCatalogoCard class="anim-up-1 bento-postres" />
-        <PostresInsumosCard  class="anim-up-2 bento-insumos" />
-        <PostresRecetasCard  class="anim-up-3 bento-recetas" />
-        <PostresVentasCard   class="anim-up-4 bento-ventas" />
-        <PostresReporteCard  class="anim-up-5 bento-reporte" />
+        <PostresInsumosCard class="anim-up-2 bento-insumos" />
+        <PostresRecetasCard class="anim-up-3 bento-recetas" />
+        <PostresVentasCard class="anim-up-4 bento-ventas" />
+        <PostresReporteCard class="anim-up-5 bento-reporte" />
       </div>
     </section>
   </main>

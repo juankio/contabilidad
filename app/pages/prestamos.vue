@@ -55,7 +55,6 @@ const {
           :format-currency="formatCurrency"
         />
         <PrestamoCreateFormCard
-          class="anim-up-2"
           v-model:borrower="form.borrower"
           v-model:amount-input="amountInput"
           v-model:payment-plan="form.paymentPlan"
@@ -64,6 +63,7 @@ const {
           v-model:loan-date-value="loanDateValue"
           v-model:collection-date-value="collectionDateValue"
           v-model:note="form.note"
+          class="anim-up-2"
           :creating="creating"
           :create-error="createError"
           :create-success="createSuccess"
@@ -84,10 +84,10 @@ const {
           </div>
           <template v-else>
             <PrestamosPendingCard
-              class="anim-up-3"
               v-model:abono-amount-input="abonoAmountInput"
               v-model:abono-date-value="abonoDateValue"
               v-model:abono-note="abonoForm.note"
+              class="anim-up-3"
               :prestamos-pendientes="prestamosPendientes"
               :open-abono-prestamo-id="openAbonoPrestamoId"
               :deleting-prestamo-id="deletingPrestamoId"

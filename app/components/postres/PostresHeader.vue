@@ -30,15 +30,24 @@ const { postres, insumos, ventas } = usePostres()
       <!-- Quick stats badges -->
       <div class="hidden items-center gap-2 sm:flex">
         <span class="flex items-center gap-1.5 rounded-full border border-slate-100 bg-slate-50 px-3 py-1 text-xs font-medium text-slate-500">
-          <UIcon name="lucide:cake" class="size-3.5 text-amber-400" />
+          <UIcon
+            name="lucide:cake"
+            class="size-3.5 text-amber-400"
+          />
           {{ postres.length }} postre{{ postres.length !== 1 ? 's' : '' }}
         </span>
         <span class="flex items-center gap-1.5 rounded-full border border-slate-100 bg-slate-50 px-3 py-1 text-xs font-medium text-slate-500">
-          <UIcon name="lucide:package" class="size-3.5 text-emerald-400" />
+          <UIcon
+            name="lucide:package"
+            class="size-3.5 text-emerald-400"
+          />
           {{ insumos.length }} insumo{{ insumos.length !== 1 ? 's' : '' }}
         </span>
         <span class="flex items-center gap-1.5 rounded-full border border-slate-100 bg-slate-50 px-3 py-1 text-xs font-medium text-slate-500">
-          <UIcon name="lucide:shopping-bag" class="size-3.5 text-sky-400" />
+          <UIcon
+            name="lucide:shopping-bag"
+            class="size-3.5 text-sky-400"
+          />
           {{ ventas.length }} venta{{ ventas.length !== 1 ? 's' : '' }}
         </span>
       </div>

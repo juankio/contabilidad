@@ -12,7 +12,10 @@ defineProps<{
       class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition-all duration-300"
       :style="{ background: swatch }"
     >
-      <UIcon :name="icon || 'i-lucide-user'" class="h-5 w-5 text-white" />
+      <UIcon
+        :name="icon || 'i-lucide-user'"
+        class="h-5 w-5 text-white"
+      />
     </div>
     <div class="min-w-0">
       <p class="truncate text-sm font-semibold text-slate-900">

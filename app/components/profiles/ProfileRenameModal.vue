@@ -26,7 +26,6 @@ const colorPicker = useProfileColorPicker()
     @click.self="emit('close')"
   >
     <div class="w-full max-w-md rounded-3xl bg-white shadow-2xl">
-
       <!-- Header -->
       <div class="flex items-center justify-between border-b border-slate-100 px-6 py-4">
         <div>
@@ -42,7 +41,10 @@ const colorPicker = useProfileColorPicker()
           class="flex h-8 w-8 items-center justify-center rounded-full text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
           @click="emit('close')"
         >
-          <UIcon name="lucide:x" class="h-4 w-4" />
+          <UIcon
+            name="lucide:x"
+            class="h-4 w-4"
+          />
         </button>
       </div>
 

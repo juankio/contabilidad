@@ -69,13 +69,39 @@ const menuItems = computed<NavigationMenuItem[]>(() => navItems.value.map((item)
           xmlns="http://www.w3.org/2000/svg"
           class="shrink-0 transition-transform duration-200 group-hover:scale-105"
         >
-          <rect width="30" height="30" rx="8" style="fill: var(--brand-600)" />
+          <rect
+            width="30"
+            height="30"
+            rx="8"
+            style="fill: var(--brand-600)"
+          />
           <!-- Líneas de libro contable -->
-          <path d="M9 11h12" stroke="white" stroke-width="2" stroke-linecap="round" />
-          <path d="M9 15.5h8" stroke="white" stroke-width="2" stroke-linecap="round" />
-          <path d="M9 20h10" stroke="white" stroke-width="2" stroke-linecap="round" />
+          <path
+            d="M9 11h12"
+            stroke="white"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+          <path
+            d="M9 15.5h8"
+            stroke="white"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+          <path
+            d="M9 20h10"
+            stroke="white"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
           <!-- Pequeño acento superior derecho -->
-          <circle cx="21.5" cy="9.5" r="2.5" fill="white" fill-opacity="0.35" />
+          <circle
+            cx="21.5"
+            cy="9.5"
+            r="2.5"
+            fill="white"
+            fill-opacity="0.35"
+          />
         </svg>
         <span class="text-base font-semibold text-slate-900 tracking-tight">Mi Contabilidad</span>
       </NuxtLink>

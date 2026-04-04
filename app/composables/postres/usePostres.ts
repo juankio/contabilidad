@@ -1,7 +1,7 @@
-type Postre = { id: string; name: string; price: number }
-type Insumo = { id: string; name: string; unit: string; cost: number }
-type RecetaItem = { insumoId: string; yields: number }
-type Venta = { id: string; postreId: string; qty: number; date: string }
+type Postre = { id: string, name: string, price: number }
+type Insumo = { id: string, name: string, unit: string, cost: number }
+type RecetaItem = { insumoId: string, yields: number }
+type Venta = { id: string, postreId: string, qty: number, date: string }
 
 const uid = () => Math.random().toString(36).slice(2, 10)
 

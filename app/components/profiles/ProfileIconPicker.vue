@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { PROFILE_ICONS } from '../../utils/profile-icons'
 
-const props = defineProps<{ icon: string; disabled?: boolean }>()
+const props = defineProps<{ icon: string, disabled?: boolean }>()
 const emit = defineEmits<{ (e: 'update:icon', value: string): void }>()
 
 const open = ref(false)
@@ -20,7 +20,10 @@ const open = ref(false)
       :disabled="props.disabled"
       aria-label="Seleccionar ícono"
     >
-      <UIcon :name="props.icon || 'i-lucide-user'" class="h-5 w-5 text-slate-700" />
+      <UIcon
+        :name="props.icon || 'i-lucide-user'"
+        class="h-5 w-5 text-slate-700"
+      />
     </button>
 
     <template #content>
@@ -35,7 +38,10 @@ const open = ref(false)
             :style="props.icon === option.icon ? { background: 'var(--brand-600)', borderColor: 'var(--brand-600)' } : {}"
             @click="emit('update:icon', option.icon); open = false"
           >
-            <UIcon :name="option.icon" class="h-4 w-4" />
+            <UIcon
+              :name="option.icon"
+              class="h-4 w-4"
+            />
           </button>
         </div>
       </div>

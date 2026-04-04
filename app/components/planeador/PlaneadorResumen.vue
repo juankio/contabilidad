@@ -22,8 +22,8 @@ const alerta = computed(() => {
 
 const alertaConfig = computed(() => ({
   critical: { badge: 'bg-rose-50 text-rose-600', bar: 'bg-rose-500', text: 'text-rose-700', bg: 'bg-rose-50', label: '⚠ Sin fondos' },
-  warning:  { badge: 'bg-amber-50 text-amber-600', bar: 'bg-amber-400', text: 'text-amber-700', bg: 'bg-amber-50', label: '⚡ Ajustado' },
-  ok:       { badge: 'bg-emerald-50 text-emerald-600', bar: 'bg-emerald-400', text: 'text-emerald-700', bg: 'bg-emerald-50', label: '✓ Bien' }
+  warning: { badge: 'bg-amber-50 text-amber-600', bar: 'bg-amber-400', text: 'text-amber-700', bg: 'bg-amber-50', label: '⚡ Ajustado' },
+  ok: { badge: 'bg-emerald-50 text-emerald-600', bar: 'bg-emerald-400', text: 'text-emerald-700', bg: 'bg-emerald-50', label: '✓ Bien' }
 }[alerta.value]))
 </script>
 

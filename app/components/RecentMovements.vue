@@ -41,7 +41,10 @@ const {
 </script>
 
 <template>
-  <div v-bind="$attrs" class="rounded-3xl bg-white p-5 shadow-sm md:col-span-2 lg:col-span-2">
+  <div
+    v-bind="$attrs"
+    class="rounded-3xl bg-white p-5 shadow-sm md:col-span-2 lg:col-span-2"
+  >
     <div class="flex items-center justify-between">
       <div>
         <h2 class="text-lg font-semibold text-slate-900">

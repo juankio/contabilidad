@@ -9,10 +9,30 @@
           fill="none"
           class="shrink-0 opacity-60"
         >
-          <rect width="30" height="30" rx="8" style="fill: var(--brand-600)" />
-          <path d="M9 11h12" stroke="white" stroke-width="2" stroke-linecap="round" />
-          <path d="M9 15.5h8" stroke="white" stroke-width="2" stroke-linecap="round" />
-          <path d="M9 20h10" stroke="white" stroke-width="2" stroke-linecap="round" />
+          <rect
+            width="30"
+            height="30"
+            rx="8"
+            style="fill: var(--brand-600)"
+          />
+          <path
+            d="M9 11h12"
+            stroke="white"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+          <path
+            d="M9 15.5h8"
+            stroke="white"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+          <path
+            d="M9 20h10"
+            stroke="white"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
         </svg>
         <span>Mi Contabilidad</span>
       </div>

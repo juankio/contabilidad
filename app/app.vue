@@ -41,4 +41,3 @@ colorMode.preference = 'light'
     </NuxtLayout>
   </UApp>
 </template>
-

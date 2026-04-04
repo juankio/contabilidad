@@ -21,7 +21,10 @@ const PlanCompraSchema = new Schema<PlanCompraDocument>(
   },
   {
     timestamps: { createdAt: true, updatedAt: false },
-    toJSON: { transform: (_, ret) => { delete ret.__v; return ret } }
+    toJSON: { transform: (_, ret) => {
+      delete ret.__v
+      return ret
+    } }
   }
 )
 

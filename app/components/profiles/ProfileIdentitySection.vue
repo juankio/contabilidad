@@ -16,7 +16,10 @@ const { activeProfileIcon } = useProfile()
 <template>
   <div class="h-full rounded-2xl border border-slate-200 bg-white p-4">
     <div class="flex items-center gap-2 text-slate-700">
-      <UIcon name="lucide:id-card" class="h-4 w-4" />
+      <UIcon
+        name="lucide:id-card"
+        class="h-4 w-4"
+      />
       <p class="text-sm font-semibold">
         Perfil actual
       </p>
