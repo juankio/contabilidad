@@ -23,11 +23,19 @@ const resumen = computed(() => data.value?.resumen ?? {
   saldo: 0,
   saldoDisponible: 0
 })
+
+const tabs = [
+  { label: 'Resumen' },
+  { label: 'Categorías' },
+  { label: 'Histórico' }
+]
+const activeTab = ref(0)
 </script>
 
 <template>
   <div class="self-start rounded-2xl border border-slate-200 bg-white p-4 md:col-span-2 lg:col-span-3">
-    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <!-- Header -->
+    <div class="flex items-center justify-between gap-3">
       <div class="flex items-center gap-2 text-slate-700">
         <UIcon
           name="lucide:chart-bar"
@@ -37,7 +45,9 @@ const resumen = computed(() => data.value?.resumen ?? {
           Estadísticas
         </p>
       </div>
-      <div class="max-w-full pb-1">
+
+      <!-- Desktop: filtros de perfil -->
+      <div class="hidden max-w-full lg:block">
         <div class="flex flex-wrap items-center gap-2">
           <button
             v-for="item in profileFilterItems"
@@ -54,11 +64,12 @@ const resumen = computed(() => data.value?.resumen ?? {
       </div>
     </div>
 
+    <!-- Loading / Error -->
     <div
       v-if="pending"
       class="mt-6 text-sm text-slate-500"
     >
-      Cargando estadisticas...
+      Cargando estadísticas...
     </div>
     <div
       v-else-if="error"
@@ -66,23 +77,75 @@ const resumen = computed(() => data.value?.resumen ?? {
     >
       No se pudieron cargar.
     </div>
-    <div
-      v-else
-      class="mt-6 grid gap-6 lg:grid-cols-3"
-    >
-      <StatsIncomeExpense
-        :resumen="resumen"
-        :ingresos-ratio="ingresosRatio"
-        :gastos-ratio="gastosRatio"
-      />
-      <StatsCategories
-        :categorias="categoriasSegments"
-        :max-value="maxCategoryValue"
-      />
-      <StatsSeries
-        :series="data?.series || []"
-        :max-value="maxSeriesValue"
-      />
-    </div>
+
+    <template v-else>
+      <!-- Mobile: segmented control + filtros de perfil -->
+      <div class="mt-3 lg:hidden">
+        <div class="flex flex-wrap items-center gap-2">
+          <button
+            v-for="item in profileFilterItems"
+            :key="item.value"
+            type="button"
+            class="rounded-full px-3 py-1 text-xs font-medium transition-all duration-150"
+            :class="selectedProfileId === item.value ? 'text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'"
+            :style="selectedProfileId === item.value ? { background: 'var(--brand-600)' } : {}"
+            @click="selectedProfileId = item.value"
+          >
+            {{ item.label }}
+          </button>
+        </div>
+
+        <div class="mt-3 flex rounded-xl bg-slate-100 p-1">
+          <button
+            v-for="(tab, i) in tabs"
+            :key="i"
+            type="button"
+            class="flex-1 rounded-lg py-1.5 text-xs font-medium transition-all duration-150"
+            :class="activeTab === i
+              ? 'bg-white text-slate-900 shadow-sm'
+              : 'text-slate-500 hover:text-slate-700'"
+            @click="activeTab = i"
+          >
+            {{ tab.label }}
+          </button>
+        </div>
+
+        <div class="mt-3">
+          <StatsIncomeExpense
+            v-if="activeTab === 0"
+            :resumen="resumen"
+            :ingresos-ratio="ingresosRatio"
+            :gastos-ratio="gastosRatio"
+          />
+          <StatsCategories
+            v-else-if="activeTab === 1"
+            :categorias="categoriasSegments"
+            :max-value="maxCategoryValue"
+          />
+          <StatsSeries
+            v-else
+            :series="data?.series || []"
+            :max-value="maxSeriesValue"
+          />
+        </div>
+      </div>
+
+      <!-- Desktop: 3 columnas -->
+      <div class="mt-4 grid gap-4 max-lg:hidden lg:grid-cols-3">
+        <StatsIncomeExpense
+          :resumen="resumen"
+          :ingresos-ratio="ingresosRatio"
+          :gastos-ratio="gastosRatio"
+        />
+        <StatsCategories
+          :categorias="categoriasSegments"
+          :max-value="maxCategoryValue"
+        />
+        <StatsSeries
+          :series="data?.series || []"
+          :max-value="maxSeriesValue"
+        />
+      </div>
+    </template>
   </div>
 </template>

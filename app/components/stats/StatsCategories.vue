@@ -15,24 +15,24 @@ const { formatCurrency } = useFormatters()
 
 <template>
   <div class="rounded-2xl border border-slate-100 p-4">
-    <p class="text-xs uppercase tracking-[0.2em] text-slate-600">
-      Gastos por categoria
+    <p class="text-xs font-semibold uppercase tracking-widest text-slate-500">
+      Gastos por categoría
     </p>
     <div class="mt-4 grid gap-3">
       <div
         v-for="categoria in props.categorias"
         :key="categoria.label"
-        class="grid gap-2"
+        class="grid gap-1.5"
       >
-        <div class="flex items-center justify-between text-xs text-slate-600">
-          <div class="flex items-center gap-2">
+        <div class="flex items-center justify-between gap-2">
+          <div class="flex min-w-0 items-center gap-2">
             <span
-              class="h-2 w-2 rounded-full"
+              class="h-2.5 w-2.5 shrink-0 rounded-full"
               :style="{ backgroundColor: categoria.color }"
             />
-            <span class="truncate">{{ categoria.label }}</span>
+            <span class="truncate text-sm text-slate-700">{{ categoria.label }}</span>
           </div>
-          <span class="font-semibold">{{ formatCurrency(categoria.value) }}</span>
+          <span class="shrink-0 text-sm font-semibold text-slate-800">{{ formatCurrency(categoria.value) }}</span>
         </div>
         <div class="h-2 w-full overflow-hidden rounded-full bg-slate-100">
           <div
@@ -46,7 +46,7 @@ const { formatCurrency } = useFormatters()
       </div>
       <div
         v-if="!props.categorias.length"
-        class="text-sm text-slate-600"
+        class="text-sm text-slate-500"
       >
         Sin gastos registrados.
       </div>
