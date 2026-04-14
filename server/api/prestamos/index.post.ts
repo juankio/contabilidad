@@ -4,6 +4,7 @@ import { connectMongoose } from '../../utils/mongoose'
 import { requireActiveProfile } from '../../utils/auth'
 import { PrestamoModel } from '../../models/prestamo'
 import { toIsoDate } from '../../utils/date'
+import { getAvailableBalance } from '../../utils/balance'
 
 const prestamoSchema = z.object({
   borrower: z.string().trim().min(1).max(60),
@@ -58,6 +59,15 @@ export default defineEventHandler(async (event) => {
 
   await connectMongoose()
   const { profileId } = await requireActiveProfile(event)
+
+  const balanceActual = await getAvailableBalance(profileId)
+  if (parsed.data.amount > balanceActual) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: `Fondos insuficientes. No puedes prestar $${parsed.data.amount} porque solo tienes $${balanceActual} disponibles.`
+    })
+  }
+
   const paymentPlan = parsed.data.paymentPlan
   const installmentsCount = paymentPlan === 'installments'
     ? (parsed.data.installmentsCount ?? null)

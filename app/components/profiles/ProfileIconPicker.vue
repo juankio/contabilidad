@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import { PROFILE_ICONS } from '../../utils/profile-icons'
 
 const props = defineProps<{ icon: string, disabled?: boolean }>()

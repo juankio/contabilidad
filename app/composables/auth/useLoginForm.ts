@@ -13,7 +13,7 @@ declare global {
       accounts: {
         id: {
           initialize: (config: { client_id: string, callback: (response: GoogleCredentialResponse) => void }) => void
-          renderButton: (element: HTMLElement, options: Record<string, unknown>) => void
+          renderButton: (element: HTMLElement, options: any) => void
         }
       }
     }

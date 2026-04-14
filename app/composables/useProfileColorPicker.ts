@@ -1,4 +1,3 @@
-import { ref, computed } from 'vue'
 import { useTheme, THEMES } from './useTheme'
 import { useProfile } from './useProfile'
 

@@ -1,4 +1,3 @@
-import { computed } from 'vue'
 import { useAuthUser } from './auth/useAuth'
 import { useProfileLifecycleActions } from './profile/useProfileLifecycleActions'
 import { useProfileSettingsActions } from './profile/useProfileSettingsActions'

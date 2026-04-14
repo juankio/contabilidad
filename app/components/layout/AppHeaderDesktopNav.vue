@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { NavigationMenuItem } from '@nuxt/ui'
-import { computed } from 'vue'
 
 type ProfileItem = {
   label: string

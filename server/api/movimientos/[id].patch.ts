@@ -27,7 +27,7 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, statusMessage: 'Datos invalidos para actualizar.' })
   }
 
-  const update: Record<string, unknown> = {
+  const update: any = {
     description: parsed.data.description.trim(),
     category: parsed.data.category.trim(),
     amount: parsed.data.amount

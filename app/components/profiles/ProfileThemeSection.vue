@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
 import { useTheme, THEMES } from '../../composables/useTheme'
 import { useProfile } from '../../composables/useProfile'
 

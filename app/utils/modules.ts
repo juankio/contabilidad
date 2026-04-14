@@ -5,6 +5,7 @@ export type OptionalModuleKey
     | 'catalogo-postres'
     | 'granja-cerdos'
     | 'planeador'
+    | 'trabajadores'
 
 export type ModuleKey = 'contabilidad' | OptionalModuleKey
 
@@ -71,6 +72,12 @@ export const MODULES: ModuleDefinition[] = [
     label: 'Planeador de compras',
     description: 'Planea compras futuras y controla su impacto en tu presupuesto.',
     nav: [{ label: 'Planeador', to: '/planeador' }]
+  },
+  {
+    key: 'trabajadores',
+    label: 'Nómina y Trabajadores',
+    description: 'Administra personal, quincenas y adelantos.',
+    nav: [{ label: 'Trabajadores', to: '/trabajadores' }]
   }
 ]
 

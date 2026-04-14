@@ -22,7 +22,7 @@ const PlanCompraSchema = new Schema<PlanCompraDocument>(
   {
     timestamps: { createdAt: true, updatedAt: false },
     toJSON: { transform: (_, ret) => {
-      const serialized = ret as Record<string, unknown> & { __v?: unknown }
+      const serialized = ret as any & { __v?: unknown }
       delete serialized.__v
       return serialized
     } }

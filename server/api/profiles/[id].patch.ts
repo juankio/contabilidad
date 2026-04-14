@@ -70,7 +70,7 @@ export default defineEventHandler(async (event) => {
     )
   }
 
-  const query: Record<string, unknown> = { _id: user._id }
+  const query: any = { _id: user._id }
   query['profiles._id'] = profileId
   const updated = await UserModel.findOneAndUpdate(
     query,

@@ -27,7 +27,8 @@ const iconByRoute: Record<string, string> = {
   '/catalogo-tienda': 'i-lucide-store',
   '/catalogo-postres': 'i-lucide-cake',
   '/granja-cerdos': 'i-lucide-paw-print',
-  '/planeador': 'i-lucide-shopping-bag'
+  '/planeador': 'i-lucide-shopping-bag',
+  '/trabajadores': 'i-lucide-users'
 }
 
 const menuItems = computed<NavigationMenuItem[]>(() => navItems.value.map((item) => {

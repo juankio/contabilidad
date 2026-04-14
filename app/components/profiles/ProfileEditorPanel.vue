@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { reactive, useAttrs } from 'vue'
 import { useProfilePage } from '../../composables/profile/useProfilePage'
 import ProfileCategoriesSection from './ProfileCategoriesSection.vue'
 import ProfileCreateModal from './ProfileCreateModal.vue'

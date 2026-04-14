@@ -4,6 +4,7 @@ import { requireActiveProfile } from '../../utils/auth'
 import mongoose from 'mongoose'
 import { GastoModel } from '../../models/gasto'
 import { IngresoModel } from '../../models/ingreso'
+import { getAvailableBalance } from '../../utils/balance'
 
 export default defineEventHandler(async (event) => {
   await connectMongoose()
@@ -14,15 +15,13 @@ export default defineEventHandler(async (event) => {
   const start = getMonthStartUTC(now)
   const end = getNextMonthStartUTC(now)
 
-  const [ingresos, gastos, ingresosDisponibles, gastosDisponibles] = await Promise.all([
+  const [ingresos, gastos] = await Promise.all([
     aggregateTotal(IngresoModel, profileObjectId, { $gte: start, $lt: end }),
-    aggregateTotal(GastoModel, profileObjectId, { $gte: start, $lt: end }),
-    aggregateTotal(IngresoModel, profileObjectId, { $lt: end }),
-    aggregateTotal(GastoModel, profileObjectId, { $lt: end })
+    aggregateTotal(GastoModel, profileObjectId, { $gte: start, $lt: end })
   ])
 
   const saldo = ingresos - gastos
-  const saldoDisponible = ingresosDisponibles - gastosDisponibles
+  const saldoDisponible = await getAvailableBalance(profileId)
 
   const month = new Intl.DateTimeFormat('es-CO', {
     month: 'long',

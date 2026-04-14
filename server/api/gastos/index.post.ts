@@ -7,6 +7,7 @@ import { IngresoModel } from '../../models/ingreso'
 import mongoose from 'mongoose'
 import { getResendClient, getResendFrom } from '../../utils/resend'
 import { upsertProfileCategory } from '../../utils/profile-category-store'
+import { getAvailableBalance } from '../../utils/balance'
 
 const gastoSchema = z.object({
   description: z.string().trim().min(1),
@@ -36,6 +37,15 @@ export default defineEventHandler(async (event) => {
 
   await connectMongoose()
   const { profileId, user } = await requireActiveProfile(event)
+
+  const balanceActual = await getAvailableBalance(profileId)
+  if (parsed.data.amount > balanceActual) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: `Fondos insuficientes. Intentas gastar $${parsed.data.amount} pero solo tienes $${balanceActual} disponibles.`
+    })
+  }
+
   const doc = await GastoModel.create({
     profileId,
     description: parsed.data.description.trim(),

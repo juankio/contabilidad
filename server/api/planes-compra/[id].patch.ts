@@ -24,7 +24,7 @@ export default defineEventHandler(async (event) => {
   await connectMongoose()
   const { profileId } = await requireActiveProfile(event)
 
-  const update: Record<string, unknown> = {}
+  const update: any = {}
   if (parsed.data.completado !== undefined) update.completado = parsed.data.completado
   if (parsed.data.nombre !== undefined) update.nombre = parsed.data.nombre
   if (parsed.data.monto !== undefined) update.monto = parsed.data.monto

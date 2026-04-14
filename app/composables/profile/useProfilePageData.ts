@@ -1,4 +1,3 @@
-import { ref, computed, watch } from 'vue'
 import type { Ref } from 'vue'
 import { useProfile } from '../useProfile'
 
