@@ -18,7 +18,5 @@ const TrabajadorSchema = new Schema<TrabajadorDocument>({
   activo: { type: Boolean, default: true }
 }, { timestamps: true })
 
-TrabajadorSchema.index({ profileId: 1 })
-
 type TrabajadorModelType = mongoose.Model<TrabajadorDocument>
 export const TrabajadorModel = (mongoose.models.Trabajador as TrabajadorModelType) || mongoose.model<TrabajadorDocument>('Trabajador', TrabajadorSchema, 'trabajadores')
