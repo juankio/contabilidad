@@ -5,6 +5,7 @@ import PrestamosPendingCard from '../components/prestamos/PrestamosPendingCard.v
 import PrestamosPaidCard from '../components/prestamos/PrestamosPaidCard.vue'
 import PrestamoDeleteModal from '../components/prestamos/PrestamoDeleteModal.vue'
 import { usePrestamos } from '../composables/prestamos/usePrestamos'
+import { useResumen } from '../composables/useResumen'
 
 definePageMeta({
   requiresModule: 'prestamos'
@@ -18,6 +19,9 @@ const {
   requestDeletePrestamo, cancelDeletePrestamo, confirmDeletePrestamo, deletingTarget, deleteError
 } = usePrestamos()
 
+const { resumen } = await useResumen()
+const saldoDisponible = computed(() => resumen.value?.saldoDisponible ?? resumen.value?.saldo ?? 0)
+
 const { activeProfileName } = useProfile()
 const profileInitial = computed(() => activeProfileName.value?.trim().charAt(0).toUpperCase() || 'M')
 </script>
@@ -27,31 +31,43 @@ const profileInitial = computed(() => activeProfileName.value?.trim().charAt(0).
     <section class="mx-auto max-w-6xl overflow-x-clip px-4 pb-10 pt-6">
       <!-- Page header -->
       <header class="anim-up mb-6 rounded-3xl bg-white p-5 shadow-sm">
-        <div class="flex items-center gap-3">
-          <div
-            class="relative flex h-10 w-10 items-center justify-center rounded-2xl shadow-sm"
-            style="background: var(--brand-600)"
-          >
-            <span class="text-sm font-bold text-white">
-              {{ profileInitial }}
-            </span>
-            <span class="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full border-2 border-white bg-slate-700">
-              <UIcon
-                name="lucide:handshake"
-                class="h-3 w-3 text-white"
-              />
-            </span>
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <div
+              class="relative flex h-10 w-10 items-center justify-center rounded-2xl shadow-sm"
+              style="background: var(--brand-600)"
+            >
+              <span class="text-sm font-bold text-white">
+                {{ profileInitial }}
+              </span>
+              <span class="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full border-2 border-white bg-slate-700">
+                <UIcon
+                  name="lucide:handshake"
+                  class="h-3 w-3 text-white"
+                />
+              </span>
+            </div>
+            <div>
+              <p class="text-xs uppercase tracking-[0.2em] text-slate-400">
+                Módulo
+              </p>
+              <h1 class="text-lg font-semibold text-slate-900">
+                Préstamos
+              </h1>
+              <p class="text-xs text-slate-400">
+                Gestiona lo que prestas y lo que te deben
+              </p>
+            </div>
           </div>
-          <div>
-            <p class="text-xs uppercase tracking-[0.2em] text-slate-400">
-              Módulo
-            </p>
-            <h1 class="text-lg font-semibold text-slate-900">
-              Préstamos
-            </h1>
-            <p class="text-xs text-slate-400">
-              Gestiona lo que prestas y lo que te deben
-            </p>
+          
+          <div class="flex items-center gap-3 rounded-2xl bg-emerald-50 px-4 py-2 border border-emerald-100">
+            <div class="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
+              <UIcon name="lucide:wallet" class="h-4 w-4" />
+            </div>
+            <div>
+              <p class="text-xs text-emerald-600 font-medium">Disponible para prestar</p>
+              <p class="text-lg font-bold text-emerald-700">{{ formatCurrency(saldoDisponible) }}</p>
+            </div>
           </div>
         </div>
       </header>

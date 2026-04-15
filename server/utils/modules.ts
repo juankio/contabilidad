@@ -4,7 +4,8 @@ export const OPTIONAL_MODULES = [
   'catalogo-tienda',
   'catalogo-postres',
   'granja-cerdos',
-  'planeador'
+  'planeador',
+  'trabajadores'
 ] as const
 
 export type OptionalModuleKey = typeof OPTIONAL_MODULES[number]

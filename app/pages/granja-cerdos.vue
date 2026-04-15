@@ -54,11 +54,11 @@ onMounted(() => fetchLotes())
             <h1 class="text-lg font-semibold text-slate-900">
               Granja de Cerdos
             </h1>
+            <p class="text-xs text-slate-500">
+              Controla animales, alimentación, peso y gastos.
+            </p>
           </div>
         </div>
-        <p class="mt-3 text-sm text-slate-500">
-          Controla animales, alimentación, peso y gastos directamente enlazados a tu caja.
-        </p>
       </header>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
@@ -66,102 +66,121 @@ onMounted(() => fetchLotes())
         <ConcentradoForm @submit="handleComprarConcentrado" />
       </div>
 
-      <div class="anim-up-3 mt-6 rounded-2xl border border-slate-200 bg-white p-5">
-        <h2 class="text-base font-medium text-slate-900 mb-4">
-          Lotes Activos y Fichas
-        </h2>
+      <div class="anim-up-3 mt-6 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div class="mb-4 flex items-center gap-2">
+          <div class="flex h-8 w-8 items-center justify-center rounded-xl bg-primary/10 text-primary">
+            <UIcon name="lucide:list" class="h-4 w-4" />
+          </div>
+          <h2 class="text-base font-semibold text-slate-900">
+            Lotes Activos y Fichas
+          </h2>
+        </div>
         <div
           v-if="loading"
-          class="text-sm text-slate-500"
+          class="flex items-center gap-2 text-sm text-slate-500 py-4"
         >
+          <UIcon name="lucide:loader-2" class="h-4 w-4 animate-spin" />
           Cargando...
         </div>
         <div
           v-else-if="lotes.length === 0"
-          class="text-sm text-slate-500"
+          class="flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 py-8 text-center"
         >
-          No hay lotes registrados.
+          <UIcon name="lucide:inbox" class="mb-2 h-8 w-8 text-slate-300" />
+          <p class="text-sm font-medium text-slate-600">No hay lotes registrados</p>
+          <p class="text-xs text-slate-500">Registra el primero para empezar a controlar.</p>
         </div>
         <div
           v-else
-          class="space-y-4"
+          class="grid gap-4 md:grid-cols-2"
         >
           <div
             v-for="lote in lotes"
             :key="lote._id"
-            class="p-4 rounded-xl bg-slate-50 border border-slate-100"
+            class="p-4 rounded-2xl bg-slate-50/50 border border-slate-100 hover:bg-slate-50 transition-colors"
           >
             <div class="flex justify-between items-start mb-3">
-              <div>
-                <p class="font-bold text-slate-900">
-                  {{ lote.nombreLoteMadre }}
-                </p>
-                <p class="text-sm text-slate-600">
-                  Fecha Llegada/Parto: {{ new Date(lote.fechaLlegada).toLocaleDateString() }}
-                </p>
+              <div class="flex items-center gap-3">
+                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white shadow-sm ring-1 ring-slate-100">
+                  <span class="text-sm font-bold text-primary">{{ lote.nombreLoteMadre.charAt(0).toUpperCase() }}</span>
+                </div>
+                <div>
+                  <p class="font-bold text-slate-900 line-clamp-1">
+                    {{ lote.nombreLoteMadre }}
+                  </p>
+                  <p class="text-xs text-slate-500">
+                    Llegada/Parto: {{ new Date(lote.fechaLlegada).toLocaleDateString() }}
+                  </p>
+                </div>
               </div>
-              <div class="bg-[var(--brand-100)] text-[var(--brand-700)] px-3 py-1 rounded-lg text-sm font-semibold">
-                {{ lote.cantidadActual }} vivos de {{ lote.cantidadInicial }}
+              <div class="bg-[var(--brand-100)] text-[var(--brand-700)] px-3 py-1 rounded-lg text-sm font-semibold whitespace-nowrap">
+                {{ lote.cantidadActual }} vivos
               </div>
             </div>
 
-            <div class="grid grid-cols-2 gap-4 text-sm mt-3 border-t border-slate-200 pt-3">
+            <div class="grid grid-cols-2 gap-4 text-sm mt-4 border-t border-slate-100 pt-4">
               <div>
-                <p class="font-semibold text-slate-700 mb-1">
-                  Horarios de Comida (Tabla)
+                <p class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
+                  Horarios Comida
                 </p>
-                <ul class="list-disc pl-4 text-slate-600">
+                <ul class="space-y-1 text-slate-600">
                   <li
                     v-for="(h, i) in lote.horariosComida || []"
                     :key="i"
+                    class="flex items-center gap-1.5 text-xs"
                   >
-                    {{ h.hora }}: {{ h.cantidadKilos }}kg de {{ h.formula }}
+                    <UIcon name="lucide:clock" class="h-3 w-3 text-slate-400" />
+                    <span>{{ h.hora }}: {{ h.cantidadKilos }}kg ({{ h.formula }})</span>
                   </li>
                   <li
                     v-if="!(lote.horariosComida?.length)"
-                    class="text-xs italic"
+                    class="text-xs italic text-slate-400"
                   >
                     Sin horarios
                   </li>
                 </ul>
               </div>
               <div>
-                <p class="font-semibold text-slate-700 mb-1">
-                  Registro de Muertes
+                <p class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
+                  Bajas (Muertes)
                 </p>
-                <ul class="list-disc pl-4 text-slate-600">
+                <ul class="space-y-1 text-slate-600">
                   <li
                     v-for="(m, i) in lote.muertes || []"
                     :key="i"
+                    class="flex items-center gap-1.5 text-xs text-rose-600"
                   >
-                    -{{ m.cantidad }} el {{ new Date(m.fecha).toLocaleDateString() }} ({{ m.causa }})
+                    <UIcon name="lucide:skull" class="h-3 w-3" />
+                    <span>-{{ m.cantidad }} el {{ new Date(m.fecha).toLocaleDateString() }}</span>
                   </li>
                   <li
                     v-if="!(lote.muertes?.length)"
-                    class="text-xs italic"
+                    class="text-xs italic text-slate-400"
                   >
-                    Cero muertes registradas
+                    Cero muertes
                   </li>
                 </ul>
               </div>
             </div>
 
-            <div class="flex gap-2 mt-4">
+            <div class="flex gap-2 mt-5">
               <UButton
                 size="xs"
-                color="neutral"
+                color="error"
                 variant="soft"
-                icon="i-lucide-skull"
+                icon="lucide:skull"
+                class="flex-1 justify-center"
               >
                 Muerte
               </UButton>
               <UButton
                 size="xs"
-                color="neutral"
+                color="warning"
                 variant="soft"
-                icon="i-lucide-clock"
+                icon="lucide:wheat"
+                class="flex-1 justify-center"
               >
-                Añadir Comida
+                Comida
               </UButton>
             </div>
           </div>

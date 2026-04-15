@@ -21,46 +21,63 @@ const onSubmit = () => {
 </script>
 
 <template>
-  <div class="anim-up-2 rounded-2xl border border-slate-200 bg-white p-5">
-    <h2 class="text-base font-medium text-slate-900 mb-4">
-      Registrar Pago
-    </h2>
+  <div class="anim-up-2 flex flex-col rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+    <div class="mb-4 flex items-center gap-2">
+      <div class="flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600">
+        <UIcon name="lucide:hand-coins" class="h-4 w-4" />
+      </div>
+      <h2 class="text-base font-semibold text-slate-900">
+        Registrar Pago
+      </h2>
+    </div>
+
     <form
-      class="space-y-4"
+      class="flex flex-1 flex-col gap-4"
       @submit.prevent="onSubmit"
     >
-      <div>
-        <label class="block text-sm text-slate-600">Trabajador</label>
+      <div class="space-y-1">
+        <label class="text-sm font-medium text-slate-700">Trabajador</label>
         <USelect
           v-model="form.trabajadorId"
           :options="trabajadores.map(t => ({ label: t.nombre, value: t._id }))"
+          icon="lucide:user"
+          placeholder="Seleccionar trabajador"
           required
         />
       </div>
-      <div>
-        <label class="block text-sm text-slate-600">Tipo de Pago</label>
+
+      <div class="space-y-1">
+        <label class="text-sm font-medium text-slate-700">Tipo de Pago</label>
         <USelect
           v-model="form.tipo"
           :options="[{ label: 'Quincena', value: 'quincena' }, { label: 'Adelanto', value: 'adelanto' }]"
+          icon="lucide:calendar-clock"
           required
         />
       </div>
-      <div>
-        <label class="block text-sm text-slate-600">Monto</label>
+
+      <div class="space-y-1">
+        <label class="text-sm font-medium text-slate-700">Monto</label>
         <UInput
           v-model.number="form.amount"
           type="number"
           min="1"
+          placeholder="0.00"
+          icon="lucide:circle-dollar-sign"
           required
         />
       </div>
-      <UButton
-        type="submit"
-        block
-        color="neutral"
-      >
-        Realizar Pago
-      </UButton>
+
+      <div class="mt-auto pt-2">
+        <UButton
+          type="submit"
+          block
+          color="success"
+          icon="lucide:check-circle"
+        >
+          Realizar Pago
+        </UButton>
+      </div>
     </form>
   </div>
 </template>
