@@ -48,7 +48,10 @@ const closeGroupModal = () => {
     <div class="mb-5 flex items-start justify-between">
       <div class="flex items-center gap-3">
         <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/10 text-blue-600">
-          <UIcon name="lucide:users" class="h-5 w-5" />
+          <UIcon
+            name="lucide:users"
+            class="h-5 w-5"
+          />
         </div>
         <div>
           <h2 class="text-lg font-bold tracking-tight text-slate-900">

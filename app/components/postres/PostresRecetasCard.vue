@@ -29,7 +29,10 @@ const submit = () => {
     <div class="mb-5 flex items-start justify-between">
       <div class="flex items-center gap-3">
         <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-500/10 text-violet-600">
-          <UIcon name="lucide:book-open" class="h-5 w-5" />
+          <UIcon
+            name="lucide:book-open"
+            class="h-5 w-5"
+          />
         </div>
         <div>
           <h2 class="text-lg font-bold tracking-tight text-slate-900">
@@ -99,7 +102,10 @@ const submit = () => {
         v-if="!recetaActual.length"
         class="flex h-full min-h-[200px] flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 p-6 text-center"
       >
-        <UIcon name="lucide:file-question" class="mb-2 h-8 w-8 text-slate-300" />
+        <UIcon
+          name="lucide:file-question"
+          class="mb-2 h-8 w-8 text-slate-300"
+        />
         <p class="text-sm font-medium text-slate-600">
           {{ postreId ? 'Receta vacía' : 'Selecciona un postre' }}
         </p>
@@ -118,7 +124,10 @@ const submit = () => {
         >
           <div class="flex items-center gap-3">
             <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-white shadow-sm ring-1 ring-slate-100">
-              <UIcon name="lucide:package" class="h-4 w-4 text-violet-500" />
+              <UIcon
+                name="lucide:package"
+                class="h-4 w-4 text-violet-500"
+              />
             </div>
             <span class="text-base font-semibold text-slate-900">
               {{ insumos.find(i => i.id === item.insumoId)?.name }}

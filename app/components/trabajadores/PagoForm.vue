@@ -31,7 +31,10 @@ const onSubmit = () => {
     <div class="mb-5 flex items-start justify-between">
       <div class="flex items-center gap-3">
         <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600">
-          <UIcon name="lucide:hand-coins" class="h-5 w-5" />
+          <UIcon
+            name="lucide:hand-coins"
+            class="h-5 w-5"
+          />
         </div>
         <div>
           <h2 class="text-lg font-bold tracking-tight text-slate-900">
@@ -48,7 +51,10 @@ const onSubmit = () => {
       class="flex flex-1 flex-col gap-6 mt-2"
       @submit.prevent="onSubmit"
     >
-      <FormField label="Trabajador" for-id="trabajador">
+      <FormField
+        label="Trabajador"
+        for-id="trabajador"
+      >
         <USelect
           id="trabajador"
           v-model="form.trabajadorId"
@@ -60,7 +66,10 @@ const onSubmit = () => {
         />
       </FormField>
 
-      <FormField label="Tipo de Pago" for-id="tipoPago">
+      <FormField
+        label="Tipo de Pago"
+        for-id="tipoPago"
+      >
         <USelect
           id="tipoPago"
           v-model="form.tipo"
@@ -71,7 +80,10 @@ const onSubmit = () => {
         />
       </FormField>
 
-      <FormField label="Monto" for-id="monto">
+      <FormField
+        label="Monto"
+        for-id="monto"
+      >
         <UInput
           id="monto"
           v-model="amountInput"

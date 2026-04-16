@@ -1,0 +1,204 @@
+<script setup lang="ts">
+import { ref, reactive, computed, watch } from 'vue'
+import type { PlanCompra, NuevoPlan } from '../../composables/planeador/usePlaneador'
+import DateInputField from '../forms/DateInputField.vue'
+import FormField from '../forms/FormField.vue'
+import { CalendarDate } from '@internationalized/date'
+import { useCalendarDateInput } from '../../composables/forms/useCalendarDateInput'
+import { useMoneyInput } from '../../composables/forms/useMoneyInput'
+
+const props = defineProps<{
+  modelValue: boolean
+  plan: PlanCompra | null
+  submitting: boolean
+  submitError: string | null
+}>()
+
+const emit = defineEmits<{
+  'update:modelValue': [value: boolean]
+  'submit': [id: string, updates: Partial<NuevoPlan>]
+}>()
+
+const isOpen = computed({
+  get: () => props.modelValue,
+  set: v => emit('update:modelValue', v)
+})
+
+type PlaneadorFormValues = Omit<NuevoPlan, 'fechaPlaneada'>
+
+const form = reactive<PlaneadorFormValues>({
+  nombre: '',
+  monto: '0',
+  descripcion: ''
+})
+
+const { dateValue: fechaPlaneadaValue } = useCalendarDateInput()
+const monto = ref(0)
+const { amountInput } = useMoneyInput(monto)
+
+const fechaPlaneada = computed(() => toMonthKey(fechaPlaneadaValue.value))
+
+const canSubmit = computed(() =>
+  form.nombre.trim().length > 0
+  && monto.value > 0
+  && fechaPlaneada.value.length === 7
+  && !props.submitting
+)
+
+// Sincronizar datos cuando se abre el modal con un plan nuevo
+watch(() => props.plan, (newPlan) => {
+  if (newPlan) {
+    form.nombre = newPlan.nombre
+    form.descripcion = newPlan.descripcion || ''
+    monto.value = newPlan.monto
+
+    const [year, month] = newPlan.fechaPlaneada.split('-')
+    if (year && month) {
+      fechaPlaneadaValue.value = new CalendarDate(Number(year), Number(month), 1)
+    }
+  }
+}, { immediate: true })
+
+function toMonthKey(value: unknown): string {
+  if (!value) return ''
+  if (typeof value === 'string') return value.slice(0, 7)
+  if (typeof value === 'object' && 'toString' in value) {
+    return (value as { toString: () => string }).toString().slice(0, 7)
+  }
+  return ''
+}
+
+function onSubmit() {
+  if (!canSubmit.value || !props.plan) return
+  emit('submit', props.plan._id, {
+    ...form,
+    monto: String(monto.value),
+    fechaPlaneada: fechaPlaneada.value
+  })
+}
+
+function close() {
+  isOpen.value = false
+}
+</script>
+
+<template>
+  <UModal
+    v-model="isOpen"
+    :ui="{ content: 'sm:max-w-md' }"
+  >
+    <template #content>
+      <div class="p-6">
+        <div class="flex items-start justify-between mb-6">
+          <div class="flex items-center gap-3">
+            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+              <UIcon
+                name="lucide:pencil"
+                class="h-5 w-5"
+              />
+            </div>
+            <div>
+              <h2 class="text-lg font-bold tracking-tight text-slate-900">
+                Editar plan
+              </h2>
+              <p class="text-sm text-slate-500">
+                Actualiza los detalles de la compra.
+              </p>
+            </div>
+          </div>
+          <ClientOnly>
+            <UButton
+              color="neutral"
+              variant="ghost"
+              icon="i-lucide-x"
+              class="-my-1"
+              @click="close"
+            />
+          </ClientOnly>
+        </div>
+
+        <div
+          v-if="submitError"
+          class="mb-4 rounded-xl border border-rose-100 bg-rose-50 px-4 py-3 text-sm text-rose-600"
+        >
+          {{ submitError }}
+        </div>
+
+        <form
+          class="grid gap-4"
+          @submit.prevent="onSubmit"
+        >
+          <FormField
+            label="¿Qué quieres comprar?"
+            for-id="edit-planeador-nombre"
+          >
+            <UInput
+              id="edit-planeador-nombre"
+              v-model="form.nombre"
+              type="text"
+              placeholder="Ej: Zapatos, celular, viaje..."
+              maxlength="80"
+              size="lg"
+            />
+          </FormField>
+
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <FormField
+              label="Cuánto cuesta"
+              for-id="edit-planeador-monto"
+            >
+              <UInput
+                id="edit-planeador-monto"
+                v-model="amountInput"
+                type="text"
+                inputmode="numeric"
+                placeholder="0"
+                size="lg"
+              />
+            </FormField>
+
+            <DateInputField
+              label="¿Para cuándo?"
+              for-id="edit-planeador-fecha"
+              :model-value="fechaPlaneadaValue"
+              @update:model-value="fechaPlaneadaValue = $event as typeof fechaPlaneadaValue"
+            />
+          </div>
+
+          <FormField
+            label="Nota"
+            for-id="edit-planeador-descripcion"
+          >
+            <UInput
+              id="edit-planeador-descripcion"
+              v-model="form.descripcion"
+              type="text"
+              placeholder="Por qué lo necesitas, dónde comprarlo..."
+              maxlength="200"
+              size="lg"
+            />
+          </FormField>
+
+          <div class="mt-4 flex justify-end gap-3">
+            <UButton
+              type="button"
+              color="neutral"
+              variant="ghost"
+              @click="close"
+            >
+              Cancelar
+            </UButton>
+            <UButton
+              type="submit"
+              :disabled="!canSubmit"
+              color="primary"
+              :loading="submitting"
+            >
+              Guardar cambios
+            </UButton>
+          </div>
+        </form>
+      </div>
+    </template>
+  </UModal>
+</template>

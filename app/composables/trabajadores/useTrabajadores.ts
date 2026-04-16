@@ -1,3 +1,5 @@
+import { getRequestError } from '../prestamos/helpers'
+
 export function useTrabajadores() {
   const trabajadores = ref<any[]>([])
   const loading = ref(false)
@@ -14,13 +16,40 @@ export function useTrabajadores() {
   }
 
   const crearTrabajador = async (payload: any) => {
-    await $fetch('/api/trabajadores', { method: 'POST', body: payload })
-    await fetchTrabajadores()
+    try {
+      await $fetch('/api/trabajadores', { method: 'POST', body: payload })
+      await fetchTrabajadores()
+    } catch (error) {
+      throw new Error(getRequestError(error, 'No se pudo crear el trabajador'))
+    }
   }
 
   const pagarTrabajador = async (payload: any) => {
-    await $fetch('/api/trabajadores/pagos', { method: 'POST', body: payload })
+    try {
+      await $fetch('/api/trabajadores/pagos', { method: 'POST', body: payload })
+      await fetchTrabajadores()
+    } catch (error) {
+      throw new Error(getRequestError(error, 'No se pudo procesar el pago'))
+    }
   }
 
-  return { trabajadores, loading, fetchTrabajadores, crearTrabajador, pagarTrabajador }
+  const editarTrabajador = async (id: string, payload: any) => {
+    try {
+      await $fetch(`/api/trabajadores/${id}`, { method: 'PUT', body: payload })
+      await fetchTrabajadores()
+    } catch (error) {
+      throw new Error(getRequestError(error, 'No se pudo editar el trabajador'))
+    }
+  }
+
+  const eliminarTrabajador = async (id: string) => {
+    try {
+      await $fetch(`/api/trabajadores/${id}`, { method: 'DELETE' })
+      await fetchTrabajadores()
+    } catch (error) {
+      throw new Error(getRequestError(error, 'No se pudo eliminar el trabajador'))
+    }
+  }
+
+  return { trabajadores, loading, fetchTrabajadores, crearTrabajador, pagarTrabajador, editarTrabajador, eliminarTrabajador }
 }

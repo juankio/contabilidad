@@ -29,7 +29,10 @@ function formatDate(d: string) {
     <div class="mb-5 flex items-start justify-between">
       <div class="flex items-center gap-3">
         <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600">
-          <UIcon name="lucide:shopping-bag" class="h-5 w-5" />
+          <UIcon
+            name="lucide:shopping-bag"
+            class="h-5 w-5"
+          />
         </div>
         <div>
           <h2 class="text-lg font-bold tracking-tight text-slate-900">
@@ -89,9 +92,16 @@ function formatDate(d: string) {
         v-if="!ventas.length"
         class="flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 py-8 text-center"
       >
-        <UIcon name="lucide:inbox" class="mb-2 h-8 w-8 text-slate-300" />
-        <p class="text-sm font-medium text-slate-600">Sin ventas</p>
-        <p class="text-xs text-slate-500">Registra tus primeras ventas.</p>
+        <UIcon
+          name="lucide:inbox"
+          class="mb-2 h-8 w-8 text-slate-300"
+        />
+        <p class="text-sm font-medium text-slate-600">
+          Sin ventas
+        </p>
+        <p class="text-xs text-slate-500">
+          Registra tus primeras ventas.
+        </p>
       </div>
       <ul
         v-else
@@ -104,7 +114,10 @@ function formatDate(d: string) {
         >
           <div class="flex items-center gap-3">
             <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-white shadow-sm ring-1 ring-slate-100">
-              <UIcon name="lucide:shopping-bag" class="h-4 w-4 text-emerald-600" />
+              <UIcon
+                name="lucide:shopping-bag"
+                class="h-4 w-4 text-emerald-600"
+              />
             </div>
             <div>
               <p class="text-base font-semibold text-slate-900">

@@ -23,6 +23,7 @@ const emit = defineEmits<{
   (e: 'toggle-abono', prestamoId: string): void
   (e: 'delete-prestamo', prestamo: Prestamo): void
   (e: 'submit-abono'): void
+  (e: 'edit-prestamo', prestamo: Prestamo): void
 }>()
 </script>
 
@@ -31,7 +32,10 @@ const emit = defineEmits<{
     <div class="flex items-start justify-between mb-4">
       <div class="flex items-center gap-3">
         <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/10 text-amber-600">
-          <UIcon name="lucide:hand-coins" class="h-5 w-5" />
+          <UIcon
+            name="lucide:hand-coins"
+            class="h-5 w-5"
+          />
         </div>
         <div>
           <h2 class="text-lg font-bold tracking-tight text-slate-900">
@@ -72,6 +76,7 @@ const emit = defineEmits<{
         :payment-plan-label="paymentPlanLabel"
         @toggle-abono="emit('toggle-abono', $event)"
         @delete-prestamo="emit('delete-prestamo', $event)"
+        @edit-prestamo="emit('edit-prestamo', $event)"
       >
         <PrestamoAbonoForm
           v-if="openAbonoPrestamoId === prestamo._id"

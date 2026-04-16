@@ -1,3 +1,5 @@
+import { getRequestError } from '../prestamos/helpers'
+
 export function useGranjaCerdos() {
   const lotes = ref<any[]>([])
   const loading = ref(false)
@@ -14,13 +16,39 @@ export function useGranjaCerdos() {
   }
 
   const crearLote = async (payload: any) => {
-    await $fetch('/api/granja/lotes', { method: 'POST', body: payload })
-    await fetchLotes()
+    try {
+      await $fetch('/api/granja/lotes', { method: 'POST', body: payload })
+      await fetchLotes()
+    } catch (error) {
+      throw new Error(getRequestError(error, 'No se pudo crear el lote'))
+    }
   }
 
   const comprarConcentrado = async (payload: any) => {
-    await $fetch('/api/granja/concentrado', { method: 'POST', body: payload })
+    try {
+      await $fetch('/api/granja/concentrado', { method: 'POST', body: payload })
+    } catch (error) {
+      throw new Error(getRequestError(error, 'No se pudo comprar el concentrado'))
+    }
   }
 
-  return { lotes, loading, fetchLotes, crearLote, comprarConcentrado }
+  const editarLote = async (id: string, data: { nombreLoteMadre: string }) => {
+    try {
+      await $fetch(`/api/granja/lotes/${id}`, { method: 'PUT', body: data })
+      await fetchLotes()
+    } catch (error) {
+      throw new Error(getRequestError(error, 'No se pudo editar el lote'))
+    }
+  }
+
+  const eliminarLote = async (id: string) => {
+    try {
+      await $fetch(`/api/granja/lotes/${id}`, { method: 'DELETE' })
+      await fetchLotes()
+    } catch (error) {
+      throw new Error(getRequestError(error, 'No se pudo eliminar el lote'))
+    }
+  }
+
+  return { lotes, loading, fetchLotes, crearLote, comprarConcentrado, editarLote, eliminarLote }
 }

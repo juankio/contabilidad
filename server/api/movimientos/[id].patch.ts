@@ -7,6 +7,7 @@ import { GastoModel } from '../../models/gasto'
 import { IngresoModel } from '../../models/ingreso'
 import { toIsoDate } from '../../utils/date'
 import { upsertProfileCategory } from '../../utils/profile-category-store'
+import { getAvailableBalance } from '../../utils/balance'
 
 const payloadSchema = z.object({
   type: z.enum(['Gasto', 'Ingreso']),
@@ -44,6 +45,24 @@ export default defineEventHandler(async (event) => {
   const { user, profileId } = await requireActiveProfile(event)
   const model = parsed.data.type === 'Ingreso' ? IngresoModel : GastoModel
   const categoryType = parsed.data.type === 'Ingreso' ? 'income' : 'expense'
+
+  if (parsed.data.type === 'Gasto') {
+    const existingDoc = await model.findOne({ _id: movementId, profileId }).lean()
+    if (!existingDoc) {
+      throw createError({ statusCode: 404, statusMessage: 'Movimiento no encontrado.' })
+    }
+    const amountDifference = parsed.data.amount - (existingDoc.amount || 0)
+    if (amountDifference > 0) {
+      const balanceActual = await getAvailableBalance(profileId)
+      if (amountDifference > balanceActual) {
+        throw createError({
+          statusCode: 400,
+          statusMessage: `Fondos insuficientes. Intentas aumentar el gasto en $${amountDifference} pero solo tienes $${balanceActual} disponibles.`
+        })
+      }
+    }
+  }
+
   const doc = await model.findOneAndUpdate(
     { _id: movementId, profileId },
     {

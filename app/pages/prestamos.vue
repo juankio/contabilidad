@@ -4,6 +4,7 @@ import PrestamoCreateFormCard from '../components/prestamos/PrestamoCreateFormCa
 import PrestamosPendingCard from '../components/prestamos/PrestamosPendingCard.vue'
 import PrestamosPaidCard from '../components/prestamos/PrestamosPaidCard.vue'
 import PrestamoDeleteModal from '../components/prestamos/PrestamoDeleteModal.vue'
+import PrestamoEditModal from '../components/prestamos/PrestamoEditModal.vue'
 import { usePrestamos } from '../composables/prestamos/usePrestamos'
 import { useResumen } from '../composables/useResumen'
 
@@ -16,8 +17,22 @@ const {
   form, amountInput, installmentsInput, loanDateValue, collectionDateValue, creating, createError,
   createSuccess, submitPrestamo, openAbonoPrestamoId, deletingPrestamoId, abonoAmountInput, abonoDateValue,
   abonoForm, abonoSaving, abonoError, abonoSuccess, toggleAbonoForm, submitAbono, paymentPlanLabel,
-  requestDeletePrestamo, cancelDeletePrestamo, confirmDeletePrestamo, deletingTarget, deleteError
+  requestDeletePrestamo, cancelDeletePrestamo, confirmDeletePrestamo, deletingTarget, deleteError,
+  isEditing, editError, editSuccess, editingTarget, editForm, startEditing, cancelEditing, submitEdit
 } = usePrestamos()
+
+const toast = useToast()
+
+watch(editSuccess, (val) => {
+  if (val) {
+    toast.add({
+      title: 'Éxito',
+      description: val,
+      color: 'success',
+      icon: 'lucide:check-circle'
+    })
+  }
+})
 
 const { resumen } = await useResumen()
 const saldoDisponible = computed(() => resumen.value?.saldoDisponible ?? resumen.value?.saldo ?? 0)
@@ -59,14 +74,21 @@ const profileInitial = computed(() => activeProfileName.value?.trim().charAt(0).
               </p>
             </div>
           </div>
-          
+
           <div class="flex items-center gap-3 rounded-2xl bg-emerald-50 px-4 py-2 border border-emerald-100">
             <div class="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
-              <UIcon name="lucide:wallet" class="h-4 w-4" />
+              <UIcon
+                name="lucide:wallet"
+                class="h-4 w-4"
+              />
             </div>
             <div>
-              <p class="text-xs text-emerald-600 font-medium">Disponible para prestar</p>
-              <p class="text-lg font-bold text-emerald-700">{{ formatCurrency(saldoDisponible) }}</p>
+              <p class="text-xs text-emerald-600 font-medium">
+                Disponible para prestar
+              </p>
+              <p class="text-lg font-bold text-emerald-700">
+                {{ formatCurrency(saldoDisponible) }}
+              </p>
             </div>
           </div>
         </div>
@@ -124,6 +146,7 @@ const profileInitial = computed(() => activeProfileName.value?.trim().charAt(0).
               @toggle-abono="toggleAbonoForm"
               @delete-prestamo="requestDeletePrestamo"
               @submit-abono="submitAbono"
+              @edit-prestamo="startEditing"
             />
             <PrestamosPaidCard
               class="anim-up-4"
@@ -131,6 +154,7 @@ const profileInitial = computed(() => activeProfileName.value?.trim().charAt(0).
               :format-currency="formatCurrency"
               :format-short-date="formatShortDate"
               :payment-plan-label="paymentPlanLabel"
+              @edit-prestamo="startEditing"
             />
           </template>
         </div>
@@ -142,6 +166,14 @@ const profileInitial = computed(() => activeProfileName.value?.trim().charAt(0).
       :delete-error="deleteError"
       @cancel="cancelDeletePrestamo"
       @confirm="confirmDeletePrestamo"
+    />
+    <PrestamoEditModal
+      v-model:form="editForm"
+      :target="editingTarget"
+      :is-editing="isEditing"
+      :edit-error="editError"
+      @cancel="cancelEditing"
+      @submit="submitEdit"
     />
   </main>
 </template>

@@ -21,7 +21,10 @@ const onSubmit = () => {
     <div class="mb-5 flex items-start justify-between">
       <div class="flex items-center gap-3">
         <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
-          <UIcon name="lucide:plus" class="h-5 w-5" />
+          <UIcon
+            name="lucide:plus"
+            class="h-5 w-5"
+          />
         </div>
         <div>
           <h2 class="text-lg font-bold tracking-tight text-slate-900">
@@ -38,7 +41,10 @@ const onSubmit = () => {
       class="flex flex-1 flex-col gap-6 mt-2"
       @submit.prevent="onSubmit"
     >
-      <FormField label="Nombre de la Madre / Lote" for-id="nombreMadre">
+      <FormField
+        label="Nombre de la Madre / Lote"
+        for-id="nombreMadre"
+      >
         <UInput
           id="nombreMadre"
           v-model="form.nombreLoteMadre"
@@ -49,7 +55,10 @@ const onSubmit = () => {
         />
       </FormField>
 
-      <FormField label="Cerditos Nacidos Vivos" for-id="cerditosNacidos">
+      <FormField
+        label="Cerditos Nacidos Vivos"
+        for-id="cerditosNacidos"
+      >
         <UInput
           id="cerditosNacidos"
           v-model.number="form.cantidadInicial"

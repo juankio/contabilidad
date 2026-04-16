@@ -1,3 +1,5 @@
+import { getRequestError } from '../prestamos/helpers'
+
 export type PlanCompra = {
   _id: string
   nombre: string
@@ -92,6 +94,35 @@ export function usePlaneador() {
     }
   }
 
+  async function actualizarPlan(id: string, updates: Partial<NuevoPlan>) {
+    submitting.value = true
+    submitError.value = null
+    try {
+      const body: any = {}
+      if (updates.nombre !== undefined) body.nombre = updates.nombre
+      if (updates.monto !== undefined) body.monto = Number(updates.monto)
+      if (updates.fechaPlaneada !== undefined) body.fechaPlaneada = updates.fechaPlaneada
+      if (updates.descripcion !== undefined) body.descripcion = updates.descripcion
+
+      const updated = await $fetch<PlanCompra>(`/api/planes-compra/${id}`, {
+        method: 'PATCH',
+        body
+      })
+
+      const idx = planes.value.findIndex(p => p._id === id)
+      if (idx !== -1) {
+        planes.value[idx] = updated
+        planes.value.sort((a, b) => a.fechaPlaneada.localeCompare(b.fechaPlaneada))
+      }
+      return true
+    } catch (error: unknown) {
+      submitError.value = getRequestError(error, 'No se pudo actualizar el plan.')
+      return false
+    } finally {
+      submitting.value = false
+    }
+  }
+
   async function toggleCompletado(id: string) {
     const plan = planes.value.find(p => p._id === id)
     if (!plan) return
@@ -132,6 +163,7 @@ export function usePlaneador() {
     labelMes,
     fetchPlanes,
     crearPlan,
+    actualizarPlan,
     toggleCompletado,
     eliminarPlan
   }

@@ -14,6 +14,7 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'toggle-abono', prestamoId: string): void
   (e: 'delete-prestamo', prestamo: Prestamo): void
+  (e: 'edit-prestamo', prestamo: Prestamo): void
 }>()
 
 const cuotasProgress = computed(() => {
@@ -53,6 +54,13 @@ const reachedInstallmentsLimit = computed(() =>
         </p>
       </div>
       <div class="flex items-center gap-2">
+        <UButton
+          size="xs"
+          color="neutral"
+          variant="ghost"
+          icon="lucide:pencil"
+          @click="emit('edit-prestamo', prestamo)"
+        />
         <UButton
           size="xs"
           color="primary"

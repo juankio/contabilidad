@@ -14,7 +14,7 @@ const form = reactive({
 const { amountInput: salarioInput } = useMoneyInput(toRef(form, 'salario'))
 
 const onSubmit = () => {
-  if (!form.nombre || form.salario <= 0) return
+  if (!form.nombre || !form.cargo || form.salario <= 0) return
   emit('submit', { ...form })
   form.nombre = ''
   form.cargo = ''
@@ -27,7 +27,10 @@ const onSubmit = () => {
     <div class="mb-5 flex items-start justify-between">
       <div class="flex items-center gap-3">
         <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/10 text-blue-600">
-          <UIcon name="lucide:user-plus" class="h-5 w-5" />
+          <UIcon
+            name="lucide:user-plus"
+            class="h-5 w-5"
+          />
         </div>
         <div>
           <h2 class="text-lg font-bold tracking-tight text-slate-900">
@@ -44,7 +47,10 @@ const onSubmit = () => {
       class="flex flex-1 flex-col gap-6 mt-2"
       @submit.prevent="onSubmit"
     >
-      <FormField label="Nombre" for-id="nombre">
+      <FormField
+        label="Nombre"
+        for-id="nombre"
+      >
         <UInput
           id="nombre"
           v-model="form.nombre"
@@ -55,7 +61,10 @@ const onSubmit = () => {
         />
       </FormField>
 
-      <FormField label="Cargo" for-id="cargo">
+      <FormField
+        label="Cargo"
+        for-id="cargo"
+      >
         <UInput
           id="cargo"
           v-model="form.cargo"
@@ -66,7 +75,10 @@ const onSubmit = () => {
         />
       </FormField>
 
-      <FormField label="Salario base" for-id="salario">
+      <FormField
+        label="Salario base"
+        for-id="salario"
+      >
         <UInput
           id="salario"
           v-model="salarioInput"

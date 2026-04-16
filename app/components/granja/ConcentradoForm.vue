@@ -14,7 +14,7 @@ const form = reactive({
 const { amountInput } = useMoneyInput(toRef(form, 'amount'))
 
 const onSubmit = () => {
-  if (!form.formula || form.amount <= 0) return
+  if (!form.formula || form.kilos <= 0 || form.amount <= 0) return
   emit('submit', { ...form })
   form.formula = ''
   form.kilos = 0
@@ -27,7 +27,10 @@ const onSubmit = () => {
     <div class="mb-5 flex items-start justify-between">
       <div class="flex items-center gap-3">
         <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/10 text-amber-600">
-          <UIcon name="lucide:shopping-bag" class="h-5 w-5" />
+          <UIcon
+            name="lucide:shopping-bag"
+            class="h-5 w-5"
+          />
         </div>
         <div>
           <h2 class="text-lg font-bold tracking-tight text-slate-900">
@@ -44,7 +47,10 @@ const onSubmit = () => {
       class="flex flex-1 flex-col gap-6 mt-2"
       @submit.prevent="onSubmit"
     >
-      <FormField label="Fórmula" for-id="formula">
+      <FormField
+        label="Fórmula"
+        for-id="formula"
+      >
         <UInput
           id="formula"
           v-model="form.formula"
@@ -56,7 +62,11 @@ const onSubmit = () => {
       </FormField>
 
       <div class="flex gap-4">
-        <FormField class="w-1/2" label="Kilos" for-id="kilos">
+        <FormField
+          class="w-1/2"
+          label="Kilos"
+          for-id="kilos"
+        >
           <UInput
             id="kilos"
             v-model.number="form.kilos"
@@ -68,8 +78,12 @@ const onSubmit = () => {
             required
           />
         </FormField>
-        
-        <FormField class="w-1/2" label="Costo Total ($)" for-id="amount">
+
+        <FormField
+          class="w-1/2"
+          label="Costo Total ($)"
+          for-id="amount"
+        >
           <UInput
             id="amount"
             v-model="amountInput"

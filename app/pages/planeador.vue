@@ -2,7 +2,9 @@
 import PlaneadorResumen from '../components/planeador/PlaneadorResumen.vue'
 import PlaneadorForm from '../components/planeador/PlaneadorForm.vue'
 import PlaneadorList from '../components/planeador/PlaneadorList.vue'
+import PlaneadorEditModal from '../components/planeador/PlaneadorEditModal.vue'
 import { usePlaneador } from '../composables/planeador/usePlaneador'
+import type { PlanCompra, NuevoPlan } from '../composables/planeador/usePlaneador'
 import { useToast } from '#imports'
 
 const {
@@ -16,6 +18,7 @@ const {
   labelMes,
   fetchPlanes,
   crearPlan,
+  actualizarPlan,
   toggleCompletado,
   eliminarPlan
 } = usePlaneador()
@@ -35,6 +38,9 @@ const totalPendiente = computed(() => planes.value.filter(p => !p.completado).le
 const { activeProfileName } = useProfile()
 const profileInitial = computed(() => activeProfileName.value?.trim().charAt(0).toUpperCase() || 'M')
 
+const editingPlan = ref<PlanCompra | null>(null)
+const isEditModalOpen = ref(false)
+
 await fetchPlanes()
 
 async function onSubmit(nuevo: Parameters<typeof crearPlan>[0]) {
@@ -50,8 +56,28 @@ async function onSubmit(nuevo: Parameters<typeof crearPlan>[0]) {
   }
 }
 
-async function onToggle(id: string, current: boolean) {
-  await toggleCompletado(id, current)
+function onEdit(plan: PlanCompra) {
+  editingPlan.value = plan
+  isEditModalOpen.value = true
+}
+
+async function onEditSubmit(id: string, updates: Partial<NuevoPlan>) {
+  const ok = await actualizarPlan(id, updates)
+  if (ok) {
+    isEditModalOpen.value = false
+    toast.add({
+      title: 'Plan actualizado',
+      description: 'Los detalles de la compra fueron actualizados.',
+      icon: 'lucide:check-circle',
+      color: 'success'
+    })
+  }
+}
+
+async function onToggle(id: string) {
+  const plan = planes.value.find(p => p._id === id)
+  const current = plan?.completado || false
+  await toggleCompletado(id)
   if (!current) {
     toast.add({
       title: '¡Meta lograda!',
@@ -68,7 +94,7 @@ async function onEliminar(id: string) {
     title: 'Meta eliminada',
     description: 'La compra fue eliminada del planeador.',
     icon: 'lucide:trash-2',
-    color: 'gray'
+    color: 'neutral'
   })
 }
 </script>
@@ -159,9 +185,19 @@ async function onEliminar(id: string) {
             :label-mes="labelMes"
             @toggle="onToggle"
             @eliminar="onEliminar"
+            @edit="onEdit"
           />
         </div>
       </div>
     </section>
+
+    <!-- Modal Editar -->
+    <PlaneadorEditModal
+      v-model="isEditModalOpen"
+      :plan="editingPlan"
+      :submitting="submitting"
+      :submit-error="submitError"
+      @submit="onEditSubmit"
+    />
   </main>
 </template>

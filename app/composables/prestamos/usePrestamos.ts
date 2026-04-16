@@ -3,6 +3,7 @@ import { usePrestamosData } from './usePrestamosData'
 import { usePrestamoCreate } from './usePrestamoCreate'
 import { usePrestamoAbonos } from './usePrestamoAbonos'
 import { usePrestamoDelete } from './usePrestamoDelete'
+import { usePrestamoEdit } from './usePrestamoEdit'
 
 export function usePrestamos() {
   const dataState = usePrestamosData()
@@ -14,12 +15,14 @@ export function usePrestamos() {
       abonosState.closeAbonoFor(prestamo._id)
     }
   })
+  const editState = usePrestamoEdit(dataState.refresh)
 
   return {
     ...dataState,
     ...createState,
     ...abonosState,
     ...deleteState,
+    ...editState,
     paymentPlanLabel
   }
 }

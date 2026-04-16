@@ -18,7 +18,6 @@ definePageMeta({
 
       <!-- Layout optimizado sin bento raro -->
       <div class="mt-6 grid min-w-0 gap-6 lg:grid-cols-12 items-start">
-        
         <!-- Columna Izquierda: Datos Base (Postres, Insumos, Ventas) -->
         <div class="flex flex-col gap-6 lg:col-span-4">
           <PostresCatalogoCard class="anim-up-1 shadow-sm hover:shadow-md transition-shadow" />
@@ -35,7 +34,6 @@ definePageMeta({
         <div class="flex flex-col gap-6 lg:col-span-3">
           <PostresReporteCard class="anim-up-5 shadow-sm hover:shadow-md transition-shadow" />
         </div>
-
       </div>
     </section>
   </main>

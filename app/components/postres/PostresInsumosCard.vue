@@ -32,7 +32,10 @@ const units = [
     <div class="mb-5 flex items-start justify-between">
       <div class="flex items-center gap-3">
         <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/10 text-blue-600">
-          <UIcon name="lucide:package" class="h-5 w-5" />
+          <UIcon
+            name="lucide:package"
+            class="h-5 w-5"
+          />
         </div>
         <div>
           <h2 class="text-lg font-bold tracking-tight text-slate-900">
@@ -100,9 +103,16 @@ const units = [
         v-if="!insumos.length"
         class="flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 py-8 text-center"
       >
-        <UIcon name="lucide:inbox" class="mb-2 h-8 w-8 text-slate-300" />
-        <p class="text-sm font-medium text-slate-600">Sin insumos</p>
-        <p class="text-xs text-slate-500">Agrega el primer ingrediente.</p>
+        <UIcon
+          name="lucide:inbox"
+          class="mb-2 h-8 w-8 text-slate-300"
+        />
+        <p class="text-sm font-medium text-slate-600">
+          Sin insumos
+        </p>
+        <p class="text-xs text-slate-500">
+          Agrega el primer ingrediente.
+        </p>
       </div>
       <ul
         v-else

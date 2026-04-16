@@ -12,6 +12,7 @@ defineProps<{
 const emit = defineEmits<{
   toggle: [id: string]
   eliminar: [id: string]
+  edit: [plan: PlanCompra]
 }>()
 
 const confirmDeleteId = ref<string | null>(null)
@@ -183,20 +184,39 @@ const mesActual = new Date().toISOString().slice(0, 7)
               {{ formatCurrency(plan.monto) }}
             </p>
 
-            <!-- Eliminar -->
-            <div class="shrink-0">
-              <Transition name="fade-quick">
-                <button
+            <!-- Acciones -->
+            <div class="shrink-0 flex items-center gap-1">
+              <Transition
+                name="fade-quick"
+                mode="out-in"
+              >
+                <div
                   v-if="confirmDeleteId !== plan._id"
-                  type="button"
-                  class="flex h-7 w-7 items-center justify-center rounded-full text-slate-300 opacity-0 transition-all duration-150 hover:bg-rose-50 hover:text-rose-500 active:scale-90 group-hover:opacity-100"
-                  @click="pedirConfirmacion(plan._id)"
+                  class="flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-150"
                 >
-                  <UIcon
-                    name="lucide:trash-2"
-                    class="h-3.5 w-3.5"
-                  />
-                </button>
+                  <button
+                    type="button"
+                    class="flex h-7 w-7 items-center justify-center rounded-full text-slate-300 transition-all duration-150 hover:bg-slate-100 hover:text-slate-600 active:scale-90"
+                    title="Editar plan"
+                    @click="emit('edit', plan)"
+                  >
+                    <UIcon
+                      name="lucide:pencil"
+                      class="h-3.5 w-3.5"
+                    />
+                  </button>
+                  <button
+                    type="button"
+                    class="flex h-7 w-7 items-center justify-center rounded-full text-slate-300 transition-all duration-150 hover:bg-rose-50 hover:text-rose-500 active:scale-90"
+                    title="Eliminar plan"
+                    @click="pedirConfirmacion(plan._id)"
+                  >
+                    <UIcon
+                      name="lucide:trash-2"
+                      class="h-3.5 w-3.5"
+                    />
+                  </button>
+                </div>
                 <div
                   v-else
                   class="flex items-center gap-1"

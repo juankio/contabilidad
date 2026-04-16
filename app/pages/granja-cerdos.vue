@@ -2,15 +2,80 @@
 import { useGranjaCerdos } from '../composables/granja/useGranjaCerdos'
 import LoteForm from '../components/granja/LoteForm.vue'
 import ConcentradoForm from '../components/granja/ConcentradoForm.vue'
+import FormField from '../components/forms/FormField.vue'
+import { computed, ref, onMounted } from 'vue'
 
 definePageMeta({ requiresModule: 'granja-cerdos' })
 
 const { activeProfileName } = useProfile()
 const profileInitial = computed(() => activeProfileName.value?.trim().charAt(0).toUpperCase() || 'M')
 
-const { lotes, loading, fetchLotes, crearLote, comprarConcentrado } = useGranjaCerdos()
+const { lotes, loading, fetchLotes, crearLote, comprarConcentrado, editarLote, eliminarLote } = useGranjaCerdos()
 
 const toast = useToast()
+
+const editModalOpen = ref(false)
+const loteEditando = ref<any>(null)
+const editFormData = ref({ nombreLoteMadre: '' })
+
+const openEditModal = (lote: any) => {
+  loteEditando.value = lote
+  editFormData.value.nombreLoteMadre = lote.nombreLoteMadre
+  editModalOpen.value = true
+}
+
+const handleEditarLote = async () => {
+  if (!loteEditando.value || !editFormData.value.nombreLoteMadre) return
+
+  try {
+    await editarLote(loteEditando.value._id, editFormData.value)
+    editModalOpen.value = false
+    toast.add({
+      title: 'Lote actualizado',
+      description: 'El lote ha sido editado correctamente.',
+      icon: 'lucide:check-circle',
+      color: 'success'
+    })
+  } catch (err: any) {
+    toast.add({
+      title: 'Error al editar lote',
+      description: err.message || 'No se pudo editar el lote.',
+      icon: 'lucide:alert-circle',
+      color: 'error'
+    })
+  }
+}
+
+// Delete State
+const deleteModalOpen = ref(false)
+const loteToDelete = ref<any>(null)
+
+const openDeleteModal = (lote: any) => {
+  loteToDelete.value = lote
+  deleteModalOpen.value = true
+}
+
+const handleConfirmEliminarLote = async () => {
+  if (!loteToDelete.value) return
+
+  try {
+    await eliminarLote(loteToDelete.value._id)
+    deleteModalOpen.value = false
+    toast.add({
+      title: 'Lote eliminado',
+      description: 'El lote ha sido eliminado de la granja.',
+      icon: 'lucide:check-circle',
+      color: 'success'
+    })
+  } catch (err: any) {
+    toast.add({
+      title: 'Error al eliminar lote',
+      description: err.message || 'No se pudo eliminar el lote.',
+      icon: 'lucide:alert-circle',
+      color: 'error'
+    })
+  }
+}
 
 const handleCrearLote = async (payload: any) => {
   try {
@@ -49,6 +114,20 @@ const handleComprarConcentrado = async (payload: any) => {
     })
   }
 }
+
+const getDropdownItems = (lote: any) => [
+  [{
+    label: 'Editar',
+    icon: 'lucide:pencil',
+    onSelect: () => openEditModal(lote)
+  }],
+  [{
+    label: 'Eliminar',
+    icon: 'lucide:trash-2',
+    color: 'error',
+    onSelect: () => openDeleteModal(lote)
+  }]
+]
 
 onMounted(() => fetchLotes())
 </script>
@@ -93,7 +172,10 @@ onMounted(() => fetchLotes())
         <div class="mb-5 flex items-start justify-between">
           <div class="flex items-center gap-3">
             <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-500/10 text-violet-600">
-              <UIcon name="lucide:list" class="h-5 w-5" />
+              <UIcon
+                name="lucide:list"
+                class="h-5 w-5"
+              />
             </div>
             <div>
               <h2 class="text-lg font-bold tracking-tight text-slate-900">
@@ -109,16 +191,26 @@ onMounted(() => fetchLotes())
           v-if="loading"
           class="flex items-center gap-2 text-sm text-slate-500 py-4"
         >
-          <UIcon name="lucide:loader-2" class="h-4 w-4 animate-spin" />
+          <UIcon
+            name="lucide:loader-2"
+            class="h-4 w-4 animate-spin"
+          />
           Cargando...
         </div>
         <div
           v-else-if="lotes.length === 0"
           class="flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 py-8 text-center"
         >
-          <UIcon name="lucide:inbox" class="mb-2 h-8 w-8 text-slate-300" />
-          <p class="text-sm font-medium text-slate-600">No hay lotes registrados</p>
-          <p class="text-xs text-slate-500">Registra el primero para empezar a controlar.</p>
+          <UIcon
+            name="lucide:inbox"
+            class="mb-2 h-8 w-8 text-slate-300"
+          />
+          <p class="text-sm font-medium text-slate-600">
+            No hay lotes registrados
+          </p>
+          <p class="text-xs text-slate-500">
+            Registra el primero para empezar a controlar.
+          </p>
         </div>
         <div
           v-else
@@ -143,8 +235,23 @@ onMounted(() => fetchLotes())
                   </p>
                 </div>
               </div>
-              <div class="bg-[var(--brand-100)] text-[var(--brand-700)] px-3 py-1 rounded-lg text-sm font-semibold whitespace-nowrap">
-                {{ lote.cantidadActual }} vivos
+              <div class="flex items-center gap-2">
+                <div class="bg-[var(--brand-100)] text-[var(--brand-700)] px-3 py-1 rounded-lg text-sm font-semibold whitespace-nowrap">
+                  {{ lote.cantidadActual }} vivos
+                </div>
+                <div class="ml-2">
+                  <UDropdownMenu
+                    :items="getDropdownItems(lote)"
+                    :popper="{ placement: 'bottom-end' }"
+                  >
+                    <UButton
+                      color="neutral"
+                      variant="ghost"
+                      icon="lucide:more-vertical"
+                      class="text-slate-400 hover:text-slate-600"
+                    />
+                  </UDropdownMenu>
+                </div>
               </div>
             </div>
 
@@ -159,7 +266,10 @@ onMounted(() => fetchLotes())
                     :key="i"
                     class="flex items-center gap-1.5 text-xs"
                   >
-                    <UIcon name="lucide:clock" class="h-3 w-3 text-slate-400" />
+                    <UIcon
+                      name="lucide:clock"
+                      class="h-3 w-3 text-slate-400"
+                    />
                     <span>{{ h.hora }}: {{ h.cantidadKilos }}kg ({{ h.formula }})</span>
                   </li>
                   <li
@@ -180,7 +290,10 @@ onMounted(() => fetchLotes())
                     :key="i"
                     class="flex items-center gap-1.5 text-xs text-rose-600"
                   >
-                    <UIcon name="lucide:skull" class="h-3 w-3" />
+                    <UIcon
+                      name="lucide:skull"
+                      class="h-3 w-3"
+                    />
                     <span>-{{ m.cantidad }} el {{ new Date(m.fecha).toLocaleDateString() }}</span>
                   </li>
                   <li
@@ -217,5 +330,128 @@ onMounted(() => fetchLotes())
         </div>
       </div>
     </section>
+
+    <!-- Modal Editar Lote -->
+    <UModal v-model="editModalOpen" :ui="{ content: 'sm:max-w-md sm:rounded-[2rem]', overlay: 'backdrop-blur-md bg-white/10 dark:bg-black/40' }">
+      <template #content>
+        <UCard :ui="{ root: 'ring-0 shadow-none divide-none', header: 'px-8 pt-8 pb-4', body: 'px-8 pb-8 pt-0' }" class="rounded-[2rem]">
+          <template #header>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-500/10 text-violet-600">
+                  <UIcon name="lucide:pencil" class="h-5 w-5" />
+                </div>
+                <h3 class="text-lg font-bold leading-6 text-slate-900">
+                  Editar Lote
+                </h3>
+              </div>
+              <UButton
+                color="neutral"
+                variant="ghost"
+                icon="lucide:x"
+                class="-my-1"
+                @click="editModalOpen = false"
+              />
+            </div>
+          </template>
+
+          <form
+            class="flex flex-col gap-6"
+            @submit.prevent="handleEditarLote"
+          >
+            <FormField
+              label="Nombre del Lote"
+              for-id="edit-nombre-lote"
+            >
+              <UInput
+                id="edit-nombre-lote"
+                v-model="editFormData.nombreLoteMadre"
+                placeholder="Ej. Lote 1 - Cerdas Blancas"
+                icon="lucide:tag"
+                size="lg"
+                required
+              />
+            </FormField>
+            
+            <div class="flex justify-end gap-3 pt-4 border-t border-slate-100">
+              <UButton
+                color="neutral"
+                variant="soft"
+                size="lg"
+                @click="editModalOpen = false"
+              >
+                Cancelar
+              </UButton>
+              <UButton
+                type="submit"
+                color="primary"
+                size="lg"
+                icon="lucide:save"
+                class="font-semibold shadow-sm"
+              >
+                Guardar Cambios
+              </UButton>
+            </div>
+          </form>
+        </UCard>
+      </template>
+    </UModal>
+
+    <!-- Modal Eliminar Lote -->
+    <UModal v-model="deleteModalOpen" :ui="{ content: 'sm:max-w-md sm:rounded-[2rem]', overlay: 'backdrop-blur-md bg-white/10 dark:bg-black/40' }">
+      <template #content>
+        <UCard :ui="{ root: 'ring-0 shadow-none divide-none', header: 'px-8 pt-8 pb-4', body: 'px-8 pb-8 pt-0' }" class="rounded-[2rem]">
+          <template #header>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3 text-red-600">
+                <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-red-50">
+                  <UIcon name="lucide:alert-triangle" class="h-5 w-5" />
+                </div>
+                <h3 class="text-lg font-bold leading-6 text-slate-900">
+                  Eliminar Lote
+                </h3>
+              </div>
+              <UButton
+                color="neutral"
+                variant="ghost"
+                icon="lucide:x"
+                class="-my-1"
+                @click="deleteModalOpen = false"
+              />
+            </div>
+          </template>
+
+          <div class="py-2">
+            <p class="text-slate-600">
+              ¿Estás seguro que deseas eliminar el lote <strong class="text-slate-900 font-bold">{{ loteToDelete?.nombreLoteMadre }}</strong>?
+            </p>
+            <p class="mt-2 text-sm text-slate-500">
+              Esta acción eliminará de forma permanente todos los registros de alimentación y bajas asociados a este lote. Esta acción no se puede deshacer.
+            </p>
+          </div>
+
+          <div class="flex justify-end gap-3 pt-6 border-t border-slate-100">
+            <UButton
+              color="neutral"
+              variant="soft"
+              size="lg"
+              @click="deleteModalOpen = false"
+            >
+              Cancelar
+            </UButton>
+            <UButton
+              color="error"
+              size="lg"
+              icon="lucide:trash-2"
+              class="font-semibold shadow-sm"
+              @click="handleConfirmEliminarLote"
+            >
+              Sí, eliminar
+            </UButton>
+          </div>
+        </UCard>
+      </template>
+    </UModal>
+
   </main>
 </template>

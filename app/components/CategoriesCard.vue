@@ -35,7 +35,10 @@ const barClass = (index: number) => `anim-bar-${Math.min(index, 5)} ${barColors[
     <div class="mb-5 flex items-start justify-between">
       <div class="flex items-center gap-3">
         <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-pink-500/10 text-pink-600">
-          <UIcon name="lucide:pie-chart" class="h-5 w-5" />
+          <UIcon
+            name="lucide:pie-chart"
+            class="h-5 w-5"
+          />
         </div>
         <div>
           <h2 class="text-lg font-bold tracking-tight text-slate-900">

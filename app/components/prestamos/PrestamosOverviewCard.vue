@@ -12,7 +12,10 @@ defineProps<{
     <div class="flex items-start justify-between">
       <div class="flex items-center gap-3">
         <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100/80 text-slate-600">
-          <UIcon name="lucide:bar-chart-2" class="h-5 w-5" />
+          <UIcon
+            name="lucide:bar-chart-2"
+            class="h-5 w-5"
+          />
         </div>
         <div>
           <h2 class="text-lg font-bold tracking-tight text-slate-900">
@@ -24,7 +27,7 @@ defineProps<{
         </div>
       </div>
     </div>
-    
+
     <div class="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
       <div class="rounded-2xl bg-slate-100 px-4 py-3">
         <p class="text-xs font-semibold uppercase tracking-widest text-slate-600">
