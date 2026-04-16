@@ -305,9 +305,14 @@ onMounted(() => fetchTrabajadores())
                 <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/10 text-blue-600">
                   <UIcon name="lucide:pencil" class="h-5 w-5" />
                 </div>
-                <h3 class="text-lg font-bold leading-6 text-slate-900">
-                  Editar Trabajador
-                </h3>
+                <div>
+                  <h3 class="text-lg font-bold tracking-tight text-slate-900">
+                    Editar Trabajador
+                  </h3>
+                  <p class="text-sm text-slate-500">
+                    Modifica los datos del trabajador.
+                  </p>
+                </div>
               </div>
               <UButton
                 color="neutral"
@@ -392,9 +397,14 @@ onMounted(() => fetchTrabajadores())
                 <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-red-50">
                   <UIcon name="lucide:alert-triangle" class="h-5 w-5" />
                 </div>
-                <h3 class="text-lg font-bold leading-6 text-slate-900">
-                  Eliminar Trabajador
-                </h3>
+                <div>
+                  <h3 class="text-lg font-bold tracking-tight text-slate-900">
+                    Eliminar Trabajador
+                  </h3>
+                  <p class="text-sm text-slate-500">
+                    Confirma la baja del sistema.
+                  </p>
+                </div>
               </div>
               <UButton
                 color="neutral"

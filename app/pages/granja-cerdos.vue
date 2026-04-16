@@ -341,9 +341,14 @@ onMounted(() => fetchLotes())
                 <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-500/10 text-violet-600">
                   <UIcon name="lucide:pencil" class="h-5 w-5" />
                 </div>
-                <h3 class="text-lg font-bold leading-6 text-slate-900">
-                  Editar Lote
-                </h3>
+                <div>
+                  <h3 class="text-lg font-bold tracking-tight text-slate-900">
+                    Editar Lote
+                  </h3>
+                  <p class="text-sm text-slate-500">
+                    Modifica la información del lote.
+                  </p>
+                </div>
               </div>
               <UButton
                 color="neutral"
@@ -407,9 +412,14 @@ onMounted(() => fetchLotes())
                 <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-red-50">
                   <UIcon name="lucide:alert-triangle" class="h-5 w-5" />
                 </div>
-                <h3 class="text-lg font-bold leading-6 text-slate-900">
-                  Eliminar Lote
-                </h3>
+                <div>
+                  <h3 class="text-lg font-bold tracking-tight text-slate-900">
+                    Eliminar Lote
+                  </h3>
+                  <p class="text-sm text-slate-500">
+                    Confirma la eliminación del lote.
+                  </p>
+                </div>
               </div>
               <UButton
                 color="neutral"

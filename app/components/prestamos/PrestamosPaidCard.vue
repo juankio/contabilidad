@@ -20,7 +20,7 @@ const emit = defineEmits<{
       <div class="flex items-center gap-3">
         <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600">
           <UIcon
-            name="lucide:circle-check-big"
+            name="lucide:check-circle"
             class="h-5 w-5"
           />
         </div>
@@ -40,7 +40,7 @@ const emit = defineEmits<{
     >
       <div class="text-center">
         <UIcon
-          name="i-lucide-circle-check-big"
+          name="i-lucide-check-circle"
           class="mx-auto mb-3 text-6xl text-slate-300"
         />
         <p class="text-sm font-medium text-slate-500">
@@ -69,7 +69,7 @@ const emit = defineEmits<{
           </div>
           <div class="flex items-center gap-3">
             <span class="text-slate-500">{{ formatShortDate(prestamo.date) }}</span>
-            <span class="text-emerald-700">Pagado {{ formatCurrency(prestamo.amount) }}</span>
+            <span class="text-emerald-700">Pagado <span class="text-slate-900 font-bold tracking-tight tabular-nums">{{ formatCurrency(prestamo.amount) }}</span></span>
             <UButton
               size="xs"
               color="neutral"

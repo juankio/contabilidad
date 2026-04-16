@@ -81,13 +81,13 @@ const reachedInstallmentsLimit = computed(() =>
     </div>
     <div class="mt-3 grid gap-2 text-sm sm:grid-cols-3">
       <p class="rounded-xl bg-slate-100 px-3 py-2">
-        Prestado: <strong>{{ formatCurrency(prestamo.amount) }}</strong>
+        Prestado: <span class="text-slate-900 font-bold tracking-tight tabular-nums">{{ formatCurrency(prestamo.amount) }}</span>
       </p>
       <p class="rounded-xl bg-emerald-50 px-3 py-2 text-emerald-700">
-        Abonado: <strong>{{ formatCurrency(prestamo.paidAmount) }}</strong>
+        Abonado: <span class="text-slate-900 font-bold tracking-tight tabular-nums">{{ formatCurrency(prestamo.paidAmount) }}</span>
       </p>
       <p class="rounded-xl bg-amber-50 px-3 py-2 text-amber-700">
-        Pendiente: <strong>{{ formatCurrency(prestamo.pendingAmount) }}</strong>
+        Pendiente: <span class="text-slate-900 font-bold tracking-tight tabular-nums">{{ formatCurrency(prestamo.pendingAmount) }}</span>
       </p>
     </div>
     <p
