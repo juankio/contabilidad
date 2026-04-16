@@ -6,6 +6,11 @@
 .cache
 dist
 
+# Vercel builds
+.vercel
+.vercel/
+.vercel_build_output
+
 # Node dependencies
 node_modules
 
