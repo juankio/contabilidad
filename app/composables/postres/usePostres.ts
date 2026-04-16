@@ -1,52 +1,89 @@
-type Postre = { id: string, name: string, price: number }
-type Insumo = { id: string, name: string, unit: string, cost: number }
-type RecetaItem = { insumoId: string, yields: number }
-type Venta = { id: string, postreId: string, qty: number, date: string }
+import { getRequestError } from '../prestamos/helpers'
 
-const uid = () => Math.random().toString(36).slice(2, 10)
+export type Postre = { _id: string, name: string, price: number, receta?: RecetaItem[] }
+export type Insumo = { _id: string, name: string, unit: string, cost: number }
+export type RecetaItem = { insumoId: string, yields: number }
+export type Venta = { _id: string, postreId: string, qty: number, date: string }
 
 export function usePostres() {
-  const postres = useState<Postre[]>('postres:list', () => [])
-  const insumos = useState<Insumo[]>('postres:insumos', () => [])
-  const recetas = useState<Record<string, RecetaItem[]>>('postres:recetas', () => ({}))
-  const ventas = useState<Venta[]>('postres:ventas', () => [])
+  const postres = ref<Postre[]>([])
+  const insumos = ref<Insumo[]>([])
+  const recetas = ref<Record<string, RecetaItem[]>>({})
+  const ventas = ref<Venta[]>([])
+
   const sending = ref(false)
   const sendError = ref('')
   const sendSuccess = ref('')
 
-  const addPostre = (name: string, price: number) => {
-    const clean = name.trim()
-    if (!clean || price <= 0) return false
-    postres.value.push({ id: uid(), name: clean, price })
-    return true
+  const fetchData = async () => {
+    try {
+      const [p, i, v] = await Promise.all([
+        $fetch<Postre[]>('/api/postres'),
+        $fetch<Insumo[]>('/api/postres/insumos'),
+        $fetch<Venta[]>('/api/postres/ventas')
+      ])
+      postres.value = p
+      insumos.value = i
+      ventas.value = v
+
+      const newRecetas: Record<string, RecetaItem[]> = {}
+      for (const po of p) {
+        if (po.receta) newRecetas[po._id] = po.receta
+      }
+      recetas.value = newRecetas
+    } catch (e) {
+      console.error(e)
+    }
   }
-  const addInsumo = (name: string, unit: string, cost: number) => {
-    const clean = name.trim()
-    if (!clean || cost <= 0) return false
-    insumos.value.push({ id: uid(), name: clean, unit: unit.trim(), cost })
-    return true
+
+  const crear = async (type: 'postres' | 'insumos' | 'ventas', payload: any) => {
+    try {
+      const url = type === 'postres' ? '/api/postres' : `/api/postres/${type}`
+      await $fetch(url, { method: 'POST', body: payload })
+      await fetchData()
+    } catch (error) {
+      throw new Error(getRequestError(error, 'No se pudo crear.'))
+    }
   }
-  const addRecetaItem = (postreId: string, insumoId: string, yields: number) => {
-    if (!postreId || !insumoId || yields <= 0) return false
-    const list = recetas.value[postreId] ?? []
-    recetas.value = { ...recetas.value, [postreId]: [...list, { insumoId, yields }] }
-    return true
+
+  const editar = async (type: 'postres' | 'insumos' | 'ventas', id: string, payload: any) => {
+    try {
+      const url = type === 'postres' ? `/api/postres/${id}` : `/api/postres/${type}/${id}`
+      await $fetch(url, { method: 'PUT', body: payload })
+      await fetchData()
+    } catch (error) {
+      throw new Error(getRequestError(error, 'No se pudo editar.'))
+    }
   }
-  const addVenta = (postreId: string, qty: number, date: string) => {
-    if (!postreId || qty <= 0) return false
-    ventas.value.push({ id: uid(), postreId, qty, date })
-    return true
+
+  const eliminar = async (type: 'postres' | 'insumos' | 'ventas', id: string) => {
+    try {
+      const url = type === 'postres' ? `/api/postres/${id}` : `/api/postres/${type}/${id}`
+      await $fetch(url, { method: 'DELETE' })
+      await fetchData()
+    } catch (error) {
+      throw new Error(getRequestError(error, 'No se pudo eliminar.'))
+    }
+  }
+
+  const addRecetaItem = async (postreId: string, insumoId: string, yields: number) => {
+    const po = postres.value.find(p => p._id === postreId)
+    if (!po) throw new Error('Postre no encontrado')
+    const current = recetas.value[postreId] ?? []
+    const updated = [...current, { insumoId, yields }]
+    await editar('postres', postreId, { receta: updated })
   }
 
   const costUnit = (postreId: string) =>
     (recetas.value[postreId] ?? []).reduce((sum, item) => {
-      const insumo = insumos.value.find(row => row.id === item.insumoId)
+      const insumo = insumos.value.find(row => row._id === item.insumoId)
       const yields = item.yields || 1
       return sum + (insumo?.cost ?? 0) / yields
     }, 0)
+
   const report = computed(() => {
     const ingresos = ventas.value.reduce((sum, venta) => {
-      const postre = postres.value.find(row => row.id === venta.postreId)
+      const postre = postres.value.find(row => row._id === venta.postreId)
       return sum + (postre?.price ?? 0) * venta.qty
     }, 0)
     const costos = ventas.value.reduce((sum, venta) => sum + costUnit(venta.postreId) * venta.qty, 0)
@@ -81,5 +118,10 @@ export function usePostres() {
     }
   }
 
-  return { postres, insumos, recetas, ventas, addPostre, addInsumo, addRecetaItem, addVenta, costUnit, report, sending, sendError, sendSuccess, sendToContabilidad }
+  return {
+    postres, insumos, recetas, ventas,
+    fetchData, crear, editar, eliminar,
+    addRecetaItem, costUnit, report,
+    sending, sendError, sendSuccess, sendToContabilidad
+  }
 }

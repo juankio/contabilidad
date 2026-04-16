@@ -1,21 +1,47 @@
 <script setup lang="ts">
 import { usePostres } from '../../composables/postres/usePostres'
 
-const { insumos, addInsumo } = usePostres()
+const { insumos, crear, eliminar } = usePostres()
+const toast = useToast()
+
 const name = ref('')
 const unit = ref('g')
 const cost = ref('')
 const error = ref('')
+const loading = ref(false)
 
-const submit = () => {
+const submit = async () => {
   error.value = ''
+  const cleanName = name.value.trim()
   const value = Number(cost.value)
-  if (!addInsumo(name.value, unit.value, value)) {
-    error.value = 'Completa nombre, unidad y costo.'
+
+  if (!cleanName || value <= 0) {
+    error.value = 'Completa nombre, unidad y costo válido.'
     return
   }
-  name.value = ''
-  cost.value = ''
+
+  loading.value = true
+  try {
+    await crear('insumos', { name: cleanName, unit: unit.value, cost: value })
+    name.value = ''
+    cost.value = ''
+    toast.add({ title: 'Insumo agregado', color: 'success' })
+  } catch (err: any) {
+    error.value = err.message
+    toast.add({ title: 'Error', description: err.message, color: 'error' })
+  } finally {
+    loading.value = false
+  }
+}
+
+const deleteInsumo = async (id: string) => {
+  if (!confirm('¿Eliminar insumo?')) return
+  try {
+    await eliminar('insumos', id)
+    toast.add({ title: 'Insumo eliminado', color: 'success' })
+  } catch (err: any) {
+    toast.add({ title: 'Error al eliminar', description: err.message, color: 'error' })
+  }
 }
 
 const units = [
@@ -27,9 +53,9 @@ const units = [
 </script>
 
 <template>
-  <section class="flex flex-col rounded-3xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
+  <section class="flex flex-col rounded-3xl border border-slate-200 bg-white p-4 shadow-sm hover:shadow-md transition-shadow h-full">
     <!-- Header -->
-    <div class="mb-5 flex items-start justify-between">
+    <div class="mb-3 flex items-start justify-between">
       <div class="flex items-center gap-3">
         <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/10 text-blue-600">
           <UIcon
@@ -49,18 +75,16 @@ const units = [
     </div>
 
     <!-- Form -->
-    <div class="space-y-3">
-      <div class="grid grid-cols-2 gap-3">
+    <div class="space-y-2">
+      <div class="grid grid-cols-2 gap-2">
         <UInput
           v-model="name"
           placeholder="Nombre insumo"
-          size="lg"
           icon="lucide:wheat"
         />
         <UInput
           v-model="cost"
           placeholder="0"
-          size="lg"
           inputmode="numeric"
           icon="lucide:circle-dollar-sign"
         />
@@ -71,7 +95,7 @@ const units = [
           v-for="item in units"
           :key="item.value"
           type="button"
-          class="flex-1 rounded-xl px-3 py-2 text-sm font-semibold transition-all duration-200 active:scale-95"
+          class="flex-1 rounded-xl px-2 py-1.5 text-sm font-semibold transition-all duration-200 active:scale-95"
           :class="unit === item.value
             ? 'bg-blue-600 text-white shadow-sm'
             : 'border border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100 hover:text-slate-900'"
@@ -83,8 +107,8 @@ const units = [
       <UButton
         color="primary"
         icon="lucide:plus"
-        size="lg"
         block
+        :loading="loading"
         @click="submit"
       >
         Agregar insumo
@@ -98,10 +122,10 @@ const units = [
     </div>
 
     <!-- List -->
-    <div class="mt-5 flex-1">
+    <div class="mt-3 flex-1 min-h-0">
       <div
         v-if="!insumos.length"
-        class="flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 py-8 text-center"
+        class="flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 py-6 text-center"
       >
         <UIcon
           name="lucide:inbox"
@@ -116,14 +140,14 @@ const units = [
       </div>
       <ul
         v-else
-        class="space-y-2"
+        class="space-y-2 overflow-y-auto max-h-[30vh] md:max-h-[220px] pr-1 scrollbar-thin scrollbar-thumb-slate-200"
       >
         <li
           v-for="insumo in insumos"
-          :key="insumo.id"
-          class="flex items-center justify-between rounded-2xl border border-slate-100 bg-slate-50/50 p-3 transition-colors hover:bg-slate-50"
+          :key="insumo._id"
+          class="group flex items-center justify-between rounded-2xl border border-slate-100 bg-slate-50/50 p-2 transition-colors hover:bg-slate-50"
         >
-          <div class="flex items-center gap-3">
+          <div class="flex items-center gap-2">
             <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-white shadow-sm ring-1 ring-slate-100">
               <span class="text-sm font-bold text-blue-600">{{ insumo.name.charAt(0).toUpperCase() }}</span>
             </div>
@@ -134,6 +158,14 @@ const units = [
             <span class="rounded-xl bg-blue-50 px-3 py-1 text-sm font-bold tracking-tight text-blue-700 ring-1 ring-blue-500/20">
               ${{ insumo.cost.toLocaleString() }}
             </span>
+            <UButton
+              color="error"
+              variant="ghost"
+              icon="lucide:trash-2"
+              size="sm"
+              class="opacity-0 group-hover:opacity-100 transition-opacity"
+              @click="deleteInsumo(insumo._id)"
+            />
           </div>
         </li>
       </ul>

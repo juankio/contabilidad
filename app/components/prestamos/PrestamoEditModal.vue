@@ -32,7 +32,8 @@ const isOpen = computed({
 </script>
 
 <template>
-  <UModal v-model="isOpen">
+  <ClientOnly fallback-tag="span">
+    <UModal v-model:open="isOpen" title="Editar préstamo" description="Formulario para editar detalles del préstamo">
     <template #content>
       <UCard>
         <template #header>
@@ -40,7 +41,7 @@ const isOpen = computed({
             <h3 class="text-lg font-bold tracking-tight text-slate-900">
               Editar préstamo
             </h3>
-            <ClientOnly>
+            <ClientOnly fallback-tag="span">
               <UButton
                 color="neutral"
                 variant="ghost"
@@ -161,4 +162,5 @@ const isOpen = computed({
       </UCard>
     </template>
   </UModal>
+  </ClientOnly>
 </template>

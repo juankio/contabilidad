@@ -5,35 +5,33 @@ import PostresInsumosCard from '../components/postres/PostresInsumosCard.vue'
 import PostresRecetasCard from '../components/postres/PostresRecetasCard.vue'
 import PostresVentasCard from '../components/postres/PostresVentasCard.vue'
 import PostresReporteCard from '../components/postres/PostresReporteCard.vue'
+import { usePostres } from '../composables/postres/usePostres'
 
 definePageMeta({
   requiresModule: 'catalogo-postres'
 })
+
+const { fetchData } = usePostres()
+await fetchData()
 </script>
 
 <template>
   <main class="min-h-screen bg-slate-50 text-slate-900">
-    <section class="mx-auto max-w-screen-2xl px-4 pb-12 pt-6">
+    <section class="mx-auto max-w-screen-2xl px-4 pb-6 pt-4">
       <PostresHeader class="anim-up lg:col-span-12" />
 
-      <!-- Layout optimizado sin bento raro -->
-      <div class="mt-6 grid min-w-0 gap-6 lg:grid-cols-12 items-start">
-        <!-- Columna Izquierda: Datos Base (Postres, Insumos, Ventas) -->
-        <div class="flex flex-col gap-6 lg:col-span-4">
-          <PostresCatalogoCard class="anim-up-1 shadow-sm hover:shadow-md transition-shadow" />
-          <PostresInsumosCard class="anim-up-2 shadow-sm hover:shadow-md transition-shadow" />
-          <PostresVentasCard class="anim-up-3 shadow-sm hover:shadow-md transition-shadow" />
-        </div>
+      <!-- Dashboard Layout Profesional -->
+      <div class="mt-4 grid grid-cols-1 lg:grid-cols-3 gap-4 items-stretch">
+        <!-- Top row -->
+        <PostresReporteCard class="anim-up-1 lg:col-span-3 shadow-sm hover:shadow-md transition-shadow" />
 
-        <!-- Columna Central: Recetas (más espacio) -->
-        <div class="flex flex-col gap-6 lg:col-span-5">
-          <PostresRecetasCard class="anim-up-4 shadow-sm hover:shadow-md transition-shadow" />
-        </div>
+        <!-- Middle row -->
+        <PostresVentasCard class="anim-up-2 lg:col-span-2 shadow-sm hover:shadow-md transition-shadow" />
+        <PostresCatalogoCard class="anim-up-3 lg:col-span-1 shadow-sm hover:shadow-md transition-shadow" />
 
-        <!-- Columna Derecha: Reporte -->
-        <div class="flex flex-col gap-6 lg:col-span-3">
-          <PostresReporteCard class="anim-up-5 shadow-sm hover:shadow-md transition-shadow" />
-        </div>
+        <!-- Bottom row -->
+        <PostresInsumosCard class="anim-up-4 lg:col-span-1 shadow-sm hover:shadow-md transition-shadow" />
+        <PostresRecetasCard class="anim-up-5 lg:col-span-2 shadow-sm hover:shadow-md transition-shadow" />
       </div>
     </section>
   </main>

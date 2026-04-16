@@ -7,7 +7,7 @@ const profileInitial = computed(() => activeProfileName.value?.trim().charAt(0).
 </script>
 
 <template>
-  <header class="rounded-3xl bg-white p-5 shadow-sm">
+  <header class="rounded-3xl bg-white p-4 shadow-sm mb-4">
     <div class="flex items-center justify-between gap-4">
       <div class="flex items-center gap-3">
         <div

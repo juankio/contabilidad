@@ -42,7 +42,6 @@ export default defineNuxtConfig({
   routeRules: process.env.NUXT_PRERENDER === 'true'
     ? { '/': { prerender: true } }
     : {
-        '/_nuxt/**': { headers: { 'cache-control': 'public, max-age=31536000, immutable' } },
         '/favicon.ico': { headers: { 'cache-control': 'public, max-age=86400' } },
         '/api/**': { cors: true }
       },

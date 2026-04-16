@@ -83,10 +83,13 @@ function close() {
 </script>
 
 <template>
-  <UModal
-    v-model="isOpen"
-    :ui="{ content: 'sm:max-w-md' }"
-  >
+  <ClientOnly fallback-tag="span">
+    <UModal
+      v-model:open="isOpen"
+      :ui="{ content: 'sm:max-w-md' }"
+      title="Editar plan"
+      description="Actualiza los detalles de la compra."
+    >
     <template #content>
       <div class="p-6">
         <div class="flex items-start justify-between mb-6">
@@ -106,7 +109,7 @@ function close() {
               </p>
             </div>
           </div>
-          <ClientOnly>
+          <ClientOnly fallback-tag="span">
             <UButton
               color="neutral"
               variant="ghost"
@@ -201,4 +204,5 @@ function close() {
       </div>
     </template>
   </UModal>
+  </ClientOnly>
 </template>

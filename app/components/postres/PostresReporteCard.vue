@@ -5,9 +5,9 @@ const { report, sending, sendError, sendSuccess, sendToContabilidad } = usePostr
 </script>
 
 <template>
-  <section class="flex flex-col rounded-3xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow h-full">
+  <section class="flex flex-col rounded-3xl border border-slate-200 bg-white p-4 shadow-sm hover:shadow-md transition-shadow h-full">
     <!-- Header -->
-    <div class="mb-5 flex items-start justify-between">
+    <div class="mb-3 flex items-start justify-between">
       <div class="flex items-center gap-3">
         <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/10 text-amber-600">
           <UIcon
@@ -27,8 +27,8 @@ const { report, sending, sendError, sendSuccess, sendToContabilidad } = usePostr
     </div>
 
     <!-- Stats -->
-    <div class="flex-1 grid grid-cols-1 gap-3">
-      <div class="anim-up group flex flex-col justify-center rounded-3xl bg-emerald-50 px-4 py-3 transition-colors duration-200 hover:bg-emerald-100/60">
+    <div class="flex-1 grid grid-cols-1 md:grid-cols-3 gap-2">
+      <div class="anim-up group flex flex-col justify-center rounded-3xl bg-emerald-50 px-3 py-2 transition-colors duration-200 hover:bg-emerald-100/60">
         <div class="flex items-center justify-between">
           <p class="text-xs font-semibold uppercase tracking-widest text-emerald-600">
             Ingresos brutos
@@ -43,7 +43,7 @@ const { report, sending, sendError, sendSuccess, sendToContabilidad } = usePostr
         </p>
       </div>
 
-      <div class="anim-up-1 group flex flex-col justify-center rounded-3xl bg-rose-50 px-4 py-3 transition-colors duration-200 hover:bg-rose-100/60">
+      <div class="anim-up-1 group flex flex-col justify-center rounded-3xl bg-rose-50 px-3 py-2 transition-colors duration-200 hover:bg-rose-100/60">
         <div class="flex items-center justify-between">
           <p class="text-xs font-semibold uppercase tracking-widest text-rose-600">
             Costos de materia prima
@@ -59,7 +59,7 @@ const { report, sending, sendError, sendSuccess, sendToContabilidad } = usePostr
       </div>
 
       <div
-        class="anim-up-2 flex flex-col justify-center rounded-3xl px-4 py-3 text-white shadow-sm transition-transform hover:scale-[1.01]"
+        class="anim-up-2 flex flex-col justify-center rounded-3xl px-3 py-2 text-white shadow-sm transition-transform hover:scale-[1.01]"
         style="background: var(--brand-600, #2563eb);"
       >
         <p class="text-xs font-semibold uppercase tracking-widest text-white/70">
@@ -72,11 +72,10 @@ const { report, sending, sendError, sendSuccess, sendToContabilidad } = usePostr
     </div>
 
     <!-- Send -->
-    <div class="mt-5 flex flex-col gap-3">
+    <div class="mt-3 flex flex-col gap-2">
       <UButton
         color="warning"
         icon="lucide:send"
-        size="lg"
         block
         :loading="sending"
         @click="sendToContabilidad"
