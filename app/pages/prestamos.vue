@@ -28,7 +28,7 @@ const profileInitial = computed(() => activeProfileName.value?.trim().charAt(0).
 
 <template>
   <main class="min-h-screen bg-slate-50 text-slate-900">
-    <section class="mx-auto max-w-6xl overflow-x-clip px-4 pb-10 pt-6">
+    <section class="mx-auto max-w-screen-2xl overflow-x-clip px-4 pb-10 pt-6">
       <!-- Page header -->
       <header class="anim-up mb-6 rounded-3xl bg-white p-5 shadow-sm">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -48,10 +48,10 @@ const profileInitial = computed(() => activeProfileName.value?.trim().charAt(0).
               </span>
             </div>
             <div>
-              <p class="text-xs uppercase tracking-[0.2em] text-slate-400">
+              <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">
                 Módulo
               </p>
-              <h1 class="text-lg font-semibold text-slate-900">
+              <h1 class="text-2xl font-bold tracking-tight text-slate-900">
                 Préstamos
               </h1>
               <p class="text-xs text-slate-400">

@@ -27,10 +27,10 @@ defineProps<{
           </span>
         </div>
         <div>
-          <p class="text-xs uppercase tracking-[0.2em] text-slate-400">
+          <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">
             Módulo
           </p>
-          <h1 class="text-lg font-semibold text-slate-900">
+          <h1 class="text-2xl font-bold tracking-tight text-slate-900">
             Gastos
           </h1>
         </div>

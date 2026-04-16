@@ -4,7 +4,7 @@ import ProfileEditorPanel from '../components/profiles/ProfileEditorPanel.vue'
 
 <template>
   <main class="min-h-screen bg-slate-50 text-slate-900">
-    <section class="mx-auto max-w-6xl overflow-x-clip px-4 pb-10 pt-6">
+    <section class="mx-auto max-w-screen-2xl overflow-x-clip px-4 pb-10 pt-6">
       <div class="grid min-w-0 gap-6 lg:grid-cols-12">
         <header class="anim-up rounded-3xl bg-white p-5 shadow-sm lg:col-span-12">
           <div class="flex items-center gap-3">
@@ -18,10 +18,10 @@ import ProfileEditorPanel from '../components/profiles/ProfileEditorPanel.vue'
               />
             </div>
             <div>
-              <p class="text-xs uppercase tracking-[0.2em] text-slate-400">
+              <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">
                 Configuración
               </p>
-              <h1 class="text-lg font-semibold text-slate-900">
+              <h1 class="text-2xl font-bold tracking-tight text-slate-900">
                 Editar perfil
               </h1>
             </div>

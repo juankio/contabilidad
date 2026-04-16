@@ -27,10 +27,10 @@ const profileInitial = computed(() => activeProfileName.value?.trim().charAt(0).
             </span>
           </div>
           <div>
-            <p class="text-xs uppercase tracking-[0.2em] text-slate-400">
+            <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">
               Módulo
             </p>
-            <h1 class="text-lg font-semibold text-slate-900">
+            <h1 class="text-2xl font-bold tracking-tight text-slate-900">
               Reportes
             </h1>
           </div>
@@ -53,10 +53,10 @@ const profileInitial = computed(() => activeProfileName.value?.trim().charAt(0).
 
       <div class="mt-6 grid gap-4 md:grid-cols-2">
         <div class="anim-up-1 rounded-3xl bg-white p-5 shadow-sm">
-          <p class="text-xs uppercase tracking-[0.2em] text-slate-400">
+          <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">
             Resumen
           </p>
-          <p class="mt-2 text-lg font-semibold text-slate-900">
+          <p class="mt-2 text-2xl font-bold tracking-tight text-slate-900">
             Agosto 2024
           </p>
           <p class="mt-2 text-sm text-slate-500">
@@ -64,7 +64,7 @@ const profileInitial = computed(() => activeProfileName.value?.trim().charAt(0).
           </p>
         </div>
         <div class="anim-up-2 rounded-3xl bg-white p-5 shadow-sm">
-          <p class="text-xs uppercase tracking-[0.2em] text-slate-400">
+          <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">
             Categorías
           </p>
           <p class="mt-2 text-sm text-slate-500">

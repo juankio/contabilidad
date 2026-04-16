@@ -14,6 +14,19 @@ const props = defineProps<{
   submitError: string | null
 }>()
 
+const toast = useToast()
+
+watch(() => props.submitError, (newVal) => {
+  if (newVal) {
+    toast.add({
+      title: 'No se pudo guardar',
+      description: newVal,
+      icon: 'lucide:alert-circle',
+      color: 'error'
+    })
+  }
+})
+
 type PlaneadorFormValues = Omit<NuevoPlan, 'fechaPlaneada'>
 
 const form = reactive<PlaneadorFormValues>({
@@ -70,23 +83,21 @@ defineExpose({ reset })
 </script>
 
 <template>
-  <div class="rounded-3xl bg-white p-5 shadow-sm">
-    <div class="anim-up mb-4">
-      <div class="flex items-center gap-2 text-slate-700">
-        <UIcon
-          name="lucide:plus-circle"
-          class="h-4 w-4"
-        />
-        <p class="text-sm font-semibold">
-          Nueva compra
-        </p>
+  <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
+    <div class="flex items-start justify-between mb-4">
+      <div class="flex items-center gap-3">
+        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+          <UIcon name="lucide:plus" class="h-5 w-5" />
+        </div>
+        <div>
+          <h2 class="text-lg font-bold tracking-tight text-slate-900">
+            Agregar al plan
+          </h2>
+          <p class="text-sm text-slate-500">
+            Nueva compra futura.
+          </p>
+        </div>
       </div>
-      <p class="mt-1 text-xs text-slate-400">
-        Nueva compra
-      </p>
-      <h2 class="mt-0.5 text-2xl font-bold text-slate-900">
-        Agregar al plan
-      </h2>
     </div>
 
     <form
@@ -146,21 +157,11 @@ defineExpose({ reset })
         />
       </FormField>
 
-      <!-- Error -->
-      <Transition name="slide-down">
-        <p
-          v-if="submitError"
-          class="rounded-xl bg-rose-50 px-3 py-2 text-xs text-rose-600"
-        >
-          {{ submitError }}
-        </p>
-      </Transition>
-
       <!-- Submit -->
       <UButton
         type="submit"
         :disabled="!canSubmit"
-        class="anim-up-4"
+        class="anim-up-4 mt-2"
         size="lg"
         color="primary"
         block
@@ -171,11 +172,3 @@ defineExpose({ reset })
     </form>
   </div>
 </template>
-
-<style scoped>
-/* Error slide */
-.slide-down-enter-active { transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1); }
-.slide-down-leave-active { transition: all 0.15s ease; }
-.slide-down-enter-from   { opacity: 0; transform: translateY(-6px); }
-.slide-down-leave-to     { opacity: 0; transform: translateY(-4px); }
-</style>

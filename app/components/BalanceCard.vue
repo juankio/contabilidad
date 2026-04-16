@@ -24,22 +24,21 @@ const saludColor = computed(() => {
 </script>
 
 <template>
-  <div class="self-start rounded-2xl border border-slate-200 bg-white p-4 md:col-span-2 lg:col-span-1">
+  <div class="self-start rounded-3xl border border-slate-200 bg-white shadow-sm hover:shadow-md transition-shadow p-6 md:col-span-2 lg:col-span-1">
     <!-- Header -->
-    <div class="flex items-start justify-between">
-      <div>
-        <div class="flex items-center gap-2 text-slate-700">
-          <UIcon
-            name="lucide:bar-chart-2"
-            class="h-4 w-4"
-          />
-          <p class="text-sm font-semibold">
+    <div class="mb-5 flex items-start justify-between">
+      <div class="flex items-center gap-3">
+        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600">
+          <UIcon name="lucide:wallet" class="h-5 w-5" />
+        </div>
+        <div>
+          <h2 class="text-lg font-bold tracking-tight text-slate-900">
             Balance mensual
+          </h2>
+          <p class="text-sm text-slate-500">
+            {{ resumen?.month || 'Mes actual' }}
           </p>
         </div>
-        <p class="mt-1.5 text-2xl font-bold text-slate-900">
-          {{ resumen?.month || 'Mes actual' }}
-        </p>
       </div>
       <UButton
         color="neutral"
@@ -66,7 +65,7 @@ const saludColor = computed(() => {
     <!-- Error -->
     <div
       v-else-if="error"
-      class="mt-5 rounded-2xl border border-rose-100 bg-rose-50 px-4 py-3 text-sm text-rose-500"
+      class="mt-5 rounded-3xl border border-rose-100 bg-rose-50 px-4 py-3 text-sm text-rose-500"
     >
       No se pudo cargar el resumen.
     </div>
@@ -77,9 +76,9 @@ const saludColor = computed(() => {
       class="mt-5 space-y-3"
     >
       <!-- Ingresos -->
-      <div class="anim-up group rounded-2xl bg-emerald-50 px-4 py-3 transition-colors duration-200 hover:bg-emerald-100/60">
+      <div class="anim-up group rounded-3xl bg-emerald-50 px-4 py-3 transition-colors duration-200 hover:bg-emerald-100/60">
         <div class="flex items-center justify-between">
-          <p class="text-xs uppercase tracking-[0.2em] text-emerald-600">
+          <p class="text-xs font-semibold uppercase tracking-widest text-emerald-600">
             Ingresos
           </p>
           <UIcon
@@ -93,9 +92,9 @@ const saludColor = computed(() => {
       </div>
 
       <!-- Gastos -->
-      <div class="anim-up-1 group rounded-2xl bg-amber-50 px-4 py-3 transition-colors duration-200 hover:bg-amber-100/60">
+      <div class="anim-up-1 group rounded-3xl bg-amber-50 px-4 py-3 transition-colors duration-200 hover:bg-amber-100/60">
         <div class="flex items-center justify-between">
-          <p class="text-xs uppercase tracking-[0.2em] text-amber-600">
+          <p class="text-xs font-semibold uppercase tracking-widest text-amber-600">
             Gastos
           </p>
           <UIcon
@@ -110,10 +109,10 @@ const saludColor = computed(() => {
 
       <!-- Saldo -->
       <div
-        class="anim-up-2 rounded-2xl px-4 py-3 text-white"
+        class="anim-up-2 rounded-3xl px-4 py-3 text-white"
         style="background: var(--brand-600)"
       >
-        <p class="text-xs uppercase tracking-[0.2em] text-white/70">
+        <p class="text-xs font-semibold uppercase tracking-widest text-white/70">
           Disponible
         </p>
         <p class="mt-1 text-xl font-semibold">
@@ -124,7 +123,7 @@ const saludColor = computed(() => {
       <!-- Indicador de salud financiera -->
       <div
         v-if="resumen?.ingresos"
-        class="anim-up-3 rounded-2xl border border-slate-100 px-4 py-3"
+        class="anim-up-3 rounded-3xl border border-slate-100 px-4 py-3"
       >
         <div class="mb-2 flex items-center justify-between">
           <p class="text-xs text-slate-400">

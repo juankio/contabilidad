@@ -37,7 +37,7 @@ const { activeProfileIcon } = useProfile()
         />
       </div>
       <div class="min-w-0">
-        <p class="truncate text-lg font-semibold text-slate-900">
+        <p class="truncate text-2xl font-bold tracking-tight text-slate-900">
           {{ profileName || 'Sin nombre' }}
         </p>
         <div class="mt-0.5 flex items-center gap-1.5">

@@ -31,7 +31,7 @@ const mesActual = new Date().toISOString().slice(0, 7)
 </script>
 
 <template>
-  <div class="rounded-3xl bg-white p-5 shadow-sm">
+  <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
     <!-- Header -->
     <div class="anim-up mb-5 flex items-center justify-between">
       <div>
@@ -47,7 +47,7 @@ const mesActual = new Date().toISOString().slice(0, 7)
         <p class="mt-1 text-xs text-slate-400">
           Agrupado por mes
         </p>
-        <h2 class="mt-0.5 text-3xl font-bold text-slate-900">
+        <h2 class="mt-0.5 text-lg font-bold tracking-tight text-slate-900">
           Compras planeadas
         </h2>
       </div>

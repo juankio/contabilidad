@@ -92,7 +92,7 @@ const previewGastos = computed(() => (props.gastos ?? []).slice(0, 3))
   >
     <div class="w-full max-w-2xl rounded-3xl bg-white p-5 shadow-xl">
       <div class="mb-4 flex items-center justify-between">
-        <h3 class="text-lg font-semibold text-slate-900">
+        <h3 class="text-2xl font-bold tracking-tight text-slate-900">
           Todos los gastos del perfil activo
         </h3>
         <button

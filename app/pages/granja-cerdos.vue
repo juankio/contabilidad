@@ -10,20 +10,43 @@ const profileInitial = computed(() => activeProfileName.value?.trim().charAt(0).
 
 const { lotes, loading, fetchLotes, crearLote, comprarConcentrado } = useGranjaCerdos()
 
+const toast = useToast()
+
 const handleCrearLote = async (payload: any) => {
   try {
     await crearLote(payload)
+    toast.add({
+      title: 'Lote registrado',
+      description: 'El nuevo lote ha sido añadido a la granja.',
+      icon: 'lucide:check-circle',
+      color: 'success'
+    })
   } catch (err: any) {
-    alert(err.message)
+    toast.add({
+      title: 'Error al registrar lote',
+      description: err.message || 'No se pudo crear el lote.',
+      icon: 'lucide:alert-circle',
+      color: 'error'
+    })
   }
 }
 
 const handleComprarConcentrado = async (payload: any) => {
   try {
     await comprarConcentrado(payload)
-    alert('Compra de concentrado registrada. Se descontó del balance global.')
+    toast.add({
+      title: 'Compra exitosa',
+      description: 'El concentrado se ha registrado y se ha descontado de los fondos globales.',
+      icon: 'lucide:check-circle',
+      color: 'success'
+    })
   } catch (err: any) {
-    alert(err.message || 'Error al comprar concentrado')
+    toast.add({
+      title: 'Fondos insuficientes o error',
+      description: err.message || 'No se pudo comprar el concentrado.',
+      icon: 'lucide:alert-triangle',
+      color: 'error'
+    })
   }
 }
 
@@ -32,7 +55,7 @@ onMounted(() => fetchLotes())
 
 <template>
   <main class="min-h-screen bg-slate-50 text-slate-900">
-    <section class="mx-auto max-w-5xl px-4 pb-10 pt-6">
+    <section class="mx-auto max-w-screen-2xl px-4 pb-10 pt-6">
       <header class="anim-up rounded-3xl bg-white p-5 shadow-sm">
         <div class="flex items-center gap-3">
           <div
@@ -48,10 +71,10 @@ onMounted(() => fetchLotes())
             </span>
           </div>
           <div>
-            <p class="text-xs uppercase tracking-[0.2em] text-slate-400">
+            <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">
               Módulo
             </p>
-            <h1 class="text-lg font-semibold text-slate-900">
+            <h1 class="text-2xl font-bold tracking-tight text-slate-900">
               Granja de Cerdos
             </h1>
             <p class="text-xs text-slate-500">
@@ -66,14 +89,21 @@ onMounted(() => fetchLotes())
         <ConcentradoForm @submit="handleComprarConcentrado" />
       </div>
 
-      <div class="anim-up-3 mt-6 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-        <div class="mb-4 flex items-center gap-2">
-          <div class="flex h-8 w-8 items-center justify-center rounded-xl bg-primary/10 text-primary">
-            <UIcon name="lucide:list" class="h-4 w-4" />
+      <div class="anim-up-3 mt-6 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
+        <div class="mb-5 flex items-start justify-between">
+          <div class="flex items-center gap-3">
+            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-500/10 text-violet-600">
+              <UIcon name="lucide:list" class="h-5 w-5" />
+            </div>
+            <div>
+              <h2 class="text-lg font-bold tracking-tight text-slate-900">
+                Lotes Activos y Fichas
+              </h2>
+              <p class="text-sm text-slate-500">
+                Lotes registrados en la granja.
+              </p>
+            </div>
           </div>
-          <h2 class="text-base font-semibold text-slate-900">
-            Lotes Activos y Fichas
-          </h2>
         </div>
         <div
           v-if="loading"

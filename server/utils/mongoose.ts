@@ -13,10 +13,15 @@ export async function connectMongoose() {
   }
 
   const mongoUri = getMongoUri()
-  globalWithMongoose._mongooseConn = mongoose.connect(mongoUri).then((conn) => {
+  globalWithMongoose._mongooseConn = mongoose.connect(mongoUri, {
+    maxPoolSize: 10,
+    minPoolSize: 2,
+    socketTimeoutMS: 45000,
+    serverSelectionTimeoutMS: 5000
+  }).then((conn) => {
     if (!globalWithMongoose._mongooseLogged) {
       globalWithMongoose._mongooseLogged = true
-      console.info('[mongo] conectado')
+      console.info('[mongo] conectado y configurado pool')
     }
     return conn
   })

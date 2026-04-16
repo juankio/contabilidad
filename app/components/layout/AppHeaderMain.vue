@@ -48,9 +48,9 @@ const menuItems = computed<NavigationMenuItem[]>(() => navItems.value.map((item)
     mode="drawer"
     :menu="{ direction: 'bottom', inset: true }"
     :toggle="false"
-    class="border-b border-slate-200 bg-white/90 text-slate-900 backdrop-blur"
+    class="border-b border-white/20 bg-white/70 text-slate-900 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.03)] sticky top-0 z-50 transition-all duration-300"
     :ui="{
-      overlay: 'sm:hidden',
+      overlay: 'sm:hidden backdrop-blur-sm bg-slate-900/20',
       content: 'sm:hidden rounded-t-3xl border border-slate-200 bg-white shadow-2xl',
       body: 'p-3'
     }"
@@ -68,32 +68,36 @@ const menuItems = computed<NavigationMenuItem[]>(() => navItems.value.map((item)
           viewBox="0 0 30 30"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          class="shrink-0 transition-transform duration-200 group-hover:scale-105"
+          class="shrink-0 transition-transform duration-300 group-hover:scale-105 group-hover:rotate-3"
         >
           <rect
             width="30"
             height="30"
-            rx="8"
+            rx="10"
             style="fill: var(--brand-600)"
+            class="shadow-sm"
           />
           <!-- Líneas de libro contable -->
           <path
             d="M9 11h12"
             stroke="white"
-            stroke-width="2"
+            stroke-width="2.5"
             stroke-linecap="round"
+            class="transition-all duration-300 group-hover:stroke-slate-100"
           />
           <path
             d="M9 15.5h8"
             stroke="white"
-            stroke-width="2"
+            stroke-width="2.5"
             stroke-linecap="round"
+            class="transition-all duration-300 group-hover:stroke-slate-100"
           />
           <path
             d="M9 20h10"
             stroke="white"
-            stroke-width="2"
+            stroke-width="2.5"
             stroke-linecap="round"
+            class="transition-all duration-300 group-hover:stroke-slate-100"
           />
           <!-- Pequeño acento superior derecho -->
           <circle
@@ -101,10 +105,11 @@ const menuItems = computed<NavigationMenuItem[]>(() => navItems.value.map((item)
             cy="9.5"
             r="2.5"
             fill="white"
-            fill-opacity="0.35"
+            fill-opacity="0.9"
+            class="transition-all duration-300 group-hover:scale-110"
           />
         </svg>
-        <span class="text-base font-semibold text-slate-900 tracking-tight">Mi Contabilidad</span>
+        <span class="text-base font-bold text-slate-900 tracking-tight transition-colors group-hover:text-[var(--brand-600)]">Mi Contabilidad</span>
       </NuxtLink>
     </template>
 

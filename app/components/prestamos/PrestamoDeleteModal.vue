@@ -19,7 +19,7 @@ const emit = defineEmits<{
     @click.self="emit('cancel')"
   >
     <div class="w-full max-w-md rounded-3xl bg-white p-5 shadow-xl">
-      <h3 class="text-lg font-semibold text-slate-900">
+      <h3 class="text-lg font-bold tracking-tight tracking-tight text-slate-900">
         Eliminar prestamo
       </h3>
       <p class="mt-2 text-sm text-slate-600">

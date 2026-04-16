@@ -42,24 +42,23 @@ const closeGroupModal = () => {
 <template>
   <div
     v-bind="attrs"
-    class="w-full rounded-3xl bg-white p-5 shadow-sm"
+    class="w-full rounded-3xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow"
   >
-    <div class="mb-4">
-      <div class="flex items-center gap-2 text-slate-700">
-        <UIcon
-          name="lucide:users"
-          class="h-4 w-4"
-        />
-        <p class="text-sm font-semibold">
-          Resumen por perfil
-        </p>
+    <!-- Header -->
+    <div class="mb-5 flex items-start justify-between">
+      <div class="flex items-center gap-3">
+        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/10 text-blue-600">
+          <UIcon name="lucide:users" class="h-5 w-5" />
+        </div>
+        <div>
+          <h2 class="text-lg font-bold tracking-tight text-slate-900">
+            Resumen por perfil
+          </h2>
+          <p class="text-sm text-slate-500">
+            Totales de gastos activos.
+          </p>
+        </div>
       </div>
-      <p class="mt-1 text-xs text-slate-400">
-        Resumen por perfil
-      </p>
-      <p class="text-xs text-slate-600">
-        Totales de gastos de cada perfil activo.
-      </p>
     </div>
 
     <div
@@ -144,7 +143,7 @@ const closeGroupModal = () => {
     <div class="w-full max-w-2xl rounded-3xl bg-white p-5 shadow-xl">
       <div class="mb-4 flex items-center justify-between">
         <div class="min-w-0">
-          <p class="truncate text-lg font-semibold text-slate-900">
+          <p class="truncate text-2xl font-bold tracking-tight text-slate-900">
             Movimientos de {{ selectedGroup.profileName }}
           </p>
           <p class="text-xs text-slate-600">

@@ -21,22 +21,23 @@ const emit = defineEmits<{ (e: 'submit'): void }>()
 </script>
 
 <template>
-  <div class="rounded-3xl bg-white p-5 shadow-sm lg:col-span-4">
-    <div class="flex items-center gap-2 text-slate-700">
-      <UIcon
-        name="lucide:plus-circle"
-        class="h-4 w-4"
-      />
-      <p class="text-sm font-semibold">
-        Nuevo prestamo
-      </p>
+  <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow lg:col-span-4">
+    <div class="flex items-start justify-between mb-4">
+      <div class="flex items-center gap-3">
+        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+          <UIcon name="lucide:plus" class="h-5 w-5" />
+        </div>
+        <div>
+          <h2 class="text-lg font-bold tracking-tight text-slate-900">
+            Nuevo prestamo
+          </h2>
+          <p class="text-sm text-slate-500">
+            Controla su devolucion.
+          </p>
+        </div>
+      </div>
     </div>
-    <h2 class="mt-0.5 text-2xl font-bold text-slate-900">
-      Nuevo prestamo
-    </h2>
-    <p class="mt-1 text-sm text-slate-500">
-      Guarda el monto que prestaste y controla su devolucion.
-    </p>
+
     <form
       class="mt-5 grid gap-4"
       @submit.prevent="emit('submit')"

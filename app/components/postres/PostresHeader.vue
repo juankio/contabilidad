@@ -25,10 +25,10 @@ const profileInitial = computed(() => activeProfileName.value?.trim().charAt(0).
           </span>
         </div>
         <div>
-          <p class="text-xs uppercase tracking-[0.2em] text-slate-400">
+          <p class="text-sm uppercase tracking-[0.2em] text-slate-400">
             Módulo
           </p>
-          <h1 class="text-lg font-semibold text-slate-900">
+          <h1 class="text-2xl font-bold tracking-tight text-slate-900">
             Catálogo de postres
           </h1>
         </div>
@@ -36,21 +36,21 @@ const profileInitial = computed(() => activeProfileName.value?.trim().charAt(0).
 
       <!-- Quick stats badges -->
       <div class="hidden items-center gap-2 sm:flex">
-        <span class="flex items-center gap-1.5 rounded-full border border-slate-100 bg-slate-50 px-3 py-1 text-xs font-medium text-slate-500">
+        <span class="flex items-center gap-1.5 rounded-full border border-slate-100 bg-slate-50 px-3 py-1 text-sm font-medium text-slate-500">
           <UIcon
             name="lucide:cake"
             class="size-3.5 text-amber-400"
           />
           {{ postres.length }} postre{{ postres.length !== 1 ? 's' : '' }}
         </span>
-        <span class="flex items-center gap-1.5 rounded-full border border-slate-100 bg-slate-50 px-3 py-1 text-xs font-medium text-slate-500">
+        <span class="flex items-center gap-1.5 rounded-full border border-slate-100 bg-slate-50 px-3 py-1 text-sm font-medium text-slate-500">
           <UIcon
             name="lucide:package"
             class="size-3.5 text-emerald-400"
           />
           {{ insumos.length }} insumo{{ insumos.length !== 1 ? 's' : '' }}
         </span>
-        <span class="flex items-center gap-1.5 rounded-full border border-slate-100 bg-slate-50 px-3 py-1 text-xs font-medium text-slate-500">
+        <span class="flex items-center gap-1.5 rounded-full border border-slate-100 bg-slate-50 px-3 py-1 text-sm font-medium text-slate-500">
           <UIcon
             name="lucide:shopping-bag"
             class="size-3.5 text-sky-400"

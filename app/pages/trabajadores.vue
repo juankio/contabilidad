@@ -14,20 +14,43 @@ const { resumen, formatCurrency } = await useResumen()
 
 const saldoDisponible = computed(() => resumen.value?.saldoDisponible ?? resumen.value?.saldo ?? 0)
 
+const toast = useToast()
+
 const handleCrear = async (payload: any) => {
   try {
     await crearTrabajador(payload)
+    toast.add({
+      title: 'Trabajador creado',
+      description: 'El trabajador ha sido añadido exitosamente a la plantilla.',
+      icon: 'lucide:check-circle',
+      color: 'success'
+    })
   } catch (err: any) {
-    alert(err.message || 'Error al crear trabajador')
+    toast.add({
+      title: 'Error al crear',
+      description: err.message || 'No se pudo crear el trabajador.',
+      icon: 'lucide:alert-circle',
+      color: 'error'
+    })
   }
 }
 
 const handlePagar = async (payload: any) => {
   try {
     await pagarTrabajador(payload)
-    alert('Pago registrado correctamente. Se ha descontado de tus fondos.')
+    toast.add({
+      title: 'Pago exitoso',
+      description: 'El pago ha sido registrado y descontado de tus fondos.',
+      icon: 'lucide:check-circle',
+      color: 'success'
+    })
   } catch (err: any) {
-    alert(err.message || 'Error al pagar')
+    toast.add({
+      title: 'No se pudo procesar',
+      description: err.message || 'Error al pagar.',
+      icon: 'lucide:alert-circle',
+      color: 'error'
+    })
   }
 }
 
@@ -36,7 +59,7 @@ onMounted(() => fetchTrabajadores())
 
 <template>
   <main class="min-h-screen bg-slate-50 text-slate-900">
-    <section class="mx-auto max-w-5xl px-4 pb-10 pt-6">
+    <section class="mx-auto max-w-screen-2xl px-4 pb-10 pt-6">
       <header class="anim-up rounded-3xl bg-white p-5 shadow-sm">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div class="flex items-center gap-3">
@@ -53,10 +76,10 @@ onMounted(() => fetchTrabajadores())
               </span>
             </div>
             <div>
-              <p class="text-xs uppercase tracking-[0.2em] text-slate-400">
+              <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">
                 Módulo
               </p>
-              <h1 class="text-lg font-semibold text-slate-900">
+              <h1 class="text-2xl font-bold tracking-tight text-slate-900">
                 Trabajadores y Nómina
               </h1>
             </div>
@@ -82,14 +105,21 @@ onMounted(() => fetchTrabajadores())
         />
       </div>
 
-      <div class="anim-up-3 mt-6 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-        <div class="mb-4 flex items-center gap-2">
-          <div class="flex h-8 w-8 items-center justify-center rounded-xl bg-amber-500/10 text-amber-600">
-            <UIcon name="lucide:users" class="h-4 w-4" />
+      <div class="anim-up-3 mt-6 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
+        <div class="mb-5 flex items-start justify-between">
+          <div class="flex items-center gap-3">
+            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/10 text-amber-600">
+              <UIcon name="lucide:users" class="h-5 w-5" />
+            </div>
+            <div>
+              <h2 class="text-lg font-bold tracking-tight text-slate-900">
+                Plantilla Actual
+              </h2>
+              <p class="text-sm text-slate-500">
+                Personal activo de la empresa.
+              </p>
+            </div>
           </div>
-          <h2 class="text-base font-semibold text-slate-900">
-            Plantilla Actual
-          </h2>
         </div>
 
         <div
@@ -122,7 +152,7 @@ onMounted(() => fetchTrabajadores())
                   <span class="text-sm font-bold text-primary">{{ t.nombre.charAt(0).toUpperCase() }}</span>
                 </div>
                 <div>
-                  <p class="font-medium text-slate-900 line-clamp-1">
+                  <p class="font-semibold text-slate-900 line-clamp-1">
                     {{ t.nombre }}
                   </p>
                   <p class="text-xs text-slate-500">

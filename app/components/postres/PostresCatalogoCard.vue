@@ -19,79 +19,87 @@ const submit = () => {
 </script>
 
 <template>
-  <section class="rounded-3xl bg-white p-5 shadow-sm">
+  <section class="flex flex-col rounded-3xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
     <!-- Header -->
-    <div class="mb-4">
-      <div class="flex items-center gap-2 text-slate-700">
-        <UIcon
-          name="lucide:cake"
-          class="h-4 w-4"
-        />
-        <p class="text-sm font-semibold">
-          Postres
-        </p>
+    <div class="mb-5 flex items-start justify-between">
+      <div class="flex items-center gap-3">
+        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-pink-500/10 text-pink-600">
+          <UIcon name="lucide:cake" class="h-5 w-5" />
+        </div>
+        <div>
+          <h2 class="text-lg font-bold tracking-tight text-slate-900">
+            Postres
+          </h2>
+          <p class="text-sm text-slate-500">
+            Catálogo y precio de venta.
+          </p>
+        </div>
       </div>
-      <p class="mt-1 text-xs text-slate-400">
-        Precio de venta por postre
-      </p>
     </div>
 
     <!-- Form -->
-    <div class="space-y-2">
-      <div class="grid grid-cols-2 gap-2">
+    <div class="space-y-3">
+      <div class="grid grid-cols-2 gap-3">
         <UInput
           v-model="name"
           placeholder="Nombre del postre"
-          size="sm"
+          size="lg"
+          icon="lucide:tag"
         />
         <UInput
           v-model="price"
-          placeholder="Precio"
-          size="sm"
+          placeholder="0"
+          size="lg"
           inputmode="numeric"
+          icon="lucide:circle-dollar-sign"
         />
       </div>
       <UButton
         color="primary"
-        icon="i-lucide-plus"
-        size="sm"
+        icon="lucide:plus"
+        size="lg"
         block
         @click="submit"
       >
-        Agregar postre
+        Agregar postre al catálogo
       </UButton>
       <p
         v-if="error"
-        class="text-xs text-rose-500"
+        class="text-sm font-medium text-rose-500"
       >
         {{ error }}
       </p>
     </div>
 
     <!-- List -->
-    <div class="mt-4">
+    <div class="mt-5 flex-1">
       <div
         v-if="!postres.length"
-        class="rounded-2xl border border-dashed border-slate-200 py-6 text-center"
+        class="flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 py-8 text-center"
       >
-        <p class="text-xs text-slate-400">
-          Sin postres registrados
-        </p>
+        <UIcon name="lucide:inbox" class="mb-2 h-8 w-8 text-slate-300" />
+        <p class="text-sm font-medium text-slate-600">Catálogo vacío</p>
+        <p class="text-xs text-slate-500">Agrega tu primer postre.</p>
       </div>
       <ul
         v-else
-        class="space-y-1.5"
+        class="space-y-2"
       >
         <li
           v-for="postre in postres"
           :key="postre.id"
-          class="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50/60 px-3 py-2"
+          class="flex items-center justify-between rounded-2xl border border-slate-100 bg-slate-50/50 p-3 transition-colors hover:bg-slate-50"
         >
-          <span class="text-sm font-medium text-slate-800">{{ postre.name }}</span>
+          <div class="flex items-center gap-3">
+            <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-white shadow-sm ring-1 ring-slate-100">
+              <span class="text-sm font-bold text-pink-600">{{ postre.name.charAt(0).toUpperCase() }}</span>
+            </div>
+            <span class="text-base font-semibold text-slate-900">{{ postre.name }}</span>
+          </div>
           <span
-            class="rounded-lg bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-700"
+            class="rounded-xl bg-pink-50 px-3 py-1 text-sm font-bold tracking-tight text-pink-700 ring-1 ring-pink-500/20"
           >
-            COP {{ postre.price.toLocaleString() }}
+            ${{ postre.price.toLocaleString() }}
           </span>
         </li>
       </ul>

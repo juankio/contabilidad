@@ -28,7 +28,7 @@ const alertaConfig = computed(() => ({
 </script>
 
 <template>
-  <div class="rounded-3xl bg-white p-5 shadow-sm">
+  <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
     <!-- Header -->
     <div class="anim-up flex items-start justify-between gap-3">
       <div>
@@ -44,7 +44,7 @@ const alertaConfig = computed(() => ({
         <p class="mt-1 text-xs text-slate-400">
           Presupuesto del perfil activo
         </p>
-        <h2 class="mt-0.5 text-3xl font-bold text-slate-900">
+        <h2 class="mt-0.5 text-lg font-bold tracking-tight text-slate-900">
           Vista general
         </h2>
       </div>
@@ -62,7 +62,7 @@ const alertaConfig = computed(() => ({
         class="anim-up-1 rounded-2xl px-4 py-3 text-white"
         style="background: var(--brand-600)"
       >
-        <p class="text-xs uppercase tracking-[0.2em] text-white/70">
+        <p class="text-xs font-semibold uppercase tracking-widest text-white/70">
           Saldo disponible
         </p>
         <p class="mt-1 text-xl font-semibold tabular-nums">
@@ -76,7 +76,7 @@ const alertaConfig = computed(() => ({
         style="background: var(--brand-50)"
       >
         <p
-          class="text-xs uppercase tracking-[0.2em]"
+          class="text-xs font-semibold uppercase tracking-widest"
           style="color: var(--brand-600)"
         >
           Planeado pendiente
@@ -123,7 +123,7 @@ const alertaConfig = computed(() => ({
         :class="alertaConfig.bg"
       >
         <p
-          class="text-xs uppercase tracking-[0.2em] transition-colors duration-300"
+          class="text-xs font-semibold uppercase tracking-widest transition-colors duration-300"
           :class="alertaConfig.text"
         >
           Quedaría disponible

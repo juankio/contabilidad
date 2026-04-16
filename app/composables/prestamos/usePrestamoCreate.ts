@@ -2,6 +2,7 @@ import { useCalendarDateInput } from '../forms/useCalendarDateInput'
 import { useMoneyInput } from '../forms/useMoneyInput'
 import type { PaymentPlan } from './types'
 import { getRequestError } from './helpers'
+import { useToast } from '#imports'
 
 export function usePrestamoCreate(refresh: () => Promise<void>) {
   const form = reactive({
@@ -29,6 +30,7 @@ export function usePrestamoCreate(refresh: () => Promise<void>) {
   const creating = ref(false)
   const createError = ref('')
   const createSuccess = ref('')
+  const toast = useToast()
 
   watch(
     () => form.paymentPlan,
@@ -54,19 +56,34 @@ export function usePrestamoCreate(refresh: () => Promise<void>) {
     createSuccess.value = ''
 
     if (!form.borrower.trim()) {
-      createError.value = 'Agrega el nombre de la persona.'
+      toast.add({
+        title: 'Faltan datos',
+        description: 'Agrega el nombre de la persona.',
+        icon: 'lucide:alert-circle',
+        color: 'error'
+      })
       return
     }
 
     const amount = Number(form.amount)
     if (!Number.isFinite(amount) || amount <= 0) {
-      createError.value = 'Agrega un monto valido.'
+      toast.add({
+        title: 'Faltan datos',
+        description: 'Agrega un monto válido.',
+        icon: 'lucide:alert-circle',
+        color: 'error'
+      })
       return
     }
 
     const installmentsCount = Number(form.installmentsCount)
     if (form.paymentPlan === 'installments' && (!Number.isFinite(installmentsCount) || installmentsCount < 2)) {
-      createError.value = 'Si el pago es en cuotas, agrega al menos 2 cuotas.'
+      toast.add({
+        title: 'Faltan datos',
+        description: 'Si el pago es en cuotas, agrega al menos 2 cuotas.',
+        icon: 'lucide:alert-circle',
+        color: 'error'
+      })
       return
     }
 
@@ -92,10 +109,21 @@ export function usePrestamoCreate(refresh: () => Promise<void>) {
       })
 
       await refresh()
-      createSuccess.value = 'Prestamo guardado.'
+      toast.add({
+        title: 'Préstamo registrado',
+        description: 'El préstamo fue guardado exitosamente.',
+        icon: 'lucide:check-circle',
+        color: 'success'
+      })
       resetCreateForm()
     } catch (error) {
-      createError.value = getRequestError(error, 'No se pudo guardar el prestamo.')
+      const msg = getRequestError(error, 'No se pudo guardar el préstamo.')
+      toast.add({
+        title: 'Fondos insuficientes o error',
+        description: msg,
+        icon: 'lucide:alert-triangle',
+        color: 'error'
+      })
     } finally {
       creating.value = false
     }

@@ -11,19 +11,22 @@ defineProps<{
 </script>
 
 <template>
-  <div class="rounded-3xl bg-white p-5 shadow-sm">
-    <div class="flex items-center gap-2 text-slate-700">
-      <UIcon
-        name="lucide:circle-check-big"
-        class="h-4 w-4"
-      />
-      <p class="text-sm font-semibold">
-        Prestamos pagados
-      </p>
+  <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
+    <div class="flex items-start justify-between mb-4">
+      <div class="flex items-center gap-3">
+        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600">
+          <UIcon name="lucide:circle-check-big" class="h-5 w-5" />
+        </div>
+        <div>
+          <h2 class="text-lg font-bold tracking-tight text-slate-900">
+            Prestamos pagados
+          </h2>
+          <p class="text-sm text-slate-500">
+            Historial de prestamos recuperados.
+          </p>
+        </div>
+      </div>
     </div>
-    <h2 class="mt-0.5 text-2xl font-bold text-slate-900">
-      Prestamos pagados
-    </h2>
     <div
       v-if="!prestamosPagados.length"
       class="mt-4 grid min-h-56 place-items-center rounded-2xl border border-dashed border-slate-200 bg-slate-50/60 px-4 py-6"
@@ -33,7 +36,7 @@ defineProps<{
           name="i-lucide-circle-check-big"
           class="mx-auto mb-3 text-6xl text-slate-300"
         />
-        <p class="text-sm text-slate-500">
+        <p class="text-sm font-medium text-slate-500">
           No hay prestamos pagados
         </p>
       </div>
@@ -49,7 +52,7 @@ defineProps<{
       >
         <div class="flex flex-wrap items-center justify-between gap-2">
           <div>
-            <span class="font-medium text-slate-900">
+            <span class="font-semibold text-slate-900">
               {{ prestamo.borrower }}
             </span>
             <p class="text-xs text-slate-600">

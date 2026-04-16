@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import { toRef } from 'vue'
+import FormField from '../forms/FormField.vue'
+import { useMoneyInput } from '../../composables/forms/useMoneyInput'
+
 defineProps<{
   trabajadores: any[]
 }>()
@@ -12,6 +16,8 @@ const form = reactive({
   note: ''
 })
 
+const { amountInput } = useMoneyInput(toRef(form, 'amount'))
+
 const onSubmit = () => {
   if (!form.trabajadorId || form.amount <= 0) return
   emit('submit', { ...form })
@@ -21,52 +27,62 @@ const onSubmit = () => {
 </script>
 
 <template>
-  <div class="anim-up-2 flex flex-col rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-    <div class="mb-4 flex items-center gap-2">
-      <div class="flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600">
-        <UIcon name="lucide:hand-coins" class="h-4 w-4" />
+  <div class="anim-up-2 flex flex-col rounded-3xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
+    <div class="mb-5 flex items-start justify-between">
+      <div class="flex items-center gap-3">
+        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600">
+          <UIcon name="lucide:hand-coins" class="h-5 w-5" />
+        </div>
+        <div>
+          <h2 class="text-lg font-bold tracking-tight text-slate-900">
+            Registrar Pago
+          </h2>
+          <p class="text-sm text-slate-500">
+            Quincenas y adelantos.
+          </p>
+        </div>
       </div>
-      <h2 class="text-base font-semibold text-slate-900">
-        Registrar Pago
-      </h2>
     </div>
 
     <form
-      class="flex flex-1 flex-col gap-4"
+      class="flex flex-1 flex-col gap-6 mt-2"
       @submit.prevent="onSubmit"
     >
-      <div class="space-y-1">
-        <label class="text-sm font-medium text-slate-700">Trabajador</label>
+      <FormField label="Trabajador" for-id="trabajador">
         <USelect
+          id="trabajador"
           v-model="form.trabajadorId"
-          :options="trabajadores.map(t => ({ label: t.nombre, value: t._id }))"
+          :items="trabajadores.map(t => ({ label: t.nombre, value: t._id }))"
           icon="lucide:user"
           placeholder="Seleccionar trabajador"
+          size="lg"
           required
         />
-      </div>
+      </FormField>
 
-      <div class="space-y-1">
-        <label class="text-sm font-medium text-slate-700">Tipo de Pago</label>
+      <FormField label="Tipo de Pago" for-id="tipoPago">
         <USelect
+          id="tipoPago"
           v-model="form.tipo"
-          :options="[{ label: 'Quincena', value: 'quincena' }, { label: 'Adelanto', value: 'adelanto' }]"
+          :items="[{ label: 'Quincena', value: 'quincena' }, { label: 'Adelanto', value: 'adelanto' }]"
           icon="lucide:calendar-clock"
+          size="lg"
           required
         />
-      </div>
+      </FormField>
 
-      <div class="space-y-1">
-        <label class="text-sm font-medium text-slate-700">Monto</label>
+      <FormField label="Monto" for-id="monto">
         <UInput
-          v-model.number="form.amount"
-          type="number"
-          min="1"
-          placeholder="0.00"
+          id="monto"
+          v-model="amountInput"
+          type="text"
+          inputmode="numeric"
+          placeholder="0"
           icon="lucide:circle-dollar-sign"
+          size="lg"
           required
         />
-      </div>
+      </FormField>
 
       <div class="mt-auto pt-2">
         <UButton
@@ -74,6 +90,8 @@ const onSubmit = () => {
           block
           color="success"
           icon="lucide:check-circle"
+          size="lg"
+          class="font-semibold shadow-sm"
         >
           Realizar Pago
         </UButton>

@@ -30,15 +30,22 @@ const barClass = (index: number) => `anim-bar-${Math.min(index, 5)} ${barColors[
 </script>
 
 <template>
-  <div class="rounded-2xl border border-slate-200 bg-white p-4 md:col-span-1 lg:col-span-1">
-    <div class="mb-4 flex items-center gap-2 text-slate-700">
-      <UIcon
-        name="lucide:tag"
-        class="h-4 w-4"
-      />
-      <p class="text-sm font-semibold">
-        Categorías
-      </p>
+  <div class="rounded-3xl border border-slate-200 bg-white shadow-sm hover:shadow-md transition-shadow p-6 md:col-span-1 lg:col-span-1">
+    <!-- Header -->
+    <div class="mb-5 flex items-start justify-between">
+      <div class="flex items-center gap-3">
+        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-pink-500/10 text-pink-600">
+          <UIcon name="lucide:pie-chart" class="h-5 w-5" />
+        </div>
+        <div>
+          <h2 class="text-lg font-bold tracking-tight text-slate-900">
+            Categorías
+          </h2>
+          <p class="text-sm text-slate-500">
+            Desglose de gastos.
+          </p>
+        </div>
+      </div>
     </div>
 
     <!-- Skeleton -->
@@ -70,7 +77,7 @@ const barClass = (index: number) => `anim-bar-${Math.min(index, 5)} ${barColors[
     <!-- Empty -->
     <div
       v-else-if="!categorias?.length"
-      class="grid min-h-44 place-items-center rounded-2xl border border-dashed border-slate-200 bg-slate-50/60 px-4 py-6"
+      class="grid min-h-44 place-items-center rounded-3xl border border-dashed border-slate-200 bg-slate-50/60 px-4 py-6"
     >
       <div class="text-center">
         <UIcon

@@ -38,7 +38,7 @@ defineProps<{
     <div class="w-full max-w-xl rounded-3xl bg-white p-5 shadow-xl">
       <div class="mb-4 flex items-center justify-between gap-3">
         <div class="min-w-0">
-          <p class="truncate text-lg font-semibold text-slate-900">
+          <p class="truncate text-lg font-bold tracking-tight tracking-tight text-slate-900">
             {{ borrower ? `Abonos de ${borrower}` : 'Abonos registrados' }}
           </p>
           <p class="text-xs text-slate-600">
