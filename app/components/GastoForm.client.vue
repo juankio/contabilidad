@@ -7,10 +7,10 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <div class="self-start rounded-3xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow lg:col-span-4">
-    <div class="mb-5 flex items-start justify-between">
-      <div class="flex items-center gap-3">
-        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-rose-500/10 text-rose-600">
+  <div class="self-start rounded-[2rem] border border-slate-200/60 bg-white p-6 sm:p-8 shadow-sm transition-all hover:shadow-md lg:col-span-4">
+    <div class="mb-6 flex items-start justify-between">
+      <div class="flex items-center gap-4">
+        <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-50 text-slate-600 ring-1 ring-slate-100">
           <UIcon
             name="lucide:minus"
             class="h-5 w-5"

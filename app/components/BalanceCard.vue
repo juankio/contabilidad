@@ -24,11 +24,10 @@ const saludColor = computed(() => {
 </script>
 
 <template>
-  <div class="self-start rounded-3xl border border-slate-200 bg-white shadow-sm hover:shadow-md transition-shadow p-6 md:col-span-2 lg:col-span-1">
-    <!-- Header -->
-    <div class="mb-5 flex items-start justify-between">
-      <div class="flex items-center gap-3">
-        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600">
+  <div class="rounded-[2rem] border border-slate-200/60 bg-white p-6 sm:p-8 shadow-sm transition-all hover:shadow-md flex flex-col min-h-[300px]">
+    <div class="mb-6 flex items-start justify-between">
+      <div class="flex items-center gap-4">
+        <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-50 text-slate-600 ring-1 ring-slate-100">
           <UIcon
             name="lucide:wallet"
             class="h-5 w-5"
@@ -36,115 +35,49 @@ const saludColor = computed(() => {
         </div>
         <div>
           <h2 class="text-lg font-bold tracking-tight text-slate-900">
-            Balance mensual
+            Balance Total
           </h2>
           <p class="text-sm text-slate-500">
-            {{ resumen?.month || 'Mes actual' }}
+            Mes actual
           </p>
         </div>
       </div>
-      <UButton
-        color="neutral"
-        variant="ghost"
-        size="xs"
-        :loading="exporting"
-        :disabled="exporting"
-        @click="exportResumen"
-      >
-        Excel
-      </UButton>
     </div>
 
-    <!-- Skeletons -->
-    <div
-      v-if="pending"
-      class="mt-5 space-y-3"
-    >
-      <div class="skeleton h-16 w-full" />
-      <div class="skeleton h-16 w-full" />
-      <div class="skeleton h-16 w-full" />
+    <!-- Empty/Loading State -->
+    <div v-if="pending" class="flex-1 flex flex-col justify-center gap-4">
+      <USkeleton class="h-10 w-3/4 rounded-xl" />
+      <div class="space-y-2">
+        <USkeleton class="h-4 w-1/2 rounded-md" />
+        <USkeleton class="h-4 w-1/3 rounded-md" />
+      </div>
     </div>
 
-    <!-- Error -->
-    <div
-      v-else-if="error"
-      class="mt-5 rounded-3xl border border-rose-100 bg-rose-50 px-4 py-3 text-sm text-rose-500"
-    >
-      No se pudo cargar el resumen.
+    <div v-else-if="error" class="flex-1 flex flex-col justify-center">
+      <p class="text-sm font-medium text-rose-500">Error cargando el balance.</p>
     </div>
 
-    <!-- Data -->
-    <div
-      v-else
-      class="mt-5 space-y-3"
-    >
-      <!-- Ingresos -->
-      <div class="anim-up group rounded-3xl bg-emerald-50 px-4 py-3 transition-colors duration-200 hover:bg-emerald-100/60">
-        <div class="flex items-center justify-between">
-          <p class="text-xs font-semibold uppercase tracking-widest text-emerald-600">
-            Ingresos
-          </p>
-          <UIcon
-            name="lucide:trending-up"
-            class="h-3.5 w-3.5 text-emerald-400 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
-          />
-        </div>
-        <p class="mt-1 text-xl font-semibold text-emerald-700">
-          {{ formatCurrency(resumen?.ingresos ?? 0) }}
-        </p>
-      </div>
-
-      <!-- Gastos -->
-      <div class="anim-up-1 group rounded-3xl bg-amber-50 px-4 py-3 transition-colors duration-200 hover:bg-amber-100/60">
-        <div class="flex items-center justify-between">
-          <p class="text-xs font-semibold uppercase tracking-widest text-amber-600">
-            Gastos
-          </p>
-          <UIcon
-            name="lucide:trending-down"
-            class="h-3.5 w-3.5 text-amber-400 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
-          />
-        </div>
-        <p class="mt-1 text-xl font-semibold text-amber-700">
-          {{ formatCurrency(resumen?.gastos ?? 0) }}
-        </p>
-      </div>
-
-      <!-- Saldo -->
-      <div
-        class="anim-up-2 rounded-3xl px-4 py-3 text-white"
-        style="background: var(--brand-600)"
-      >
-        <p class="text-xs font-semibold uppercase tracking-widest text-white/70">
-          Disponible
-        </p>
-        <p class="mt-1 text-xl font-semibold">
-          {{ formatCurrency(resumen?.saldoDisponible ?? resumen?.saldo ?? 0) }}
-        </p>
-      </div>
-
-      <!-- Indicador de salud financiera -->
-      <div
-        v-if="resumen?.ingresos"
-        class="anim-up-3 rounded-3xl border border-slate-100 px-4 py-3"
-      >
-        <div class="mb-2 flex items-center justify-between">
-          <p class="text-xs text-slate-400">
-            Gastos vs ingresos
-          </p>
-          <span
-            class="text-xs font-semibold"
-            :class="saludColor.text"
-          >
-            {{ saludColor.label }} · {{ saludPct }}%
+    <div v-else class="flex-1 flex flex-col justify-center">
+      <div class="mb-8">
+        <div class="flex items-baseline gap-2">
+          <span class="text-4xl font-extrabold tracking-tighter text-slate-900 sm:text-5xl">
+            {{ formatCurrency(resumen?.saldo || 0) }}
           </span>
         </div>
-        <div class="h-1.5 w-full overflow-hidden rounded-full bg-slate-100">
-          <div
-            class="anim-bar h-full rounded-full transition-all duration-500"
-            :class="saludColor.bar"
-            :style="{ width: `${saludPct}%` }"
-          />
+        <p class="mt-2 flex items-center gap-2 text-sm font-medium" :class="(resumen?.saldo || 0) >= 0 ? 'text-emerald-600' : 'text-rose-600'">
+          <UIcon :name="(resumen?.saldo || 0) >= 0 ? 'lucide:trending-up' : 'lucide:trending-down'" class="h-4 w-4" />
+          {{ (resumen?.saldo || 0) >= 0 ? 'Flujo positivo' : 'Flujo negativo' }}
+        </p>
+      </div>
+
+      <div class="mt-auto grid grid-cols-2 gap-4 rounded-2xl bg-slate-50 p-4 ring-1 ring-slate-100">
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Ingresos</p>
+          <p class="mt-1 font-bold text-emerald-600">{{ formatCurrency(resumen?.ingresos || 0) }}</p>
+        </div>
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Gastos</p>
+          <p class="mt-1 font-bold text-rose-600">{{ formatCurrency(resumen?.gastos || 0) }}</p>
         </div>
       </div>
     </div>

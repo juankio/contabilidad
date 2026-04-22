@@ -3,11 +3,10 @@ import MovementFormFields from './forms/MovementFormFields.client.vue'
 </script>
 
 <template>
-  <div class="rounded-3xl border border-slate-200 bg-white shadow-sm hover:shadow-md transition-shadow p-6 md:col-span-2">
-    <!-- Header -->
-    <div class="mb-5 flex items-start justify-between">
-      <div class="flex items-center gap-3">
-        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+  <div class="rounded-[2rem] border border-slate-200/60 bg-white p-6 sm:p-8 shadow-sm transition-all hover:shadow-md">
+    <div class="mb-6 flex items-start justify-between">
+      <div class="flex items-center gap-4">
+        <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-50 text-slate-600 ring-1 ring-slate-100">
           <UIcon
             name="lucide:plus"
             class="h-5 w-5"
@@ -15,10 +14,10 @@ import MovementFormFields from './forms/MovementFormFields.client.vue'
         </div>
         <div>
           <h2 class="text-lg font-bold tracking-tight text-slate-900">
-            Agregar movimiento
+            Nuevo movimiento
           </h2>
           <p class="text-sm text-slate-500">
-            Registra ingreso o gasto.
+            Registra rápido
           </p>
         </div>
       </div>

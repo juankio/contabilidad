@@ -17,98 +17,100 @@ const {
 </script>
 
 <template>
-  <div
-    v-bind="$attrs"
-    class="rounded-3xl border border-slate-200 bg-white shadow-sm hover:shadow-md transition-shadow p-6 md:col-span-2"
-  >
-    <!-- Header -->
-    <div class="mb-5 flex items-start justify-between">
-      <div class="flex items-center gap-3">
-        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/10 text-amber-600">
+  <div class="rounded-[2rem] border border-slate-200/60 bg-white p-6 sm:p-8 shadow-sm transition-all hover:shadow-md flex flex-col h-full min-h-[400px]">
+    <div class="mb-6 flex items-start justify-between">
+      <div class="flex items-center gap-4">
+        <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-50 text-slate-600 ring-1 ring-slate-100">
           <UIcon
-            name="lucide:list"
+            name="lucide:clock"
             class="h-5 w-5"
           />
         </div>
         <div>
           <h2 class="text-lg font-bold tracking-tight text-slate-900">
-            Últimos movimientos
+            Movimientos recientes
           </h2>
           <p class="text-sm text-slate-500">
-            Historial de este mes.
+            Últimas transacciones
           </p>
         </div>
       </div>
+    </div>
+
+    <!-- Lista -->
+    <div class="flex-1 overflow-y-auto pr-2 -mr-2 space-y-3">
+      <template v-if="pending">
+        <div
+          v-for="i in 4"
+          :key="i"
+          class="flex items-center justify-between rounded-2xl p-3 border border-slate-100 bg-slate-50/50"
+        >
+          <div class="flex items-center gap-3">
+            <USkeleton class="h-10 w-10 rounded-xl" />
+            <div class="space-y-2">
+              <USkeleton class="h-4 w-24 rounded-md" />
+              <USkeleton class="h-3 w-16 rounded-md" />
+            </div>
+          </div>
+          <USkeleton class="h-5 w-16 rounded-md" />
+        </div>
+      </template>
+
+      <template v-else-if="error || !movimientos">
+        <div class="flex h-full min-h-[200px] flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-slate-50 py-8 text-center px-4">
+          <div class="flex h-12 w-12 items-center justify-center rounded-full bg-rose-50 text-rose-400 mb-3">
+            <UIcon name="lucide:alert-triangle" class="h-6 w-6" />
+          </div>
+          <p class="text-sm font-semibold text-rose-600">Error</p>
+          <p class="mt-1 text-sm text-rose-500 max-w-[200px]">No pudimos cargar los movimientos.</p>
+        </div>
+      </template>
+
+      <template v-else-if="previewMovimientos.length === 0">
+        <div class="flex h-full min-h-[200px] flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-slate-50 py-8 text-center px-4">
+          <div class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-400 mb-3">
+            <UIcon name="lucide:inbox" class="h-6 w-6" />
+          </div>
+          <p class="text-sm font-semibold text-slate-700">Sin movimientos</p>
+          <p class="mt-1 text-sm text-slate-500 max-w-[200px]">Aún no hay transacciones en este perfil.</p>
+        </div>
+      </template>
+
+      <template v-else>
+        <TransitionGroup name="mov" tag="div" class="space-y-2 relative">
+          <MovementItem
+            v-for="mov in previewMovimientos"
+            :key="mov._id"
+            :movimiento="mov"
+            @edit="openEdit"
+            @delete="openDelete"
+          />
+        </TransitionGroup>
+      </template>
+    </div>
+
+    <div class="mt-6 pt-4 border-t border-slate-100/80">
       <UButton
         color="neutral"
         variant="ghost"
-        size="xs"
-        :disabled="!movimientos?.length"
+        block
+        class="text-slate-500 hover:text-slate-900 transition-colors font-medium rounded-xl"
+        icon="lucide:arrow-right"
+        trailing
         @click="showAllModal = true"
       >
         Ver todos
       </UButton>
     </div>
 
-    <div class="mt-4 space-y-2">
-      <div
-        v-if="pending"
-        class="space-y-2"
-      >
-        <div
-          v-for="i in 3"
-          :key="i"
-          class="skeleton h-14 w-full"
-        />
-      </div>
-
-      <div
-        v-else-if="error"
-        class="rounded-3xl border border-rose-100 bg-rose-50 px-4 py-3 text-sm text-rose-500"
-      >
-        No se pudieron cargar los movimientos.
-      </div>
-
-      <div
-        v-else-if="!movimientos?.length"
-        class="grid min-h-32 place-items-center rounded-3xl border border-dashed border-slate-200 bg-slate-50/60 py-6"
-      >
-        <div class="text-center">
-          <UIcon
-            name="lucide:inbox"
-            class="mx-auto mb-2 h-8 w-8 text-slate-200"
-          />
-          <p class="text-sm font-medium text-slate-400">
-            Sin movimientos aún
-          </p>
-          <p class="mt-0.5 text-xs text-slate-300">
-            Registra un ingreso o gasto para empezar.
-          </p>
-        </div>
-      </div>
-
-      <TransitionGroup
-        v-else
-        name="mov"
-        tag="div"
-        class="space-y-2"
-      >
-        <MovementItem
-          v-for="movimiento in previewMovimientos"
-          :key="movimiento._id"
-          :movimiento="movimiento"
-        />
-      </TransitionGroup>
-    </div>
+    <!-- Modals -->
+    <MovementListModal
+      v-model:open="showAllModal"
+      :movimientos="movimientos || []"
+      @edit="openEdit"
+      @delete="openDelete"
+    />
   </div>
-
-  <MovementListModal
-    :open="showAllModal"
-    :movimientos="movimientos ?? null"
-    @close="showAllModal = false"
-    @edit="openEdit"
-    @delete="openDelete"
-  />
 
   <MovementEditModal
     :open="editOpen"

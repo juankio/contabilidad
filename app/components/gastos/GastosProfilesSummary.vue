@@ -40,14 +40,10 @@ const closeGroupModal = () => {
 </script>
 
 <template>
-  <div
-    v-bind="attrs"
-    class="w-full rounded-3xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow"
-  >
-    <!-- Header -->
-    <div class="mb-5 flex items-start justify-between">
-      <div class="flex items-center gap-3">
-        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/10 text-blue-600">
+  <div class="rounded-[2rem] border border-slate-200/60 bg-white p-6 sm:p-8 shadow-sm transition-all hover:shadow-md lg:col-span-4">
+    <div class="mb-6 flex items-start justify-between">
+      <div class="flex items-center gap-4">
+        <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-50 text-slate-600 ring-1 ring-slate-100">
           <UIcon
             name="lucide:users"
             class="h-5 w-5"
@@ -55,133 +51,60 @@ const closeGroupModal = () => {
         </div>
         <div>
           <h2 class="text-lg font-bold tracking-tight text-slate-900">
-            Resumen por perfil
+            Resumen de perfiles
           </h2>
           <p class="text-sm text-slate-500">
-            Totales de gastos activos.
+            Desglose de gastos
           </p>
         </div>
       </div>
     </div>
 
-    <div
-      v-if="pending"
-      class="rounded-2xl bg-slate-50 px-4 py-3 text-sm text-slate-500"
-    >
-      Cargando resumen por perfil...
+    <div v-if="pending" class="space-y-4">
+      <div v-for="i in 2" :key="i" class="flex items-center justify-between p-3">
+        <div class="flex items-center gap-3">
+          <USkeleton class="h-10 w-10 rounded-full" />
+          <USkeleton class="h-4 w-24 rounded-md" />
+        </div>
+        <USkeleton class="h-5 w-20 rounded-md" />
+      </div>
     </div>
-    <div
-      v-else-if="error"
-      class="rounded-2xl bg-rose-50 px-4 py-3 text-sm text-rose-500"
-    >
-      No se pudo cargar el resumen por perfil.
+
+    <p v-else-if="error" class="text-sm font-medium text-rose-500">
+      No se pudo cargar el resumen.
+    </p>
+
+    <div v-else-if="!groups?.length" class="flex flex-col items-center justify-center py-6 text-center">
+      <div class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-400 mb-3">
+        <UIcon name="lucide:pie-chart" class="h-6 w-6" />
+      </div>
+      <p class="text-sm font-semibold text-slate-700">Aún no hay datos</p>
+      <p class="text-xs text-slate-500 max-w-[200px] mx-auto mt-1">Registra gastos para ver el resumen</p>
     </div>
-    <div
-      v-else-if="!(groups?.length)"
-      class="rounded-2xl bg-slate-50 px-4 py-3 text-sm text-slate-500"
-    >
-      Aun no hay gastos por perfil.
-    </div>
-    <div
-      v-else
-      class="grid gap-3 sm:grid-cols-2"
-    >
-      <section
-        v-for="group in groups"
-        :key="group.profileId"
-        class="rounded-2xl border border-slate-100 p-4"
+
+    <ul v-else class="space-y-3">
+      <li
+        v-for="g in groups"
+        :key="g.profileName"
+        class="flex items-center justify-between rounded-2xl border border-slate-100 bg-slate-50/50 p-3"
       >
-        <div class="flex items-center justify-between gap-3">
-          <div class="flex min-w-0 flex-1 items-center gap-2">
-            <span
-              class="h-3 w-3 rounded-full"
-              :style="{ backgroundColor: group.avatarColor }"
-            />
-            <p class="break-words text-sm font-semibold text-slate-800">
-              {{ group.profileName }}
-            </p>
-          </div>
-          <p class="shrink-0 whitespace-nowrap text-sm font-semibold text-amber-700">
-            -{{ props.formatCurrency(group.total) }}
-          </p>
-        </div>
-
-        <div class="mt-3 grid grid-cols-2 gap-2 text-xs">
-          <div class="rounded-xl bg-slate-50 px-3 py-2">
-            <p class="text-[11px] leading-tight text-slate-600">
-              Movimientos
-            </p>
-            <p class="mt-1 font-semibold text-slate-800">
-              {{ group.gastos.length }}
-            </p>
-          </div>
-          <div class="rounded-xl bg-slate-50 px-3 py-2">
-            <p class="text-[11px] leading-tight text-slate-600">
-              Ultimo gasto
-            </p>
-            <p class="mt-1 font-semibold text-slate-800">
-              {{ group.gastos[0] ? props.formatDate(group.gastos[0].date) : '-' }}
-            </p>
-          </div>
-        </div>
-
-        <div class="mt-3">
-          <button
-            type="button"
-            class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-200"
-            @click="openGroupModal(group)"
+        <div class="flex items-center gap-3">
+          <div
+            class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full shadow-sm text-white"
+            :style="{ backgroundColor: g.avatarColor }"
           >
-            Ver movimientos
-          </button>
-        </div>
-      </section>
-    </div>
-  </div>
-
-  <div
-    v-if="selectedGroup"
-    class="fixed inset-0 z-50 grid place-items-center bg-slate-900/50 p-4"
-    @click.self="closeGroupModal"
-  >
-    <div class="w-full max-w-2xl rounded-3xl bg-white p-5 shadow-xl">
-      <div class="mb-4 flex items-center justify-between">
-        <div class="min-w-0">
-          <p class="truncate text-2xl font-bold tracking-tight text-slate-900">
-            Movimientos de {{ selectedGroup.profileName }}
-          </p>
-          <p class="text-xs text-slate-600">
-            {{ selectedGroup.gastos.length }} gastos registrados
-          </p>
-        </div>
-        <button
-          class="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-600"
-          @click="closeGroupModal"
-        >
-          Cerrar
-        </button>
-      </div>
-
-      <div class="grid max-h-[65vh] gap-3 overflow-y-auto pr-1">
-        <div
-          v-for="gasto in selectedGroup.gastos"
-          :key="`group-modal-${selectedGroup.profileId}-${gasto._id}`"
-          class="rounded-2xl border border-slate-100 px-4 py-3"
-        >
-          <div class="flex items-start justify-between gap-3">
-            <div class="min-w-0 flex-1">
-              <p class="break-words text-sm font-semibold text-slate-800">
-                {{ gasto.description }}
-              </p>
-              <p class="mt-1 text-xs text-slate-600">
-                {{ gasto.category }} · {{ props.formatDate(gasto.date) }}
-              </p>
-            </div>
-            <p class="shrink-0 whitespace-nowrap text-sm font-semibold text-amber-700">
-              -{{ props.formatCurrency(gasto.amount) }}
+            <UIcon :name="'lucide:user'" class="h-5 w-5" />
+          </div>
+          <div>
+            <p class="text-sm font-bold text-slate-900">
+              {{ g.profileName }}
             </p>
           </div>
         </div>
-      </div>
-    </div>
+        <p class="text-base font-bold text-slate-900">
+          {{ formatCurrency(g.total) }}
+        </p>
+      </li>
+    </ul>
   </div>
 </template>
