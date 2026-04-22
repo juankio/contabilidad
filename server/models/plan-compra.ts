@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose'
 
 export type PlanCompraDocument = mongoose.Document & {
-  profileId: string
+  profileId: mongoose.Types.ObjectId
   nombre: string
   monto: number
   fechaPlaneada: Date
@@ -12,7 +12,7 @@ export type PlanCompraDocument = mongoose.Document & {
 
 const PlanCompraSchema = new Schema<PlanCompraDocument>(
   {
-    profileId: { type: String, required: true, index: true },
+    profileId: { type: Schema.Types.ObjectId, required: true, index: true },
     nombre: { type: String, required: true, trim: true },
     monto: { type: Number, required: true },
     fechaPlaneada: { type: Date, required: true },

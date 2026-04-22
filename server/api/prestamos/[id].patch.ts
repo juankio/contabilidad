@@ -1,3 +1,4 @@
+import { defineApiHandler } from '../../utils/handler'
 import { createError, defineEventHandler, readBody } from 'h3'
 import { z } from 'zod'
 import { connectMongoose } from '../../utils/mongoose'
@@ -15,7 +16,7 @@ const prestamoEditSchema = z.object({
   note: z.string().trim().max(160).optional()
 })
 
-export default defineEventHandler(async (event) => {
+export default defineApiHandler(async (event) => {
   const id = event.context.params?.id
   if (!id) {
     throw createError({ statusCode: 400, statusMessage: 'ID requerido' })

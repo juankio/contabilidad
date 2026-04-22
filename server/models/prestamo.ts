@@ -52,7 +52,13 @@ const PrestamoSchema = new Schema<PrestamoDocument>(
     abonos: { type: [PrestamoAbonoSchema], default: [] }
   },
   {
-    timestamps: true
+    timestamps: true,
+    toJSON: {
+      transform: (_, ret) => {
+        delete (ret as any).__v
+        return ret
+      }
+    }
   }
 )
 

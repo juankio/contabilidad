@@ -1,3 +1,4 @@
+import { defineApiHandler } from '../../utils/handler'
 import { defineEventHandler, setHeader } from 'h3'
 import ExcelJS from 'exceljs'
 import { connectMongoose } from '../../utils/mongoose'
@@ -16,7 +17,7 @@ type MonthTotals = {
   gastos: number
 }
 
-export default defineEventHandler(async (event) => {
+export default defineApiHandler(async (event) => {
   await connectMongoose()
   const { profileId } = await requireActiveProfile(event)
   const profileObjectId = new mongoose.Types.ObjectId(profileId)

@@ -1,3 +1,4 @@
+import { defineApiHandler } from '../../utils/handler'
 import { createError, defineEventHandler, readBody } from 'h3'
 import mongoose from 'mongoose'
 import { z } from 'zod'
@@ -10,7 +11,7 @@ const payloadSchema = z.object({
   type: z.enum(['Gasto', 'Ingreso'])
 })
 
-export default defineEventHandler(async (event) => {
+export default defineApiHandler(async (event) => {
   const movementId = event.context.params?.id
   if (!movementId || !mongoose.Types.ObjectId.isValid(movementId)) {
     throw createError({ statusCode: 400, statusMessage: 'Movimiento invalido' })

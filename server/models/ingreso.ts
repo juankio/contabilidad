@@ -17,7 +17,13 @@ const IngresoSchema = new Schema<IngresoDocument>(
     date: { type: Date, required: true }
   },
   {
-    timestamps: true
+    timestamps: true,
+    toJSON: {
+      transform: (_, ret) => {
+        delete (ret as any).__v
+        return ret
+      }
+    }
   }
 )
 

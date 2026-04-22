@@ -1,3 +1,4 @@
+import { defineApiHandler } from '../../utils/handler'
 import { defineEventHandler } from 'h3'
 import { connectMongoose } from '../../utils/mongoose'
 import { requireActiveProfile } from '../../utils/auth'
@@ -6,7 +7,7 @@ import { GastoModel } from '../../models/gasto'
 import { IngresoModel } from '../../models/ingreso'
 import { getAvailableBalance } from '../../utils/balance'
 
-export default defineEventHandler(async (event) => {
+export default defineApiHandler(async (event) => {
   await connectMongoose()
   const { profileId } = await requireActiveProfile(event)
   const profileObjectId = new mongoose.Types.ObjectId(profileId)

@@ -1,3 +1,4 @@
+import { defineApiHandler } from '../../utils/handler'
 import { defineEventHandler, readBody, getRouterParam, createError } from 'h3'
 import { z } from 'zod'
 import { connectMongoose } from '../../utils/mongoose'
@@ -13,7 +14,7 @@ const PostreSchema = z.object({
   }))
 })
 
-export default defineEventHandler(async (event) => {
+export default defineApiHandler(async (event) => {
   await connectMongoose()
   const { profileId } = await requireActiveProfile(event)
   const id = getRouterParam(event, 'id')

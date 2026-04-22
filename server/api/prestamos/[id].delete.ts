@@ -1,10 +1,11 @@
+import { defineApiHandler } from '../../utils/handler'
 import { createError, defineEventHandler } from 'h3'
 import mongoose from 'mongoose'
 import { requireActiveProfile } from '../../utils/auth'
 import { connectMongoose } from '../../utils/mongoose'
 import { PrestamoModel } from '../../models/prestamo'
 
-export default defineEventHandler(async (event) => {
+export default defineApiHandler(async (event) => {
   const prestamoId = event.context.params?.id
   if (!prestamoId || !mongoose.Types.ObjectId.isValid(prestamoId)) {
     throw createError({ statusCode: 400, statusMessage: 'Prestamo invalido' })

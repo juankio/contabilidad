@@ -1,3 +1,4 @@
+import { defineApiHandler } from '../../utils/handler'
 import { createError, defineEventHandler, readBody } from 'h3'
 import { z } from 'zod'
 import { connectMongoose } from '../../utils/mongoose'
@@ -13,7 +14,7 @@ const schema = z.object({
   date: z.string().optional()
 })
 
-export default defineEventHandler(async (event) => {
+export default defineApiHandler(async (event) => {
   const body = await readBody(event)
   const parsed = schema.safeParse(body)
   if (!parsed.success) {

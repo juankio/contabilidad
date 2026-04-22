@@ -1,3 +1,4 @@
+import { defineApiHandler } from '../../utils/handler'
 import { createError, defineEventHandler, readBody } from 'h3'
 import { z } from 'zod'
 import { connectMongoose } from '../../utils/mongoose'
@@ -15,7 +16,7 @@ const ingresoSchema = z.object({
   date: z.string().optional()
 })
 
-export default defineEventHandler(async (event) => {
+export default defineApiHandler(async (event) => {
   const body = await readBody(event)
   const parsed = ingresoSchema.safeParse(body)
 
@@ -174,12 +175,16 @@ export default defineEventHandler(async (event) => {
   }
 
   return {
-    _id: doc._id.toString(),
-    description: doc.description,
-    category: doc.category,
-    amount: doc.amount,
-    date: doc.date.toISOString(),
-    emailNotificationSent
+    success: true,
+    message: 'Ingreso registrado correctamente',
+    data: {
+      _id: doc._id.toString(),
+      description: doc.description,
+      category: doc.category,
+      amount: doc.amount,
+      date: doc.date.toISOString(),
+      emailNotificationSent
+    }
   }
 })
 

@@ -1,3 +1,4 @@
+import { defineApiHandler } from '../../utils/handler'
 import { defineEventHandler } from 'h3'
 import { connectMongoose } from '../../utils/mongoose'
 import { requireActiveProfile } from '../../utils/auth'
@@ -25,7 +26,7 @@ type PrestamoResponse = {
   }>
 }
 
-export default defineEventHandler(async (event) => {
+export default defineApiHandler(async (event) => {
   await connectMongoose()
   const { profileId } = await requireActiveProfile(event)
   const prestamos = await PrestamoModel.find({ profileId }).sort({ date: -1, _id: -1 }).limit(200).lean()

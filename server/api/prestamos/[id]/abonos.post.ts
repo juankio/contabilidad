@@ -1,3 +1,4 @@
+import { defineApiHandler } from '../../../utils/handler'
 import { createError, defineEventHandler, readBody } from 'h3'
 import mongoose from 'mongoose'
 import { z } from 'zod'
@@ -12,7 +13,7 @@ const abonoSchema = z.object({
   note: z.string().trim().max(160).optional()
 })
 
-export default defineEventHandler(async (event) => {
+export default defineApiHandler(async (event) => {
   const prestamoId = event.context.params?.id
   if (!prestamoId || !mongoose.Types.ObjectId.isValid(prestamoId)) {
     throw createError({ statusCode: 400, statusMessage: 'Prestamo invalido' })

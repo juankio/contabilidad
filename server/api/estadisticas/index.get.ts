@@ -1,3 +1,4 @@
+import { defineApiHandler } from '../../utils/handler'
 import { defineEventHandler, getQuery } from 'h3'
 import { connectMongoose } from '../../utils/mongoose'
 import { requireActiveProfile, requireUser } from '../../utils/auth'
@@ -10,7 +11,7 @@ type MonthKey = {
   month: number
 }
 
-export default defineEventHandler(async (event) => {
+export default defineApiHandler(async (event) => {
   await connectMongoose()
   const query = getQuery(event)
   const requestedProfileId = typeof query.profileId === 'string' ? query.profileId.trim() : ''

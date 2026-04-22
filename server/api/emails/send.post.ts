@@ -1,3 +1,4 @@
+import { defineApiHandler } from '../../utils/handler'
 import { defineEventHandler, readBody, createError } from 'h3'
 import { z } from 'zod'
 import { requireUser } from '../../utils/auth'
@@ -13,7 +14,7 @@ const payloadSchema = z.object({
   message: 'Either html or text is required'
 })
 
-export default defineEventHandler(async (event) => {
+export default defineApiHandler(async (event) => {
   await requireUser(event)
   const body = payloadSchema.safeParse(await readBody(event))
   if (!body.success) {

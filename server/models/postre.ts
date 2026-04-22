@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose'
 
 export type PostreDocument = mongoose.Document & {
-  profileId: string
+  profileId: mongoose.Types.ObjectId
   name: string
   price: number
   receta: {
@@ -11,7 +11,7 @@ export type PostreDocument = mongoose.Document & {
 }
 
 const PostreSchema = new Schema<PostreDocument>({
-  profileId: { type: String, required: true, index: true },
+  profileId: { type: Schema.Types.ObjectId, required: true, index: true },
   name: { type: String, required: true },
   price: { type: Number, required: true },
   receta: [{

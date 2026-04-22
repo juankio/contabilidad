@@ -46,7 +46,16 @@ const UserSchema = new Schema<UserDocument>(
     profiles: { type: [ProfileSchema], default: [] },
     activeProfileId: { type: Schema.Types.ObjectId, default: null }
   },
-  { timestamps: true }
+  { 
+    timestamps: true,
+    toJSON: {
+      transform: (_, ret) => {
+        delete (ret as any).__v
+        delete ret.passwordHash
+        return ret
+      }
+    }
+  }
 )
 
 type UserModelType = mongoose.Model<UserDocument>

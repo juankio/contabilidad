@@ -17,7 +17,13 @@ const GastoSchema = new Schema<GastoDocument>(
     date: { type: Date, required: true }
   },
   {
-    timestamps: true
+    timestamps: true,
+    toJSON: {
+      transform: (_, ret) => {
+        delete (ret as any).__v
+        return ret
+      }
+    }
   }
 )
 

@@ -1,3 +1,4 @@
+import { defineApiHandler } from '../../../utils/handler'
 import { createError, defineEventHandler, readBody } from 'h3'
 import { z } from 'zod'
 import { connectMongoose } from '../../../utils/mongoose'
@@ -8,7 +9,7 @@ const schema = z.object({
   nombreLoteMadre: z.string().trim().min(1)
 })
 
-export default defineEventHandler(async (event) => {
+export default defineApiHandler(async (event) => {
   const id = event.context.params?.id
   if (!id) {
     throw createError({ statusCode: 400, statusMessage: 'ID requerido' })

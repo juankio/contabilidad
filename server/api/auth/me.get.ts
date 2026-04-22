@@ -1,9 +1,10 @@
+import { defineApiHandler } from '../../utils/handler'
 import { defineEventHandler } from 'h3'
 import { connectMongoose } from '../../utils/mongoose'
 import { getUserFromEvent } from '../../utils/auth'
 import { serializeProfilesFromCategoryStore } from '../../utils/serialize'
 
-export default defineEventHandler(async (event) => {
+export default defineApiHandler(async (event) => {
   await connectMongoose()
   const user = await getUserFromEvent(event)
   if (!user) {

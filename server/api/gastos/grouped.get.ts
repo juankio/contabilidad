@@ -1,3 +1,4 @@
+import { defineApiHandler } from '../../utils/handler'
 import type mongoose from 'mongoose'
 import { defineEventHandler } from 'h3'
 import { connectMongoose } from '../../utils/mongoose'
@@ -21,7 +22,7 @@ type GroupedProfile = {
   gastos: GroupedGasto[]
 }
 
-export default defineEventHandler(async (event) => {
+export default defineApiHandler(async (event) => {
   await connectMongoose()
   const user = await requireUser(event)
   const profiles = user.profiles ?? []

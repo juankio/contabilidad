@@ -1,9 +1,10 @@
+import { defineApiHandler } from '../../utils/handler'
 import { createError, defineEventHandler, getRouterParam } from 'h3'
 import { connectMongoose } from '../../utils/mongoose'
 import { requireActiveProfile } from '../../utils/auth'
 import { PlanCompraModel } from '../../models/plan-compra'
 
-export default defineEventHandler(async (event) => {
+export default defineApiHandler(async (event) => {
   const id = getRouterParam(event, 'id')
   await connectMongoose()
   const { profileId } = await requireActiveProfile(event)

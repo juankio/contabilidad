@@ -1,3 +1,4 @@
+import { defineApiHandler } from '../../utils/handler'
 import { defineEventHandler, createError } from 'h3'
 import { connectMongoose } from '../../utils/mongoose'
 import { requireUser } from '../../utils/auth'
@@ -8,7 +9,7 @@ import { PrestamoModel } from '../../models/prestamo'
 import { serializeProfilesFromCategoryStore } from '../../utils/serialize'
 import { removeProfileCategories } from '../../utils/profile-category-store'
 
-export default defineEventHandler(async (event) => {
+export default defineApiHandler(async (event) => {
   await connectMongoose()
   const user = await requireUser(event)
   const profileId = event.context.params?.id

@@ -1,3 +1,4 @@
+import { defineApiHandler } from '../../utils/handler'
 import { createError, defineEventHandler, readBody } from 'h3'
 import { OAuth2Client } from 'google-auth-library'
 import { z } from 'zod'
@@ -39,7 +40,7 @@ function pickAvatarColor(seed: string) {
   return palette[Math.abs(hash) % palette.length]
 }
 
-export default defineEventHandler(async (event) => {
+export default defineApiHandler(async (event) => {
   const body = payloadSchema.safeParse(await readBody(event))
   if (!body.success) {
     throw createError({ statusCode: 400, statusMessage: 'Invalid payload' })

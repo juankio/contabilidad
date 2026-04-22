@@ -1,3 +1,4 @@
+import { defineApiHandler } from '../../../utils/handler'
 import { createError, defineEventHandler, readBody } from 'h3'
 import { z } from 'zod'
 import { connectMongoose } from '../../../utils/mongoose'
@@ -11,7 +12,7 @@ const payloadSchema = z.object({
   name: z.string().trim().min(1).max(40)
 })
 
-export default defineEventHandler(async (event) => {
+export default defineApiHandler(async (event) => {
   const body = payloadSchema.safeParse(await readBody(event))
   if (!body.success) {
     throw createError({ statusCode: 400, statusMessage: 'Invalid payload' })

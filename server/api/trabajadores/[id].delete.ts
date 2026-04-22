@@ -1,9 +1,10 @@
+import { defineApiHandler } from '../../utils/handler'
 import { createError, defineEventHandler } from 'h3'
 import { connectMongoose } from '../../utils/mongoose'
 import { requireActiveProfile } from '../../utils/auth'
 import { TrabajadorModel } from '../../models/trabajador'
 
-export default defineEventHandler(async (event) => {
+export default defineApiHandler(async (event) => {
   const id = event.context.params?.id
   if (!id) {
     throw createError({ statusCode: 400, statusMessage: 'ID requerido' })

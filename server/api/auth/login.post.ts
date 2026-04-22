@@ -1,3 +1,4 @@
+import { defineApiHandler } from '../../utils/handler'
 import { defineEventHandler, readBody, createError } from 'h3'
 import { z } from 'zod'
 import { connectMongoose } from '../../utils/mongoose'
@@ -10,42 +11,54 @@ const payloadSchema = z.object({
   password: z.string().min(1)
 })
 
-export default defineEventHandler(async (event) => {
-  const body = payloadSchema.safeParse(await readBody(event))
-  if (!body.success) {
-    throw createError({ statusCode: 400, statusMessage: 'Invalid payload' })
-  }
-
-  await connectMongoose()
-  const user = await UserModel.findOne({ email: body.data.email })
-  if (!user) {
-    throw createError({ statusCode: 401, statusMessage: 'Invalid credentials' })
-  }
-
-  if (!user.passwordHash) {
-    throw createError({ statusCode: 401, statusMessage: 'Use Google sign-in for this account' })
-  }
-
-  const ok = await verifyPassword(body.data.password, user.passwordHash)
-  if (!ok) {
-    throw createError({ statusCode: 401, statusMessage: 'Invalid credentials' })
-  }
-
-  if (!user.activeProfileId && user.profiles.length > 0) {
-    const firstProfile = user.profiles[0]
-    if (firstProfile?._id) {
-      user.activeProfileId = firstProfile._id
-      await user.save()
+export default defineApiHandler(async (event) => {
+  try {
+    const body = payloadSchema.safeParse(await readBody(event))
+    if (!body.success) {
+      throw createError({ statusCode: 400, statusMessage: 'Invalid payload' })
     }
-  }
 
-  const token = signAuthToken(user._id.toString())
-  setAuthCookie(event, token)
+    await connectMongoose()
+    const user = await UserModel.findOne({ email: body.data.email })
+    if (!user) {
+      throw createError({ statusCode: 401, statusMessage: 'Invalid credentials' })
+    }
 
-  return {
-    id: user._id,
-    email: user.email,
-    profiles: await serializeProfilesFromCategoryStore(user._id, user.profiles),
-    activeProfileId: user.activeProfileId?.toString() ?? null
+    if (!user.passwordHash) {
+      throw createError({ statusCode: 401, statusMessage: 'Use Google sign-in for this account' })
+    }
+
+    const ok = await verifyPassword(body.data.password, user.passwordHash)
+    if (!ok) {
+      throw createError({ statusCode: 401, statusMessage: 'Invalid credentials' })
+    }
+
+    if (!user.activeProfileId && user.profiles.length > 0) {
+      const firstProfile = user.profiles[0]
+      if (firstProfile?._id) {
+        user.activeProfileId = firstProfile._id
+        await user.save()
+      }
+    }
+
+    const token = signAuthToken(user._id.toString())
+    setAuthCookie(event, token)
+
+    return {
+      success: true,
+      message: 'Login successful',
+      data: {
+        id: user._id,
+        email: user.email,
+        profiles: await serializeProfilesFromCategoryStore(user._id, user.profiles),
+        activeProfileId: user.activeProfileId?.toString() ?? null
+      }
+    }
+  } catch (error: any) {
+    throw createError({
+      statusCode: error.statusCode || 500,
+      statusMessage: error.message || 'Internal server error',
+      data: { success: false, message: error.message }
+    })
   }
 })
