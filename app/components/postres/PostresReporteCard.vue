@@ -1,101 +1,106 @@
 <script setup lang="ts">
 import { usePostres } from '../../composables/postres/usePostres'
 
-const { report, sending, sendError, sendSuccess, sendToContabilidad } = usePostres()
+const { report, sendToContabilidad, sending, sendSuccess, sendError, loadingData } = usePostres()
+const { formatCurrency } = useFormatters()
+
+const rentabilidad = computed(() => {
+  const ing = report.value?.ingresos || 0
+  const gas = report.value?.costos || 0
+  return ing - gas
+})
 </script>
 
 <template>
-  <section class="flex flex-col rounded-3xl border border-slate-200 bg-white p-4 shadow-sm hover:shadow-md transition-shadow h-full">
-    <!-- Header -->
-    <div class="mb-3 flex items-start justify-between">
-      <div class="flex items-center gap-3">
-        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/10 text-amber-600">
+  <section class="flex flex-col rounded-[2rem] border border-slate-200/60 bg-white p-6 sm:p-8 shadow-sm hover:shadow-md transition-all h-full">
+    <div class="mb-6 flex items-start justify-between">
+      <div class="flex items-center gap-4">
+        <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-50 text-slate-600 ring-1 ring-slate-100">
           <UIcon
-            name="lucide:bar-chart-2"
+            name="lucide:pie-chart"
             class="h-5 w-5"
           />
         </div>
         <div>
           <h2 class="text-lg font-bold tracking-tight text-slate-900">
-            Reporte
+            Reporte del Mes
           </h2>
           <p class="text-sm text-slate-500">
-            Ganancias y costos del periodo.
+            Ingresos, costos y rentabilidad.
           </p>
         </div>
       </div>
     </div>
 
-    <!-- Stats -->
-    <div class="flex-1 grid grid-cols-1 md:grid-cols-3 gap-2">
-      <div class="anim-up group flex flex-col justify-center rounded-3xl bg-emerald-50 px-3 py-2 transition-colors duration-200 hover:bg-emerald-100/60">
-        <div class="flex items-center justify-between">
-          <p class="text-xs font-semibold uppercase tracking-widest text-emerald-600">
-            Ingresos brutos
-          </p>
-          <UIcon
-            name="lucide:trending-up"
-            class="h-3.5 w-3.5 text-emerald-400 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
-          />
-        </div>
-        <p class="mt-1 text-xl font-semibold tracking-tight tabular-nums text-emerald-700">
-          ${{ Number(report.ingresos).toLocaleString() }}
-        </p>
-      </div>
-
-      <div class="anim-up-1 group flex flex-col justify-center rounded-3xl bg-rose-50 px-3 py-2 transition-colors duration-200 hover:bg-rose-100/60">
-        <div class="flex items-center justify-between">
-          <p class="text-xs font-semibold uppercase tracking-widest text-rose-600">
-            Costos de materia prima
-          </p>
-          <UIcon
-            name="lucide:trending-down"
-            class="h-3.5 w-3.5 text-rose-400 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
-          />
-        </div>
-        <p class="mt-1 text-xl font-semibold tracking-tight tabular-nums text-rose-700">
-          -${{ Number(report.costos).toLocaleString() }}
-        </p>
-      </div>
-
-      <div
-        class="anim-up-2 flex flex-col justify-center rounded-3xl px-3 py-2 text-white shadow-sm transition-transform hover:scale-[1.01]"
-        style="background: var(--brand-600, #2563eb);"
-      >
-        <p class="text-xs font-semibold uppercase tracking-widest text-white/70">
-          Utilidad Neta
-        </p>
-        <p class="mt-1 text-xl font-semibold tracking-tight tabular-nums text-white">
-          ${{ Number(report.utilidad).toLocaleString() }}
-        </p>
-      </div>
+    <div
+      v-if="loadingData"
+      class="flex-1 space-y-4"
+    >
+      <USkeleton class="h-20 w-full rounded-2xl" />
+      <USkeleton class="h-20 w-full rounded-2xl" />
+      <USkeleton class="h-10 w-full rounded-xl" />
     </div>
 
-    <!-- Send -->
-    <div class="mt-3 flex flex-col gap-2">
+    <div
+      v-else
+      class="flex flex-col gap-4"
+    >
+      <!-- Ingresos Brutos -->
+      <div class="anim-up group flex flex-col justify-center rounded-2xl border border-emerald-100/60 bg-emerald-50/50 px-4 py-3 transition-colors duration-200 hover:bg-emerald-50">
+        <p class="text-[11px] font-bold uppercase tracking-wider text-emerald-600 mb-1">
+          Ingresos Ventas
+        </p>
+        <p class="text-3xl font-extrabold tracking-tight text-emerald-700">
+          {{ formatCurrency(report?.ingresos || 0) }}
+        </p>
+      </div>
+
+      <!-- Costos -->
+      <div class="anim-up-1 group flex flex-col justify-center rounded-2xl border border-rose-100/60 bg-rose-50/50 px-4 py-3 transition-colors duration-200 hover:bg-rose-50">
+        <p class="text-[11px] font-bold uppercase tracking-wider text-rose-600 mb-1">
+          Costos Producción
+        </p>
+        <p class="text-3xl font-extrabold tracking-tight text-rose-700">
+          {{ formatCurrency(report?.costos || 0) }}
+        </p>
+      </div>
+
+      <!-- Margen -->
+      <div class="mt-2 flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3 ring-1 ring-inset ring-slate-100">
+        <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Rentabilidad</span>
+        <span
+          class="text-base font-bold"
+          :class="rentabilidad >= 0 ? 'text-emerald-600' : 'text-rose-600'"
+        >
+          {{ formatCurrency(rentabilidad) }}
+        </span>
+      </div>
+
       <UButton
-        color="warning"
-        icon="lucide:send"
+        v-if="rentabilidad !== 0"
+        color="neutral"
+        class="mt-4 bg-slate-900 hover:bg-slate-800 text-white font-semibold"
         block
+        size="lg"
+        icon="lucide:arrow-right-circle"
         :loading="sending"
         @click="sendToContabilidad"
       >
-        Enviar utilidad a caja
+        Sincronizar a Contabilidad General
       </UButton>
-      <Transition name="fade">
-        <p
-          v-if="sendError"
-          class="text-sm font-medium text-rose-500 text-center"
-        >
-          {{ sendError }}
-        </p>
-        <p
-          v-else-if="sendSuccess"
-          class="text-sm font-medium text-emerald-600 text-center"
-        >
-          {{ sendSuccess }}
-        </p>
-      </Transition>
+
+      <p
+        v-if="sendSuccess"
+        class="text-center text-sm font-bold text-emerald-600"
+      >
+        ¡Sincronizado con éxito!
+      </p>
+      <p
+        v-else-if="sendError"
+        class="text-center text-sm font-bold text-rose-600"
+      >
+        {{ sendError }}
+      </p>
     </div>
   </section>
 </template>

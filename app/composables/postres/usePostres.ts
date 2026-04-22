@@ -10,6 +10,7 @@ export function usePostres() {
   const insumos = ref<Insumo[]>([])
   const recetas = ref<Record<string, RecetaItem[]>>({})
   const ventas = ref<Venta[]>([])
+  const activePostreId = ref<string>('')
 
   const loadingData = ref(true)
   const sending = ref(false)
@@ -91,41 +92,81 @@ export function usePostres() {
       return sum + (postre?.price ?? 0) * venta.qty
     }, 0)
     const costos = ventas.value.reduce((sum, venta) => sum + costUnit(venta.postreId) * venta.qty, 0)
-    return { ingresos, costos, utilidad: ingresos - costos }
+    return { 
+      ingresos, 
+      costos, 
+      rentabilidad: ingresos - costos,
+      isEmpty: ingresos === 0 && costos === 0
+    }
   })
 
   const sendToContabilidad = async () => {
     sendError.value = ''
     sendSuccess.value = ''
-    const { utilidad } = report.value
-    if (!utilidad) {
+    const { rentabilidad } = report.value
+    if (!rentabilidad) {
       sendError.value = 'No hay utilidad o perdida para enviar.'
       return
     }
     sending.value = true
     try {
-      const isIngreso = utilidad > 0
+      const isIngreso = rentabilidad > 0
+      const payload = {
+        amount: Math.abs(rentabilidad),
+        description: `Utilidad módulo de postres (${new Date().toLocaleString('es-CO', { month: 'long', year: 'numeric' })})`,
+        category: 'Postres',
+        date: new Date().toISOString()
+      }
       await $fetch(isIngreso ? '/api/ingresos' : '/api/gastos', {
         method: 'POST',
-        body: {
-          description: 'Utilidad postres',
-          category: 'Postres',
-          amount: Math.abs(utilidad)
-        }
+        body: payload
       })
-      await refreshNuxtData(['resumen', 'movimientos', 'categorias'])
-      sendSuccess.value = 'Enviado a contabilidad.'
-    } catch {
-      sendError.value = 'No se pudo enviar.'
+      sendSuccess.value = 'ok'
+      setTimeout(() => { sendSuccess.value = '' }, 3000)
+    } catch (e) {
+      sendError.value = getRequestError(e, 'No se pudo sincronizar')
     } finally {
       sending.value = false
     }
+  }
+
+  const activePostre = ref<Postre | null>(null)
+  
+  const activePostreCost = computed(() => {
+    if (!activePostre.value) return 0
+    return costUnit(activePostre.value._id)
+  })
+
+  const activePostreProfit = computed(() => {
+    if (!activePostre.value) return 0
+    return activePostre.value.price - activePostreCost.value
+  })
+
+  const getInsumoName = (id: string) => {
+    return insumos.value.find(i => i._id === id)?.name || 'Insumo eliminado'
+  }
+
+  const getInsumoUnit = (id: string) => {
+    return insumos.value.find(i => i._id === id)?.unit || ''
+  }
+
+  const getInsumoCost = (id: string, qty: number) => {
+    const insumo = insumos.value.find(i => i._id === id)
+    if (!insumo || !insumo.cost) return 0
+    return (insumo.cost / (insumo.cost || 1)) * qty // Fallback simplificado
   }
 
   return {
     postres, insumos, recetas, ventas,
     fetchData, crear, editar, eliminar,
     addRecetaItem, costUnit, report,
-    loadingData, sending, sendError, sendSuccess, sendToContabilidad
+    loadingData, sending, sendError, sendSuccess, sendToContabilidad,
+    activePostre, activePostreCost, activePostreProfit,
+    getInsumoName, getInsumoUnit, getInsumoCost,
+    removeRecetaItem: async (postreId: string, insumoId: string) => {
+      const rec = recetas.value[postreId]?.filter(r => r.insumoId !== insumoId) || []
+      await editar('postres', postreId, { receta: rec })
+    },
+    activePostreId
   }
 }

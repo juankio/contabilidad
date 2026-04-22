@@ -1,61 +1,59 @@
 <script setup lang="ts">
-import { usePostres } from '../../composables/postres/usePostres'
-
-const { postres, insumos, ventas } = usePostres()
-const { activeProfileName } = useProfile()
-const profileInitial = computed(() => activeProfileName.value?.trim().charAt(0).toUpperCase() || 'M')
+defineProps<{
+  insumosCount: number
+  postresCount: number
+  ventasCount: number
+  loadingData: boolean
+}>()
 </script>
 
 <template>
-  <header class="rounded-3xl bg-white p-4 shadow-sm mb-4">
-    <div class="flex items-center justify-between gap-4">
-      <div class="flex items-center gap-3">
-        <div
-          class="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl shadow-sm"
-          style="background: var(--brand-600)"
-        >
-          <span class="text-sm font-bold text-white">
-            {{ profileInitial }}
-          </span>
-          <span class="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full border-2 border-white bg-slate-700">
+  <header class="rounded-[2rem] border border-slate-200/60 bg-white/80 p-6 sm:p-8 shadow-sm backdrop-blur-xl transition-all mb-8">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div class="flex items-center gap-5">
+        <div class="relative">
+          <div class="flex h-14 w-14 items-center justify-center rounded-[1.25rem] bg-gradient-to-br from-violet-500 to-violet-600 shadow-sm">
             <UIcon
               name="lucide:cake"
-              class="h-3 w-3 text-white"
+              class="h-7 w-7 text-white"
             />
-          </span>
+          </div>
         </div>
         <div>
-          <p class="text-sm uppercase tracking-[0.2em] text-slate-400">
-            Módulo
-          </p>
           <h1 class="text-2xl font-bold tracking-tight text-slate-900">
-            Catálogo de postres
+            Módulo de Postres
           </h1>
+          <p class="text-sm font-medium text-slate-500">
+            Control de insumos, recetas y ventas.
+          </p>
         </div>
       </div>
 
-      <!-- Quick stats badges -->
-      <div class="hidden items-center gap-2 sm:flex">
-        <span class="flex items-center gap-1.5 rounded-full border border-slate-100 bg-slate-50 px-3 py-1 text-sm font-medium text-slate-500">
-          <UIcon
-            name="lucide:cake"
-            class="size-3.5 text-amber-400"
-          />
-          {{ postres.length }} postre{{ postres.length !== 1 ? 's' : '' }}
-        </span>
-        <span class="flex items-center gap-1.5 rounded-full border border-slate-100 bg-slate-50 px-3 py-1 text-sm font-medium text-slate-500">
+      <!-- Quick Stats -->
+      <div
+        v-if="!loadingData"
+        class="flex items-center gap-3 overflow-x-auto pb-2 md:pb-0"
+      >
+        <span class="flex items-center gap-2 rounded-xl border border-slate-200/60 bg-slate-50 px-4 py-1.5 text-sm font-bold text-slate-600 shadow-sm">
           <UIcon
             name="lucide:package"
-            class="size-3.5 text-emerald-400"
+            class="h-4 w-4 text-slate-400"
           />
-          {{ insumos.length }} insumo{{ insumos.length !== 1 ? 's' : '' }}
+          {{ insumosCount }} Insumos
         </span>
-        <span class="flex items-center gap-1.5 rounded-full border border-slate-100 bg-slate-50 px-3 py-1 text-sm font-medium text-slate-500">
+        <span class="flex items-center gap-2 rounded-xl border border-slate-200/60 bg-slate-50 px-4 py-1.5 text-sm font-bold text-slate-600 shadow-sm">
+          <UIcon
+            name="lucide:book-open"
+            class="h-4 w-4 text-slate-400"
+          />
+          {{ postresCount }} Recetas
+        </span>
+        <span class="flex items-center gap-2 rounded-xl border border-slate-200/60 bg-slate-50 px-4 py-1.5 text-sm font-bold text-slate-600 shadow-sm">
           <UIcon
             name="lucide:shopping-bag"
-            class="size-3.5 text-sky-400"
+            class="h-4 w-4 text-slate-400"
           />
-          {{ ventas.length }} venta{{ ventas.length !== 1 ? 's' : '' }}
+          {{ ventasCount }} Ventas
         </span>
       </div>
     </div>
