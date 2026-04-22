@@ -27,3 +27,7 @@ logs
 .env
 .env.*
 !.env.example
+
+# AI Memory and context
+.ai_memory.md
+.claude/

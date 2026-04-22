@@ -43,7 +43,13 @@ export default defineNuxtConfig({
     ? { '/': { prerender: true } }
     : {
         '/favicon.ico': { headers: { 'cache-control': 'public, max-age=86400' } },
-        '/api/**': { cors: true }
+        '/api/**': { cors: true },
+        '/**': {
+          headers: {
+            'Cross-Origin-Opener-Policy': 'same-origin-allow-popups',
+            'Referrer-Policy': 'no-referrer-when-downgrade'
+          }
+        }
       },
 
   compatibilityDate: '2025-01-15',
