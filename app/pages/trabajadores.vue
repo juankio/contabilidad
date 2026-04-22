@@ -20,7 +20,7 @@ const saldoDisponible = computed(() => resumen.value?.saldoDisponible ?? resumen
 
 const toast = useToast()
 
-const handleCrear = async (payload: any) => {
+const handleCrear = async (payload: import('../composables/trabajadores/useTrabajadores').TrabajadorPayload) => {
   try {
     await crearTrabajador(payload)
     toast.add({
@@ -29,17 +29,18 @@ const handleCrear = async (payload: any) => {
       icon: 'lucide:check-circle',
       color: 'success'
     })
-  } catch (err: any) {
+  } catch (err: unknown) {
+    const error = err as Error
     toast.add({
       title: 'Error al crear',
-      description: err.message || 'No se pudo crear el trabajador.',
+      description: error.message || 'No se pudo crear el trabajador.',
       icon: 'lucide:alert-circle',
       color: 'error'
     })
   }
 }
 
-const handlePagar = async (payload: any) => {
+const handlePagar = async (payload: import('../composables/trabajadores/useTrabajadores').PagoPayload) => {
   try {
     await pagarTrabajador(payload)
     toast.add({
@@ -48,10 +49,11 @@ const handlePagar = async (payload: any) => {
       icon: 'lucide:check-circle',
       color: 'success'
     })
-  } catch (err: any) {
+  } catch (err: unknown) {
+    const error = err as Error
     toast.add({
       title: 'No se pudo procesar',
-      description: err.message || 'Error al pagar.',
+      description: error.message || 'Error al pagar.',
       icon: 'lucide:alert-circle',
       color: 'error'
     })
@@ -60,14 +62,14 @@ const handlePagar = async (payload: any) => {
 
 // Edit state
 const isEditModalOpen = ref(false)
-const selectedTrabajador = ref<any>(null)
+const selectedTrabajador = ref<import('../composables/trabajadores/useTrabajadores').Trabajador | null>(null)
 
-const openEdit = (trabajador: any) => {
+const openEdit = (trabajador: import('../composables/trabajadores/useTrabajadores').Trabajador) => {
   selectedTrabajador.value = trabajador
   isEditModalOpen.value = true
 }
 
-const handleEditar = async (id: string, payload: any) => {
+const handleEditar = async (id: string, payload: Partial<import('../composables/trabajadores/useTrabajadores').TrabajadorPayload>) => {
   try {
     await editarTrabajador(id, payload)
     isEditModalOpen.value = false
@@ -77,10 +79,11 @@ const handleEditar = async (id: string, payload: any) => {
       icon: 'lucide:check-circle',
       color: 'success'
     })
-  } catch (err: any) {
+  } catch (err: unknown) {
+    const error = err as Error
     toast.add({
       title: 'Error al actualizar',
-      description: err.message || 'No se pudo editar el trabajador.',
+      description: error.message || 'No se pudo editar el trabajador.',
       icon: 'lucide:alert-circle',
       color: 'error'
     })
@@ -89,9 +92,9 @@ const handleEditar = async (id: string, payload: any) => {
 
 // Delete state
 const isDeleteModalOpen = ref(false)
-const trabajadorToDelete = ref<any>(null)
+const trabajadorToDelete = ref<import('../composables/trabajadores/useTrabajadores').Trabajador | null>(null)
 
-const openDelete = (trabajador: any) => {
+const openDelete = (trabajador: import('../composables/trabajadores/useTrabajadores').Trabajador) => {
   trabajadorToDelete.value = trabajador
   isDeleteModalOpen.value = true
 }
@@ -106,10 +109,11 @@ const handleEliminar = async (id: string) => {
       icon: 'lucide:check-circle',
       color: 'success'
     })
-  } catch (err: any) {
+  } catch (err: unknown) {
+    const error = err as Error
     toast.add({
       title: 'Error al eliminar',
-      description: err.message || 'No se pudo eliminar el trabajador.',
+      description: error.message || 'No se pudo eliminar el trabajador.',
       icon: 'lucide:alert-circle',
       color: 'error'
     })

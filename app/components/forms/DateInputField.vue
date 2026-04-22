@@ -24,7 +24,7 @@ const inputDate = useTemplateRef('inputDate')
     <UInputDate
       ref="inputDate"
       class="w-full min-w-0"
-      :model-value="modelValue as any"
+              :model-value="modelValue as Date"
       @update:model-value="emit('update:modelValue', $event as unknown)"
     >
       <template #trailing>
@@ -39,7 +39,7 @@ const inputDate = useTemplateRef('inputDate')
           />
           <template #content>
             <UCalendar
-              :model-value="modelValue as any"
+      :model-value="modelValue as Date"
               class="p-2"
               @update:model-value="emit('update:modelValue', $event as unknown)"
             />

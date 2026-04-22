@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { usePostres } from '../../composables/postres/usePostres'
 
-const { insumos, crear, eliminar } = usePostres()
+const { insumos, crear, eliminar, loadingData } = usePostres()
 const toast = useToast()
 
 const name = ref('')
 const unit = ref('g')
 const cost = ref('')
 const error = ref('')
-const loading = ref(false)
+const submitting = ref(false)
 
 const submit = async () => {
   error.value = ''
@@ -20,17 +20,18 @@ const submit = async () => {
     return
   }
 
-  loading.value = true
+  submitting.value = true
   try {
     await crear('insumos', { name: cleanName, unit: unit.value, cost: value })
     name.value = ''
     cost.value = ''
     toast.add({ title: 'Insumo agregado', color: 'success' })
-  } catch (err: any) {
-    error.value = err.message
-    toast.add({ title: 'Error', description: err.message, color: 'error' })
+  } catch (err: unknown) {
+    const errorMsg = err as Error
+    error.value = errorMsg.message
+    toast.add({ title: 'Error', description: errorMsg.message, color: 'error' })
   } finally {
-    loading.value = false
+    submitting.value = false
   }
 }
 
@@ -39,8 +40,9 @@ const deleteInsumo = async (id: string) => {
   try {
     await eliminar('insumos', id)
     toast.add({ title: 'Insumo eliminado', color: 'success' })
-  } catch (err: any) {
-    toast.add({ title: 'Error al eliminar', description: err.message, color: 'error' })
+  } catch (err: unknown) {
+    const errorMsg = err as Error
+    toast.add({ title: 'Error al eliminar', description: errorMsg.message, color: 'error' })
   }
 }
 
@@ -108,7 +110,7 @@ const units = [
         color="primary"
         icon="lucide:plus"
         block
-        :loading="loading"
+        :loading="submitting"
         @click="submit"
       >
         Agregar insumo
@@ -123,8 +125,27 @@ const units = [
 
     <!-- List -->
     <div class="mt-3 flex-1 min-h-0">
+      <ul
+        v-if="loadingData"
+        class="space-y-2 overflow-y-auto max-h-[30vh] md:max-h-[220px] pr-1"
+      >
+        <li
+          v-for="i in 3"
+          :key="i"
+          class="flex items-center justify-between rounded-2xl border border-slate-100 bg-slate-50/50 p-2"
+        >
+          <div class="flex items-center gap-2">
+            <USkeleton class="h-8 w-8 rounded-lg" />
+            <USkeleton class="h-5 w-32" />
+          </div>
+          <div class="flex items-center gap-2">
+            <USkeleton class="h-6 w-8 rounded-lg" />
+            <USkeleton class="h-7 w-16 rounded-xl" />
+          </div>
+        </li>
+      </ul>
       <div
-        v-if="!insumos.length"
+        v-else-if="!insumos.length"
         class="flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 py-6 text-center"
       >
         <UIcon

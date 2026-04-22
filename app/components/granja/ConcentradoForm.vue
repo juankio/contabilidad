@@ -2,10 +2,11 @@
 import { toRef } from 'vue'
 import FormField from '../forms/FormField.vue'
 import { useMoneyInput } from '../../composables/forms/useMoneyInput'
+import type { ConcentradoPayload } from '../../composables/granja/useGranjaCerdos'
 
-const emit = defineEmits<{ (e: 'submit', payload: any): void }>()
+const emit = defineEmits<{ (e: 'submit', payload: ConcentradoPayload): void }>()
 
-const form = reactive({
+const form = reactive<ConcentradoPayload>({
   formula: '',
   kilos: 0,
   amount: 0

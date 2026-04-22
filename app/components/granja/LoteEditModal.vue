@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import FormField from '../forms/FormField.vue'
+import type { Lote } from '../../composables/granja/useGranjaCerdos'
 
 const props = defineProps<{
   open: boolean
-  lote: any
+  lote: Lote | null
 }>()
 
 const emit = defineEmits<{

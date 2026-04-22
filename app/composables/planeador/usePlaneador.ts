@@ -98,7 +98,7 @@ export function usePlaneador() {
     submitting.value = true
     submitError.value = null
     try {
-      const body: any = {}
+      const body: Record<string, unknown> = {}
       if (updates.nombre !== undefined) body.nombre = updates.nombre
       if (updates.monto !== undefined) body.monto = Number(updates.monto)
       if (updates.fechaPlaneada !== undefined) body.fechaPlaneada = updates.fechaPlaneada

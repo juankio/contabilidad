@@ -1,16 +1,18 @@
 <script setup lang="ts">
+import type { Trabajador } from '../../composables/trabajadores/useTrabajadores'
+
 const props = defineProps<{
-  trabajadores: any[]
+  trabajadores: Trabajador[]
   loading: boolean
   formatCurrency: (value: number) => string
 }>()
 
 const emit = defineEmits<{
-  (e: 'edit', trabajador: any): void
-  (e: 'delete', trabajador: any): void
+  (e: 'edit', trabajador: Trabajador): void
+  (e: 'delete', trabajador: Trabajador): void
 }>()
 
-const getDropdownItems = (t: any) => [
+const getDropdownItems = (t: Trabajador) => [
   [{
     label: 'Editar',
     icon: 'lucide:pencil',
@@ -48,13 +50,28 @@ const getDropdownItems = (t: any) => [
 
     <div
       v-if="loading"
-      class="flex items-center gap-2 text-sm text-slate-500 py-4"
+      class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3"
     >
-      <UIcon
-        name="lucide:loader-2"
-        class="h-4 w-4 animate-spin"
-      />
-      Cargando...
+      <div
+        v-for="i in 3"
+        :key="i"
+        class="flex flex-col gap-2 rounded-2xl border border-slate-100 bg-slate-50/50 p-4"
+      >
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <USkeleton class="h-10 w-10 shrink-0 rounded-xl" />
+            <div class="space-y-2">
+              <USkeleton class="h-4 w-24" />
+              <USkeleton class="h-3 w-16" />
+            </div>
+          </div>
+          <USkeleton class="h-8 w-8 rounded-lg" />
+        </div>
+        <div class="mt-2 flex items-center justify-between border-t border-slate-100 pt-2">
+          <USkeleton class="h-3 w-16" />
+          <USkeleton class="h-4 w-20" />
+        </div>
+      </div>
     </div>
     <div
       v-else-if="trabajadores.length === 0"

@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { usePostres } from '../../composables/postres/usePostres'
 
-const { postres, ventas, crear, eliminar } = usePostres()
+const { postres, ventas, crear, eliminar, loadingData } = usePostres()
 const toast = useToast()
 
 const postreId = ref('')
 const qty = ref('')
 const date = ref(new Date().toISOString().slice(0, 10))
 const error = ref('')
-const loading = ref(false)
+const submitting = ref(false)
 
 const postreItems = computed(() => postres.value.map(p => ({ label: p.name, value: p._id })))
 
@@ -20,16 +20,17 @@ const submit = async () => {
     return
   }
 
-  loading.value = true
+  submitting.value = true
   try {
     await crear('ventas', { postreId: postreId.value, qty: value, date: date.value })
     qty.value = ''
     toast.add({ title: 'Venta registrada', color: 'success' })
-  } catch (err: any) {
-    error.value = err.message
-    toast.add({ title: 'Error', description: err.message, color: 'error' })
+  } catch (err: unknown) {
+    const errObj = err as Error
+    error.value = errObj.message
+    toast.add({ title: 'Error', description: errObj.message, color: 'error' })
   } finally {
-    loading.value = false
+    submitting.value = false
   }
 }
 
@@ -38,8 +39,9 @@ const deleteVenta = async (id: string) => {
   try {
     await eliminar('ventas', id)
     toast.add({ title: 'Venta eliminada', color: 'success' })
-  } catch (err: any) {
-    toast.add({ title: 'Error al eliminar', description: err.message, color: 'error' })
+  } catch (err: unknown) {
+    const error = err as Error
+    toast.add({ title: 'Error al eliminar', description: error.message, color: 'error' })
   }
 }
 
@@ -95,7 +97,7 @@ function formatDate(d: string) {
         color="success"
         icon="lucide:check-circle"
         block
-        :loading="loading"
+        :loading="submitting"
         @click="submit"
       >
         Registrar venta
@@ -110,8 +112,27 @@ function formatDate(d: string) {
 
     <!-- List -->
     <div class="mt-3 flex-1 min-h-0">
+      <ul
+        v-if="loadingData"
+        class="space-y-2 overflow-y-auto max-h-[30vh] md:max-h-[220px] pr-1"
+      >
+        <li
+          v-for="i in 3"
+          :key="i"
+          class="flex items-center justify-between rounded-2xl border border-slate-100 bg-slate-50/50 p-2"
+        >
+          <div class="flex items-center gap-2">
+            <USkeleton class="h-8 w-8 rounded-lg" />
+            <div class="space-y-1.5">
+              <USkeleton class="h-4 w-24" />
+              <USkeleton class="h-3 w-12" />
+            </div>
+          </div>
+          <USkeleton class="h-7 w-12 rounded-xl" />
+        </li>
+      </ul>
       <div
-        v-if="!ventas.length"
+        v-else-if="!ventas.length"
         class="flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 py-6 text-center"
       >
         <UIcon

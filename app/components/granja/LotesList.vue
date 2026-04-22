@@ -1,15 +1,17 @@
 <script setup lang="ts">
+import type { Lote } from '../../composables/granja/useGranjaCerdos'
+
 const props = defineProps<{
-  lotes: any[]
+  lotes: Lote[]
   loading: boolean
 }>()
 
 const emit = defineEmits<{
-  (e: 'edit', lote: any): void
-  (e: 'delete', lote: any): void
+  (e: 'edit', lote: Lote): void
+  (e: 'delete', lote: Lote): void
 }>()
 
-const getDropdownItems = (lote: any) => [
+const getDropdownItems = (lote: Lote) => [
   [{
     label: 'Editar',
     icon: 'lucide:pencil',
@@ -47,13 +49,44 @@ const getDropdownItems = (lote: any) => [
     
     <div
       v-if="loading"
-      class="flex items-center gap-2 text-sm text-slate-500 py-4"
+      class="grid gap-4 md:grid-cols-2"
     >
-      <UIcon
-        name="lucide:loader-2"
-        class="h-4 w-4 animate-spin"
-      />
-      Cargando...
+      <div
+        v-for="i in 2"
+        :key="i"
+        class="p-4 rounded-2xl bg-slate-50/50 border border-slate-100"
+      >
+        <div class="flex justify-between items-start mb-3">
+          <div class="flex items-center gap-3">
+            <USkeleton class="h-10 w-10 shrink-0 rounded-xl" />
+            <div class="space-y-2">
+              <USkeleton class="h-4 w-24" />
+              <USkeleton class="h-3 w-32" />
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <USkeleton class="h-6 w-16 rounded-lg" />
+            <USkeleton class="h-8 w-8 rounded-lg ml-2" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 mt-4 border-t border-slate-100 pt-4">
+          <div class="space-y-2">
+            <USkeleton class="h-3 w-20 mb-2" />
+            <USkeleton class="h-3 w-full" />
+            <USkeleton class="h-3 w-3/4" />
+          </div>
+          <div class="space-y-2">
+            <USkeleton class="h-3 w-24 mb-2" />
+            <USkeleton class="h-3 w-full" />
+          </div>
+        </div>
+
+        <div class="flex gap-2 mt-5">
+          <USkeleton class="h-8 flex-1 rounded-md" />
+          <USkeleton class="h-8 flex-1 rounded-md" />
+        </div>
+      </div>
     </div>
     <div
       v-else-if="lotes.length === 0"

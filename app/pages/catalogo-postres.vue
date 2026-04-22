@@ -12,7 +12,7 @@ definePageMeta({
 })
 
 const { fetchData } = usePostres()
-await fetchData()
+onMounted(() => fetchData())
 </script>
 
 <template>

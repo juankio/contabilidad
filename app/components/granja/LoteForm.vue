@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import FormField from '../forms/FormField.vue'
+import type { LotePayload } from '../../composables/granja/useGranjaCerdos'
 
-const emit = defineEmits<{ (e: 'submit', payload: any): void }>()
+const emit = defineEmits<{ (e: 'submit', payload: LotePayload): void }>()
 
-const form = reactive({
+const form = reactive<LotePayload>({
   nombreLoteMadre: '',
   cantidadInicial: 1
 })

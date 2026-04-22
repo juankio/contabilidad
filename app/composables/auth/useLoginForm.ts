@@ -12,8 +12,8 @@ declare global {
     google?: {
       accounts: {
         id: {
-          initialize: (config: { client_id: string, callback: (response: GoogleCredentialResponse) => void }) => void
-          renderButton: (element: HTMLElement, options: any) => void
+          initialize: (config: { client_id: string, callback: (response: GoogleCredentialResponse) => void, auto_select?: boolean, cancel_on_tap_outside?: boolean }) => void
+          renderButton: (element: HTMLElement, options: Record<string, unknown>) => void
         }
       }
     }
@@ -88,7 +88,9 @@ export function useLoginForm() {
 
     window.google.accounts.id.initialize({
       client_id: googleClientId,
-      callback: handleGoogleCredential
+      callback: handleGoogleCredential,
+      auto_select: false,
+      cancel_on_tap_outside: false
     })
 
     googleButtonRef.value.innerHTML = ''

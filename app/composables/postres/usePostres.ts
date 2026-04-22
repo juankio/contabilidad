@@ -11,11 +11,13 @@ export function usePostres() {
   const recetas = ref<Record<string, RecetaItem[]>>({})
   const ventas = ref<Venta[]>([])
 
+  const loadingData = ref(true)
   const sending = ref(false)
   const sendError = ref('')
   const sendSuccess = ref('')
 
   const fetchData = async () => {
+    loadingData.value = true
     try {
       const [p, i, v] = await Promise.all([
         $fetch<Postre[]>('/api/postres'),
@@ -33,10 +35,12 @@ export function usePostres() {
       recetas.value = newRecetas
     } catch (e) {
       console.error(e)
+    } finally {
+      loadingData.value = false
     }
   }
 
-  const crear = async (type: 'postres' | 'insumos' | 'ventas', payload: any) => {
+  const crear = async (type: 'postres' | 'insumos' | 'ventas', payload: Record<string, any>) => {
     try {
       const url = type === 'postres' ? '/api/postres' : `/api/postres/${type}`
       await $fetch(url, { method: 'POST', body: payload })
@@ -46,7 +50,7 @@ export function usePostres() {
     }
   }
 
-  const editar = async (type: 'postres' | 'insumos' | 'ventas', id: string, payload: any) => {
+  const editar = async (type: 'postres' | 'insumos' | 'ventas', id: string, payload: Record<string, any>) => {
     try {
       const url = type === 'postres' ? `/api/postres/${id}` : `/api/postres/${type}/${id}`
       await $fetch(url, { method: 'PUT', body: payload })
@@ -122,6 +126,6 @@ export function usePostres() {
     postres, insumos, recetas, ventas,
     fetchData, crear, editar, eliminar,
     addRecetaItem, costUnit, report,
-    sending, sendError, sendSuccess, sendToContabilidad
+    loadingData, sending, sendError, sendSuccess, sendToContabilidad
   }
 }

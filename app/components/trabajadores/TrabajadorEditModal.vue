@@ -2,15 +2,16 @@
 import { computed, ref, watch } from 'vue'
 import FormField from '../forms/FormField.vue'
 import { useMoneyInput } from '../../composables/forms/useMoneyInput'
+import type { Trabajador, TrabajadorPayload } from '../../composables/trabajadores/useTrabajadores'
 
 const props = defineProps<{
   open: boolean
-  trabajador: any
+  trabajador: Trabajador | null
 }>()
 
 const emit = defineEmits<{
   (e: 'update:open', value: boolean): void
-  (e: 'submit', id: string, payload: any): void
+  (e: 'submit', id: string, payload: Partial<TrabajadorPayload>): void
 }>()
 
 const isModalOpen = computed({

@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import { toRef } from 'vue'
+import { toRef, reactive } from 'vue'
 import FormField from '../forms/FormField.vue'
 import { useMoneyInput } from '../../composables/forms/useMoneyInput'
+import type { Trabajador, PagoPayload } from '../../composables/trabajadores/useTrabajadores'
 
 defineProps<{
-  trabajadores: any[]
+  trabajadores: Trabajador[]
 }>()
 
-const emit = defineEmits<{ (e: 'submit', payload: any): void }>()
+const emit = defineEmits<{ (e: 'submit', payload: PagoPayload): void }>()
 
-const form = reactive({
+const form = reactive<PagoPayload>({
   trabajadorId: '',
   amount: 0,
   tipo: 'quincena',

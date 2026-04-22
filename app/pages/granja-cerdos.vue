@@ -17,9 +17,9 @@ const { lotes, loading, fetchLotes, crearLote, comprarConcentrado, editarLote, e
 const toast = useToast()
 
 const editModalOpen = ref(false)
-const loteEditando = ref<any>(null)
+const loteEditando = ref<import('../composables/granja/useGranjaCerdos').Lote | null>(null)
 
-const openEditModal = (lote: any) => {
+const openEditModal = (lote: import('../composables/granja/useGranjaCerdos').Lote) => {
   loteEditando.value = lote
   editModalOpen.value = true
 }
@@ -34,10 +34,11 @@ const handleEditarLote = async (id: string, data: { nombreLoteMadre: string }) =
       icon: 'lucide:check-circle',
       color: 'success'
     })
-  } catch (err: any) {
+  } catch (err: unknown) {
+    const error = err as Error
     toast.add({
       title: 'Error al editar lote',
-      description: err.message || 'No se pudo editar el lote.',
+      description: error.message || 'No se pudo editar el lote.',
       icon: 'lucide:alert-circle',
       color: 'error'
     })
@@ -46,9 +47,9 @@ const handleEditarLote = async (id: string, data: { nombreLoteMadre: string }) =
 
 // Delete State
 const deleteModalOpen = ref(false)
-const loteToDelete = ref<any>(null)
+const loteToDelete = ref<import('../composables/granja/useGranjaCerdos').Lote | null>(null)
 
-const openDeleteModal = (lote: any) => {
+const openDeleteModal = (lote: import('../composables/granja/useGranjaCerdos').Lote) => {
   loteToDelete.value = lote
   deleteModalOpen.value = true
 }
@@ -63,17 +64,18 @@ const handleConfirmEliminarLote = async (id: string) => {
       icon: 'lucide:check-circle',
       color: 'success'
     })
-  } catch (err: any) {
+  } catch (err: unknown) {
+    const error = err as Error
     toast.add({
       title: 'Error al eliminar lote',
-      description: err.message || 'No se pudo eliminar el lote.',
+      description: error.message || 'No se pudo eliminar el lote.',
       icon: 'lucide:alert-circle',
       color: 'error'
     })
   }
 }
 
-const handleCrearLote = async (payload: any) => {
+const handleCrearLote = async (payload: import('../composables/granja/useGranjaCerdos').LotePayload) => {
   try {
     await crearLote(payload)
     toast.add({
@@ -82,17 +84,18 @@ const handleCrearLote = async (payload: any) => {
       icon: 'lucide:check-circle',
       color: 'success'
     })
-  } catch (err: any) {
+  } catch (err: unknown) {
+    const error = err as Error
     toast.add({
       title: 'Error al registrar lote',
-      description: err.message || 'No se pudo crear el lote.',
+      description: error.message || 'No se pudo crear el lote.',
       icon: 'lucide:alert-circle',
       color: 'error'
     })
   }
 }
 
-const handleComprarConcentrado = async (payload: any) => {
+const handleComprarConcentrado = async (payload: import('../composables/granja/useGranjaCerdos').ConcentradoPayload) => {
   try {
     await comprarConcentrado(payload)
     toast.add({
@@ -101,10 +104,11 @@ const handleComprarConcentrado = async (payload: any) => {
       icon: 'lucide:check-circle',
       color: 'success'
     })
-  } catch (err: any) {
+  } catch (err: unknown) {
+    const error = err as Error
     toast.add({
       title: 'Fondos insuficientes o error',
-      description: err.message || 'No se pudo comprar el concentrado.',
+      description: error.message || 'No se pudo comprar el concentrado.',
       icon: 'lucide:alert-triangle',
       color: 'error'
     })

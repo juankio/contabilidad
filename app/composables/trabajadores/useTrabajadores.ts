@@ -1,13 +1,36 @@
+import { ref } from 'vue'
 import { getRequestError } from '../prestamos/helpers'
 
+export interface Trabajador {
+  _id: string
+  nombre: string
+  cargo: string
+  salario: number
+  pagosRegistrados?: number
+  [key: string]: unknown
+}
+
+export interface TrabajadorPayload {
+  nombre: string
+  cargo: string
+  salario: number
+}
+
+export interface PagoPayload {
+  trabajadorId: string
+  amount: number
+  tipo: string
+  note?: string
+}
+
 export function useTrabajadores() {
-  const trabajadores = ref<any[]>([])
+  const trabajadores = ref<Trabajador[]>([])
   const loading = ref(false)
 
   const fetchTrabajadores = async () => {
     loading.value = true
     try {
-      trabajadores.value = await $fetch('/api/trabajadores')
+      trabajadores.value = await $fetch<Trabajador[]>('/api/trabajadores')
     } catch (error) {
       console.error(error)
     } finally {
@@ -15,7 +38,7 @@ export function useTrabajadores() {
     }
   }
 
-  const crearTrabajador = async (payload: any) => {
+  const crearTrabajador = async (payload: TrabajadorPayload) => {
     try {
       await $fetch('/api/trabajadores', { method: 'POST', body: payload })
       await fetchTrabajadores()
@@ -24,7 +47,7 @@ export function useTrabajadores() {
     }
   }
 
-  const pagarTrabajador = async (payload: any) => {
+  const pagarTrabajador = async (payload: PagoPayload) => {
     try {
       await $fetch('/api/trabajadores/pagos', { method: 'POST', body: payload })
       await fetchTrabajadores()
@@ -33,7 +56,7 @@ export function useTrabajadores() {
     }
   }
 
-  const editarTrabajador = async (id: string, payload: any) => {
+  const editarTrabajador = async (id: string, payload: Partial<TrabajadorPayload>) => {
     try {
       await $fetch(`/api/trabajadores/${id}`, { method: 'PUT', body: payload })
       await fetchTrabajadores()

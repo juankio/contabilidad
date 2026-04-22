@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
+import type { Trabajador } from '../../composables/trabajadores/useTrabajadores'
+
 const props = defineProps<{
   open: boolean
-  trabajador: any
+  trabajador: Trabajador | null
 }>()
 
 const emit = defineEmits<{

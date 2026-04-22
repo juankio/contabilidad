@@ -7,7 +7,7 @@ type ProfileState = ReturnType<typeof useProfileState>
 type RequestConfig = {
   url: string
   method: 'POST' | 'DELETE'
-  body?: any
+  body?: unknown
   fallback: string
 }
 

@@ -1,7 +1,9 @@
 <script setup lang="ts">
-const props = defineProps<{
+import type { Lote } from '../../composables/granja/useGranjaCerdos'
+
+defineProps<{
   open: boolean
-  lote: any
+  lote: Lote | null
 }>()
 
 const emit = defineEmits<{
@@ -59,7 +61,7 @@ const emit = defineEmits<{
             <UButton color="neutral" variant="soft" size="lg" @click="$emit('update:open', false)">
               Cancelar
             </UButton>
-            <UButton color="error" size="lg" icon="lucide:trash-2" class="font-semibold shadow-sm" @click="$emit('confirm', lote?._id)">
+            <UButton color="error" size="lg" icon="lucide:trash-2" class="font-semibold shadow-sm" @click="$emit('confirm', lote?._id || '')">
               Sí, eliminar
             </UButton>
           </div>

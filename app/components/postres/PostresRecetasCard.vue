@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { usePostres } from '../../composables/postres/usePostres'
 
-const { postres, insumos, recetas, addRecetaItem, costUnit, editar } = usePostres()
+const { postres, insumos, recetas, addRecetaItem, costUnit, editar, loadingData } = usePostres()
 const toast = useToast()
 
 const postreId = ref('')
 const insumoId = ref('')
 const yields = ref('')
 const error = ref('')
-const loading = ref(false)
+const submitting = ref(false)
 
 const postreItems = computed(() => postres.value.map(p => ({ label: p.name, value: p._id })))
 const insumoItems = computed(() => insumos.value.map(i => ({ label: i.name, value: i._id })))
@@ -23,17 +23,18 @@ const submit = async () => {
     return
   }
 
-  loading.value = true
+  submitting.value = true
   try {
     await addRecetaItem(postreId.value, insumoId.value, value)
     yields.value = ''
     insumoId.value = ''
     toast.add({ title: 'Ingrediente añadido a receta', color: 'success' })
-  } catch (err: any) {
-    error.value = err.message
-    toast.add({ title: 'Error', description: err.message, color: 'error' })
+  } catch (err: unknown) {
+    const e = err as Error
+    error.value = e.message
+    toast.add({ title: 'Error', description: e.message, color: 'error' })
   } finally {
-    loading.value = false
+    submitting.value = false
   }
 }
 
@@ -44,8 +45,9 @@ const deleteItem = async (insumoIdToRemove: string) => {
   try {
     await editar('postres', postreId.value, { recipe: updated })
     toast.add({ title: 'Ingrediente eliminado', color: 'success' })
-  } catch (err: any) {
-    toast.add({ title: 'Error al quitar ingrediente', description: err.message, color: 'error' })
+  } catch (err: unknown) {
+    const e = err as Error
+    toast.add({ title: 'Error al quitar ingrediente', description: e.message, color: 'error' })
   }
 }
 </script>
@@ -98,7 +100,7 @@ const deleteItem = async (insumoIdToRemove: string) => {
         color="primary"
         icon="lucide:plus"
         block
-        :loading="loading"
+        :loading="submitting"
         @click="submit"
       >
         Añadir ingrediente a receta
@@ -122,8 +124,24 @@ const deleteItem = async (insumoIdToRemove: string) => {
 
     <!-- Receta actual -->
     <div class="mt-3 flex-1 min-h-0">
+      <ul
+        v-if="loadingData"
+        class="space-y-2 overflow-y-auto max-h-[30vh] md:max-h-[220px] pr-1"
+      >
+        <li
+          v-for="i in 3"
+          :key="i"
+          class="flex items-center justify-between rounded-2xl border border-slate-100 bg-slate-50/50 p-2"
+        >
+          <div class="flex items-center gap-2">
+            <USkeleton class="h-8 w-8 rounded-lg" />
+            <USkeleton class="h-5 w-32" />
+          </div>
+          <USkeleton class="h-7 w-20 rounded-xl" />
+        </li>
+      </ul>
       <div
-        v-if="!recetaActual.length"
+        v-else-if="!recetaActual.length"
         class="flex h-full min-h-[150px] flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 p-4 text-center"
       >
         <UIcon

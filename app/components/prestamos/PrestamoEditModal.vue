@@ -109,14 +109,14 @@ const isOpen = computed({
             label="Fecha del prestamo"
             for-id="edit-loan-date"
             :model-value="form.dateValue"
-            @update:model-value="form.dateValue = $event as any"
+            @update:model-value="form.dateValue = $event as Date"
           />
 
           <DateInputField
             label="Fecha esperada de cobro (Opcional)"
             for-id="edit-collection-date"
             :model-value="form.collectionDateValue"
-            @update:model-value="form.collectionDateValue = $event as any"
+            @update:model-value="form.collectionDateValue = $event as Date"
           />
           <div
             v-if="form.collectionDateValue"

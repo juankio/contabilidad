@@ -59,8 +59,9 @@ export function usePrestamoEdit(refreshList: () => Promise<void>) {
       editSuccess.value = 'Préstamo actualizado exitosamente'
       editingTarget.value = null
       await refreshList()
-    } catch (e: any) {
-      editError.value = e.data?.statusMessage || 'Error al editar el préstamo'
+    } catch (e: unknown) {
+      const errorObj = e as { data?: { statusMessage?: string } }
+      editError.value = errorObj.data?.statusMessage || 'Error al editar el préstamo'
     } finally {
       isEditing.value = false
     }
