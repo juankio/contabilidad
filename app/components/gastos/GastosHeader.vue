@@ -9,42 +9,46 @@ defineProps<{
 </script>
 
 <template>
-  <div class="anim-up rounded-2xl border border-slate-200 bg-white p-5 lg:col-span-12">
-    <div class="flex items-center justify-between gap-4">
-      <div class="flex items-center gap-3">
-        <div
-          class="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full"
-          style="background: var(--brand-600)"
-        >
-          <span class="text-sm font-bold text-white">
-            {{ profileInitial }}
-          </span>
-          <span class="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full border-2 border-white bg-slate-700">
-            <UIcon
-              name="lucide:wallet"
-              class="h-3 w-3 text-white"
-            />
-          </span>
+  <header class="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+    <div class="flex items-center gap-5">
+      <div class="relative">
+        <div class="flex h-14 w-14 items-center justify-center rounded-[1.25rem] bg-gradient-to-br from-[var(--brand-500)] to-[var(--brand-600)] shadow-sm">
+          <span class="text-xl font-bold text-white">{{ profileInitial }}</span>
         </div>
-        <div>
-          <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">
-            Módulo
-          </p>
-          <h1 class="text-2xl font-bold tracking-tight text-slate-900">
-            Gastos
-          </h1>
-        </div>
+        <span class="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full border-[3px] border-white bg-slate-700">
+          <UIcon name="lucide:arrow-up-right" class="h-3 w-3 text-white" />
+        </span>
       </div>
+      <div class="space-y-1">
+        <h1 class="text-2xl font-bold tracking-tight text-slate-900">
+          Mis Gastos
+        </h1>
+        <p class="text-sm font-medium text-slate-500">
+          Gestión de salidas de dinero del mes
+        </p>
+      </div>
+    </div>
+    
+    <div class="flex items-center gap-3">
       <UButton
         color="neutral"
         variant="soft"
-        icon="lucide:file-spreadsheet"
+        icon="lucide:arrow-left"
+        class="rounded-xl px-5 font-medium transition-colors hover:bg-slate-100"
+        to="/"
+      >
+        Volver
+      </UButton>
+      <UButton
+        color="neutral"
+        variant="ghost"
+        icon="lucide:download"
+        class="rounded-xl px-5 font-medium text-slate-500 hover:text-slate-900 transition-colors"
         :loading="exporting"
-        :disabled="exporting"
         @click="onExport"
       >
         Exportar Excel
       </UButton>
     </div>
-  </div>
+  </header>
 </template>

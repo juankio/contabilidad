@@ -19,23 +19,23 @@ const {
 </script>
 
 <template>
-  <main class="min-h-screen bg-slate-50 text-slate-900">
-    <section class="mx-auto max-w-screen-2xl overflow-x-clip px-4 pb-10 pt-6">
+  <main class="min-h-screen bg-slate-50/50 text-slate-900">
+    <section class="mx-auto max-w-screen-2xl overflow-x-clip px-4 md:px-6 pb-12 pt-8">
       <div class="grid min-w-0 gap-6 lg:grid-cols-12 items-start">
         <GastosHeader
-          class="anim-up min-w-0 lg:col-span-12"
+          class="anim-up min-w-0 lg:col-span-12 rounded-[2rem] border border-slate-200/60 bg-white/80 p-6 sm:p-8 shadow-sm backdrop-blur-xl"
           :exporting="exporting"
           :on-export="exportGastos"
         />
 
         <p
           v-if="exportError"
-          class="text-sm text-rose-500 lg:col-span-12"
+          class="text-sm font-medium rounded-xl bg-rose-50 text-rose-600 px-4 py-3 lg:col-span-12"
         >
           {{ exportError }}
         </p>
 
-        <!-- Columna Izquierda: Formulario y Resumen -->
+        <!-- Columna Izquierda: Formulario (Sticky) y Resumen -->
         <div class="flex flex-col gap-6 lg:col-span-4">
           <GastoForm
             class="anim-up-1 min-w-0"
@@ -52,9 +52,9 @@ const {
           />
         </div>
 
-        <!-- Columna Derecha: Gráficas -->
+        <!-- Columna Derecha: Gráficas (Expansivo) -->
         <div class="flex flex-col gap-6 lg:col-span-8">
-          <StatsCharts class="anim-up-2 min-w-0" />
+          <StatsCharts class="anim-up-2 min-w-0 h-full" />
         </div>
       </div>
     </section>

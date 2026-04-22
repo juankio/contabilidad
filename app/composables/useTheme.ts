@@ -322,6 +322,7 @@ function applyColorVars(colorName: string) {
   el.style.setProperty('--brand-200', get(200))
   el.style.setProperty('--brand-300', get(300))
   el.style.setProperty('--brand-400', get(400))
+  el.style.setProperty('--brand-500', get(500))
   el.style.setProperty('--brand-600', get(600))
   el.style.setProperty('--brand-700', get(700))
 }
@@ -341,7 +342,7 @@ export function buildThemeInitScript(): string {
   const p = JSON.stringify(paletteMap)
   const sh = JSON.stringify(shadeIndices)
   const def = DEFAULT_THEME_KEY
-  return `(function(){var p=${p},sh=${sh},def='${def}';try{var k=localStorage.getItem('theme:global')||def;var pal=p[k]||p[def];var el=document.documentElement;sh.forEach(function(s,i){el.style.setProperty('--ui-color-primary-'+s,pal[i]);el.style.setProperty('--color-primary-'+s,pal[i]);});el.style.setProperty('--ui-primary',pal[5]);el.style.setProperty('--color-primary',pal[5]);el.style.setProperty('--brand-50',pal[0]);el.style.setProperty('--brand-100',pal[1]);el.style.setProperty('--brand-200',pal[2]);el.style.setProperty('--brand-300',pal[3]);el.style.setProperty('--brand-400',pal[4]);el.style.setProperty('--brand-600',pal[6]);el.style.setProperty('--brand-700',pal[7]);}catch(e){}})()`
+  return `(function(){var p=${p},sh=${sh},def='${def}';try{var k=localStorage.getItem('theme:global')||def;var pal=p[k]||p[def];var el=document.documentElement;sh.forEach(function(s,i){el.style.setProperty('--ui-color-primary-'+s,pal[i]);el.style.setProperty('--color-primary-'+s,pal[i]);});el.style.setProperty('--ui-primary',pal[5]);el.style.setProperty('--color-primary',pal[5]);el.style.setProperty('--brand-50',pal[0]);el.style.setProperty('--brand-100',pal[1]);el.style.setProperty('--brand-200',pal[2]);el.style.setProperty('--brand-300',pal[3]);el.style.setProperty('--brand-400',pal[4]);el.style.setProperty('--brand-500',pal[5]);el.style.setProperty('--brand-600',pal[6]);el.style.setProperty('--brand-700',pal[7]);}catch(e){}})()`
 }
 
 export function useTheme() {
