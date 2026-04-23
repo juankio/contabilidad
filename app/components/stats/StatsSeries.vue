@@ -18,7 +18,7 @@ function ratio(value: number) {
 </script>
 
 <template>
-  <div class="rounded-2xl border border-slate-100 p-4">
+  <div class="rounded-[1.5rem] border border-slate-100/50 bg-slate-50/50 p-5 shadow-sm">
     <p class="text-xs font-semibold uppercase tracking-widest text-slate-500">
       Últimos 6 meses
     </p>

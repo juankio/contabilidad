@@ -137,11 +137,11 @@ const units = [
 
       <div class="pt-2">
         <UButton
-          color="neutral"
+          color="primary"
           icon="lucide:check-circle"
           block
           size="lg"
-          class="bg-slate-900 hover:bg-slate-800 font-semibold shadow-sm text-white"
+          class="font-semibold shadow-sm"
           :loading="submitting"
           @click="submit"
         >

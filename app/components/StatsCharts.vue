@@ -33,17 +33,24 @@ const activeTab = ref(0)
 </script>
 
 <template>
-  <div class="self-start rounded-2xl border border-slate-200 bg-white p-4 md:col-span-2 lg:col-span-3">
+  <div class="self-start rounded-[2rem] border border-slate-200/60 bg-white/80 p-6 sm:p-8 shadow-sm backdrop-blur-xl md:col-span-2 lg:col-span-3">
     <!-- Header -->
-    <div class="flex items-center justify-between gap-3">
-      <div class="flex items-center gap-2 text-slate-700">
-        <UIcon
-          name="lucide:chart-bar"
-          class="h-4 w-4"
-        />
-        <p class="text-sm font-semibold">
-          Estadísticas
-        </p>
+    <div class="flex items-center justify-between gap-6 mb-6">
+      <div class="flex items-center gap-4">
+        <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--brand-50)] text-[var(--brand-600)] ring-1 ring-[var(--brand-500)]/20 shrink-0">
+          <UIcon
+            name="lucide:bar-chart-3"
+            class="h-5 w-5"
+          />
+        </div>
+        <div>
+          <h2 class="text-lg font-bold tracking-tight text-slate-900">
+            Estadísticas
+          </h2>
+          <p class="text-sm text-slate-500 hidden sm:block">
+            Resumen financiero de los últimos meses.
+          </p>
+        </div>
       </div>
 
       <!-- Desktop: filtros de perfil -->

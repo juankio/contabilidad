@@ -17,54 +17,155 @@ export default defineApiHandler(async (event) => {
   ])
 
   const workbook = new ExcelJS.Workbook()
-  const worksheet = workbook.addWorksheet('Gastos')
+  workbook.creator = 'Mi Contabilidad'
+  workbook.created = new Date()
 
-  worksheet.columns = [
-    { header: 'Descripcion', key: 'description', width: 32 },
-    { header: 'Categoria', key: 'category', width: 18 },
-    { header: 'Monto', key: 'amount', width: 12 },
-    { header: 'Fecha', key: 'date', width: 14 }
-  ]
-
-  worksheet.getRow(1).font = { bold: true }
-  worksheet.columns.forEach((column) => {
-    column.alignment = { vertical: 'middle', horizontal: 'left' }
+  const worksheet = workbook.addWorksheet('Gastos', {
+    views: [{ state: 'frozen', ySplit: 1 }]
   })
 
-  gastos.forEach((gasto) => {
+  worksheet.columns = [
+    { header: 'Descripción', key: 'description', width: 40 },
+    { header: 'Categoría', key: 'category', width: 25 },
+    { header: 'Monto', key: 'amount', width: 18 },
+    { header: 'Fecha', key: 'date', width: 20 }
+  ]
+
+  // Estilizar cabeceras
+  const headerRow = worksheet.getRow(1)
+  headerRow.height = 30
+  headerRow.eachCell((cell) => {
+    cell.fill = {
+      type: 'pattern',
+      pattern: 'solid',
+      fgColor: { argb: 'FF1E293B' } // slate-900
+    }
+    cell.font = {
+      color: { argb: 'FFFFFFFF' },
+      bold: true,
+      size: 12
+    }
+    cell.alignment = { vertical: 'middle', horizontal: 'center' }
+    cell.border = {
+      top: { style: 'thin', color: { argb: 'FFCBD5E1' } },
+      bottom: { style: 'medium', color: { argb: 'FF94A3B8' } },
+      left: { style: 'thin', color: { argb: 'FFCBD5E1' } },
+      right: { style: 'thin', color: { argb: 'FFCBD5E1' } }
+    }
+  })
+
+  // Llenar datos
+  let totalAmount = 0
+  gastos.forEach((gasto, index) => {
     const date = gasto.date instanceof Date ? gasto.date : new Date(gasto.date)
-    worksheet.addRow({
+    const row = worksheet.addRow({
       description: gasto.description ?? '',
       category: gasto.category ?? '',
       amount: Number(gasto.amount ?? 0),
-      date: Number.isNaN(date.getTime()) ? '' : date.toISOString().slice(0, 10)
+      date: Number.isNaN(date.getTime()) ? '' : date.toLocaleDateString('es-CO', { year: 'numeric', month: 'long', day: 'numeric' })
+    })
+
+    totalAmount += Number(gasto.amount ?? 0)
+
+    // Zebra striping y bordes
+    const isEven = index % 2 === 0
+    row.eachCell((cell, colNumber) => {
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: isEven ? 'FFF8FAFC' : 'FFFFFFFF' } // slate-50 / white
+      }
+      cell.border = {
+        top: { style: 'thin', color: { argb: 'FFE2E8F0' } },
+        bottom: { style: 'thin', color: { argb: 'FFE2E8F0' } },
+        left: { style: 'thin', color: { argb: 'FFE2E8F0' } },
+        right: { style: 'thin', color: { argb: 'FFE2E8F0' } }
+      }
+      cell.alignment = { vertical: 'middle', horizontal: colNumber === 3 ? 'right' : 'left' }
     })
   })
 
-  worksheet.getColumn('amount').numFmt = '#,##0'
+  // Fila de Total
+  const totalRow = worksheet.addRow({
+    description: 'TOTAL',
+    category: '',
+    amount: totalAmount,
+    date: ''
+  })
+  totalRow.height = 25
+  totalRow.eachCell((cell, colNumber) => {
+    cell.font = { bold: true, size: 12, color: { argb: 'FF0F172A' } }
+    cell.fill = {
+      type: 'pattern',
+      pattern: 'solid',
+      fgColor: { argb: 'FFF1F5F9' } // slate-100
+    }
+    cell.border = {
+      top: { style: 'medium', color: { argb: 'FF94A3B8' } },
+      bottom: { style: 'medium', color: { argb: 'FF94A3B8' } },
+      left: { style: 'thin', color: { argb: 'FFE2E8F0' } },
+      right: { style: 'thin', color: { argb: 'FFE2E8F0' } }
+    }
+    if (colNumber === 3) cell.alignment = { horizontal: 'right' }
+  })
+  worksheet.mergeCells(`A${totalRow.number}:B${totalRow.number}`)
+  totalRow.getCell(1).alignment = { horizontal: 'right', vertical: 'middle' }
 
-  const resumen = workbook.addWorksheet('Resumen')
+  // Formato de moneda para toda la columna de monto
+  worksheet.getColumn('amount').numFmt = '"$"#,##0.00'
+
+  // ==========================================
+  // SHEET: RESUMEN
+  // ==========================================
+  const resumen = workbook.addWorksheet('Resumen', {
+    views: [{ state: 'frozen', ySplit: 1 }]
+  })
+  
   resumen.columns = [
-    { header: 'Mes', key: 'month', width: 18 },
-    { header: 'Ingresos', key: 'ingresos', width: 14 },
-    { header: 'Gastos', key: 'gastos', width: 14 },
-    { header: 'Saldo', key: 'saldo', width: 14 },
-    { header: 'Cambio vs mes anterior', key: 'delta', width: 22 }
+    { header: 'Mes', key: 'month', width: 25 },
+    { header: 'Ingresos', key: 'ingresos', width: 20 },
+    { header: 'Gastos', key: 'gastos', width: 20 },
+    { header: 'Saldo Final', key: 'saldo', width: 20 },
+    { header: 'Variación vs Anterior', key: 'delta', width: 25 }
   ]
 
-  resumen.getRow(1).font = { bold: true }
-  resumen.columns.forEach((column) => {
-    column.alignment = { vertical: 'middle', horizontal: 'left' }
+  const headerRowResumen = resumen.getRow(1)
+  headerRowResumen.height = 30
+  headerRowResumen.eachCell((cell) => {
+    cell.fill = {
+      type: 'pattern',
+      pattern: 'solid',
+      fgColor: { argb: 'FF1E293B' }
+    }
+    cell.font = { color: { argb: 'FFFFFFFF' }, bold: true, size: 12 }
+    cell.alignment = { vertical: 'middle', horizontal: 'center' }
   })
 
-  resumenSheet.forEach((row) => {
-    resumen.addRow(row)
+  resumenSheet.forEach((dataRow, index) => {
+    const row = resumen.addRow(dataRow)
+    const isEven = index % 2 === 0
+    row.eachCell((cell, colNumber) => {
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: isEven ? 'FFF8FAFC' : 'FFFFFFFF' }
+      }
+      cell.alignment = { vertical: 'middle', horizontal: colNumber === 1 ? 'left' : 'right' }
+      
+      // Colores para saldo y delta
+      if (colNumber === 4) { // Saldo
+        cell.font = { bold: true, color: { argb: Number(cell.value) >= 0 ? 'FF059669' : 'FFE11D48' } } // emerald-600 / rose-600
+      }
+      if (colNumber === 5) { // Delta
+        cell.font = { bold: true, color: { argb: Number(cell.value) >= 0 ? 'FF059669' : 'FFE11D48' } }
+      }
+    })
   })
 
-  resumen.getColumn('ingresos').numFmt = '#,##0'
-  resumen.getColumn('gastos').numFmt = '#,##0'
-  resumen.getColumn('saldo').numFmt = '#,##0'
-  resumen.getColumn('delta').numFmt = '#,##0'
+  const cols = ['ingresos', 'gastos', 'saldo', 'delta']
+  cols.forEach(key => {
+    resumen.getColumn(key).numFmt = '"$"#,##0.00'
+  })
 
   const buffer = await workbook.xlsx.writeBuffer()
 

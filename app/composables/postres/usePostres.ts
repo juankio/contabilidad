@@ -5,18 +5,20 @@ export type Insumo = { _id: string, name: string, unit: string, cost: number }
 export type RecetaItem = { insumoId: string, yields: number }
 export type Venta = { _id: string, postreId: string, qty: number, date: string }
 
+// Estado global para el módulo de postres
+const postres = ref<Postre[]>([])
+const insumos = ref<Insumo[]>([])
+const recetas = ref<Record<string, RecetaItem[]>>({})
+const ventas = ref<Venta[]>([])
+const activePostreId = ref<string>('')
+
+const loadingData = ref(true)
+const sending = ref(false)
+const sendError = ref('')
+const sendSuccess = ref('')
+const activePostre = ref<Postre | null>(null)
+
 export function usePostres() {
-  const postres = ref<Postre[]>([])
-  const insumos = ref<Insumo[]>([])
-  const recetas = ref<Record<string, RecetaItem[]>>({})
-  const ventas = ref<Venta[]>([])
-  const activePostreId = ref<string>('')
-
-  const loadingData = ref(true)
-  const sending = ref(false)
-  const sendError = ref('')
-  const sendSuccess = ref('')
-
   const fetchData = async () => {
     loadingData.value = true
     try {
@@ -130,8 +132,6 @@ export function usePostres() {
     }
   }
 
-  const activePostre = ref<Postre | null>(null)
-  
   const activePostreCost = computed(() => {
     if (!activePostre.value) return 0
     return costUnit(activePostre.value._id)

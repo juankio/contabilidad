@@ -10,10 +10,10 @@ const emit = defineEmits<{
   <div class="self-start rounded-[2rem] border border-slate-200/60 bg-white p-6 sm:p-8 shadow-sm transition-all hover:shadow-md lg:col-span-4">
     <div class="mb-6 flex items-start justify-between">
       <div class="flex items-center gap-4">
-        <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-50 text-slate-600 ring-1 ring-slate-100">
+        <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--brand-50)] text-[var(--brand-600)] ring-1 ring-[var(--brand-500)]/20">
           <UIcon
-            name="lucide:minus"
-            class="h-5 w-5"
+            name="lucide:receipt"
+            class="h-6 w-6"
           />
         </div>
         <div>

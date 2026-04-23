@@ -118,13 +118,15 @@ const removeInsumo = async (id: string) => {
             class="flex-1 font-medium"
             icon="lucide:scale"
           />
-          <UButton
-            color="neutral"
-            class="bg-slate-900 hover:bg-slate-800 text-white font-semibold px-6 shadow-sm"
-            size="lg"
-            :loading="submitting"
-            @click="addInsumo"
-          >
+        <UButton
+          color="primary"
+          icon="lucide:plus"
+          block
+          size="lg"
+          class="font-semibold shadow-sm"
+          :loading="submitting"
+          @click="addInsumo"
+        >
             Añadir
           </UButton>
         </div>

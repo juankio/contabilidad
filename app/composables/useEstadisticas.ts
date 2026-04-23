@@ -65,8 +65,10 @@ export const useEstadisticas = () => {
   })
 
   const ingresosRatio = computed(() => {
-    const ingresos = data.value?.resumen.ingresos ?? 0
-    const gastos = data.value?.resumen.gastos ?? 0
+    const resumen = data.value?.resumen
+    if (!resumen) return 0
+    const ingresos = resumen.ingresos ?? 0
+    const gastos = resumen.gastos ?? 0
     const total = ingresos + gastos
     if (!total) {
       return 0
@@ -75,7 +77,9 @@ export const useEstadisticas = () => {
   })
 
   const gastosRatio = computed(() => {
-    if (!ingresosRatio.value && !(data.value?.resumen.gastos ?? 0)) {
+    const resumen = data.value?.resumen
+    if (!resumen) return 0
+    if (!ingresosRatio.value && !(resumen.gastos ?? 0)) {
       return 0
     }
     return Math.max(0, 100 - ingresosRatio.value)

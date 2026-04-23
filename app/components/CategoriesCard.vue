@@ -34,7 +34,7 @@ const barClass = (index: number) => `anim-bar-${Math.min(index, 5)} ${barColors[
     <!-- Header -->
     <div class="mb-5 flex items-start justify-between">
       <div class="flex items-center gap-3">
-        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-pink-500/10 text-pink-600">
+        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--brand-50)] text-[var(--brand-600)] ring-1 ring-[var(--brand-500)]/20">
           <UIcon
             name="lucide:pie-chart"
             class="h-5 w-5"

@@ -51,7 +51,7 @@ const handleSubmit = () => {
           <template #header>
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-3">
-                <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/10 text-blue-600">
+                <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--brand-50)] text-[var(--brand-600)] ring-1 ring-[var(--brand-500)]/20">
                   <UIcon name="lucide:pencil" class="h-5 w-5" />
                 </div>
                 <div>

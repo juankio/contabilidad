@@ -12,7 +12,7 @@ defineProps<{
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
       <div class="flex items-center gap-5">
         <div class="relative">
-          <div class="flex h-14 w-14 items-center justify-center rounded-[1.25rem] bg-gradient-to-br from-violet-500 to-violet-600 shadow-sm">
+          <div class="flex h-14 w-14 items-center justify-center rounded-[1.25rem] bg-gradient-to-br from-[var(--brand-500)] to-[var(--brand-600)] shadow-sm">
             <UIcon
               name="lucide:cake"
               class="h-7 w-7 text-white"

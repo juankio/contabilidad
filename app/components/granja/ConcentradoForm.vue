@@ -27,7 +27,7 @@ const onSubmit = () => {
   <div class="anim-up-2 flex flex-col rounded-3xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
     <div class="mb-5 flex items-start justify-between">
       <div class="flex items-center gap-3">
-        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/10 text-amber-600">
+        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--brand-50)] text-[var(--brand-600)] ring-1 ring-[var(--brand-500)]/20">
           <UIcon
             name="lucide:shopping-bag"
             class="h-5 w-5"
@@ -102,7 +102,7 @@ const onSubmit = () => {
         <UButton
           type="submit"
           block
-          color="warning"
+          color="primary"
           icon="lucide:check-circle"
           size="lg"
           class="font-semibold shadow-sm"

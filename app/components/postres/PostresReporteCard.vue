@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { usePostres } from '../../composables/postres/usePostres'
 
-const { report, sendToContabilidad, sending, sendSuccess, sendError, loadingData } = usePostres()
+const { report, sendToContabilidad, sending, sendSuccess, sendError, loadingData, fetchData } = usePostres()
 const { formatCurrency } = useFormatters()
 
 const rentabilidad = computed(() => {
@@ -76,16 +76,15 @@ const rentabilidad = computed(() => {
         </span>
       </div>
 
-      <UButton
-        v-if="rentabilidad !== 0"
-        color="neutral"
-        class="mt-4 bg-slate-900 hover:bg-slate-800 text-white font-semibold"
-        block
-        size="lg"
-        icon="lucide:arrow-right-circle"
-        :loading="sending"
-        @click="sendToContabilidad"
-      >
+        <UButton
+          color="primary"
+          icon="lucide:refresh-cw"
+          block
+          size="lg"
+          class="font-semibold shadow-sm"
+          :loading="loadingData"
+          @click="fetchData"
+        >
         Sincronizar a Contabilidad General
       </UButton>
 
