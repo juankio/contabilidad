@@ -38,9 +38,9 @@ for (const file of apiFiles) {
     const importPath = relativePath + '/handler'
 
     if (!content.includes('import { defineApiHandler }')) {
-       content = `import { defineApiHandler } from '${importPath}'\n` + content
+      content = `import { defineApiHandler } from '${importPath}'\n` + content
     }
-    
+
     fs.writeFileSync(file, content, 'utf-8')
     changedCount++
     console.log(`Updated: ${file}`)

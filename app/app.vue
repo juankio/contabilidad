@@ -35,7 +35,10 @@ colorMode.preference = 'light'
 </script>
 
 <template>
-  <NuxtLoadingIndicator color="var(--brand-500)" :height="4" />
+  <NuxtLoadingIndicator
+    color="var(--brand-500)"
+    :height="4"
+  />
   <UApp>
     <NuxtLayout>
       <NuxtPage :transition="{ name: 'page', mode: 'out-in' }" />

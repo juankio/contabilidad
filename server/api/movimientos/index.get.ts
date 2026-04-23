@@ -1,5 +1,5 @@
 import { defineApiHandler } from '../../utils/handler'
-import { defineEventHandler, getQuery } from 'h3'
+import { getQuery } from 'h3'
 import { connectMongoose } from '../../utils/mongoose'
 import { requireActiveProfile } from '../../utils/auth'
 import { GastoModel } from '../../models/gasto'

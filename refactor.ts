@@ -40,14 +40,14 @@ for (const file of apiFiles) {
   if (changed) {
     const depth = file.split(path.sep).length - path.join(__dirname, 'server', 'api').split(path.sep).length
     const relativePrefix = depth === 0 ? '../utils/handler' : '../'.repeat(depth + 1) + 'utils/handler'
-    
+
     // Add import statement at the top if not present
     if (!content.includes('import { defineApiHandler }')) {
-       // Wait, we can just replace `import { defineEventHandler } from 'h3'` with `import { defineEventHandler } from 'h3'\nimport { defineApiHandler } from '${relativePrefix}'`
-       // or just add it at the top.
-       content = `import { defineApiHandler } from '${relativePrefix}'\n` + content
+      // Wait, we can just replace `import { defineEventHandler } from 'h3'` with `import { defineEventHandler } from 'h3'\nimport { defineApiHandler } from '${relativePrefix}'`
+      // or just add it at the top.
+      content = `import { defineApiHandler } from '${relativePrefix}'\n` + content
     }
-    
+
     fs.writeFileSync(file, content, 'utf-8')
     changedCount++
     console.log(`Updated: ${file}`)

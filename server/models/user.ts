@@ -46,7 +46,7 @@ const UserSchema = new Schema<UserDocument>(
     profiles: { type: [ProfileSchema], default: [] },
     activeProfileId: { type: Schema.Types.ObjectId, default: null }
   },
-  { 
+  {
     timestamps: true,
     toJSON: {
       transform: (_, ret) => {

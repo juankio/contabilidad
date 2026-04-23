@@ -1,5 +1,5 @@
 import { defineApiHandler } from '../../utils/handler'
-import { defineEventHandler, getQuery } from 'h3'
+import { getQuery } from 'h3'
 import { connectMongoose } from '../../utils/mongoose'
 import { requireActiveProfile, requireUser } from '../../utils/auth'
 import mongoose from 'mongoose'

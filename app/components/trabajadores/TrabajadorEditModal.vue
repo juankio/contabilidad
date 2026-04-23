@@ -16,14 +16,14 @@ const emit = defineEmits<{
 
 const isModalOpen = computed({
   get: () => props.open,
-  set: (value) => emit('update:open', value)
+  set: value => emit('update:open', value)
 })
 
 const editForm = ref({ nombre: '', cargo: '', salario: 0 })
 
 const editFormSalarioRef = computed({
   get: () => editForm.value.salario,
-  set: (val) => editForm.value.salario = val
+  set: val => editForm.value.salario = val
 })
 const { amountInput: editSalarioInput } = useMoneyInput(editFormSalarioRef)
 
@@ -45,14 +45,25 @@ const handleSubmit = () => {
 
 <template>
   <ClientOnly fallback-tag="span">
-    <UModal v-model:open="isModalOpen" :ui="{ content: 'sm:max-w-md sm:rounded-[2rem]', overlay: 'backdrop-blur-md bg-white/10 dark:bg-black/40' }" title="Editar Trabajador" description="Modifica los datos del trabajador.">
+    <UModal
+      v-model:open="isModalOpen"
+      :ui="{ content: 'sm:max-w-md sm:rounded-[2rem]', overlay: 'backdrop-blur-md bg-white/10 dark:bg-black/40' }"
+      title="Editar Trabajador"
+      description="Modifica los datos del trabajador."
+    >
       <template #content>
-        <UCard :ui="{ root: 'ring-0 shadow-none divide-none', header: 'px-8 pt-8 pb-4', body: 'px-8 pb-8 pt-0' }" class="rounded-[2rem]">
+        <UCard
+          :ui="{ root: 'ring-0 shadow-none divide-none', header: 'px-8 pt-8 pb-4', body: 'px-8 pb-8 pt-0' }"
+          class="rounded-[2rem]"
+        >
           <template #header>
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-3">
                 <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--brand-50)] text-[var(--brand-600)] ring-1 ring-[var(--brand-500)]/20">
-                  <UIcon name="lucide:pencil" class="h-5 w-5" />
+                  <UIcon
+                    name="lucide:pencil"
+                    class="h-5 w-5"
+                  />
                 </div>
                 <div>
                   <h3 class="text-lg font-bold tracking-tight text-slate-900">
@@ -77,7 +88,10 @@ const handleSubmit = () => {
             class="flex flex-col gap-6"
             @submit.prevent="handleSubmit"
           >
-            <FormField label="Nombre" for-id="edit-nombre">
+            <FormField
+              label="Nombre"
+              for-id="edit-nombre"
+            >
               <UInput
                 id="edit-nombre"
                 v-model="editForm.nombre"
@@ -87,8 +101,11 @@ const handleSubmit = () => {
                 required
               />
             </FormField>
-            
-            <FormField label="Cargo" for-id="edit-cargo">
+
+            <FormField
+              label="Cargo"
+              for-id="edit-cargo"
+            >
               <UInput
                 id="edit-cargo"
                 v-model="editForm.cargo"
@@ -98,8 +115,11 @@ const handleSubmit = () => {
                 required
               />
             </FormField>
-            
-            <FormField label="Salario Base" for-id="edit-salario">
+
+            <FormField
+              label="Salario Base"
+              for-id="edit-salario"
+            >
               <UInput
                 id="edit-salario"
                 v-model="editSalarioInput"

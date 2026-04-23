@@ -1,5 +1,5 @@
 import { defineApiHandler } from '../../utils/handler'
-import { defineEventHandler, createError } from 'h3'
+import { createError } from 'h3'
 import { connectMongoose } from '../../utils/mongoose'
 import { requireUser } from '../../utils/auth'
 import { UserModel } from '../../models/user'

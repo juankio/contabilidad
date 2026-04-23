@@ -156,10 +156,17 @@ function formatDate(d: string) {
         class="flex h-full min-h-[200px] flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-slate-50 py-8 text-center px-4"
       >
         <div class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-400 mb-3">
-          <UIcon name="lucide:inbox" class="h-6 w-6" />
+          <UIcon
+            name="lucide:inbox"
+            class="h-6 w-6"
+          />
         </div>
-        <p class="text-sm font-semibold text-slate-700">Sin ventas</p>
-        <p class="mt-1 text-sm text-slate-500 max-w-[200px]">Registra tus primeras ventas.</p>
+        <p class="text-sm font-semibold text-slate-700">
+          Sin ventas
+        </p>
+        <p class="mt-1 text-sm text-slate-500 max-w-[200px]">
+          Registra tus primeras ventas.
+        </p>
       </div>
       <ul
         v-else

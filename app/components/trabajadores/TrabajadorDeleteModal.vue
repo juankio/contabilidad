@@ -15,7 +15,7 @@ const emit = defineEmits<{
 
 const isModalOpen = computed({
   get: () => props.open,
-  set: (value) => emit('update:open', value)
+  set: value => emit('update:open', value)
 })
 
 const handleConfirm = () => {
@@ -26,14 +26,25 @@ const handleConfirm = () => {
 
 <template>
   <ClientOnly fallback-tag="span">
-    <UModal v-model:open="isModalOpen" :ui="{ content: 'sm:max-w-md sm:rounded-[2rem]', overlay: 'backdrop-blur-md bg-white/10 dark:bg-black/40' }" title="Eliminar Trabajador" description="Confirma la baja del sistema.">
+    <UModal
+      v-model:open="isModalOpen"
+      :ui="{ content: 'sm:max-w-md sm:rounded-[2rem]', overlay: 'backdrop-blur-md bg-white/10 dark:bg-black/40' }"
+      title="Eliminar Trabajador"
+      description="Confirma la baja del sistema."
+    >
       <template #content>
-        <UCard :ui="{ root: 'ring-0 shadow-none divide-none', header: 'px-8 pt-8 pb-4', body: 'px-8 pb-8 pt-0' }" class="rounded-[2rem]">
+        <UCard
+          :ui="{ root: 'ring-0 shadow-none divide-none', header: 'px-8 pt-8 pb-4', body: 'px-8 pb-8 pt-0' }"
+          class="rounded-[2rem]"
+        >
           <template #header>
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-3 text-red-600">
                 <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-red-50">
-                  <UIcon name="lucide:alert-triangle" class="h-5 w-5" />
+                  <UIcon
+                    name="lucide:alert-triangle"
+                    class="h-5 w-5"
+                  />
                 </div>
                 <div>
                   <h3 class="text-lg font-bold tracking-tight text-slate-900">

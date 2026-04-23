@@ -107,7 +107,7 @@ const units = [
           </UInput>
         </div>
       </div>
-      
+
       <div class="space-y-2">
         <label class="text-xs font-semibold uppercase tracking-wider text-slate-500">Unidad de medida y Cantidad</label>
         <div class="flex items-center gap-3">
@@ -182,10 +182,17 @@ const units = [
         class="flex h-full min-h-[200px] flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-slate-50 py-8 text-center px-4"
       >
         <div class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-400 mb-3">
-          <UIcon name="lucide:package" class="h-6 w-6" />
+          <UIcon
+            name="lucide:package"
+            class="h-6 w-6"
+          />
         </div>
-        <p class="text-sm font-semibold text-slate-700">Sin insumos</p>
-        <p class="mt-1 text-sm text-slate-500 max-w-[200px]">Registra tu primera materia prima.</p>
+        <p class="text-sm font-semibold text-slate-700">
+          Sin insumos
+        </p>
+        <p class="mt-1 text-sm text-slate-500 max-w-[200px]">
+          Registra tu primera materia prima.
+        </p>
       </div>
       <ul
         v-else

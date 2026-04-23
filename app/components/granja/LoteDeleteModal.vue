@@ -14,20 +14,26 @@ const emit = defineEmits<{
 
 <template>
   <ClientOnly fallback-tag="span">
-    <UModal 
-      :open="open" 
-      @update:open="$emit('update:open', $event)" 
-      :ui="{ content: 'sm:max-w-md sm:rounded-[2rem]', overlay: 'backdrop-blur-md bg-white/10 dark:bg-black/40' }" 
-      title="Eliminar Lote" 
+    <UModal
+      :open="open"
+      :ui="{ content: 'sm:max-w-md sm:rounded-[2rem]', overlay: 'backdrop-blur-md bg-white/10 dark:bg-black/40' }"
+      title="Eliminar Lote"
       description="Confirma la eliminación del lote."
+      @update:open="$emit('update:open', $event)"
     >
       <template #content>
-        <UCard :ui="{ root: 'ring-0 shadow-none divide-none', header: 'px-8 pt-8 pb-4', body: 'px-8 pb-8 pt-0' }" class="rounded-[2rem]">
+        <UCard
+          :ui="{ root: 'ring-0 shadow-none divide-none', header: 'px-8 pt-8 pb-4', body: 'px-8 pb-8 pt-0' }"
+          class="rounded-[2rem]"
+        >
           <template #header>
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-3 text-red-600">
                 <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-red-50">
-                  <UIcon name="lucide:alert-triangle" class="h-5 w-5" />
+                  <UIcon
+                    name="lucide:alert-triangle"
+                    class="h-5 w-5"
+                  />
                 </div>
                 <div>
                   <h3 class="text-lg font-bold tracking-tight text-slate-900">
@@ -58,10 +64,21 @@ const emit = defineEmits<{
           </div>
 
           <div class="flex justify-end gap-3 pt-6 border-t border-slate-100">
-            <UButton color="neutral" variant="soft" size="lg" @click="$emit('update:open', false)">
+            <UButton
+              color="neutral"
+              variant="soft"
+              size="lg"
+              @click="$emit('update:open', false)"
+            >
               Cancelar
             </UButton>
-            <UButton color="error" size="lg" icon="lucide:trash-2" class="font-semibold shadow-sm" @click="$emit('confirm', lote?._id || '')">
+            <UButton
+              color="error"
+              size="lg"
+              icon="lucide:trash-2"
+              class="font-semibold shadow-sm"
+              @click="$emit('confirm', lote?._id || '')"
+            >
               Sí, eliminar
             </UButton>
           </div>

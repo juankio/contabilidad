@@ -90,119 +90,119 @@ function close() {
       title="Editar plan"
       description="Actualiza los detalles de la compra."
     >
-    <template #content>
-      <div class="p-6">
-        <div class="flex items-start justify-between mb-6">
-          <div class="flex items-center gap-3">
-            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
-              <UIcon
-                name="lucide:pencil"
-                class="h-5 w-5"
+      <template #content>
+        <div class="p-6">
+          <div class="flex items-start justify-between mb-6">
+            <div class="flex items-center gap-3">
+              <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                <UIcon
+                  name="lucide:pencil"
+                  class="h-5 w-5"
+                />
+              </div>
+              <div>
+                <h2 class="text-lg font-bold tracking-tight text-slate-900">
+                  Editar plan
+                </h2>
+                <p class="text-sm text-slate-500">
+                  Actualiza los detalles de la compra.
+                </p>
+              </div>
+            </div>
+            <ClientOnly fallback-tag="span">
+              <UButton
+                color="neutral"
+                variant="ghost"
+                icon="i-lucide-x"
+                class="-my-1"
+                @click="close"
               />
-            </div>
-            <div>
-              <h2 class="text-lg font-bold tracking-tight text-slate-900">
-                Editar plan
-              </h2>
-              <p class="text-sm text-slate-500">
-                Actualiza los detalles de la compra.
-              </p>
-            </div>
+            </ClientOnly>
           </div>
-          <ClientOnly fallback-tag="span">
-            <UButton
-              color="neutral"
-              variant="ghost"
-              icon="i-lucide-x"
-              class="-my-1"
-              @click="close"
-            />
-          </ClientOnly>
-        </div>
 
-        <div
-          v-if="submitError"
-          class="mb-4 rounded-xl border border-rose-100 bg-rose-50 px-4 py-3 text-sm text-rose-600"
-        >
-          {{ submitError }}
-        </div>
-
-        <form
-          class="grid gap-4"
-          @submit.prevent="onSubmit"
-        >
-          <FormField
-            label="¿Qué quieres comprar?"
-            for-id="edit-planeador-nombre"
+          <div
+            v-if="submitError"
+            class="mb-4 rounded-xl border border-rose-100 bg-rose-50 px-4 py-3 text-sm text-rose-600"
           >
-            <UInput
-              id="edit-planeador-nombre"
-              v-model="form.nombre"
-              type="text"
-              placeholder="Ej: Zapatos, celular, viaje..."
-              maxlength="80"
-              size="lg"
-            />
-          </FormField>
+            {{ submitError }}
+          </div>
 
-          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <form
+            class="grid gap-4"
+            @submit.prevent="onSubmit"
+          >
             <FormField
-              label="Cuánto cuesta"
-              for-id="edit-planeador-monto"
+              label="¿Qué quieres comprar?"
+              for-id="edit-planeador-nombre"
             >
               <UInput
-                id="edit-planeador-monto"
-                v-model="amountInput"
+                id="edit-planeador-nombre"
+                v-model="form.nombre"
                 type="text"
-                inputmode="numeric"
-                placeholder="0"
+                placeholder="Ej: Zapatos, celular, viaje..."
+                maxlength="80"
                 size="lg"
               />
             </FormField>
 
-            <DateInputField
-              label="¿Para cuándo?"
-              for-id="edit-planeador-fecha"
-              :model-value="fechaPlaneadaValue"
-              @update:model-value="fechaPlaneadaValue = $event as typeof fechaPlaneadaValue"
-            />
-          </div>
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <FormField
+                label="Cuánto cuesta"
+                for-id="edit-planeador-monto"
+              >
+                <UInput
+                  id="edit-planeador-monto"
+                  v-model="amountInput"
+                  type="text"
+                  inputmode="numeric"
+                  placeholder="0"
+                  size="lg"
+                />
+              </FormField>
 
-          <FormField
-            label="Nota"
-            for-id="edit-planeador-descripcion"
-          >
-            <UInput
-              id="edit-planeador-descripcion"
-              v-model="form.descripcion"
-              type="text"
-              placeholder="Por qué lo necesitas, dónde comprarlo..."
-              maxlength="200"
-              size="lg"
-            />
-          </FormField>
+              <DateInputField
+                label="¿Para cuándo?"
+                for-id="edit-planeador-fecha"
+                :model-value="fechaPlaneadaValue"
+                @update:model-value="fechaPlaneadaValue = $event as typeof fechaPlaneadaValue"
+              />
+            </div>
 
-          <div class="mt-4 flex justify-end gap-3">
-            <UButton
-              type="button"
-              color="neutral"
-              variant="ghost"
-              @click="close"
+            <FormField
+              label="Nota"
+              for-id="edit-planeador-descripcion"
             >
-              Cancelar
-            </UButton>
-            <UButton
-              type="submit"
-              :disabled="!canSubmit"
-              color="primary"
-              :loading="submitting"
-            >
-              Guardar cambios
-            </UButton>
-          </div>
-        </form>
-      </div>
-    </template>
-  </UModal>
+              <UInput
+                id="edit-planeador-descripcion"
+                v-model="form.descripcion"
+                type="text"
+                placeholder="Por qué lo necesitas, dónde comprarlo..."
+                maxlength="200"
+                size="lg"
+              />
+            </FormField>
+
+            <div class="mt-4 flex justify-end gap-3">
+              <UButton
+                type="button"
+                color="neutral"
+                variant="ghost"
+                @click="close"
+              >
+                Cancelar
+              </UButton>
+              <UButton
+                type="submit"
+                :disabled="!canSubmit"
+                color="primary"
+                :loading="submitting"
+              >
+                Guardar cambios
+              </UButton>
+            </div>
+          </form>
+        </div>
+      </template>
+    </UModal>
   </ClientOnly>
 </template>

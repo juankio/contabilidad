@@ -1,5 +1,5 @@
 import { defineApiHandler } from '../../utils/handler'
-import { defineEventHandler, readBody } from 'h3'
+import { readBody } from 'h3'
 import { z } from 'zod'
 import { connectMongoose } from '../../utils/mongoose'
 import { requireActiveProfile } from '../../utils/auth'
@@ -17,7 +17,7 @@ const PostreSchema = z.object({
 export default defineApiHandler(async (event) => {
   await connectMongoose()
   const { profileId } = await requireActiveProfile(event)
-  
+
   const body = await readBody(event)
   const parsed = PostreSchema.parse(body)
 

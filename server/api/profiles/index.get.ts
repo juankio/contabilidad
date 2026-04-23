@@ -1,5 +1,5 @@
 import { defineApiHandler } from '../../utils/handler'
-import { defineEventHandler } from 'h3'
+
 import { connectMongoose } from '../../utils/mongoose'
 import { requireUser } from '../../utils/auth'
 import { serializeProfilesFromCategoryStore } from '../../utils/serialize'

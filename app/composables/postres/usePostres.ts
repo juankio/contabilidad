@@ -94,9 +94,9 @@ export function usePostres() {
       return sum + (postre?.price ?? 0) * venta.qty
     }, 0)
     const costos = ventas.value.reduce((sum, venta) => sum + costUnit(venta.postreId) * venta.qty, 0)
-    return { 
-      ingresos, 
-      costos, 
+    return {
+      ingresos,
+      costos,
       rentabilidad: ingresos - costos,
       isEmpty: ingresos === 0 && costos === 0
     }

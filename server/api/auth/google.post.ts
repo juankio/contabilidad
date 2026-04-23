@@ -1,5 +1,5 @@
 import { defineApiHandler } from '../../utils/handler'
-import { createError, defineEventHandler, readBody } from 'h3'
+import { createError, readBody } from 'h3'
 import { OAuth2Client } from 'google-auth-library'
 import { z } from 'zod'
 import { UserModel } from '../../models/user'

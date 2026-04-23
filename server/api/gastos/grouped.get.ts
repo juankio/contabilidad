@@ -1,6 +1,6 @@
 import { defineApiHandler } from '../../utils/handler'
 import type mongoose from 'mongoose'
-import { defineEventHandler } from 'h3'
+
 import { connectMongoose } from '../../utils/mongoose'
 import { requireUser } from '../../utils/auth'
 import { GastoModel } from '../../models/gasto'

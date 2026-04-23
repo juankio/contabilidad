@@ -29,20 +29,26 @@ const handleSubmit = () => {
 
 <template>
   <ClientOnly fallback-tag="span">
-    <UModal 
-      :open="open" 
-      @update:open="$emit('update:open', $event)" 
-      :ui="{ content: 'sm:max-w-md sm:rounded-[2rem]', overlay: 'backdrop-blur-md bg-white/10 dark:bg-black/40' }" 
-      title="Editar Lote" 
+    <UModal
+      :open="open"
+      :ui="{ content: 'sm:max-w-md sm:rounded-[2rem]', overlay: 'backdrop-blur-md bg-white/10 dark:bg-black/40' }"
+      title="Editar Lote"
       description="Modifica la información del lote."
+      @update:open="$emit('update:open', $event)"
     >
       <template #content>
-        <UCard :ui="{ root: 'ring-0 shadow-none divide-none', header: 'px-8 pt-8 pb-4', body: 'px-8 pb-8 pt-0' }" class="rounded-[2rem]">
+        <UCard
+          :ui="{ root: 'ring-0 shadow-none divide-none', header: 'px-8 pt-8 pb-4', body: 'px-8 pb-8 pt-0' }"
+          class="rounded-[2rem]"
+        >
           <template #header>
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-3">
                 <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--brand-50)] text-[var(--brand-600)] ring-1 ring-[var(--brand-500)]/20">
-                  <UIcon name="lucide:pencil" class="h-5 w-5" />
+                  <UIcon
+                    name="lucide:pencil"
+                    class="h-5 w-5"
+                  />
                 </div>
                 <div>
                   <h3 class="text-lg font-bold tracking-tight text-slate-900">
@@ -63,8 +69,14 @@ const handleSubmit = () => {
             </div>
           </template>
 
-          <form class="flex flex-col gap-6" @submit.prevent="handleSubmit">
-            <FormField label="Nombre del Lote" for-id="edit-nombre-lote">
+          <form
+            class="flex flex-col gap-6"
+            @submit.prevent="handleSubmit"
+          >
+            <FormField
+              label="Nombre del Lote"
+              for-id="edit-nombre-lote"
+            >
               <UInput
                 id="edit-nombre-lote"
                 v-model="editFormData.nombreLoteMadre"
@@ -74,12 +86,23 @@ const handleSubmit = () => {
                 required
               />
             </FormField>
-            
+
             <div class="flex justify-end gap-3 pt-4 border-t border-slate-100">
-              <UButton color="neutral" variant="soft" size="lg" @click="$emit('update:open', false)">
+              <UButton
+                color="neutral"
+                variant="soft"
+                size="lg"
+                @click="$emit('update:open', false)"
+              >
                 Cancelar
               </UButton>
-              <UButton type="submit" color="primary" size="lg" icon="lucide:save" class="font-semibold shadow-sm">
+              <UButton
+                type="submit"
+                color="primary"
+                size="lg"
+                icon="lucide:save"
+                class="font-semibold shadow-sm"
+              >
                 Guardar Cambios
               </UButton>
             </div>

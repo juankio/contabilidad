@@ -106,7 +106,7 @@ const removeInsumo = async (id: string) => {
           />
         </div>
       </div>
-      
+
       <div class="space-y-2">
         <label class="text-xs font-semibold uppercase tracking-wider text-slate-500">Cantidad requerida</label>
         <div class="flex gap-2">
@@ -118,20 +118,20 @@ const removeInsumo = async (id: string) => {
             class="flex-1 font-medium"
             icon="lucide:scale"
           />
-        <UButton
-          color="primary"
-          icon="lucide:plus"
-          block
-          size="lg"
-          class="font-semibold shadow-sm"
-          :loading="submitting"
-          @click="addInsumo"
-        >
+          <UButton
+            color="primary"
+            icon="lucide:plus"
+            block
+            size="lg"
+            class="font-semibold shadow-sm"
+            :loading="submitting"
+            @click="addInsumo"
+          >
             Añadir
           </UButton>
         </div>
       </div>
-      
+
       <p
         v-if="error"
         class="text-sm font-medium text-rose-500"

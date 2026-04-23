@@ -41,7 +41,7 @@ onMounted(() => fetchData())
             <PostresInsumosCard class="anim-up-1" />
             <PostresRecetasCard class="anim-up-2" />
           </div>
-          
+
           <PostresCatalogoCard class="anim-up-3" />
         </div>
 

@@ -59,25 +59,43 @@ const {
       <template v-else-if="error || !movimientos">
         <div class="flex h-full min-h-[200px] flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-slate-50 py-8 text-center px-4">
           <div class="flex h-12 w-12 items-center justify-center rounded-full bg-rose-50 text-rose-400 mb-3">
-            <UIcon name="lucide:alert-triangle" class="h-6 w-6" />
+            <UIcon
+              name="lucide:alert-triangle"
+              class="h-6 w-6"
+            />
           </div>
-          <p class="text-sm font-semibold text-rose-600">Error</p>
-          <p class="mt-1 text-sm text-rose-500 max-w-[200px]">No pudimos cargar los movimientos.</p>
+          <p class="text-sm font-semibold text-rose-600">
+            Error
+          </p>
+          <p class="mt-1 text-sm text-rose-500 max-w-[200px]">
+            No pudimos cargar los movimientos.
+          </p>
         </div>
       </template>
 
       <template v-else-if="previewMovimientos.length === 0">
         <div class="flex h-full min-h-[200px] flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-slate-50 py-8 text-center px-4">
           <div class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-400 mb-3">
-            <UIcon name="lucide:inbox" class="h-6 w-6" />
+            <UIcon
+              name="lucide:inbox"
+              class="h-6 w-6"
+            />
           </div>
-          <p class="text-sm font-semibold text-slate-700">Sin movimientos</p>
-          <p class="mt-1 text-sm text-slate-500 max-w-[200px]">Aún no hay transacciones en este perfil.</p>
+          <p class="text-sm font-semibold text-slate-700">
+            Sin movimientos
+          </p>
+          <p class="mt-1 text-sm text-slate-500 max-w-[200px]">
+            Aún no hay transacciones en este perfil.
+          </p>
         </div>
       </template>
 
       <template v-else>
-        <TransitionGroup name="mov" tag="div" class="space-y-2 relative">
+        <TransitionGroup
+          name="mov"
+          tag="div"
+          class="space-y-2 relative"
+        >
           <MovementItem
             v-for="mov in previewMovimientos"
             :key="mov._id"

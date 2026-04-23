@@ -31,14 +31,17 @@ const goToProfile = async () => {
       <header class="anim-up mb-8 rounded-[2rem] border border-slate-200/60 bg-white/80 p-6 sm:p-8 shadow-sm backdrop-blur-xl transition-all">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
           <div class="flex items-center gap-5">
-      <div class="relative">
-        <div class="flex h-14 w-14 items-center justify-center rounded-[1.25rem] bg-gradient-to-br from-[var(--brand-500)] to-[var(--brand-600)] shadow-sm">
-          <span class="text-xl font-bold text-white">{{ activeProfileName?.charAt(0).toUpperCase() || 'M' }}</span>
-        </div>
-        <span class="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full border-[3px] border-white bg-slate-700">
-          <UIcon name="lucide:layout-dashboard" class="h-3 w-3 text-white" />
-        </span>
-      </div>
+            <div class="relative">
+              <div class="flex h-14 w-14 items-center justify-center rounded-[1.25rem] bg-gradient-to-br from-[var(--brand-500)] to-[var(--brand-600)] shadow-sm">
+                <span class="text-xl font-bold text-white">{{ activeProfileName?.charAt(0).toUpperCase() || 'M' }}</span>
+              </div>
+              <span class="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full border-[3px] border-white bg-slate-700">
+                <UIcon
+                  name="lucide:layout-dashboard"
+                  class="h-3 w-3 text-white"
+                />
+              </span>
+            </div>
             <div class="space-y-1">
               <p class="text-xs font-bold uppercase tracking-[0.15em] text-slate-400">
                 {{ greeting }}
@@ -78,7 +81,7 @@ const goToProfile = async () => {
           <BalanceCard class="anim-up-1" />
           <CategoriesCard class="anim-up-3" />
         </div>
-        
+
         <!-- Columna Derecha: Formulario y Movimientos (8 columnas) -->
         <div class="flex flex-col gap-6 lg:col-span-8">
           <MovementForm class="anim-up-2" />

@@ -1,5 +1,5 @@
 import { defineApiHandler } from '../../utils/handler'
-import { defineEventHandler, readBody, createError } from 'h3'
+import { readBody, createError } from 'h3'
 import { z } from 'zod'
 import { requireUser } from '../../utils/auth'
 import type { Resend } from 'resend'

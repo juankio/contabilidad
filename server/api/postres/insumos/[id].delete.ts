@@ -1,5 +1,5 @@
 import { defineApiHandler } from '../../../utils/handler'
-import { defineEventHandler, getRouterParam, createError } from 'h3'
+import { getRouterParam, createError } from 'h3'
 import { connectMongoose } from '../../../utils/mongoose'
 import { requireActiveProfile } from '../../../utils/auth'
 import { PostreInsumoModel } from '../../../models/postre-insumo'

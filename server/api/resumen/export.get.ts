@@ -1,5 +1,5 @@
 import { defineApiHandler } from '../../utils/handler'
-import { defineEventHandler, setHeader } from 'h3'
+import { setHeader } from 'h3'
 import ExcelJS from 'exceljs'
 import { connectMongoose } from '../../utils/mongoose'
 import { GastoModel } from '../../models/gasto'

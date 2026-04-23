@@ -46,7 +46,7 @@ const getDropdownItems = (lote: Lote) => [
         </div>
       </div>
     </div>
-    
+
     <div
       v-if="loading"
       class="grid gap-4 md:grid-cols-2"

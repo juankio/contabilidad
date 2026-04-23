@@ -76,15 +76,15 @@ const rentabilidad = computed(() => {
         </span>
       </div>
 
-        <UButton
-          color="primary"
-          icon="lucide:refresh-cw"
-          block
-          size="lg"
-          class="font-semibold shadow-sm"
-          :loading="loadingData"
-          @click="fetchData"
-        >
+      <UButton
+        color="primary"
+        icon="lucide:refresh-cw"
+        block
+        size="lg"
+        class="font-semibold shadow-sm"
+        :loading="loadingData"
+        @click="fetchData"
+      >
         Sincronizar a Contabilidad General
       </UButton>
 

@@ -26,7 +26,7 @@ export function defineApiHandler<T extends EventHandlerRequest, D>(
       if (error instanceof ZodError) {
         statusCode = 400
         message = 'Validation Error'
-        errorDetails = error.errors.map((e) => `${e.path.join('.')}: ${e.message}`)
+        errorDetails = error.errors.map(e => `${e.path.join('.')}: ${e.message}`)
       } else if (error.statusCode) {
         statusCode = error.statusCode
         message = error.statusMessage || error.message
@@ -39,7 +39,7 @@ export function defineApiHandler<T extends EventHandlerRequest, D>(
       }
 
       setResponseStatus(event, statusCode)
-      
+
       // H3 will automatically serialize this and $fetch will throw it as an error object
       return {
         success: false,

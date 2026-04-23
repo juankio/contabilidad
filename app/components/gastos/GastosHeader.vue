@@ -16,7 +16,10 @@ defineProps<{
           <span class="text-xl font-bold text-white">{{ profileInitial }}</span>
         </div>
         <span class="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full border-[3px] border-white bg-slate-700">
-          <UIcon name="lucide:arrow-up-right" class="h-3 w-3 text-white" />
+          <UIcon
+            name="lucide:arrow-up-right"
+            class="h-3 w-3 text-white"
+          />
         </span>
       </div>
       <div class="space-y-1">
@@ -28,7 +31,7 @@ defineProps<{
         </p>
       </div>
     </div>
-    
+
     <div class="flex items-center gap-3">
       <UButton
         color="neutral"

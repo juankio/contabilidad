@@ -1,5 +1,5 @@
 import { defineApiHandler } from '../../../utils/handler'
-import { createError, defineEventHandler, readBody } from 'h3'
+import { createError, readBody } from 'h3'
 import mongoose from 'mongoose'
 import { z } from 'zod'
 import { requireActiveProfile } from '../../../utils/auth'

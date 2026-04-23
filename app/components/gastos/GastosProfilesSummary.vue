@@ -60,8 +60,15 @@ const closeGroupModal = () => {
       </div>
     </div>
 
-    <div v-if="pending" class="space-y-4">
-      <div v-for="i in 2" :key="i" class="flex items-center justify-between p-3">
+    <div
+      v-if="pending"
+      class="space-y-4"
+    >
+      <div
+        v-for="i in 2"
+        :key="i"
+        class="flex items-center justify-between p-3"
+      >
         <div class="flex items-center gap-3">
           <USkeleton class="h-10 w-10 rounded-full" />
           <USkeleton class="h-4 w-24 rounded-md" />
@@ -70,19 +77,35 @@ const closeGroupModal = () => {
       </div>
     </div>
 
-    <p v-else-if="error" class="text-sm font-medium text-rose-500">
+    <p
+      v-else-if="error"
+      class="text-sm font-medium text-rose-500"
+    >
       No se pudo cargar el resumen.
     </p>
 
-    <div v-else-if="!groups?.length" class="flex flex-col items-center justify-center py-6 text-center">
+    <div
+      v-else-if="!groups?.length"
+      class="flex flex-col items-center justify-center py-6 text-center"
+    >
       <div class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-400 mb-3">
-        <UIcon name="lucide:pie-chart" class="h-6 w-6" />
+        <UIcon
+          name="lucide:pie-chart"
+          class="h-6 w-6"
+        />
       </div>
-      <p class="text-sm font-semibold text-slate-700">Aún no hay datos</p>
-      <p class="text-xs text-slate-500 max-w-[200px] mx-auto mt-1">Registra gastos para ver el resumen</p>
+      <p class="text-sm font-semibold text-slate-700">
+        Aún no hay datos
+      </p>
+      <p class="text-xs text-slate-500 max-w-[200px] mx-auto mt-1">
+        Registra gastos para ver el resumen
+      </p>
     </div>
 
-    <ul v-else class="space-y-3">
+    <ul
+      v-else
+      class="space-y-3"
+    >
       <li
         v-for="g in groups"
         :key="g.profileName"
@@ -93,7 +116,10 @@ const closeGroupModal = () => {
             class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full shadow-sm text-white"
             :style="{ backgroundColor: g.avatarColor }"
           >
-            <UIcon :name="'lucide:user'" class="h-5 w-5" />
+            <UIcon
+              :name="'lucide:user'"
+              class="h-5 w-5"
+            />
           </div>
           <div>
             <p class="text-sm font-bold text-slate-900">

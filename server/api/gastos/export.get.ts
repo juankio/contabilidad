@@ -1,5 +1,5 @@
 import { defineApiHandler } from '../../utils/handler'
-import { defineEventHandler, setHeader } from 'h3'
+import { setHeader } from 'h3'
 import ExcelJS from 'exceljs'
 import { connectMongoose } from '../../utils/mongoose'
 import { GastoModel } from '../../models/gasto'
@@ -120,7 +120,7 @@ export default defineApiHandler(async (event) => {
   const resumen = workbook.addWorksheet('Resumen', {
     views: [{ state: 'frozen', ySplit: 1 }]
   })
-  
+
   resumen.columns = [
     { header: 'Mes', key: 'month', width: 25 },
     { header: 'Ingresos', key: 'ingresos', width: 20 },
@@ -151,7 +151,7 @@ export default defineApiHandler(async (event) => {
         fgColor: { argb: isEven ? 'FFF8FAFC' : 'FFFFFFFF' }
       }
       cell.alignment = { vertical: 'middle', horizontal: colNumber === 1 ? 'left' : 'right' }
-      
+
       // Colores para saldo y delta
       if (colNumber === 4) { // Saldo
         cell.font = { bold: true, color: { argb: Number(cell.value) >= 0 ? 'FF059669' : 'FFE11D48' } } // emerald-600 / rose-600
@@ -163,7 +163,7 @@ export default defineApiHandler(async (event) => {
   })
 
   const cols = ['ingresos', 'gastos', 'saldo', 'delta']
-  cols.forEach(key => {
+  cols.forEach((key) => {
     resumen.getColumn(key).numFmt = '"$"#,##0.00'
   })
 

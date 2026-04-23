@@ -45,7 +45,10 @@ const saludColor = computed(() => {
     </div>
 
     <!-- Empty/Loading State -->
-    <div v-if="pending" class="flex-1 flex flex-col justify-center gap-4">
+    <div
+      v-if="pending"
+      class="flex-1 flex flex-col justify-center gap-4"
+    >
       <USkeleton class="h-10 w-3/4 rounded-xl" />
       <div class="space-y-2">
         <USkeleton class="h-4 w-1/2 rounded-md" />
@@ -53,31 +56,53 @@ const saludColor = computed(() => {
       </div>
     </div>
 
-    <div v-else-if="error" class="flex-1 flex flex-col justify-center">
-      <p class="text-sm font-medium text-rose-500">Error cargando el balance.</p>
+    <div
+      v-else-if="error"
+      class="flex-1 flex flex-col justify-center"
+    >
+      <p class="text-sm font-medium text-rose-500">
+        Error cargando el balance.
+      </p>
     </div>
 
-    <div v-else class="flex-1 flex flex-col justify-center">
+    <div
+      v-else
+      class="flex-1 flex flex-col justify-center"
+    >
       <div class="mb-8">
         <div class="flex items-baseline gap-2">
           <span class="text-4xl font-extrabold tracking-tighter text-slate-900 sm:text-5xl">
             {{ formatCurrency(resumen?.saldo || 0) }}
           </span>
         </div>
-        <p class="mt-2 flex items-center gap-2 text-sm font-medium" :class="(resumen?.saldo || 0) >= 0 ? 'text-emerald-600' : 'text-rose-600'">
-          <UIcon :name="(resumen?.saldo || 0) >= 0 ? 'lucide:trending-up' : 'lucide:trending-down'" class="h-4 w-4" />
+        <p
+          class="mt-2 flex items-center gap-2 text-sm font-medium"
+          :class="(resumen?.saldo || 0) >= 0 ? 'text-emerald-600' : 'text-rose-600'"
+        >
+          <UIcon
+            :name="(resumen?.saldo || 0) >= 0 ? 'lucide:trending-up' : 'lucide:trending-down'"
+            class="h-4 w-4"
+          />
           {{ (resumen?.saldo || 0) >= 0 ? 'Flujo positivo' : 'Flujo negativo' }}
         </p>
       </div>
 
       <div class="mt-auto grid grid-cols-2 gap-4 rounded-2xl bg-slate-50 p-4 ring-1 ring-slate-100">
         <div>
-          <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Ingresos</p>
-          <p class="mt-1 font-bold text-emerald-600">{{ formatCurrency(resumen?.ingresos || 0) }}</p>
+          <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">
+            Ingresos
+          </p>
+          <p class="mt-1 font-bold text-emerald-600">
+            {{ formatCurrency(resumen?.ingresos || 0) }}
+          </p>
         </div>
         <div>
-          <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Gastos</p>
-          <p class="mt-1 font-bold text-rose-600">{{ formatCurrency(resumen?.gastos || 0) }}</p>
+          <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">
+            Gastos
+          </p>
+          <p class="mt-1 font-bold text-rose-600">
+            {{ formatCurrency(resumen?.gastos || 0) }}
+          </p>
         </div>
       </div>
     </div>
