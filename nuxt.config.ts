@@ -58,6 +58,8 @@ export default defineNuxtConfig({
     compressPublicAssets: true
   },
 
+  spaLoadingTemplate: 'app/spa-loading-template.html',
+
   eslint: {
     config: {
       stylistic: {

@@ -45,9 +45,23 @@ const {
     </template>
 
     <form
-      class="mt-6 grid gap-4"
+      class="mt-6 grid gap-4 relative"
       @submit.prevent="submit"
     >
+      <!-- Loading Overlay -->
+      <div
+        v-if="loading || googleLoading"
+        class="absolute inset-0 z-50 flex flex-col items-center justify-center rounded-[1.5rem] bg-white/60 backdrop-blur-md transition-all duration-300"
+      >
+        <div class="relative flex h-16 w-16 items-center justify-center">
+          <div class="absolute h-full w-full animate-ping rounded-full bg-[var(--brand-400)] opacity-20" />
+          <div class="absolute h-12 w-12 animate-pulse rounded-full bg-[var(--brand-500)] opacity-40" />
+          <UIcon name="lucide:loader-2" class="relative z-10 h-8 w-8 animate-spin text-[var(--brand-600)]" />
+        </div>
+        <p class="mt-4 text-sm font-bold text-slate-700 animate-pulse">
+          {{ googleLoading ? 'Conectando con Google...' : 'Preparando tu espacio...' }}
+        </p>
+      </div>
       <!-- STEP 1: Datos básicos -->
       <template v-if="mode === 'login' || registerStep === 1">
         <div class="anim-fade grid gap-1.5 text-sm">

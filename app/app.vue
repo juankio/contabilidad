@@ -10,7 +10,8 @@ useHead({
     { name: 'viewport', content: 'width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover' }
   ],
   link: [
-    { rel: 'icon', href: '/favicon.ico' }
+    { rel: 'icon', type: 'image/svg+xml', href: '/icon.svg' },
+    { rel: 'apple-touch-icon', href: '/icon.svg' }
   ],
   htmlAttrs: {
     lang: 'en'

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body, html { margin: 0; padding: 0; width: 100%; height: 100%; background-color: #f8fafc; display: flex; align-items: center; justify-content: center; font-family: system-ui, sans-serif; }
+    .loader { position: relative; display: flex; align-items: center; justify-content: center; }
+    .pulse { position: absolute; width: 80px; height: 80px; background-color: #0ea5e9; border-radius: 50%; opacity: 0.2; animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+    .pulse2 { position: absolute; width: 60px; height: 60px; background-color: #0ea5e9; border-radius: 50%; opacity: 0.4; animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; animation-delay: 0.2s; }
+    .icon { position: relative; z-index: 10; width: 40px; height: 40px; border-radius: 12px; background: #0284c7; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(2, 132, 199, 0.3); }
+    .icon svg { width: 24px; height: 24px; fill: none; stroke: white; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+    @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.2; } 50% { transform: scale(1.5); opacity: 0; } }
+  </style>
+</head>
+<body>
+  <div class="loader">
+    <div class="pulse"></div>
+    <div class="pulse2"></div>
+    <div class="icon">
+      <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><line x1="4" y1="10" x2="20" y2="10"></line><line x1="4" y1="14" x2="20" y2="14"></line></svg>
+    </div>
+  </div>
+</body>
+</html>
