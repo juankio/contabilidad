@@ -51,16 +51,14 @@ const {
       <!-- Loading Overlay -->
       <div
         v-if="loading || googleLoading"
-        class="absolute inset-0 z-50 flex flex-col items-center justify-center rounded-[1.5rem] bg-white/60 backdrop-blur-md transition-all duration-300"
+        class="absolute inset-0 z-50 flex flex-col items-center justify-center rounded-[1.5rem] bg-white/40 backdrop-blur-sm transition-all duration-300"
       >
-        <div class="relative flex h-16 w-16 items-center justify-center">
-          <div class="absolute h-full w-full animate-ping rounded-full bg-[var(--brand-400)] opacity-20" />
-          <div class="absolute h-12 w-12 animate-pulse rounded-full bg-[var(--brand-500)] opacity-40" />
-          <UIcon name="lucide:loader-2" class="relative z-10 h-8 w-8 animate-spin text-[var(--brand-600)]" />
+        <div class="flex items-center gap-3 rounded-full bg-white px-5 py-3 shadow-xl ring-1 ring-slate-200/50">
+          <UIcon name="lucide:loader-circle" class="h-5 w-5 animate-spin text-[var(--brand-500)]" />
+          <p class="text-sm font-bold text-slate-700">
+            {{ googleLoading ? 'Conectando...' : 'Preparando tu espacio...' }}
+          </p>
         </div>
-        <p class="mt-4 text-sm font-bold text-slate-700 animate-pulse">
-          {{ googleLoading ? 'Conectando con Google...' : 'Preparando tu espacio...' }}
-        </p>
       </div>
       <!-- STEP 1: Datos básicos -->
       <template v-if="mode === 'login' || registerStep === 1">
