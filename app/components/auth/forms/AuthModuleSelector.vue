@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { OptionalModuleKey } from '../../../../utils/modules'
+import type { OptionalModuleKey } from '../../../utils/modules'
 
 const props = defineProps<{
   selectedModules: OptionalModuleKey[]

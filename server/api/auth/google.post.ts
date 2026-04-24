@@ -10,7 +10,10 @@ import { DEFAULT_OPTIONAL_MODULES } from '../../utils/modules'
 import { DEFAULT_PROFILE_ICON } from '../../utils/profile-icons'
 
 const payloadSchema = z.object({
-  credential: z.string().min(1)
+  credential: z.string().min(1),
+  themeColor: z.string().optional(),
+  profileName: z.string().optional(),
+  modules: z.array(z.string()).optional()
 })
 
 let oauthClient: OAuth2Client | null = null
@@ -62,16 +65,26 @@ export default defineApiHandler(async (event) => {
 
   let user = await UserModel.findOne({ email })
   if (!user) {
-    const profileName = payload.name?.trim() || email.split('@')[0] || 'Usuario'
+    if (!body.data.themeColor) {
+      // First time Google Sign-In: Ask frontend to complete onboarding (color & modules)
+      return {
+        action: 'requires_onboarding',
+        email,
+        name: payload.name?.trim() || email.split('@')[0] || 'Mi Negocio',
+        credential: body.data.credential
+      }
+    }
+
+    const finalProfileName = body.data.profileName?.trim() || payload.name?.trim() || email.split('@')[0] || 'Usuario'
     user = await UserModel.create({
       email,
       passwordHash: null,
       profiles: [{
-        name: profileName.slice(0, 32),
+        name: finalProfileName.slice(0, 32),
         avatarColor: pickAvatarColor(email),
-        themeColor: 'violet',
+        themeColor: body.data.themeColor || 'violet',
         avatarIcon: DEFAULT_PROFILE_ICON,
-        modules: DEFAULT_OPTIONAL_MODULES
+        modules: body.data.modules || []
       }]
     })
   }

@@ -33,6 +33,7 @@ export function useLoginForm() {
   const googleLoading = ref(false)
   const errorMessage = ref('')
   const showPassword = ref(false)
+  const googleCredential = ref('')
   const googleButtonRef = ref<HTMLElement | null>(null)
   const config = useRuntimeConfig()
   const googleClientId = config.public.googleClientId as string
@@ -67,10 +68,20 @@ export function useLoginForm() {
     errorMessage.value = ''
     googleLoading.value = true
     try {
-      await $fetch('/api/auth/google', {
+      const res = await $fetch<{ action?: string, email?: string, name?: string, credential?: string }>('/api/auth/google', {
         method: 'POST',
         body: { credential: response.credential }
       })
+
+      if (res && res.action === 'requires_onboarding') {
+        mode.value = 'register'
+        registerStep.value = 2
+        email.value = res.email || ''
+        profileName.value = res.name || ''
+        googleCredential.value = res.credential || ''
+        return
+      }
+
       await refreshAuthUser()
       await navigateTo('/')
     } catch (error: unknown) {
@@ -116,7 +127,23 @@ export function useLoginForm() {
     errorMessage.value = ''
     loading.value = true
     try {
-      if (mode.value === 'register') {
+      if (googleCredential.value) {
+        // Completar registro con Google
+        const payload: { credential: string, themeColor: string, profileName?: string, modules?: string[] } = {
+          credential: googleCredential.value,
+          themeColor: themeColor.value
+        }
+        if (profileName.value.trim()) {
+          payload.profileName = profileName.value.trim()
+        }
+        if (selectedModules.value.length > 0) {
+          payload.modules = selectedModules.value
+        }
+        await $fetch('/api/auth/google', {
+          method: 'POST',
+          body: payload
+        })
+      } else if (mode.value === 'register') {
         const payload: { email: string, password: string, profileName?: string, modules?: string[], themeColor?: string } = {
           email: email.value,
           password: password.value,
