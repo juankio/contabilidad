@@ -70,20 +70,21 @@ const saludColor = computed(() => {
       class="flex-1 flex flex-col justify-center"
     >
       <div class="mb-8">
-        <div class="flex items-baseline gap-2">
+        <div class="flex flex-col gap-1">
+          <span class="text-sm font-medium text-slate-500 uppercase tracking-wider">Dinero Disponible</span>
           <span class="text-4xl font-extrabold tracking-tighter text-slate-900 sm:text-5xl">
-            {{ formatCurrency(resumen?.saldo || 0) }}
+            {{ formatCurrency(resumen?.saldoDisponible || 0) }}
           </span>
         </div>
         <p
-          class="mt-2 flex items-center gap-2 text-sm font-medium"
+          class="mt-3 flex items-center gap-2 text-sm font-medium"
           :class="(resumen?.saldo || 0) >= 0 ? 'text-emerald-600' : 'text-rose-600'"
         >
           <UIcon
             :name="(resumen?.saldo || 0) >= 0 ? 'lucide:trending-up' : 'lucide:trending-down'"
             class="h-4 w-4"
           />
-          {{ (resumen?.saldo || 0) >= 0 ? 'Flujo positivo' : 'Flujo negativo' }}
+          {{ (resumen?.saldo || 0) >= 0 ? 'Flujo del mes positivo' : 'Flujo del mes negativo' }} ({{ formatCurrency(resumen?.saldo || 0) }})
         </p>
       </div>
 

@@ -5,26 +5,28 @@ import { PrestamoModel } from '../models/prestamo'
 import { PagoTrabajadorModel } from '../models/pago-trabajador'
 import { CompraConcentradoModel } from '../models/compra-concentrado'
 
-export async function getAvailableBalance(profileId: string | mongoose.Types.ObjectId): Promise<number> {
-  const pid = new mongoose.Types.ObjectId(profileId)
+export async function getAvailableBalance(profileMatch: string | mongoose.Types.ObjectId | { $in: mongoose.Types.ObjectId[] }): Promise<number> {
+  const match = typeof profileMatch === 'string' 
+    ? new mongoose.Types.ObjectId(profileMatch) 
+    : profileMatch
 
   // 1. Suma de ingresos normales
   const ingresosRes = await IngresoModel.aggregate([
-    { $match: { profileId: pid } },
+    { $match: { profileId: match } },
     { $group: { _id: null, total: { $sum: '$amount' } } }
   ])
   const totalIngresos = ingresosRes[0]?.total ?? 0
 
   // 2. Suma de gastos normales
   const gastosRes = await GastoModel.aggregate([
-    { $match: { profileId: pid } },
+    { $match: { profileId: match } },
     { $group: { _id: null, total: { $sum: '$amount' } } }
   ])
   const totalGastos = gastosRes[0]?.total ?? 0
 
   // 3. Préstamos otorgados (Salida de dinero) y Abonos recibidos (Entrada de dinero)
   const prestamosRes = await PrestamoModel.aggregate([
-    { $match: { profileId: pid } },
+    { $match: { profileId: match } },
     { $group: {
       _id: null,
       totalPrestado: { $sum: '$amount' },
@@ -36,14 +38,14 @@ export async function getAvailableBalance(profileId: string | mongoose.Types.Obj
 
   // 4. Pagos a trabajadores (Salida de dinero)
   const pagosTrabajadoresRes = await PagoTrabajadorModel.aggregate([
-    { $match: { profileId: pid } },
+    { $match: { profileId: match } },
     { $group: { _id: null, total: { $sum: '$amount' } } }
   ])
   const totalPagosTrabajadores = pagosTrabajadoresRes[0]?.total ?? 0
 
   // 5. Compras de concentrado (Salida de dinero)
   const comprasConcentradoRes = await CompraConcentradoModel.aggregate([
-    { $match: { profileId: pid } },
+    { $match: { profileId: match } },
     { $group: { _id: null, total: { $sum: '$amount' } } }
   ])
   const totalComprasConcentrado = comprasConcentradoRes[0]?.total ?? 0

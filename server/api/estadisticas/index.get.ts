@@ -6,6 +6,8 @@ import mongoose from 'mongoose'
 import { GastoModel } from '../../models/gasto'
 import { IngresoModel } from '../../models/ingreso'
 
+import { getAvailableBalance } from '../../utils/balance'
+
 type MonthKey = {
   year: number
   month: number
@@ -63,7 +65,7 @@ export default defineApiHandler(async (event) => {
   const start = getMonthStartUTC(now)
   const end = getNextMonthStartUTC(now)
 
-  const [ingresos, gastos, categorias, ingresosDisponibles, gastosDisponibles] = await Promise.all([
+  const [ingresos, gastos, categorias, saldoDisponible] = await Promise.all([
     aggregateTotal(IngresoModel, profileMatch, { $gte: start, $lt: end }),
     aggregateTotal(GastoModel, profileMatch, { $gte: start, $lt: end }),
     GastoModel.aggregate([
@@ -73,12 +75,10 @@ export default defineApiHandler(async (event) => {
       { $limit: 6 },
       { $project: { _id: 0, category: '$_id', total: 1 } }
     ]),
-    aggregateTotal(IngresoModel, profileMatch, { $lt: end }),
-    aggregateTotal(GastoModel, profileMatch, { $lt: end })
+    getAvailableBalance(profileMatch)
   ])
 
   const saldo = ingresos - gastos
-  const saldoDisponible = ingresosDisponibles - gastosDisponibles
 
   const months = getRecentMonths(6)
   const [ingresosSeries, gastosSeries] = await Promise.all([
