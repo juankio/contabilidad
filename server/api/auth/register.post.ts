@@ -13,7 +13,8 @@ const payloadSchema = z.object({
   password: z.string().min(8),
   profileName: z.string().min(2).max(32),
   modules: z.array(z.string()).optional(),
-  avatarIcon: z.string().min(1).max(64).optional()
+  avatarIcon: z.string().min(1).max(64).optional(),
+  themeColor: z.string().min(1).max(32).optional()
 })
 
 export default defineApiHandler(async (event) => {
@@ -35,10 +36,12 @@ export default defineApiHandler(async (event) => {
   const profileName = body.data.profileName.trim()
   const modules = normalizeModules(body.data.modules)
   const avatarIcon = normalizeProfileIcon(body.data.avatarIcon)
+  const themeColor = body.data.themeColor || 'violet'
+  
   const user = await UserModel.create({
     email: body.data.email,
     passwordHash,
-    profiles: [{ name: profileName, avatarColor, themeColor: 'violet', avatarIcon, modules }]
+    profiles: [{ name: profileName, avatarColor, themeColor, avatarIcon, modules }]
   })
   user.activeProfileId = user.profiles[0]?._id ?? null
   await user.save()

@@ -23,9 +23,11 @@ declare global {
 
 export function useLoginForm() {
   const mode = ref<AuthMode>('login')
+  const registerStep = ref<1 | 2>(1)
   const email = ref('')
   const password = ref('')
   const profileName = ref('')
+  const themeColor = ref('sky')
   const selectedModules = ref<OptionalModuleKey[]>([])
   const loading = ref(false)
   const googleLoading = ref(false)
@@ -106,13 +108,19 @@ export function useLoginForm() {
   }
 
   const submit = async () => {
+    if (mode.value === 'register' && registerStep.value === 1) {
+      registerStep.value = 2
+      return
+    }
+
     errorMessage.value = ''
     loading.value = true
     try {
       if (mode.value === 'register') {
-        const payload: { email: string, password: string, profileName?: string, modules?: string[] } = {
+        const payload: { email: string, password: string, profileName?: string, modules?: string[], themeColor?: string } = {
           email: email.value,
-          password: password.value
+          password: password.value,
+          themeColor: themeColor.value
         }
         if (profileName.value.trim()) {
           payload.profileName = profileName.value.trim()
@@ -190,6 +198,8 @@ export function useLoginForm() {
     showPassword,
     googleButtonRef,
     canUseGoogle,
-    submit
+    submit,
+    registerStep,
+    themeColor
   }
 }
