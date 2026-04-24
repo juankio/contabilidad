@@ -41,10 +41,10 @@ const {
     </template>
 
     <form
-      class="grid gap-5 mt-6"
+      class="grid gap-4 mt-6"
       @submit.prevent="submit"
     >
-      <div class="grid gap-2 text-sm">
+      <div class="grid gap-1.5 text-sm">
         <label for="email" class="font-semibold text-slate-700">Correo Electrónico</label>
         <UInput
           id="email"
@@ -53,7 +53,7 @@ const {
           autocomplete="email"
           placeholder="tu@correo.com"
           required
-          size="xl"
+          size="lg"
           :ui="{ wrapper: 'shadow-sm rounded-xl' }"
         >
           <template #leading>
@@ -68,7 +68,7 @@ const {
 
       <div
         v-if="mode === 'register'"
-        class="grid gap-2 text-sm anim-fade"
+        class="grid gap-1.5 text-sm anim-fade"
       >
         <label for="profileName" class="font-semibold text-slate-700">Nombre del espacio de trabajo</label>
         <UInput
@@ -78,7 +78,7 @@ const {
           autocomplete="nickname"
           placeholder="Ej: Mi Negocio"
           :required="mode === 'register'"
-          size="xl"
+          size="lg"
           :ui="{ wrapper: 'shadow-sm rounded-xl' }"
         >
           <template #leading>
@@ -93,36 +93,33 @@ const {
 
       <div
         v-if="mode === 'register'"
-        class="grid gap-3 text-sm anim-fade-1"
+        class="grid gap-2 text-sm anim-fade-1"
       >
         <p class="text-xs font-bold uppercase tracking-[0.15em] text-slate-500">
           Módulos opcionales
         </p>
-        <div class="grid gap-3">
+        <div class="grid grid-cols-2 gap-2">
           <label
             v-for="module in moduleOptions"
             :key="module.key"
-            class="group flex cursor-pointer items-start gap-4 rounded-2xl border border-slate-200/80 bg-slate-50/50 p-4 transition-all hover:border-[var(--brand-300)] hover:bg-[var(--brand-50)]"
+            class="group flex cursor-pointer items-start gap-3 rounded-2xl border border-slate-200/80 bg-slate-50/50 p-3 transition-all hover:border-[var(--brand-300)] hover:bg-[var(--brand-50)]"
           >
             <input
-              class="mt-1 h-5 w-5 rounded border-slate-300 text-[var(--brand-500)] focus:ring-[var(--brand-500)]"
+              class="mt-0.5 h-4 w-4 rounded border-slate-300 text-[var(--brand-500)] focus:ring-[var(--brand-500)]"
               type="checkbox"
               :checked="selectedModules.includes(module.key)"
               @change="toggleModule(module.key)"
             >
             <span class="min-w-0">
-              <span class="block text-[15px] font-bold text-slate-800 group-hover:text-[var(--brand-700)]">
+              <span class="block text-sm font-bold text-slate-800 group-hover:text-[var(--brand-700)] leading-tight">
                 {{ module.label }}
-              </span>
-              <span class="block mt-1 text-sm text-slate-500">
-                {{ module.description }}
               </span>
             </span>
           </label>
         </div>
       </div>
 
-      <div class="grid gap-2 text-sm">
+      <div class="grid gap-1.5 text-sm">
         <label for="password" class="font-semibold text-slate-700">Contraseña</label>
         <UInput
           id="password"
@@ -131,7 +128,7 @@ const {
           autocomplete="current-password"
           placeholder="••••••••"
           required
-          size="xl"
+          size="lg"
           :ui="{ wrapper: 'shadow-sm rounded-xl' }"
         >
           <template #leading>
@@ -171,7 +168,7 @@ const {
       <UButton
         type="submit"
         color="primary"
-        size="xl"
+        size="lg"
         block
         class="mt-2 rounded-xl font-bold shadow-md shadow-brand-500/20 text-base"
         :loading="loading"

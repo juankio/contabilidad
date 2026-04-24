@@ -5,10 +5,10 @@ import LoginPattern from '../components/backgrounds/LoginPattern.vue'
 </script>
 
 <template>
-  <main class="relative min-h-screen overflow-hidden bg-slate-50 text-slate-900 flex items-center justify-center">
-    <LoginPattern class="pointer-events-none absolute inset-0 z-0 h-full w-full" />
+  <main class="relative min-h-screen overflow-y-auto bg-slate-50 text-slate-900 flex items-center justify-center">
+    <LoginPattern class="pointer-events-none fixed inset-0 z-0 h-full w-full" />
     
-    <section class="relative z-10 mx-auto flex w-full max-w-screen-xl flex-col gap-12 px-6 py-12 lg:gap-20">
+    <section class="relative z-10 mx-auto flex w-full max-w-screen-xl flex-col gap-8 px-6 py-8 lg:gap-16">
       <header class="flex flex-col items-center justify-center gap-3 text-center sm:flex-row sm:justify-between sm:text-left">
         <div class="flex items-center gap-3">
           <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900 text-white shadow-md">
