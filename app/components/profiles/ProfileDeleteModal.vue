@@ -10,7 +10,6 @@ defineProps<{
 const emit = defineEmits<{
   (e: 'update:confirmInput', value: string): void
   (e: 'update:open', value: boolean): void
-  (e: 'close'): void
   (e: 'confirm'): void
 }>()
 </script>

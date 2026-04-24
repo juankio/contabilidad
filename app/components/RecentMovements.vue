@@ -144,7 +144,7 @@ const {
     @update:category="editCategory = $event"
     @update:amount-input="editAmountInput = $event"
     @update:date="editDate = $event"
-    @close="closeEdit"
+    @update:open="closeEdit"
     @confirm="submitEdit"
   />
 
@@ -154,7 +154,7 @@ const {
     :label="deleteLabel"
     :loading="deleteLoading"
     :error="deleteError"
-    @close="closeDelete"
+    @update:open="closeDelete"
     @confirm="confirmDelete"
   />
 </template>

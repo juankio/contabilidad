@@ -79,7 +79,7 @@ const attrs = useAttrs()
     :icon="page.newProfileIcon"
     @update:name="page.newProfileName = $event"
     @update:icon="page.newProfileIcon = $event"
-    @close="page.closeCreateProfileModal"
+    @update:open="page.closeCreateProfileModal"
     @confirm="page.confirmCreateProfile"
   />
 
@@ -90,7 +90,7 @@ const attrs = useAttrs()
     :icon="page.renameProfileIcon"
     @update:name="page.renameProfileInput = $event"
     @update:icon="page.renameProfileIcon = $event"
-    @close="page.closeRenameProfileModal"
+    @update:open="page.closeRenameProfileModal"
     @confirm="page.confirmRenameProfileDraft"
   />
 
@@ -101,7 +101,7 @@ const attrs = useAttrs()
     :profile-name="page.profileToDelete?.name || ''"
     :confirm-input="page.deleteProfileNameInput"
     @update:confirm-input="page.deleteProfileNameInput = $event"
-    @close="page.closeDeleteProfileModal"
+    @update:open="page.closeDeleteProfileModal"
     @confirm="page.confirmDeleteProfile"
   />
 </template>

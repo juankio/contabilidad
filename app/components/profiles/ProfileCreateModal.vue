@@ -12,7 +12,6 @@ const emit = defineEmits<{
   (e: 'update:name', value: string): void
   (e: 'update:icon', value: string): void
   (e: 'update:open', value: boolean): void
-  (e: 'close'): void
   (e: 'confirm'): void
 }>()
 </script>
