@@ -17,11 +17,11 @@ const { formatCurrency } = useFormatters()
 </script>
 
 <template>
-  <div class="rounded-[1.5rem] border border-slate-100/50 bg-slate-50/50 p-5 shadow-sm">
-    <p class="text-xs font-semibold uppercase tracking-widest text-slate-500">
+  <div class="rounded-[1.5rem] border max-sm:border-none border-slate-100/50 bg-slate-50/50 max-sm:bg-transparent p-5 max-sm:p-0 shadow-sm max-sm:shadow-none">
+    <p class="text-xs font-semibold uppercase tracking-widest text-slate-500 max-sm:hidden">
       Ingresos vs gastos
     </p>
-    <div class="mt-4 grid gap-4">
+    <div class="mt-4 max-sm:mt-1 grid gap-4">
       <div class="grid gap-2">
         <div class="h-3 w-full overflow-hidden rounded-full bg-slate-100">
           <div class="flex h-full">

@@ -33,14 +33,14 @@ const activeTab = ref(0)
 </script>
 
 <template>
-  <div class="self-start rounded-[2rem] border border-slate-200/60 bg-white/80 p-6 sm:p-8 shadow-sm backdrop-blur-xl md:col-span-2 lg:col-span-3">
+  <div class="self-start rounded-[2rem] border border-slate-200/60 bg-white/80 p-4 sm:p-8 shadow-sm backdrop-blur-xl md:col-span-2 lg:col-span-3">
     <!-- Header -->
-    <div class="flex items-center justify-between gap-6 mb-6">
-      <div class="flex items-center gap-4">
-        <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--brand-50)] text-[var(--brand-600)] ring-1 ring-[var(--brand-500)]/20 shrink-0">
+    <div class="flex items-center justify-between gap-6 max-sm:gap-3 mb-6 max-sm:mb-4">
+      <div class="flex items-center gap-4 max-sm:gap-3">
+        <div class="flex h-12 w-12 max-sm:h-10 max-sm:w-10 items-center justify-center rounded-2xl max-sm:rounded-xl bg-[var(--brand-50)] text-[var(--brand-600)] ring-1 ring-[var(--brand-500)]/20 shrink-0">
           <UIcon
             name="lucide:bar-chart-3"
-            class="h-5 w-5"
+            class="h-5 w-5 max-sm:h-4 max-sm:w-4"
           />
         </div>
         <div>
