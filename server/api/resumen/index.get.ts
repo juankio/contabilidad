@@ -3,9 +3,8 @@ import { defineApiHandler } from '../../utils/handler'
 import { connectMongoose } from '../../utils/mongoose'
 import { requireActiveProfile } from '../../utils/auth'
 import mongoose from 'mongoose'
-import { GastoModel } from '../../models/gasto'
-import { IngresoModel } from '../../models/ingreso'
 import { getAvailableBalance } from '../../utils/balance'
+import { getMonthlyStats } from '../../utils/stats-aggregations'
 
 export default defineApiHandler(async (event) => {
   await connectMongoose()
@@ -16,13 +15,14 @@ export default defineApiHandler(async (event) => {
   const start = getMonthStartUTC(now)
   const end = getNextMonthStartUTC(now)
 
-  const [ingresos, gastos] = await Promise.all([
-    aggregateTotal(IngresoModel, profileObjectId, { $gte: start, $lt: end }),
-    aggregateTotal(GastoModel, profileObjectId, { $gte: start, $lt: end })
+  const [stats, saldoDisponible] = await Promise.all([
+    getMonthlyStats(profileObjectId, start, end),
+    getAvailableBalance(profileId)
   ])
 
+  const ingresos = stats.ingresos
+  const gastos = stats.gastos
   const saldo = ingresos - gastos
-  const saldoDisponible = await getAvailableBalance(profileId)
 
   const month = new Intl.DateTimeFormat('es-CO', {
     month: 'long',
@@ -45,17 +45,4 @@ function getMonthStartUTC(date: Date) {
 
 function getNextMonthStartUTC(date: Date) {
   return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + 1, 1))
-}
-
-async function aggregateTotal(
-  model: typeof GastoModel | typeof IngresoModel,
-  profileId: mongoose.Types.ObjectId,
-  dateRange: { $gte?: Date, $lt?: Date }
-) {
-  const rows = await model.aggregate<{ total: number }>([
-    { $match: { profileId, date: dateRange } },
-    { $group: { _id: null, total: { $sum: '$amount' } } }
-  ])
-
-  return Number(rows[0]?.total ?? 0)
 }

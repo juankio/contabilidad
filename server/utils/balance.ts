@@ -4,6 +4,7 @@ import { GastoModel } from '../models/gasto'
 import { PrestamoModel } from '../models/prestamo'
 import { PagoTrabajadorModel } from '../models/pago-trabajador'
 import { CompraConcentradoModel } from '../models/compra-concentrado'
+import { PostreVentaModel } from '../models/postre-venta'
 
 export async function getAvailableBalance(profileMatch: string | mongoose.Types.ObjectId | { $in: mongoose.Types.ObjectId[] }): Promise<number> {
   const match = typeof profileMatch === 'string' 
@@ -50,8 +51,17 @@ export async function getAvailableBalance(profileMatch: string | mongoose.Types.
   ])
   const totalComprasConcentrado = comprasConcentradoRes[0]?.total ?? 0
 
+  // 6. Ventas de postres (Entrada de dinero)
+  const ventasPostresRes = await PostreVentaModel.aggregate([
+    { $match: { profileId: match } },
+    { $lookup: { from: 'postres', localField: 'postreId', foreignField: '_id', as: 'postre' } },
+    { $unwind: '$postre' },
+    { $group: { _id: null, total: { $sum: { $multiply: ['$qty', '$postre.price'] } } } }
+  ])
+  const totalVentasPostres = ventasPostresRes[0]?.total ?? 0
+
   // BALANCE REAL = (Entradas) - (Salidas)
-  const entradas = totalIngresos + totalAbonado
+  const entradas = totalIngresos + totalAbonado + totalVentasPostres
   const salidas = totalGastos + totalPrestado + totalPagosTrabajadores + totalComprasConcentrado
 
   return entradas - salidas

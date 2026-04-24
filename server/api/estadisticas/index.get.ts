@@ -3,10 +3,9 @@ import { getQuery } from 'h3'
 import { connectMongoose } from '../../utils/mongoose'
 import { requireActiveProfile, requireUser } from '../../utils/auth'
 import mongoose from 'mongoose'
-import { GastoModel } from '../../models/gasto'
-import { IngresoModel } from '../../models/ingreso'
 
 import { getAvailableBalance } from '../../utils/balance'
+import { getMonthlyStats, getCategoriesWithOtherModules, getSeriesWithOtherModules } from '../../utils/stats-aggregations'
 
 type MonthKey = {
   year: number
@@ -65,33 +64,25 @@ export default defineApiHandler(async (event) => {
   const start = getMonthStartUTC(now)
   const end = getNextMonthStartUTC(now)
 
-  const [ingresos, gastos, categorias, saldoDisponible] = await Promise.all([
-    aggregateTotal(IngresoModel, profileMatch, { $gte: start, $lt: end }),
-    aggregateTotal(GastoModel, profileMatch, { $gte: start, $lt: end }),
-    GastoModel.aggregate([
-      { $match: { profileId: profileMatch, date: { $gte: start, $lt: end } } },
-      { $group: { _id: '$category', total: { $sum: '$amount' } } },
-      { $sort: { total: -1 } },
-      { $limit: 6 },
-      { $project: { _id: 0, category: '$_id', total: 1 } }
-    ]),
+  const [monthStats, categorias, saldoDisponible] = await Promise.all([
+    getMonthlyStats(profileMatch, start, end),
+    getCategoriesWithOtherModules(profileMatch, start, end),
     getAvailableBalance(profileMatch)
   ])
 
+  const ingresos = monthStats.ingresos
+  const gastos = monthStats.gastos
   const saldo = ingresos - gastos
 
   const months = getRecentMonths(6)
-  const [ingresosSeries, gastosSeries] = await Promise.all([
-    aggregateByMonth(IngresoModel, profileMatch),
-    aggregateByMonth(GastoModel, profileMatch)
-  ])
+  const seriesMap = await getSeriesWithOtherModules(profileMatch, months)
 
   const series = months.map((monthKey) => {
     const key = `${monthKey.year}-${monthKey.month}`
     return {
       month: formatMonthShort(monthKey.year, monthKey.month),
-      ingresos: ingresosSeries[key] ?? 0,
-      gastos: gastosSeries[key] ?? 0
+      ingresos: seriesMap[key]?.ingresos ?? 0,
+      gastos: seriesMap[key]?.gastos ?? 0
     }
   })
 
@@ -126,46 +117,6 @@ function getRecentMonths(count: number): MonthKey[] {
   }
 
   return months.reverse()
-}
-
-async function aggregateByMonth(
-  model: typeof GastoModel | typeof IngresoModel,
-  profileId: mongoose.Types.ObjectId | { $in: mongoose.Types.ObjectId[] }
-) {
-  const results = await model.aggregate<{ _id: MonthKey, total: number }>([
-    { $match: { profileId } },
-    {
-      $group: {
-        _id: {
-          year: { $year: '$date' },
-          month: { $month: '$date' }
-        },
-        total: { $sum: '$amount' }
-      }
-    }
-  ])
-
-  const map: Record<string, number> = {}
-
-  results.forEach((row) => {
-    const key = `${row._id.year}-${row._id.month}`
-    map[key] = row.total
-  })
-
-  return map
-}
-
-async function aggregateTotal(
-  model: typeof GastoModel | typeof IngresoModel,
-  profileId: mongoose.Types.ObjectId | { $in: mongoose.Types.ObjectId[] },
-  dateRange: { $gte?: Date, $lt?: Date }
-) {
-  const rows = await model.aggregate<{ total: number }>([
-    { $match: { profileId, date: dateRange } },
-    { $group: { _id: null, total: { $sum: '$amount' } } }
-  ])
-
-  return Number(rows[0]?.total ?? 0)
 }
 
 function formatMonthLong(date: Date) {
