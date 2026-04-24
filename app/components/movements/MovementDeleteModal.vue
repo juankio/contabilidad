@@ -3,7 +3,7 @@ defineProps<{
   open: boolean
   loading: boolean
   error: string
-  type: string
+  type: string | null
   label: string
 }>()
 

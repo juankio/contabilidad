@@ -5,11 +5,11 @@ defineProps<{
   open: boolean
   loading: boolean
   error: string
-  type: string
+  type: string | null
   description: string
   category: string
   amountInput: string
-  date: Date
+  date: Date | string
 }>()
 
 const emit = defineEmits<{

@@ -143,7 +143,7 @@ const {
     @update:description="editDescription = $event"
     @update:category="editCategory = $event"
     @update:amount-input="editAmountInput = $event"
-    @update:date="editDate = $event"
+    @update:date="editDate = String($event)"
     @update:open="closeEdit"
     @confirm="submitEdit"
   />

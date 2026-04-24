@@ -68,7 +68,7 @@ function getModuleIcon(key: string) {
         <div class="flex w-full items-center justify-between">
           <div
             class="flex h-8 w-8 items-center justify-center rounded-[0.8rem] transition-colors"
-            :class="props.selectedModules.includes(module.key as OptionalModuleKey)
+            :class="selectedModules.includes(module.key as OptionalModuleKey)
               ? 'bg-slate-900 text-white shadow-sm'
               : 'bg-white text-slate-400 ring-1 ring-slate-200'"
           >
@@ -79,12 +79,12 @@ function getModuleIcon(key: string) {
           </div>
           <div
             class="flex h-5 w-5 items-center justify-center rounded-full border-2 transition-all"
-            :class="props.selectedModules.includes(module.key as OptionalModuleKey)
+            :class="selectedModules.includes(module.key as OptionalModuleKey)
               ? 'border-emerald-500 bg-emerald-500 text-white'
               : 'border-slate-300 bg-white'"
           >
             <UIcon
-              v-if="props.selectedModules.includes(module.key as OptionalModuleKey)"
+              v-if="selectedModules.includes(module.key as OptionalModuleKey)"
               name="lucide:check"
               class="h-3 w-3"
             />
@@ -92,7 +92,7 @@ function getModuleIcon(key: string) {
         </div>
         <span
           class="mt-1 block text-sm font-bold transition-colors"
-          :class="props.selectedModules.includes(module.key as OptionalModuleKey) ? 'text-slate-900' : 'text-slate-700'"
+          :class="selectedModules.includes(module.key as OptionalModuleKey) ? 'text-slate-900' : 'text-slate-700'"
         >
           {{ module.label }}
         </span>
