@@ -1,23 +1,38 @@
 <script setup lang="ts">
 defineProps<{
   open: boolean
-  type: 'Gasto' | 'Ingreso' | null
-  label: string
   loading: boolean
   error: string
+  type: string
+  label: string
 }>()
 
 const emit = defineEmits<{
-  (e: 'close' | 'confirm'): void
+  (e: 'update:open', value: boolean): void
+  (e: 'close'): void
+  (e: 'confirm'): void
 }>()
 </script>
 
 <template>
-  <div
-    v-if="open"
-    class="fixed inset-0 z-50 grid place-items-center bg-slate-900/50 p-4"
-    @click.self="emit('close')"
-  >
+  <Transition name="modal">
+    <div
+      v-if="open"
+      class="fixed inset-0 z-50 grid place-items-center bg-slate-900/40 p-4 backdrop-blur-sm"
+      @click.self="emit('update:open', false); emit('close')"
+    >
+      <div class="anim-scale w-full max-w-sm rounded-2xl border border-slate-200 bg-white p-5 shadow-xl">
+        <div class="mb-4 flex items-center justify-between">
+          <p class="text-base font-semibold text-slate-900">
+            Eliminar
+          </p>
+          <UButton
+            color="neutral"
+            variant="ghost"
+            icon="lucide:x"
+            size="sm"
+            @click="emit('update:open', false); emit('close')"
+          >
     <div class="w-full max-w-md rounded-3xl bg-white p-5 shadow-xl">
       <h3 class="text-2xl font-bold tracking-tight text-slate-900">
         Eliminar {{ type?.toLocaleLowerCase() || 'movimiento' }}

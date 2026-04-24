@@ -1,10 +1,7 @@
 <script setup lang="ts">
-import { useProfileColorPicker } from '../../composables/useProfileColorPicker'
-import ProfileEditPreview from './ProfileEditPreview.vue'
-import ProfileIconPicker from './ProfileIconPicker.vue'
-import ProfileColorPicker from './ProfileColorPicker.vue'
+import IconSelector from '../ui/IconSelector.vue'
 
-const props = defineProps<{
+defineProps<{
   open: boolean
   loading: boolean
   name: string
@@ -12,19 +9,33 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'update:name' | 'update:icon', value: string): void
-  (e: 'close' | 'confirm'): void
+  (e: 'update:name', value: string): void
+  (e: 'update:icon', value: string): void
+  (e: 'update:open', value: boolean): void
+  (e: 'close'): void
+  (e: 'confirm'): void
 }>()
-
-const colorPicker = useProfileColorPicker()
 </script>
 
 <template>
-  <div
-    v-if="open"
-    class="fixed inset-0 z-50 grid place-items-center bg-slate-900/60 p-4 backdrop-blur-sm"
-    @click.self="emit('close')"
-  >
+  <Transition name="modal">
+    <div
+      v-if="open"
+      class="fixed inset-0 z-50 grid place-items-center bg-slate-900/40 p-4 backdrop-blur-sm"
+      @click.self="emit('update:open', false); emit('close')"
+    >
+      <div class="anim-scale w-full max-w-sm rounded-2xl border border-slate-200 bg-white p-5 shadow-xl">
+        <div class="mb-4 flex items-center justify-between">
+          <p class="text-base font-semibold text-slate-900">
+            Personalizar
+          </p>
+          <UButton
+            color="neutral"
+            variant="ghost"
+            icon="lucide:x"
+            size="sm"
+            @click="emit('update:open', false); emit('close')"
+          >
     <div class="w-full max-w-md rounded-3xl bg-white shadow-2xl">
       <!-- Header -->
       <div class="flex items-center justify-between border-b border-slate-100 px-6 py-4">
