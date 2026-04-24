@@ -51,7 +51,10 @@ const {
       <!-- STEP 1: Datos básicos -->
       <template v-if="mode === 'login' || registerStep === 1">
         <div class="anim-fade grid gap-1.5 text-sm">
-          <label for="email" class="font-semibold text-slate-700">Correo Electrónico</label>
+          <label
+            for="email"
+            class="font-semibold text-slate-700"
+          >Correo Electrónico</label>
           <UInput
             id="email"
             v-model="email"
@@ -63,13 +66,22 @@ const {
             :ui="{ wrapper: 'shadow-sm rounded-xl' }"
           >
             <template #leading>
-              <UIcon name="lucide:mail" class="h-5 w-5 text-slate-400" />
+              <UIcon
+                name="lucide:mail"
+                class="h-5 w-5 text-slate-400"
+              />
             </template>
           </UInput>
         </div>
 
-        <div v-if="mode === 'register'" class="anim-fade-1 grid gap-1.5 text-sm">
-          <label for="profileName" class="font-semibold text-slate-700">Nombre del espacio de trabajo</label>
+        <div
+          v-if="mode === 'register'"
+          class="anim-fade-1 grid gap-1.5 text-sm"
+        >
+          <label
+            for="profileName"
+            class="font-semibold text-slate-700"
+          >Nombre del espacio de trabajo</label>
           <UInput
             id="profileName"
             v-model="profileName"
@@ -81,13 +93,19 @@ const {
             :ui="{ wrapper: 'shadow-sm rounded-xl' }"
           >
             <template #leading>
-              <UIcon name="lucide:briefcase" class="h-5 w-5 text-slate-400" />
+              <UIcon
+                name="lucide:briefcase"
+                class="h-5 w-5 text-slate-400"
+              />
             </template>
           </UInput>
         </div>
 
         <div class="anim-fade-2 grid gap-1.5 text-sm">
-          <label for="password" class="font-semibold text-slate-700">Contraseña</label>
+          <label
+            for="password"
+            class="font-semibold text-slate-700"
+          >Contraseña</label>
           <UInput
             id="password"
             v-model="password"
@@ -99,7 +117,10 @@ const {
             :ui="{ wrapper: 'shadow-sm rounded-xl' }"
           >
             <template #leading>
-              <UIcon name="lucide:lock" class="h-5 w-5 text-slate-400" />
+              <UIcon
+                name="lucide:lock"
+                class="h-5 w-5 text-slate-400"
+              />
             </template>
             <template #trailing>
               <UButton
@@ -110,7 +131,10 @@ const {
                 class="text-slate-400 hover:text-slate-600"
                 @click="showPassword = !showPassword"
               >
-                <UIcon :name="showPassword ? 'lucide:eye-off' : 'lucide:eye'" class="h-5 w-5" />
+                <UIcon
+                  :name="showPassword ? 'lucide:eye-off' : 'lucide:eye'"
+                  class="h-5 w-5"
+                />
               </UButton>
             </template>
           </UInput>
@@ -123,7 +147,7 @@ const {
           :theme-color="themeColor"
           @update:theme-color="themeColor = $event"
         />
-        
+
         <AuthModuleSelector
           :selected-modules="selectedModules"
           :module-options="moduleOptions"
@@ -131,7 +155,10 @@ const {
         />
       </template>
 
-      <p v-if="errorMessage" class="anim-fade mt-1 text-sm font-medium text-rose-500">
+      <p
+        v-if="errorMessage"
+        class="anim-fade mt-1 text-sm font-medium text-rose-500"
+      >
         {{ errorMessage }}
       </p>
 
@@ -158,7 +185,10 @@ const {
         </UButton>
       </div>
 
-      <div v-if="mode === 'login' || registerStep === 1" class="anim-fade-2 mt-2 grid gap-4">
+      <div
+        v-if="mode === 'login' || registerStep === 1"
+        class="anim-fade-2 mt-2 grid gap-4"
+      >
         <div class="relative text-center text-xs font-semibold uppercase tracking-widest text-slate-400">
           <span class="relative z-10 bg-white/80 px-4 backdrop-blur-sm">o continuar con</span>
           <span class="absolute inset-x-0 top-1/2 block border-t border-slate-200/80" />
@@ -170,7 +200,10 @@ const {
           class="google-button-wrap flex justify-center"
           :class="{ 'opacity-60 pointer-events-none': googleLoading }"
         />
-        <p v-else class="text-center text-xs font-medium text-slate-500">
+        <p
+          v-else
+          class="text-center text-xs font-medium text-slate-500"
+        >
           Autenticación de Google no configurada.
         </p>
       </div>

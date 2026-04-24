@@ -37,7 +37,7 @@ export default defineApiHandler(async (event) => {
   const modules = normalizeModules(body.data.modules)
   const avatarIcon = normalizeProfileIcon(body.data.avatarIcon)
   const themeColor = body.data.themeColor || 'violet'
-  
+
   const user = await UserModel.create({
     email: body.data.email,
     passwordHash,

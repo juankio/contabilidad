@@ -6,7 +6,7 @@ import { UserModel } from '../../models/user'
 import { setAuthCookie, signAuthToken } from '../../utils/auth'
 import { connectMongoose } from '../../utils/mongoose'
 import { serializeProfilesFromCategoryStore } from '../../utils/serialize'
-import { DEFAULT_OPTIONAL_MODULES } from '../../utils/modules'
+import { } from '../../utils/modules'
 import { DEFAULT_PROFILE_ICON } from '../../utils/profile-icons'
 
 const payloadSchema = z.object({

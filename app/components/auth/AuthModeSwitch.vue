@@ -12,7 +12,7 @@ const emit = defineEmits<{
 
 <template>
   <div class="flex relative rounded-[1rem] bg-slate-100 p-1.5 text-sm shadow-inner">
-    <div 
+    <div
       class="absolute top-1.5 bottom-1.5 w-[calc(50%-6px)] rounded-xl bg-white shadow-sm transition-all duration-300 ease-out"
       :class="mode === 'login' ? 'left-1.5' : 'left-[calc(50%+4.5px)]'"
     />

@@ -15,19 +15,28 @@
     <ul class="space-y-4 text-slate-700">
       <li class="flex items-center gap-3">
         <div class="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--brand-50)] text-[var(--brand-600)] shadow-sm">
-          <UIcon name="lucide:zap" class="h-4 w-4" />
+          <UIcon
+            name="lucide:zap"
+            class="h-4 w-4"
+          />
         </div>
         <span class="font-semibold text-base">Acceso ultra-rápido a tu panel.</span>
       </li>
       <li class="flex items-center gap-3">
         <div class="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--brand-50)] text-[var(--brand-600)] shadow-sm">
-          <UIcon name="lucide:lock" class="h-4 w-4" />
+          <UIcon
+            name="lucide:lock"
+            class="h-4 w-4"
+          />
         </div>
         <span class="font-semibold text-base">Información privada y encriptada.</span>
       </li>
       <li class="flex items-center gap-3">
         <div class="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--brand-50)] text-[var(--brand-600)] shadow-sm">
-          <UIcon name="lucide:layout" class="h-4 w-4" />
+          <UIcon
+            name="lucide:layout"
+            class="h-4 w-4"
+          />
         </div>
         <span class="font-semibold text-base">Diseño minimalista sin distracciones.</span>
       </li>
