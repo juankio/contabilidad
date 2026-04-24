@@ -27,29 +27,26 @@ const emit = defineEmits<{
     <div
       v-if="open"
       class="fixed inset-0 z-50 grid place-items-center bg-slate-900/40 p-4 backdrop-blur-sm"
-      @click.self="emit('update:open', false); emit('close')"
+      @click.self="emit('update:open', false)"
     >
       <div class="anim-scale w-full max-w-sm rounded-2xl border border-slate-200 bg-white p-5 shadow-xl">
         <div class="mb-4 flex items-center justify-between">
           <p class="text-base font-semibold text-slate-900">
-            Editar Movimiento
+            Editar {{ type?.toLocaleLowerCase() || 'movimiento' }}
           </p>
           <UButton
             color="neutral"
             variant="ghost"
             icon="lucide:x"
             size="sm"
-            @click="emit('update:open', false); emit('close')"
-          >
-    <div class="w-full max-w-md rounded-3xl bg-white p-5 shadow-xl">
-      <h3 class="text-2xl font-bold tracking-tight text-slate-900">
-        Editar {{ type?.toLocaleLowerCase() || 'movimiento' }}
-      </h3>
+            @click="emit('update:open', false)"
+          />
+        </div>
 
-      <form
-        class="mt-4 grid gap-3"
-        @submit.prevent="emit('confirm')"
-      >
+        <form
+          class="grid gap-3"
+          @submit.prevent="emit('confirm')"
+        >
         <UInput
           :model-value="description"
           type="text"
@@ -74,11 +71,11 @@ const emit = defineEmits<{
           placeholder="Monto"
           @update:model-value="emit('update:amountInput', String($event ?? ''))"
         />
-        <UInput
+        <DateInputField
+          label=""
+          for-id="movement-edit-date"
           :model-value="date"
-          type="date"
-          size="lg"
-          @update:model-value="emit('update:date', String($event ?? ''))"
+          @update:model-value="emit('update:date', $event as Date)"
         />
 
         <p
@@ -94,15 +91,14 @@ const emit = defineEmits<{
             variant="ghost"
             type="button"
             :disabled="loading"
-            @click="emit('close')"
+            @click="emit('update:open', false)"
           >
             Cancelar
           </UButton>
           <UButton
-            color="neutral"
+            color="primary"
             type="submit"
             :loading="loading"
-            :disabled="!canSubmit"
           >
             Guardar cambios
           </UButton>
@@ -110,4 +106,5 @@ const emit = defineEmits<{
       </form>
     </div>
   </div>
+  </Transition>
 </template>

@@ -21,7 +21,7 @@ const emit = defineEmits<{
     <div
       v-if="open"
       class="fixed inset-0 z-50 grid place-items-center bg-slate-900/40 p-4 backdrop-blur-sm"
-      @click.self="emit('update:open', false); emit('close')"
+      @click.self="emit('update:open', false)"
     >
       <div class="anim-scale w-full max-w-sm rounded-2xl border border-slate-200 bg-white p-5 shadow-xl">
         <div class="mb-4 flex items-center justify-between">
@@ -33,100 +33,57 @@ const emit = defineEmits<{
             variant="ghost"
             icon="lucide:x"
             size="sm"
-            @click="emit('update:open', false); emit('close')"
-          >
-    <div class="w-full max-w-md rounded-3xl bg-white shadow-2xl">
-      <!-- Header -->
-      <div class="flex items-center justify-between border-b border-slate-100 px-6 py-4">
-        <div>
-          <h3 class="text-base font-semibold text-slate-900">
-            Editar perfil
-          </h3>
-          <p class="text-xs text-slate-500">
-            Nombre, ícono y color
-          </p>
+            @click="emit('update:open', false)"
+          />
         </div>
-        <button
-          type="button"
-          class="flex h-8 w-8 items-center justify-center rounded-full text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
-          @click="emit('close')"
+
+        <form
+          class="grid gap-4"
+          @submit.prevent="emit('confirm')"
         >
-          <UIcon
-            name="lucide:x"
-            class="h-4 w-4"
-          />
-        </button>
-      </div>
+          <div class="grid gap-1.5 text-sm">
+            <label for="renameProfileName" class="font-semibold text-slate-700">Nombre de tu espacio</label>
+            <UInput
+              id="renameProfileName"
+              :model-value="name"
+              type="text"
+              required
+              maxlength="32"
+              size="lg"
+              placeholder="Ej. Tienda Centro"
+              @update:model-value="emit('update:name', String($event ?? ''))"
+            />
+          </div>
 
-      <div class="space-y-5 px-6 py-5">
-        <ProfileEditPreview
-          :name="props.name"
-          :icon="props.icon"
-          :swatch="colorPicker.activeSwatch.value"
-        />
+          <div class="grid gap-1.5 text-sm">
+            <label class="font-semibold text-slate-700">Icono representativo</label>
+            <IconSelector
+              :model-value="icon"
+              @update:model-value="emit('update:icon', $event)"
+            />
+          </div>
 
-        <div>
-          <p class="mb-1.5 text-xs font-semibold uppercase tracking-widest text-slate-400">
-            Nombre
-          </p>
-          <UInput
-            :model-value="props.name"
-            type="text"
-            size="lg"
-            maxlength="32"
-            placeholder="Nombre del perfil"
-            aria-label="Nombre del perfil"
-            autofocus
-            @update:model-value="emit('update:name', String($event ?? ''))"
-          />
-        </div>
-
-        <div>
-          <p class="mb-1.5 text-xs font-semibold uppercase tracking-widest text-slate-400">
-            Ícono
-          </p>
-          <ProfileIconPicker
-            :icon="props.icon"
-            :disabled="props.loading"
-            @update:icon="emit('update:icon', $event)"
-          />
-        </div>
-
-        <div>
-          <p class="mb-2 text-xs font-semibold uppercase tracking-widest text-slate-400">
-            Color
-          </p>
-          <ProfileColorPicker
-            :active-color="colorPicker.activeColor.value"
-            :saving="colorPicker.saving.value"
-            @select="colorPicker.selectColor"
-          />
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <div class="flex items-center justify-end gap-2 border-t border-slate-100 px-6 py-4">
-        <UButton
-          color="neutral"
-          variant="ghost"
-          type="button"
-          icon="lucide:x"
-          :disabled="props.loading"
-          @click="emit('close')"
-        >
-          Cancelar
-        </UButton>
-        <UButton
-          color="primary"
-          type="button"
-          icon="lucide:check"
-          :disabled="props.name.trim().length < 2 || props.name.trim().length > 32"
-          :loading="props.loading"
-          @click="emit('confirm')"
-        >
-          Guardar cambios
-        </UButton>
+          <div class="mt-4 flex justify-end gap-2">
+            <UButton
+              color="neutral"
+              variant="ghost"
+              type="button"
+              :disabled="loading"
+              @click="emit('update:open', false)"
+            >
+              Cancelar
+            </UButton>
+            <UButton
+              color="primary"
+              type="submit"
+              :loading="loading"
+              icon="lucide:check"
+            >
+              Guardar cambios
+            </UButton>
+          </div>
+        </form>
       </div>
     </div>
-  </div>
+  </Transition>
 </template>

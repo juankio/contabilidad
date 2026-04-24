@@ -19,7 +19,7 @@ const emit = defineEmits<{
     <div
       v-if="open"
       class="fixed inset-0 z-50 grid place-items-center bg-slate-900/40 p-4 backdrop-blur-sm"
-      @click.self="emit('update:open', false); emit('close')"
+      @click.self="emit('update:open', false)"
     >
       <div class="anim-scale w-full max-w-sm rounded-2xl border border-slate-200 bg-white p-5 shadow-xl">
         <div class="mb-4 flex items-center justify-between">
@@ -31,51 +31,65 @@ const emit = defineEmits<{
             variant="ghost"
             icon="lucide:x"
             size="sm"
-            @click="emit('update:open', false); emit('close')"
-          >
-    <div class="w-full max-w-md rounded-3xl bg-white p-5 shadow-xl">
-      <h3 class="text-2xl font-bold tracking-tight text-slate-900">
-        Eliminar perfil
-      </h3>
-      <p class="mt-2 text-sm text-rose-600">
-        Si eliminas este perfil, se borraran sus datos y no se pueden recuperar.
-      </p>
-      <p class="mt-3 text-sm text-slate-600">
-        Para confirmar, escribe el nombre del perfil:
-        <span class="font-semibold text-slate-900">{{ profileName || '-' }}</span>
-      </p>
+            @click="emit('update:open', false)"
+          />
+        </div>
 
-      <div class="mt-3">
-        <UInput
-          :model-value="confirmInput"
-          type="text"
-          size="lg"
-          :placeholder="profileName || 'Nombre del perfil'"
-          autofocus
-          @update:model-value="emit('update:confirmInput', String($event ?? ''))"
-        />
-      </div>
+        <template v-if="!canDeleteProfiles">
+          <p class="text-sm text-slate-600">
+            No puedes eliminar tu unico perfil activo. 
+            Crea otro perfil primero si quieres eliminar este.
+          </p>
+          <div class="mt-4 flex justify-end">
+            <UButton
+              color="neutral"
+              variant="ghost"
+              @click="emit('update:open', false)"
+            >
+              Entendido
+            </UButton>
+          </div>
+        </template>
 
-      <div class="mt-5 flex justify-end gap-2">
-        <UButton
-          color="neutral"
-          variant="ghost"
-          type="button"
-          :disabled="loading"
-          @click="emit('close')"
-        >
-          Cancelar
-        </UButton>
-        <UButton
-          color="error"
-          type="button"
-          :loading="loading"
-          :disabled="!profileName || !canDeleteProfiles || confirmInput.trim() !== profileName.trim()"
-          @click="emit('confirm')"
-        >
-          Eliminar definitivamente
-        </UButton>
+        <template v-else>
+          <p class="text-sm text-rose-600">
+            Esta accion borrara todos los datos asociados a este perfil
+            (gastos, prestamos, clientes). No se puede deshacer.
+          </p>
+          
+          <form class="mt-4 grid gap-3" @submit.prevent="emit('confirm')">
+            <p class="text-sm text-slate-700">
+              Escribe <span class="font-bold">borrar {{ profileName }}</span> para confirmar:
+            </p>
+            <UInput
+              :model-value="confirmInput"
+              type="text"
+              size="lg"
+              placeholder="borrar..."
+              @update:model-value="emit('update:confirmInput', String($event ?? ''))"
+            />
+            <div class="mt-2 flex justify-end gap-2">
+              <UButton
+                color="neutral"
+                variant="ghost"
+                type="button"
+                :disabled="loading"
+                @click="emit('update:open', false)"
+              >
+                Cancelar
+              </UButton>
+              <UButton
+                color="error"
+                type="submit"
+                :loading="loading"
+                :disabled="confirmInput !== `borrar ${profileName}`"
+              >
+                Si, eliminar para siempre
+              </UButton>
+            </div>
+          </form>
+        </template>
       </div>
     </div>
-  </div>
+  </Transition>
 </template>
