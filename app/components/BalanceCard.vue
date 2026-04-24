@@ -6,7 +6,7 @@ const {
   exporting,
   exportResumen,
   formatCurrency
-} = await useResumen()
+} = useResumen()
 
 // Porcentaje de gastos sobre ingresos — indicador de salud financiera
 const saludPct = computed(() => {

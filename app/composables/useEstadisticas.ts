@@ -46,12 +46,9 @@ export const useEstadisticas = () => {
   ])
 
   const { data, pending, error } = useFetch<Estadisticas>('/api/estadisticas', {
-    key: 'estadisticas',
-    query: computed(() =>
-      selectedProfileId.value === 'all'
-        ? { scope: 'all' }
-        : { profileId: selectedProfileId.value }
-    )
+    query: { profileId: selectedProfileId },
+    key: `stats-${selectedProfileId.value}`,
+    lazy: true
   })
 
   const categoriasSegments = computed(() => {

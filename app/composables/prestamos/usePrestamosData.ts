@@ -3,7 +3,8 @@ import { defaultSummary } from './helpers'
 
 export function usePrestamosData() {
   const { data, pending, error, refresh } = useFetch<PrestamosResponse>('/api/prestamos', {
-    key: 'prestamos'
+    key: 'prestamos-data',
+    lazy: true
   })
 
   const { formatCurrency, formatShortDate } = useFormatters()

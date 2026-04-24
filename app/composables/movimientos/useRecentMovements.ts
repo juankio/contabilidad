@@ -5,7 +5,8 @@ import { useFormatters } from '../useFormatters'
 export function useRecentMovements() {
   const { data: movimientos, pending, error, refresh: refreshMovimientos } = useFetch<MovimientoRow[]>('/api/movimientos', {
     key: 'movimientos',
-    query: { limit: 50 }
+    query: { limit: 50 },
+    lazy: true
   })
 
   const { formatCurrency, formatShortDate } = useFormatters()

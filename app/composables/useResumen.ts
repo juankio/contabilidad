@@ -6,9 +6,10 @@ type Resumen = {
   saldoDisponible: number
 }
 
-export const useResumen = async () => {
-  const { data: resumen, pending, error } = await useFetch<Resumen>('/api/resumen', {
-    key: 'resumen'
+export const useResumen = () => {
+  const { data: resumen, pending, error } = useFetch<Resumen>('/api/resumen', {
+    key: 'resumen',
+    lazy: true
   })
 
   const exporting = ref(false)

@@ -16,7 +16,8 @@ type ProfileGastosGroup = {
 
 export const useGastos = () => {
   const { data: gastos, pending, error, refresh } = useFetch<Gasto[]>('/api/gastos', {
-    key: 'gastos'
+    key: 'gastos',
+    lazy: true
   })
   const {
     data: groupedByProfile,
@@ -24,7 +25,8 @@ export const useGastos = () => {
     error: groupedError,
     refresh: refreshGrouped
   } = useFetch<ProfileGastosGroup[]>('/api/gastos/grouped', {
-    key: 'gastos-grouped'
+    key: 'gastos-grouped',
+    lazy: true
   })
 
   const exporting = ref(false)
