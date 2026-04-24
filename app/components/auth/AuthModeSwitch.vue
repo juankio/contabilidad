@@ -11,19 +11,23 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <div class="flex rounded-full bg-slate-100 p-1 text-sm">
+  <div class="flex relative rounded-[1rem] bg-slate-100 p-1.5 text-sm shadow-inner">
+    <div 
+      class="absolute top-1.5 bottom-1.5 w-[calc(50%-6px)] rounded-xl bg-white shadow-sm transition-all duration-300 ease-out"
+      :class="mode === 'login' ? 'left-1.5' : 'left-[calc(50%+4.5px)]'"
+    />
     <button
       type="button"
-      class="flex-1 rounded-full px-3 py-2 font-medium"
-      :class="mode === 'login' ? 'bg-white shadow-sm' : 'text-slate-500'"
+      class="relative z-10 flex-1 rounded-xl px-4 py-2.5 font-bold transition-colors duration-200"
+      :class="mode === 'login' ? 'text-slate-900' : 'text-slate-500 hover:text-slate-700'"
       @click="emit('update:mode', 'login')"
     >
-      Iniciar sesion
+      Iniciar sesión
     </button>
     <button
       type="button"
-      class="flex-1 rounded-full px-3 py-2 font-medium"
-      :class="mode === 'register' ? 'bg-white shadow-sm' : 'text-slate-500'"
+      class="relative z-10 flex-1 rounded-xl px-4 py-2.5 font-bold transition-colors duration-200"
+      :class="mode === 'register' ? 'text-slate-900' : 'text-slate-500 hover:text-slate-700'"
       @click="emit('update:mode', 'register')"
     >
       Crear cuenta
