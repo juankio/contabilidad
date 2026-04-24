@@ -3,9 +3,9 @@
     class="login-pattern"
     aria-hidden="true"
   >
-    <div class="glow glow-1 bg-[var(--brand-500)]" />
-    <div class="glow glow-2 bg-[var(--brand-400)]" />
-    <div class="glow glow-3 bg-[var(--brand-600)]" />
+    <div class="glow glow-magenta" />
+    <div class="glow glow-cyan" />
+    <div class="glow glow-yellow" />
     <div class="grain" />
   </div>
 </template>
@@ -17,60 +17,56 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background-color: #f8fafc;
+  background:
+    radial-gradient(760px 420px at 10% 20%, rgba(148, 163, 184, 0.26), transparent 62%),
+    radial-gradient(760px 520px at 90% 10%, rgba(125, 211, 252, 0.22), transparent 60%),
+    radial-gradient(920px 620px at 50% 120%, rgba(99, 102, 241, 0.13), transparent 66%),
+    linear-gradient(180deg, #f8fafc, #eef2f7);
 }
 
 .glow {
   position: absolute;
-  border-radius: 50%;
-  filter: blur(120px);
-  animation: drift 20s ease-in-out infinite alternate;
+  inset: -20%;
+  filter: blur(28px);
+  opacity: 0.45;
+  animation: drift 18s ease-in-out infinite;
 }
 
-.glow-1 {
-  top: 10%;
-  left: 10%;
-  width: 60vw;
-  height: 60vw;
-  opacity: 0.15;
+.glow-magenta {
+  background: radial-gradient(circle at 22% 25%, rgba(59, 130, 246, 0.2), transparent 46%);
 }
 
-.glow-2 {
-  top: 10%;
-  right: -10%;
-  width: 50vw;
-  height: 50vw;
-  opacity: 0.12;
-  animation-delay: -5s;
+.glow-cyan {
+  background: radial-gradient(circle at 82% 14%, rgba(14, 165, 233, 0.18), transparent 46%);
+  animation-delay: -6s;
 }
 
-.glow-3 {
-  bottom: -20%;
-  left: 30%;
-  width: 70vw;
-  height: 70vw;
-  opacity: 0.1;
-  animation-delay: -10s;
+.glow-yellow {
+  background: radial-gradient(circle at 52% 88%, rgba(168, 85, 247, 0.14), transparent 54%);
+  animation-delay: -12s;
 }
 
 .grain {
   position: absolute;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  opacity: 0.25;
-  mix-blend-mode: overlay;
-  pointer-events: none;
+  background:
+    repeating-linear-gradient(
+      135deg,
+      rgba(100, 116, 139, 0.1) 0 9px,
+      transparent 9px 18px
+    );
+  opacity: 0.45;
+  mix-blend-mode: multiply;
 }
 
 @keyframes drift {
-  0% {
-    transform: translate(0, 0) scale(1);
-  }
-  50% {
-    transform: translate(5%, -5%) scale(1.05);
-  }
+  0%,
   100% {
-    transform: translate(-3%, 3%) scale(0.95);
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate3d(2%, -2%, 0) scale(1.03);
   }
 }
 </style>
