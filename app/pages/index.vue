@@ -29,29 +29,29 @@ const goToProfile = async () => {
   <main class="min-h-screen bg-slate-50/50 text-slate-900">
     <section class="mx-auto max-w-screen-2xl overflow-x-clip px-4 md:px-6 pb-12 pt-8">
       <header class="anim-up mb-8 rounded-[2rem] border border-slate-200/60 bg-white/80 p-6 sm:p-8 shadow-sm backdrop-blur-xl transition-all">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
-          <div class="flex items-center gap-5">
-            <div class="relative">
-              <div class="flex h-14 w-14 items-center justify-center rounded-[1.25rem] bg-gradient-to-br from-[var(--brand-500)] to-[var(--brand-600)] shadow-sm">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 min-w-0">
+          <div class="flex items-center gap-4 sm:gap-5 min-w-0">
+            <div class="relative shrink-0">
+              <div class="flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-[1.25rem] bg-gradient-to-br from-[var(--brand-500)] to-[var(--brand-600)] shadow-sm">
                 <span class="text-xl font-bold text-white">{{ activeProfileName?.charAt(0).toUpperCase() || 'M' }}</span>
               </div>
-              <span class="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full border-[3px] border-white bg-slate-700">
+              <span class="absolute -bottom-1 -right-1 flex h-5 w-5 sm:h-6 sm:w-6 items-center justify-center rounded-full border-[3px] border-white bg-slate-700">
                 <UIcon
                   name="lucide:layout-dashboard"
                   class="h-3 w-3 text-white"
                 />
               </span>
             </div>
-            <div class="space-y-1">
-              <p class="text-xs font-bold uppercase tracking-[0.15em] text-slate-400">
+            <div class="space-y-1 min-w-0 flex-1">
+              <p class="text-[10px] sm:text-xs font-bold uppercase tracking-[0.15em] text-slate-400 truncate">
                 {{ greeting }}
               </p>
-              <h1 class="text-2xl font-bold tracking-tight text-slate-900">
+              <h1 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 truncate">
                 {{ activeProfileName || 'Mi Contabilidad' }}
               </h1>
             </div>
           </div>
-          <div class="flex flex-wrap items-center gap-3">
+          <div class="flex flex-wrap items-center gap-2 sm:gap-3 shrink-0">
             <UButton
               color="neutral"
               variant="soft"
