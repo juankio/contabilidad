@@ -8,7 +8,7 @@ defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'close'): void
+  (e: 'update:open', value: boolean): void
   (e: 'edit' | 'delete', movimiento: MovimientoRow): void
 }>()
 </script>
@@ -18,7 +18,7 @@ const emit = defineEmits<{
     <div
       v-if="open"
       class="fixed inset-0 z-50 grid place-items-center bg-slate-900/40 p-4 backdrop-blur-sm"
-      @click.self="emit('close')"
+      @click.self="emit('update:open', false)"
     >
       <div class="anim-scale w-full max-w-2xl rounded-2xl border border-slate-200 bg-white p-5 shadow-xl">
         <div class="mb-4 flex items-center justify-between">
@@ -35,7 +35,7 @@ const emit = defineEmits<{
             variant="ghost"
             icon="lucide:x"
             size="sm"
-            @click="emit('close')"
+            @click="emit('update:open', false)"
           >
             Cerrar
           </UButton>
