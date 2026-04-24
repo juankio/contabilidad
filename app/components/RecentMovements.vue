@@ -38,7 +38,7 @@ const {
     </div>
 
     <!-- Lista -->
-    <div class="flex-1 overflow-y-auto pr-2 -mr-2 space-y-3">
+    <div class="flex-1 overflow-y-auto pr-2 -mr-2 space-y-3 min-w-0">
       <template v-if="pending">
         <div
           v-for="i in 4"

@@ -27,7 +27,7 @@ const goToProfile = async () => {
 
 <template>
   <main class="min-h-screen bg-slate-50/50 text-slate-900">
-    <section class="mx-auto max-w-screen-2xl px-4 md:px-6 pb-12 pt-8">
+    <section class="mx-auto max-w-screen-2xl overflow-x-clip px-4 md:px-6 pb-12 pt-8">
       <header class="anim-up mb-8 rounded-[2rem] border border-slate-200/60 bg-white/80 p-6 sm:p-8 shadow-sm backdrop-blur-xl transition-all">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
           <div class="flex items-center gap-5">

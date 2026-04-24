@@ -62,21 +62,21 @@ const previewGastos = computed(() => (props.gastos ?? []).slice(0, 3))
         <div
           v-for="gasto in previewGastos"
           :key="gasto._id"
-          class="rounded-2xl border border-slate-100 px-4 py-3"
+          class="rounded-2xl border border-slate-100 px-4 py-3 min-w-0"
         >
-          <div class="flex items-start justify-between gap-3">
-            <div class="min-w-0 flex-1">
-              <p class="text-sm font-semibold text-slate-800">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 min-w-0">
+            <div class="min-w-0 flex-1 w-full">
+              <p class="text-sm font-semibold text-slate-800 truncate">
                 {{ gasto.description }}
               </p>
-              <p class="mt-1 text-xs text-slate-600">
+              <p class="mt-1 text-xs text-slate-600 truncate">
                 {{ gasto.category }} · {{ props.formatDate(gasto.date) }}
               </p>
               <span class="mt-2 inline-flex items-center rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-amber-700">
                 Gasto
               </span>
             </div>
-            <p class="shrink-0 whitespace-nowrap text-sm font-semibold text-amber-700">
+            <p class="shrink-0 whitespace-nowrap text-sm font-semibold text-amber-700 w-full sm:w-auto text-left sm:text-right">
               -{{ props.formatCurrency(gasto.amount) }}
             </p>
           </div>
@@ -103,22 +103,22 @@ const previewGastos = computed(() => (props.gastos ?? []).slice(0, 3))
         </button>
       </div>
 
-      <div class="grid max-h-[65vh] gap-3 overflow-y-auto pr-1">
+        <div class="grid max-h-[65vh] gap-3 overflow-y-auto overflow-x-hidden pr-1">
         <div
           v-for="gasto in props.gastos || []"
           :key="`modal-${gasto._id}`"
-          class="rounded-2xl border border-slate-100 px-4 py-3"
+          class="rounded-2xl border border-slate-100 px-4 py-3 min-w-0"
         >
-          <div class="flex items-start justify-between gap-3">
-            <div class="min-w-0 flex-1">
-              <p class="text-sm font-semibold text-slate-800">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 min-w-0">
+            <div class="min-w-0 flex-1 w-full">
+              <p class="text-sm font-semibold text-slate-800 truncate">
                 {{ gasto.description }}
               </p>
-              <p class="mt-1 text-xs text-slate-600">
+              <p class="mt-1 text-xs text-slate-600 truncate">
                 {{ gasto.category }} · {{ props.formatDate(gasto.date) }}
               </p>
             </div>
-            <p class="shrink-0 whitespace-nowrap text-sm font-semibold text-amber-700">
+            <p class="shrink-0 whitespace-nowrap text-sm font-semibold text-amber-700 w-full sm:w-auto text-left sm:text-right">
               -{{ props.formatCurrency(gasto.amount) }}
             </p>
           </div>

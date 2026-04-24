@@ -24,7 +24,7 @@ onMounted(() => fetchData())
 
 <template>
   <main class="min-h-screen bg-slate-50/50 pb-12 pt-8 text-slate-900">
-    <section class="mx-auto max-w-screen-2xl px-4 md:px-6">
+    <section class="mx-auto max-w-screen-2xl overflow-x-clip px-4 md:px-6">
       <!-- Header Module -->
       <PostresHeader
         class="anim-up min-w-0 lg:col-span-12"

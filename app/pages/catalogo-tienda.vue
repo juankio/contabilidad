@@ -9,7 +9,7 @@ const profileInitial = computed(() => activeProfileName.value?.trim().charAt(0).
 
 <template>
   <main class="min-h-screen bg-slate-50 text-slate-900">
-    <section class="mx-auto max-w-screen-2xl px-4 pb-10 pt-6">
+    <section class="mx-auto max-w-screen-2xl overflow-x-clip px-4 pb-10 pt-6">
       <header class="anim-up rounded-3xl bg-white p-5 shadow-sm">
         <div class="flex items-center gap-3">
           <div

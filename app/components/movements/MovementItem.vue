@@ -18,7 +18,7 @@ const isIngreso = props.movimiento.type === 'Ingreso'
 
 <template>
   <div
-    class="group flex items-center gap-3 rounded-2xl border border-slate-100 px-4 py-3 transition-all duration-150 hover:border-slate-200 hover:bg-slate-50"
+    class="group flex items-center gap-3 rounded-2xl border border-slate-100 px-3 md:px-4 py-3 transition-all duration-150 hover:border-slate-200 hover:bg-slate-50 min-w-0"
   >
     <div
       class="h-2 w-2 shrink-0 rounded-full"
@@ -28,11 +28,11 @@ const isIngreso = props.movimiento.type === 'Ingreso'
       <p class="truncate text-sm font-medium text-slate-800 group-hover:text-slate-900">
         {{ movimiento.description }}
       </p>
-      <p class="mt-0.5 text-xs text-slate-400">
+      <p class="mt-0.5 truncate text-xs text-slate-400">
         {{ movimiento.category }} · {{ formatShortDate(movimiento.date) }}
       </p>
     </div>
-    <div class="flex items-center gap-2">
+    <div class="flex flex-col md:flex-row items-end md:items-center gap-1 md:gap-2 shrink-0">
       <p
         class="shrink-0 text-sm font-semibold tabular-nums"
         :class="isIngreso ? 'text-emerald-600' : 'text-amber-600'"
@@ -49,18 +49,14 @@ const isIngreso = props.movimiento.type === 'Ingreso'
           size="xs"
           icon="lucide:pencil"
           @click="emit('edit', movimiento)"
-        >
-          Editar
-        </UButton>
+        />
         <UButton
           color="error"
           variant="soft"
           size="xs"
           icon="lucide:trash-2"
           @click="emit('delete', movimiento)"
-        >
-          Eliminar
-        </UButton>
+        />
       </div>
     </div>
   </div>
