@@ -26,9 +26,9 @@ const goToProfile = async () => {
 </script>
 
 <template>
-  <main class="min-h-screen bg-slate-50/50 text-slate-900">
-    <section class="mx-auto max-w-screen-2xl overflow-x-clip px-4 md:px-6 pb-12 pt-8">
-      <header class="anim-up mb-8 rounded-[2rem] border border-slate-200/60 bg-white/80 p-6 sm:p-8 shadow-sm backdrop-blur-xl transition-all">
+  <main class="min-h-screen w-full overflow-x-hidden bg-slate-50/50 text-slate-900">
+    <section class="mx-auto w-full max-w-screen-2xl overflow-x-clip px-4 md:px-6 pb-12 pt-8">
+      <header class="anim-up mb-8 w-full overflow-hidden rounded-[2rem] border border-slate-200/60 bg-white/80 p-6 sm:p-8 shadow-sm backdrop-blur-xl transition-all">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 min-w-0">
           <div class="flex items-center gap-4 sm:gap-5 min-w-0">
             <div class="relative shrink-0">
@@ -75,15 +75,15 @@ const goToProfile = async () => {
       </header>
 
       <!-- Grid de tarjetas principal -->
-      <div class="grid gap-6 lg:grid-cols-12 items-start">
+      <div class="grid w-full gap-6 lg:grid-cols-12 items-start">
         <!-- Columna Izquierda: Balance y Categorías (4 columnas) -->
-        <div class="flex flex-col gap-6 lg:col-span-4">
+        <div class="flex flex-col gap-6 lg:col-span-4 min-w-0 w-full">
           <BalanceCard class="anim-up-1" />
           <CategoriesCard class="anim-up-3" />
         </div>
 
         <!-- Columna Derecha: Formulario y Movimientos (8 columnas) -->
-        <div class="flex flex-col gap-6 lg:col-span-8">
+        <div class="flex flex-col gap-6 lg:col-span-8 min-w-0 w-full">
           <MovementForm class="anim-up-2" />
           <RecentMovements class="anim-up-4" />
         </div>
