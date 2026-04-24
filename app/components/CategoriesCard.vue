@@ -106,7 +106,7 @@ const barClass = (index: number) => `anim-bar-${Math.min(index, 5)} ${barColors[
         :key="categoria.category"
         class="group"
       >
-        <div class="mb-1 flex items-center justify-between gap-2">
+        <div class="mb-1 flex min-w-0 items-center justify-between gap-2">
           <span class="truncate text-xs font-medium text-slate-600 transition-colors duration-150 group-hover:text-slate-900">
             {{ categoria.category }}
           </span>

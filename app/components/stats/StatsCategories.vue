@@ -24,7 +24,7 @@ const { formatCurrency } = useFormatters()
         :key="categoria.label"
         class="grid gap-1.5"
       >
-        <div class="flex items-center justify-between gap-2">
+        <div class="flex items-center justify-between gap-2 min-w-0">
           <div class="flex min-w-0 items-center gap-2">
             <span
               class="h-2.5 w-2.5 shrink-0 rounded-full"
