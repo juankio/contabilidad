@@ -18,7 +18,7 @@ export default defineApiHandler(async (event) => {
   const scope = query.scope === 'all' ? 'all' : 'active'
 
   let profileObjectIds: mongoose.Types.ObjectId[] = []
-  if (requestedProfileId) {
+  if (requestedProfileId && requestedProfileId !== 'all') {
     const user = await requireUser(event)
     const exists = (user.profiles ?? []).some(profile => profile._id?.toString() === requestedProfileId)
     if (!exists) {
@@ -26,7 +26,7 @@ export default defineApiHandler(async (event) => {
     } else {
       profileObjectIds = [new mongoose.Types.ObjectId(requestedProfileId)]
     }
-  } else if (scope === 'all') {
+  } else if (requestedProfileId === 'all' || scope === 'all') {
     const user = await requireUser(event)
     profileObjectIds = (user.profiles ?? [])
       .map(profile => profile._id)
