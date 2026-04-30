@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import IconSelector from '../ui/IconSelector.vue'
 
 defineProps<{
   open: boolean
@@ -57,7 +56,7 @@ const emit = defineEmits<{
 
           <div class="grid gap-1.5 text-sm">
             <label class="font-semibold text-slate-700">Icono representativo</label>
-            <IconSelector
+            <ProfileIconPicker
               :model-value="icon"
               @update:model-value="emit('update:icon', $event)"
             />
