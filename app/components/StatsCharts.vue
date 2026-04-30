@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import StatsIncomeExpense from './stats/StatsIncomeExpense.vue'
-import StatsCategories from './stats/StatsCategories.vue'
-import StatsSeries from './stats/StatsSeries.vue'
+import StatsTrendChart from './stats/StatsTrendChart.vue'
+import StatsCategoryChart from './stats/StatsCategoryChart.vue'
 
 const {
   selectedProfileId,
@@ -23,46 +22,33 @@ const resumen = computed(() => data.value?.resumen ?? {
   saldo: 0,
   saldoDisponible: 0
 })
-
-const tabs = [
-  { label: 'Resumen' },
-  { label: 'Categorías' },
-  { label: 'Histórico' }
-]
-const activeTab = ref(0)
 </script>
 
 <template>
-  <div class="self-start rounded-[2rem] border border-slate-200/60 bg-white/80 p-4 sm:p-8 shadow-sm backdrop-blur-xl md:col-span-2 lg:col-span-3">
-    <!-- Header -->
-    <div class="flex items-center justify-between gap-6 max-sm:gap-3 mb-6 max-sm:mb-4">
-      <div class="flex items-center gap-4 max-sm:gap-3">
-        <div class="flex h-12 w-12 max-sm:h-10 max-sm:w-10 items-center justify-center rounded-2xl max-sm:rounded-xl bg-[var(--brand-50)] text-[var(--brand-600)] ring-1 ring-[var(--brand-500)]/20 shrink-0">
-          <UIcon
-            name="lucide:bar-chart-3"
-            class="h-5 w-5 max-sm:h-4 max-sm:w-4"
-          />
+  <div class="self-start flex flex-col min-w-0">
+    <!-- Header Controls -->
+    <div class="mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-[var(--brand-600)] shadow-sm ring-1 ring-slate-200 shrink-0">
+          <UIcon name="lucide:activity" class="h-5 w-5" />
         </div>
         <div>
           <h2 class="text-lg font-bold tracking-tight text-slate-900">
             Estadísticas
           </h2>
-          <p class="text-sm text-slate-500 hidden sm:block">
-            Resumen financiero de los últimos meses.
-          </p>
         </div>
       </div>
 
-      <!-- Desktop: filtros de perfil -->
-      <div class="hidden max-w-full lg:block">
-        <div class="flex flex-wrap items-center gap-2">
+      <!-- Profile Filters -->
+      <div class="flex overflow-x-auto pb-1 sm:pb-0 scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0">
+        <div class="flex items-center gap-2">
           <button
             v-for="item in profileFilterItems"
             :key="item.value"
             type="button"
-            class="rounded-full px-3 py-1 text-xs font-medium transition-all duration-150"
-            :class="selectedProfileId === item.value ? 'text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'"
-            :style="selectedProfileId === item.value ? { background: 'var(--brand-600)' } : {}"
+            class="whitespace-nowrap rounded-full px-4 py-1.5 text-xs font-bold transition-all duration-300 border"
+            :class="selectedProfileId === item.value ? 'text-white border-transparent shadow-md' : 'bg-white/60 text-slate-600 border-slate-200/60 hover:bg-white backdrop-blur-md'"
+            :style="selectedProfileId === item.value ? { background: 'var(--brand-500)' } : {}"
             @click="selectedProfileId = item.value"
           >
             {{ item.label }}
@@ -72,85 +58,29 @@ const activeTab = ref(0)
     </div>
 
     <!-- Loading / Error -->
-    <div
-      v-if="pending"
-      class="mt-6 text-sm text-slate-500"
-    >
-      Cargando estadísticas...
+    <div v-if="pending" class="flex h-64 items-center justify-center rounded-[2rem] border border-slate-200/60 bg-white/40 backdrop-blur-xl">
+      <UIcon name="lucide:loader-2" class="h-6 w-6 animate-spin text-slate-400" />
     </div>
-    <div
-      v-else-if="error"
-      class="mt-6 text-sm text-rose-500"
-    >
-      No se pudieron cargar.
+    <div v-else-if="error" class="flex h-64 flex-col items-center justify-center gap-2 rounded-[2rem] border border-rose-200/60 bg-rose-50/40 backdrop-blur-xl text-rose-500">
+      <UIcon name="lucide:alert-circle" class="h-6 w-6" />
+      <span class="text-sm font-medium">Error al cargar estadísticas</span>
     </div>
 
     <template v-else>
-      <!-- Mobile: segmented control + filtros de perfil -->
-      <div class="mt-3 lg:hidden">
-        <div class="flex flex-wrap items-center gap-2">
-          <button
-            v-for="item in profileFilterItems"
-            :key="item.value"
-            type="button"
-            class="rounded-full px-3 py-1 text-xs font-medium transition-all duration-150"
-            :class="selectedProfileId === item.value ? 'text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'"
-            :style="selectedProfileId === item.value ? { background: 'var(--brand-600)' } : {}"
-            @click="selectedProfileId = item.value"
-          >
-            {{ item.label }}
-          </button>
-        </div>
-
-        <div class="mt-3 flex rounded-xl bg-slate-100 p-1">
-          <button
-            v-for="(tab, i) in tabs"
-            :key="i"
-            type="button"
-            class="flex-1 rounded-lg py-1.5 text-xs font-medium transition-all duration-150"
-            :class="activeTab === i
-              ? 'bg-white text-slate-900 shadow-sm'
-              : 'text-slate-500 hover:text-slate-700'"
-            @click="activeTab = i"
-          >
-            {{ tab.label }}
-          </button>
-        </div>
-
-        <div class="mt-3">
-          <StatsIncomeExpense
-            v-if="activeTab === 0"
-            :resumen="resumen"
-            :ingresos-ratio="ingresosRatio"
-            :gastos-ratio="gastosRatio"
-          />
-          <StatsCategories
-            v-else-if="activeTab === 1"
-            :categorias="categoriasSegments"
-            :max-value="maxCategoryValue"
-          />
-          <StatsSeries
-            v-else
-            :series="data?.series || []"
-            :max-value="maxSeriesValue"
-          />
-        </div>
-      </div>
-
-      <!-- Desktop: 3 columnas -->
-      <div class="mt-4 grid gap-4 max-lg:hidden lg:grid-cols-3">
-        <StatsIncomeExpense
+      <!-- Charts Grid -->
+      <div class="grid gap-6 xl:grid-cols-2 mt-2">
+        <StatsTrendChart
+          class="anim-up-1"
           :resumen="resumen"
           :ingresos-ratio="ingresosRatio"
           :gastos-ratio="gastosRatio"
+          :series="data?.series || []"
+          :max-series-value="maxSeriesValue"
         />
-        <StatsCategories
+        <StatsCategoryChart
+          class="anim-up-2"
           :categorias="categoriasSegments"
           :max-value="maxCategoryValue"
-        />
-        <StatsSeries
-          :series="data?.series || []"
-          :max-value="maxSeriesValue"
         />
       </div>
     </template>

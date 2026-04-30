@@ -1,9 +1,6 @@
 <script setup lang="ts">
-import { animate, stagger } from 'animejs'
-import MovementListModal from './movements/MovementListModal.vue'
-import MovementEditModal from './movements/MovementEditModal.vue'
-import MovementDeleteModal from './movements/MovementDeleteModal.vue'
-import MovementItem from './movements/MovementItem.vue'
+import MovementModals from './movements/MovementModals.vue'
+import RecentMovementsList from './movements/RecentMovementsList.vue'
 import { useRecentMovements } from '../composables/movimientos/useRecentMovements'
 
 defineOptions({ inheritAttrs: false })
@@ -15,20 +12,6 @@ const {
   deleteOpen, deleteType, deleteLabel, deleteLoading, deleteError,
   openEdit, closeEdit, submitEdit, openDelete, closeDelete, confirmDelete
 } = useRecentMovements()
-
-watch(previewMovimientos, (newMoves) => {
-  if (newMoves && newMoves.length > 0) {
-    nextTick(() => {
-      animate('.movement-item-anim', {
-        translateY: [20, 0],
-        opacity: [0, 1],
-        delay: stagger(50),
-        duration: 800,
-        easing: 'easeOutElastic(1, .8)'
-      })
-    })
-  }
-}, { immediate: true })
 </script>
 
 <template>
@@ -52,76 +35,14 @@ watch(previewMovimientos, (newMoves) => {
       </div>
     </div>
 
-    <!-- Lista -->
-    <div class="flex-1 overflow-y-auto pr-2 -mr-2 space-y-3 min-w-0">
-      <template v-if="pending">
-        <div
-          v-for="i in 4"
-          :key="i"
-          class="flex items-center justify-between rounded-2xl p-3 border border-slate-100 bg-slate-50/50"
-        >
-          <div class="flex items-center gap-3">
-            <USkeleton class="h-10 w-10 rounded-xl" />
-            <div class="space-y-2">
-              <USkeleton class="h-4 w-24 rounded-md" />
-              <USkeleton class="h-3 w-16 rounded-md" />
-            </div>
-          </div>
-          <USkeleton class="h-5 w-16 rounded-md" />
-        </div>
-      </template>
-
-      <template v-else-if="error || !movimientos">
-        <div class="flex h-full min-h-[200px] flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-slate-50 py-8 text-center px-4">
-          <div class="flex h-12 w-12 items-center justify-center rounded-full bg-rose-50 text-rose-400 mb-3">
-            <UIcon
-              name="lucide:alert-triangle"
-              class="h-6 w-6"
-            />
-          </div>
-          <p class="text-sm font-semibold text-rose-600">
-            Error
-          </p>
-          <p class="mt-1 text-sm text-rose-500 max-w-[200px]">
-            No pudimos cargar los movimientos.
-          </p>
-        </div>
-      </template>
-
-      <template v-else-if="previewMovimientos.length === 0">
-        <div class="flex h-full min-h-[200px] flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-slate-50 py-8 text-center px-4">
-          <div class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-400 mb-3">
-            <UIcon
-              name="lucide:inbox"
-              class="h-6 w-6"
-            />
-          </div>
-          <p class="text-sm font-semibold text-slate-700">
-            Sin movimientos
-          </p>
-          <p class="mt-1 text-sm text-slate-500 max-w-[200px]">
-            Aún no hay transacciones en este perfil.
-          </p>
-        </div>
-      </template>
-
-      <template v-else>
-        <TransitionGroup
-          name="mov"
-          tag="div"
-          class="space-y-2 relative"
-        >
-        <MovementItem
-          v-for="movimiento in previewMovimientos"
-          :key="movimiento._id"
-          :movimiento="movimiento"
-          class="movement-item-anim opacity-0"
-          @edit="openEdit"
-          @delete="openDelete"
-        />
-        </TransitionGroup>
-      </template>
-    </div>
+    <!-- Componente de Lista -->
+    <RecentMovementsList
+      :pending="pending"
+      :error="error"
+      :preview-movimientos="previewMovimientos"
+      @edit="openEdit"
+      @delete="openDelete"
+    />
 
     <div class="mt-6 pt-4 border-t border-slate-100/80">
       <UButton
@@ -136,49 +57,41 @@ watch(previewMovimientos, (newMoves) => {
         Ver todos
       </UButton>
     </div>
-
-    <!-- Modals -->
-    <MovementListModal
-      v-model:open="showAllModal"
-      :movimientos="movimientos || []"
-      @edit="openEdit"
-      @delete="openDelete"
-    />
   </div>
 
-  <MovementEditModal
-    :open="editOpen"
-    :type="editType"
-    :description="editDescription"
-    :category="editCategory"
-    :amount-input="editAmountInput"
-    :date="editDate"
-    :loading="editLoading"
-    :error="editError"
-    :can-submit="canSubmitEdit"
-    @update:description="editDescription = $event"
-    @update:category="editCategory = $event"
-    @update:amount-input="editAmountInput = $event"
-    @update:date="editDate = String($event)"
-    @update:open="closeEdit"
-    @confirm="submitEdit"
-  />
+  <!-- Componente de Modales (Orquestador) -->
+  <MovementModals
+    :show-all-modal="showAllModal"
+    :movimientos="movimientos"
+    
+    :edit-open="editOpen"
+    :edit-type="editType"
+    :edit-description="editDescription"
+    :edit-category="editCategory"
+    :edit-amount-input="editAmountInput"
+    :edit-date="editDate"
+    :edit-loading="editLoading"
+    :edit-error="editError"
+    :can-submit-edit="canSubmitEdit"
+    
+    :delete-open="deleteOpen"
+    :delete-type="deleteType"
+    :delete-label="deleteLabel"
+    :delete-loading="deleteLoading"
+    :delete-error="deleteError"
 
-  <MovementDeleteModal
-    :open="deleteOpen"
-    :type="deleteType"
-    :label="deleteLabel"
-    :loading="deleteLoading"
-    :error="deleteError"
-    @update:open="closeDelete"
-    @confirm="confirmDelete"
+    @update:show-all-modal="showAllModal = $event"
+    @update:edit-description="editDescription = $event"
+    @update:edit-category="editCategory = $event"
+    @update:edit-amount-input="editAmountInput = $event"
+    @update:edit-date="editDate = $event"
+    
+    @edit="openEdit"
+    @close-edit="closeEdit"
+    @submit-edit="submitEdit"
+    
+    @delete="openDelete"
+    @close-delete="closeDelete"
+    @confirm-delete="confirmDelete"
   />
 </template>
-
-<style scoped>
-.mov-enter-active { transition: all 0.28s cubic-bezier(0.22, 1, 0.36, 1); }
-.mov-leave-active { transition: all 0.18s ease; }
-.mov-enter-from   { opacity: 0; transform: translateY(-8px); }
-.mov-leave-to     { opacity: 0; transform: translateX(16px); }
-.mov-move         { transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1); }
-</style>
