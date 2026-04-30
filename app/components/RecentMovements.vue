@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { animate, stagger } from 'animejs'
 import MovementListModal from './movements/MovementListModal.vue'
 import MovementEditModal from './movements/MovementEditModal.vue'
 import MovementDeleteModal from './movements/MovementDeleteModal.vue'
@@ -14,6 +15,20 @@ const {
   deleteOpen, deleteType, deleteLabel, deleteLoading, deleteError,
   openEdit, closeEdit, submitEdit, openDelete, closeDelete, confirmDelete
 } = useRecentMovements()
+
+watch(previewMovimientos, (newMoves) => {
+  if (newMoves && newMoves.length > 0) {
+    nextTick(() => {
+      animate('.movement-item-anim', {
+        translateY: [20, 0],
+        opacity: [0, 1],
+        delay: stagger(50),
+        duration: 800,
+        easing: 'easeOutElastic(1, .8)'
+      })
+    })
+  }
+}, { immediate: true })
 </script>
 
 <template>
@@ -96,13 +111,14 @@ const {
           tag="div"
           class="space-y-2 relative"
         >
-          <MovementItem
-            v-for="mov in previewMovimientos"
-            :key="mov._id"
-            :movimiento="mov"
-            @edit="openEdit"
-            @delete="openDelete"
-          />
+        <MovementItem
+          v-for="movimiento in previewMovimientos"
+          :key="movimiento._id"
+          :movimiento="movimiento"
+          class="movement-item-anim opacity-0"
+          @edit="openEdit"
+          @delete="openDelete"
+        />
         </TransitionGroup>
       </template>
     </div>

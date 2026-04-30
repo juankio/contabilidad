@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { animate } from 'animejs'
+
 const {
   resumen,
   pending,
@@ -7,6 +9,34 @@ const {
   exportResumen,
   formatCurrency
 } = useResumen()
+
+// Animación de los contadores de números
+const animatedSaldoDisponible = ref(0)
+const animatedIngresos = ref(0)
+const animatedGastos = ref(0)
+
+watch(resumen, (newResumen) => {
+  if (newResumen) {
+    const obj = { 
+      saldo: animatedSaldoDisponible.value,
+      ingresos: animatedIngresos.value,
+      gastos: animatedGastos.value
+    }
+
+    animate(obj, {
+      saldo: newResumen.saldoDisponible || 0,
+      ingresos: newResumen.ingresos || 0,
+      gastos: newResumen.gastos || 0,
+      duration: 1200,
+      easing: 'easeOutExpo',
+      update: () => {
+        animatedSaldoDisponible.value = obj.saldo
+        animatedIngresos.value = obj.ingresos
+        animatedGastos.value = obj.gastos
+      }
+    })
+  }
+}, { deep: true, immediate: true })
 
 // Porcentaje de gastos sobre ingresos — indicador de salud financiera
 const saludPct = computed(() => {
@@ -73,7 +103,7 @@ const saludColor = computed(() => {
         <div class="flex flex-col gap-1 min-w-0">
           <span class="text-sm font-medium text-slate-500 uppercase tracking-wider truncate">Dinero Disponible</span>
           <span class="text-4xl font-extrabold tracking-tighter text-slate-900 sm:text-5xl truncate">
-            {{ formatCurrency(resumen?.saldoDisponible || 0) }}
+            {{ formatCurrency(animatedSaldoDisponible) }}
           </span>
         </div>
         <p
@@ -97,7 +127,7 @@ const saludColor = computed(() => {
             Ingresos
           </p>
           <p class="mt-1 font-bold text-emerald-600 truncate">
-            {{ formatCurrency(resumen?.ingresos || 0) }}
+            {{ formatCurrency(animatedIngresos) }}
           </p>
         </div>
         <div class="min-w-0">
@@ -105,7 +135,7 @@ const saludColor = computed(() => {
             Gastos
           </p>
           <p class="mt-1 font-bold text-rose-600 truncate">
-            {{ formatCurrency(resumen?.gastos || 0) }}
+            {{ formatCurrency(animatedGastos) }}
           </p>
         </div>
       </div>

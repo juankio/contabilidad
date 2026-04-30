@@ -15,6 +15,7 @@
     "@internationalized/date": "^3.5.0",
     "@nuxt/ui": "^4.4.0",
     "@types/node": "^25.0.10",
+    "animejs": "^4.4.1",
     "bcryptjs": "^2.4.3",
     "exceljs": "^4.4.0",
     "google-auth-library": "^10.5.0",
@@ -29,6 +30,7 @@
   "devDependencies": {
     "@iconify-json/lucide": "^1.2.96",
     "@nuxt/eslint": "^1.13.0",
+    "@types/animejs": "^3.1.13",
     "@types/bcryptjs": "^2.4.6",
     "@types/jsonwebtoken": "^9.0.9",
     "eslint": "^9.39.2",
