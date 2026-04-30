@@ -16,6 +16,8 @@ defineEmits<{
 }>()
 
 watch([() => props.previewMovimientos, () => props.pending], ([newMoves, isPending]) => {
+  if (!import.meta.client) return // Evitar que anime.js explote en SSR (NodeList no definido)
+
   if (!isPending && newMoves && newMoves.length > 0) {
     nextTick(() => {
       // Pequeño timeout para asegurar que el v-else-if cambió en el DOM

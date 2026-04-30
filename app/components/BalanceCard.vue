@@ -17,6 +17,14 @@ const animatedGastos = ref(0)
 
 watch(resumen, (newResumen) => {
   if (newResumen) {
+    // Si estamos en servidor (SSR), asignamos directo sin animar para evitar errores
+    if (!import.meta.client) {
+      animatedSaldoDisponible.value = newResumen.saldoDisponible || 0
+      animatedIngresos.value = newResumen.ingresos || 0
+      animatedGastos.value = newResumen.gastos || 0
+      return
+    }
+
     const obj = { 
       saldo: animatedSaldoDisponible.value,
       ingresos: animatedIngresos.value,
