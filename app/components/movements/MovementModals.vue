@@ -9,7 +9,7 @@ defineProps<{
   movimientos: MovimientoRow[] | null
   
   editOpen: boolean
-  editType: string
+  editType: string | null
   editDescription: string
   editCategory: string
   editAmountInput: string
@@ -19,7 +19,7 @@ defineProps<{
   canSubmitEdit: boolean
   
   deleteOpen: boolean
-  deleteType: string
+  deleteType: string | null
   deleteLabel: string
   deleteLoading: boolean
   deleteError: string | null
