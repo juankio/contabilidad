@@ -26,7 +26,7 @@ const goToProfile = async () => {
 </script>
 
 <template>
-  <main class="min-h-screen w-full overflow-x-hidden bg-[url('data:image/svg+xml,%3Csvg viewBox=%270 0 200 200%27 xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cfilter id=%27noiseFilter%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%270.65%27 numOctaves=%273%27 stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23noiseFilter)%27 opacity=%270.05%27/%3E%3C/svg%3E')] bg-slate-50 text-slate-900">
+  <main class="min-h-screen w-full overflow-x-hidden bg-slate-50 fintech-bg text-slate-900">
     <section class="mx-auto w-full max-w-screen-2xl overflow-x-clip px-4 md:px-6 pb-12 pt-8">
       <header class="anim-up mb-8 w-full overflow-hidden rounded-[2rem] border border-white/60 bg-white/60 p-6 sm:p-8 backdrop-blur-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)]">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 min-w-0">
