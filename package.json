@@ -15,7 +15,7 @@
     "@internationalized/date": "^3.5.0",
     "@nuxt/ui": "^4.4.0",
     "@types/node": "^25.0.10",
-    "animejs": "^4.4.1",
+    "animejs": "3.2.2",
     "bcryptjs": "^2.4.3",
     "exceljs": "^4.4.0",
     "google-auth-library": "^10.5.0",

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { animate } from 'animejs'
+import anime from 'animejs'
 
 const {
   resumen,
@@ -23,7 +23,8 @@ watch(resumen, (newResumen) => {
       gastos: animatedGastos.value
     }
 
-    animate(obj, {
+    anime({
+      targets: obj,
       saldo: newResumen.saldoDisponible || 0,
       ingresos: newResumen.ingresos || 0,
       gastos: newResumen.gastos || 0,

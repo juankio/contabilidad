@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { watch, nextTick } from 'vue'
-import { animate, stagger } from 'animejs'
+import anime from 'animejs'
 import MovementItem from './MovementItem.vue'
 import type { MovimientoRow } from '../../composables/movimientos/useMovementCrud'
 
@@ -20,10 +20,11 @@ watch([() => props.previewMovimientos, () => props.pending], ([newMoves, isPendi
     nextTick(() => {
       // Pequeño timeout para asegurar que el v-else-if cambió en el DOM
       setTimeout(() => {
-        animate('.movement-item-anim', {
+        anime({
+          targets: '.movement-item-anim',
           translateY: [20, 0],
           opacity: [0, 1],
-          delay: stagger(50),
+          delay: anime.stagger(50),
           duration: 800,
           easing: 'easeOutElastic(1, .8)'
         })
