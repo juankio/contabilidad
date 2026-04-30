@@ -15,16 +15,19 @@ defineEmits<{
   (e: 'delete', mov: MovimientoRow): void
 }>()
 
-watch(() => props.previewMovimientos, (newMoves) => {
-  if (newMoves && newMoves.length > 0) {
+watch([() => props.previewMovimientos, () => props.pending], ([newMoves, isPending]) => {
+  if (!isPending && newMoves && newMoves.length > 0) {
     nextTick(() => {
-      animate('.movement-item-anim', {
-        translateY: [20, 0],
-        opacity: [0, 1],
-        delay: stagger(50),
-        duration: 800,
-        easing: 'easeOutElastic(1, .8)'
-      })
+      // Pequeño timeout para asegurar que el v-else-if cambió en el DOM
+      setTimeout(() => {
+        animate('.movement-item-anim', {
+          translateY: [20, 0],
+          opacity: [0, 1],
+          delay: stagger(50),
+          duration: 800,
+          easing: 'easeOutElastic(1, .8)'
+        })
+      }, 50)
     })
   }
 }, { immediate: true })
@@ -93,7 +96,7 @@ watch(() => props.previewMovimientos, (newMoves) => {
           v-for="movimiento in previewMovimientos"
           :key="movimiento._id"
           :movimiento="movimiento"
-          class="movement-item-anim opacity-0"
+          class="movement-item-anim"
           @edit="$emit('edit', $event)"
           @delete="$emit('delete', $event)"
         />
