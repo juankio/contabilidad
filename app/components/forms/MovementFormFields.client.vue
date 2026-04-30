@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+import { animate } from 'animejs'
 import FormField from './FormField.vue'
 import DateInputField from './DateInputField.vue'
 import { useMovementForm } from '../../composables/forms/useMovementForm'
@@ -14,12 +16,27 @@ const {
   formSuccess,
   submitMovement
 } = useMovementForm()
+
+const submitBtnRef = ref(null)
+
+const handlePopSubmit = async () => {
+  // Elastic pop effect on button
+  if (submitBtnRef.value) {
+    animate({
+      targets: submitBtnRef.value.$el || submitBtnRef.value,
+      scale: [0.95, 1],
+      duration: 600,
+      easing: 'easeOutElastic(1, 0.5)'
+    })
+  }
+  await submitMovement()
+}
 </script>
 
 <template>
   <form
-    class="mt-5 grid gap-4"
-    @submit.prevent="submitMovement"
+    class="mt-5 grid gap-4 relative"
+    @submit.prevent="handlePopSubmit"
   >
     <FormField
       label="Tipo"
@@ -108,11 +125,13 @@ const {
     </p>
 
     <UButton
+      ref="submitBtnRef"
       type="submit"
       size="lg"
       color="primary"
       block
       :loading="isSaving"
+      class="transition-colors shadow-sm hover:shadow-md active:scale-95"
     >
       {{ isSaving ? 'Guardando...' : 'Guardar movimiento' }}
     </UButton>
