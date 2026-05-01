@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { usePostres } from '../../composables/postres/usePostres'
+import { animate } from 'animejs'
 
 const { postres, eliminar, loadingData } = usePostres()
 const toast = useToast()
@@ -14,6 +15,20 @@ const deletePostre = async (id: string) => {
     const errorMsg = err as Error
     toast.add({ title: 'Error al eliminar', description: errorMsg.message, color: 'error' })
   }
+}
+
+function onBeforeEnter(el: Element) {
+  const htmlEl = el as HTMLElement
+  htmlEl.style.opacity = '0'
+  htmlEl.style.transform = 'translateY(15px)'
+}
+
+function onEnter(el: Element, done: () => void) {
+  animate(el, { opacity: [0, 1], y: [15, 0], duration: 400, ease: 'outExpo', onComplete: done })
+}
+
+function onLeave(el: Element, done: () => void) {
+  animate(el, { opacity: 0, x: -20, duration: 300, ease: 'inExpo', onComplete: done })
 }
 </script>
 
@@ -38,7 +53,14 @@ const deletePostre = async (id: string) => {
       <p class="text-sm font-semibold text-slate-700">Sin catálogo</p>
       <p class="mt-1 text-sm text-slate-500 max-w-[200px]">Crea tu primer postre.</p>
     </div>
-    <ul v-else class="space-y-3 overflow-y-auto max-h-[30vh] md:max-h-[220px] pr-1 scrollbar-thin scrollbar-thumb-slate-200">
+    <TransitionGroup
+      v-else
+      tag="ul"
+      @before-enter="onBeforeEnter"
+      @enter="onEnter"
+      @leave="onLeave"
+      class="space-y-3 overflow-y-auto max-h-[30vh] md:max-h-[220px] pr-1 scrollbar-thin scrollbar-thumb-slate-200 relative"
+    >
       <li v-for="postre in postres" :key="postre._id" class="group flex items-center justify-between rounded-2xl border border-slate-100 bg-transparent p-3 transition-colors hover:bg-transparent">
         <div class="flex items-center gap-3">
           <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-white shadow-sm ring-1 ring-slate-100/80">
@@ -56,6 +78,6 @@ const deletePostre = async (id: string) => {
           <UButton color="error" variant="ghost" icon="lucide:trash-2" size="sm" class="opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity" @click="deletePostre(postre._id)" />
         </div>
       </li>
-    </ul>
+    </TransitionGroup>
   </div>
 </template>

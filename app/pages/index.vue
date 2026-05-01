@@ -4,7 +4,6 @@ import MovementForm from '../components/MovementForm.client.vue'
 import RecentMovements from '../components/RecentMovements.vue'
 import CategoriesCard from '../components/CategoriesCard.vue'
 import AppPageHeader from '../components/layout/AppPageHeader.vue'
-
 </script>
 
 <template>
@@ -13,17 +12,17 @@ import AppPageHeader from '../components/layout/AppPageHeader.vue'
       <AppPageHeader />
 
       <!-- Grid de tarjetas principal -->
-      <div class="grid w-full gap-6 lg:grid-cols-12 items-start">
+      <div class="grid w-full gap-6 lg:grid-cols-12 items-start mt-6">
         <!-- Columna Izquierda: Balance y Categorías (4 columnas) -->
         <div class="flex flex-col gap-6 lg:col-span-4 min-w-0 w-full">
-          <BalanceCard class="anim-up-1" />
-          <CategoriesCard class="anim-up-3" />
+          <BalanceCard />
+          <CategoriesCard />
         </div>
 
         <!-- Columna Derecha: Formulario y Movimientos (8 columnas) -->
         <div class="flex flex-col gap-6 lg:col-span-8 min-w-0 w-full">
-          <MovementForm class="anim-up-2" />
-          <RecentMovements class="anim-up-4" />
+          <MovementForm />
+          <RecentMovements />
         </div>
       </div>
     </section>

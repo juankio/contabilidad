@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { useGranjaCerdos } from '../composables/granja/useGranjaCerdos'
+import { animate, stagger } from 'animejs'
 import GranjaDashboard from '../components/granja/GranjaDashboard.vue'
 
 definePageMeta({ requiresModule: 'granja-cerdos' })
@@ -52,7 +53,16 @@ const handleEliminarLote = async (id: string, onSuccess: () => void) => {
   }
 }
 
-onMounted(() => fetchLotes())
+onMounted(() => {
+  fetchLotes()
+  animate('.anim-up, [class*="anim-up-"]', {
+    y: [30, 0],
+    opacity: [0, 1],
+    duration: 800,
+    ease: 'outExpo',
+    delay: stagger(100)
+  })
+})
 </script>
 
 <template>

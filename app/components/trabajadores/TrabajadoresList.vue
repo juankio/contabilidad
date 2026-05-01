@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { watch, nextTick } from 'vue'
+import { animate, stagger } from 'animejs'
 import type { Trabajador } from '../../composables/trabajadores/useTrabajadores'
 import TrabajadorCard from './TrabajadorCard.vue'
 import TrabajadorSkeleton from './TrabajadorSkeleton.vue'
@@ -13,6 +15,23 @@ const emit = defineEmits<{
   (e: 'edit', trabajador: Trabajador): void
   (e: 'delete', trabajador: Trabajador): void
 }>()
+
+watch(() => props.loading, async (newVal) => {
+  if (!newVal) {
+    await nextTick()
+    if (!import.meta.client) return;
+    const targets = Array.from(document.querySelectorAll('.trabajador-item-anim'))
+    if (targets.length) {
+      animate(targets, {
+        y: [20, 0],
+        opacity: [0, 1],
+        duration: 500,
+        delay: stagger(50),
+        ease: 'outQuad'
+      })
+    }
+  }
+}, { immediate: true })
 </script>
 
 <template>
@@ -43,11 +62,12 @@ const emit = defineEmits<{
       <TrabajadorSkeleton
         v-for="i in 3"
         :key="i"
+        class="trabajador-item-anim"
       />
     </div>
     <div
       v-else-if="trabajadores.length === 0"
-      class="flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 py-8 text-center"
+      class="trabajador-item-anim flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 py-8 text-center"
     >
       <UIcon
         name="lucide:inbox"
@@ -67,6 +87,7 @@ const emit = defineEmits<{
       <TrabajadorCard
         v-for="t in trabajadores"
         :key="t._id"
+        class="trabajador-item-anim"
         :trabajador="t"
         :format-currency="formatCurrency"
         @edit="emit('edit', $event)"

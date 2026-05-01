@@ -2,7 +2,7 @@ import { readValidatedBody } from 'h3'
 import type { H3Event } from 'h3'
 import { connectMongoose } from '../utils/mongoose'
 import { requireActiveProfile } from '../utils/auth'
-import { defineSuccess } from '../utils/response'
+
 import { GastoCreateSchema } from '../schemas/gasto.schema'
 import { createGastoService } from '../services/gasto.service'
 
@@ -18,5 +18,5 @@ export async function createGastoController(event: H3Event) {
   const data = await createGastoService(profileId, user, body)
 
   // 4. Salida exitosa
-  return defineSuccess(data, 'Gasto registrado correctamente')
+  return data
 }

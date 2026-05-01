@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { onMounted } from 'vue'
+import { animate, stagger } from 'animejs'
 import PrestamosOverviewCard from './PrestamosOverviewCard.vue'
 import PrestamoCreateFormCard from './PrestamoCreateFormCard.vue'
 import PrestamosPendingCard from './PrestamosPendingCard.vue'
@@ -48,6 +50,20 @@ const emit = defineEmits([
   'submitPrestamo', 'toggleAbonoForm', 'submitAbono', 'requestDeletePrestamo', 'cancelDeletePrestamo',
   'confirmDeletePrestamo', 'startEditing', 'cancelEditing', 'submitEdit'
 ])
+
+onMounted(() => {
+  if (!import.meta.client) return;
+  const targets = Array.from(document.querySelectorAll('.anim-up, .anim-up-1, .anim-up-2, .anim-up-3, .anim-up-4'))
+  if (targets.length) {
+    animate(targets, {
+      y: [30, 0],
+      opacity: [0, 1],
+      duration: 600,
+      delay: stagger(100),
+      ease: 'outExpo'
+    })
+  }
+})
 </script>
 
 <template>

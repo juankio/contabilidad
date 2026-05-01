@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { watch, nextTick } from 'vue'
+import { animate, stagger } from 'animejs'
+
 defineOptions({
   inheritAttrs: false
 })
@@ -37,6 +40,27 @@ const openGroupModal = (group: ProfileGastosGroup) => {
 const closeGroupModal = () => {
   selectedGroup.value = null
 }
+
+watch(
+  () => props.pending,
+  async (isPending) => {
+    if (!isPending && props.groups?.length) {
+      await nextTick()
+      if (!import.meta.client) return;
+      const elements = document.querySelectorAll('.profile-list-item')
+      if (elements.length) {
+        animate(Array.from(elements), {
+          y: [20, 0],
+          opacity: [0, 1],
+          duration: 600,
+          delay: stagger(100),
+          ease: 'outExpo'
+        })
+      }
+    }
+  },
+  { immediate: true }
+)
 </script>
 
 <template>
@@ -109,7 +133,7 @@ const closeGroupModal = () => {
       <li
         v-for="g in groups"
         :key="g.profileName"
-        class="flex items-center justify-between rounded-2xl border border-slate-100 bg-transparent p-3"
+        class="profile-list-item flex items-center justify-between rounded-2xl border border-slate-100 bg-transparent p-3"
       >
         <div class="flex items-center gap-3">
           <div

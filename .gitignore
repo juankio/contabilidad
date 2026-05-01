@@ -31,3 +31,4 @@ logs
 # AI Memory and context
 .ai_memory.md
 .claude/
+AGENTS.md

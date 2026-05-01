@@ -10,7 +10,7 @@ const props = defineProps<{
   modelValue: boolean
   plan: PlanCompra | null
   submitting: boolean
-  submitError: string | null
+  submitError: string | null | undefined
 }>()
 
 const emit = defineEmits<{

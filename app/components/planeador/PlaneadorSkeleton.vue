@@ -7,7 +7,9 @@
     <div
       v-for="i in 4"
       :key="i"
-      class="skeleton h-14 w-full"
-    />
+      class="h-14 w-full"
+    >
+      <USkeleton class="h-full w-full rounded-2xl" />
+    </div>
   </div>
 </template>

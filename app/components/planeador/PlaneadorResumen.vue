@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed, onMounted } from 'vue'
+import { animate, stagger } from 'animejs'
 import type { PlanCompra } from '../../composables/planeador/usePlaneador'
 
 const props = defineProps<{
@@ -25,6 +27,20 @@ const alertaConfig = computed(() => ({
   warning: { badge: 'bg-amber-50 text-amber-600', bar: 'bg-amber-400', text: 'text-amber-700', bg: 'bg-amber-50', label: '⚡ Ajustado' },
   ok: { badge: 'bg-emerald-50 text-emerald-600', bar: 'bg-emerald-400', text: 'text-emerald-700', bg: 'bg-emerald-50', label: '✓ Bien' }
 }[alerta.value]))
+
+onMounted(() => {
+  if (!import.meta.client) return;
+  const els = document.querySelectorAll('.anim-up, .anim-up-1, .anim-up-2, .anim-up-3, .anim-up-4')
+  if (els.length) {
+    animate(Array.from(els), {
+      y: [15, 0],
+      opacity: [0, 1],
+      duration: 500,
+      ease: 'outExpo',
+      delay: stagger(100)
+    })
+  }
+})
 </script>
 
 <template>

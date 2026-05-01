@@ -65,9 +65,9 @@ const barClass = (index: number) => `anim-bar-${Math.min(index, 5)} ${barColors[
         :key="i"
         class="space-y-1.5"
       >
-        <div class="skeleton h-3 w-24" />
-        <div
-          class="skeleton h-2 rounded-full"
+        <USkeleton class="h-3 w-24 rounded" />
+        <USkeleton
+          class="h-2 rounded-full"
           :style="{ width: `${60 + i * 10}%` }"
         />
       </div>

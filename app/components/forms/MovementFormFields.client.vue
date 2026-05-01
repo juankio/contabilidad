@@ -28,10 +28,10 @@ const handlePopSubmit = async () => {
   // Elastic pop effect on button
   if (submitBtnRef.value) {
     if (btnAnimation) btnAnimation.pause()
-    btnAnimation = animate(submitBtnRef.value, {
+    btnAnimation = animate(submitBtnRef.value.$el || submitBtnRef.value, {
       scale: [0.95, 1],
       duration: 600,
-      easing: 'easeOutElastic(1, 0.5)'
+      ease: 'outElastic(1, 0.5)'
     })
   }
   await submitMovement()

@@ -3,7 +3,6 @@ import { connectMongoose } from '../utils/mongoose'
 import { requireActiveProfile } from '../utils/auth'
 import { GastoModel } from '../models/gasto'
 import { toIsoDate } from '../utils/date'
-import { defineSuccess } from '../utils/response'
 
 export async function getGastosController(event: H3Event) {
   await connectMongoose()
@@ -22,5 +21,5 @@ export async function getGastosController(event: H3Event) {
     date: toIsoDate(gasto.date)
   }))
 
-  return defineSuccess(formattedGastos, 'Gastos obtenidos correctamente')
+  return formattedGastos
 }

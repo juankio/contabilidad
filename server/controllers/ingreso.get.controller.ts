@@ -3,7 +3,7 @@ import { connectMongoose } from '../utils/mongoose'
 import { requireActiveProfile } from '../utils/auth'
 import { IngresoModel } from '../models/ingreso'
 import { toIsoDate } from '../utils/date'
-import { defineSuccess } from '../utils/response'
+
 
 export async function getIngresosController(event: H3Event) {
   await connectMongoose()
@@ -22,5 +22,5 @@ export async function getIngresosController(event: H3Event) {
     date: toIsoDate(ingreso.date)
   }))
 
-  return defineSuccess(formattedIngresos, 'Ingresos obtenidos correctamente')
+  return formattedIngresos
 }

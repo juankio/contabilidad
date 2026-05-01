@@ -2,7 +2,7 @@ import { readValidatedBody } from 'h3'
 import type { H3Event } from 'h3'
 import { connectMongoose } from '../utils/mongoose'
 import { requireActiveProfile } from '../utils/auth'
-import { defineSuccess } from '../utils/response'
+
 import { IngresoCreateSchema } from '../schemas/ingreso.schema'
 import { createIngresoService } from '../services/ingreso.service'
 
@@ -18,5 +18,5 @@ export async function createIngresoController(event: H3Event) {
   const data = await createIngresoService(profileId, user, body)
 
   // 4. Respuesta estándar
-  return defineSuccess(data, 'Ingreso registrado correctamente')
+  return data
 }

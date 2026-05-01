@@ -57,18 +57,68 @@ const resumen = computed(() => data.value?.resumen ?? {
       </div>
     </div>
 
-    <!-- Loading / Error -->
-    <div v-if="pending" class="flex h-64 items-center justify-center rounded-3xl border border-slate-200 bg-white">
-      <UIcon name="lucide:loader-2" class="h-6 w-6 animate-spin text-slate-400" />
-    </div>
-    <div v-else-if="error" class="flex h-64 flex-col items-center justify-center gap-2 rounded-3xl border border-rose-200 bg-rose-50 text-rose-500">
-      <UIcon name="lucide:alert-circle" class="h-6 w-6" />
-      <span class="text-sm font-medium">Error al cargar estadísticas</span>
-    </div>
+    <!-- Charts Grid -->
+    <div class="grid gap-6 xl:grid-cols-2 mt-2">
+      <!-- Loading State (Skeletons) -->
+      <template v-if="pending">
+        <!-- Skeleton Tendencia -->
+        <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm flex flex-col min-w-0 w-full min-h-[350px]">
+          <div class="flex items-center gap-2 mb-6">
+            <USkeleton class="h-4 w-4 rounded" />
+            <USkeleton class="h-4 w-32 rounded" />
+          </div>
+          <div class="grid gap-6 lg:grid-cols-2 lg:divide-x lg:divide-slate-100 flex-1 min-w-0">
+            <div class="flex flex-col justify-center pr-0 lg:pr-6">
+              <USkeleton class="h-3 w-16 rounded mb-2" />
+              <USkeleton class="h-8 w-40 rounded mb-6" />
+              <USkeleton class="h-4 w-full rounded-full mb-6" />
+              <div class="grid gap-3">
+                <USkeleton class="h-12 w-full rounded-xl" />
+                <USkeleton class="h-12 w-full rounded-xl" />
+              </div>
+            </div>
+            <div class="flex flex-col justify-end pl-0 pt-8 mt-2 lg:mt-0 lg:pt-0 lg:pl-6 border-t lg:border-t-0 border-slate-100">
+              <USkeleton class="h-3 w-24 rounded mb-6" />
+              <div class="flex h-36 items-end justify-between gap-1 sm:gap-2">
+                <div v-for="i in 6" :key="i" class="flex-1 flex justify-center h-full items-end">
+                  <USkeleton class="h-[60%] w-3 rounded-t-full" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-    <template v-else>
-      <!-- Charts Grid -->
-      <div class="grid gap-6 xl:grid-cols-2 mt-2">
+        <!-- Skeleton Categorias -->
+        <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm flex flex-col min-w-0 w-full min-h-[350px]">
+          <div class="flex items-center gap-2 mb-6">
+            <USkeleton class="h-4 w-4 rounded" />
+            <USkeleton class="h-4 w-32 rounded" />
+          </div>
+          <div class="flex flex-col sm:flex-row items-center gap-6 sm:gap-8 flex-1 min-w-0 py-4 sm:py-0">
+            <USkeleton class="relative h-40 w-40 shrink-0 rounded-full" />
+            <div class="grid gap-3 w-full flex-1 min-w-0">
+              <div v-for="i in 4" :key="i" class="flex items-center justify-between gap-3">
+                <div class="flex items-center gap-2">
+                  <USkeleton class="h-3 w-3 rounded-full" />
+                  <USkeleton class="h-4 w-24 rounded" />
+                </div>
+                <USkeleton class="h-4 w-16 rounded" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </template>
+
+      <!-- Error State -->
+      <template v-else-if="error">
+        <div class="xl:col-span-2 flex h-64 flex-col items-center justify-center gap-2 rounded-3xl border border-rose-200 bg-rose-50 text-rose-500">
+          <UIcon name="lucide:alert-circle" class="h-6 w-6" />
+          <span class="text-sm font-medium">Error al cargar estadísticas</span>
+        </div>
+      </template>
+
+      <!-- Success State -->
+      <template v-else>
         <StatsTrendChart
           class="anim-up-1"
           :resumen="resumen"
@@ -82,7 +132,7 @@ const resumen = computed(() => data.value?.resumen ?? {
           :categorias="categoriasSegments"
           :max-value="maxCategoryValue"
         />
-      </div>
-    </template>
+      </template>
+    </div>
   </div>
 </template>

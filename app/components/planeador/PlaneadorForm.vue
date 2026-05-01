@@ -10,7 +10,7 @@ const emit = defineEmits<{
 
 const props = defineProps<{
   submitting: boolean
-  submitError: string | null
+  submitError?: string | null
 }>()
 
 const toast = useToast()

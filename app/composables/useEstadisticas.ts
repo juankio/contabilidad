@@ -45,10 +45,16 @@ export const useEstadisticas = () => {
     ...profiles.value.map(profile => ({ label: profile.name, value: profile._id }))
   ])
 
-  const { data, pending, error } = useFetch<Estadisticas>('/api/estadisticas', {
+  const triggerRefresh = useState('trigger-refresh-estadisticas', () => 0)
+
+  const { data, pending, error, refresh } = useFetch<Estadisticas>('/api/estadisticas', {
     query: { profileId: selectedProfileId },
     key: `stats-${selectedProfileId.value}`,
     lazy: true
+  })
+
+  watch(triggerRefresh, () => {
+    refresh()
   })
 
   const categoriasSegments = computed(() => {
@@ -102,6 +108,7 @@ export const useEstadisticas = () => {
     ingresosRatio,
     gastosRatio,
     maxCategoryValue,
-    maxSeriesValue
+    maxSeriesValue,
+    refresh
   }
 }

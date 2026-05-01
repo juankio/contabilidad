@@ -57,10 +57,14 @@ export const useGastos = () => {
     }
   }
 
+  const triggerRefresh = useState('trigger-refresh-estadisticas', () => 0)
+
   const handleGastoSaved = async () => {
     await refresh()
     await refreshGrouped()
-    await refreshNuxtData('estadisticas')
+    clearNuxtData((key) => key.startsWith('stats-'))
+    await refreshNuxtData((key) => key.startsWith('stats-'))
+    triggerRefresh.value++
   }
 
   return {

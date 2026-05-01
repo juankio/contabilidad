@@ -14,7 +14,7 @@ const { activeProfileName } = useProfile()
 const profileInitial = computed(() => activeProfileName.value?.trim().charAt(0).toUpperCase() || 'M')
 
 const { trabajadores, loading, fetchTrabajadores, crearTrabajador, pagarTrabajador, editarTrabajador, eliminarTrabajador } = useTrabajadores()
-const { resumen, formatCurrency } = await useResumen()
+const { resumen, formatCurrency } = useResumen()
 
 const saldoDisponible = computed(() => resumen.value?.saldoDisponible ?? resumen.value?.saldo ?? 0)
 

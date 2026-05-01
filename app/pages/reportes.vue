@@ -1,16 +1,21 @@
 <script setup lang="ts">
+import { animate, stagger } from 'animejs'
+
 definePageMeta({
   requiresModule: 'reportes'
 })
 
 const { activeProfileName } = useProfile()
 const profileInitial = computed(() => activeProfileName.value?.trim().charAt(0).toUpperCase() || 'M')
+
+onMounted(() => {
+})
 </script>
 
 <template>
   <main class="min-h-screen bg-transparent text-slate-900">
     <section class="mx-auto max-w-4xl overflow-x-clip px-4 pb-10 pt-6">
-      <div class="anim-up rounded-3xl bg-white p-5 shadow-sm">
+      <div class="rounded-3xl bg-white p-5 shadow-sm">
         <div class="mb-4 flex items-center gap-3">
           <div
             class="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl shadow-sm"
@@ -52,7 +57,7 @@ const profileInitial = computed(() => activeProfileName.value?.trim().charAt(0).
       </div>
 
       <div class="mt-6 grid gap-4 md:grid-cols-2">
-        <div class="anim-up-1 rounded-3xl bg-white p-5 shadow-sm">
+        <div class="rounded-3xl bg-white p-5 shadow-sm">
           <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">
             Resumen
           </p>
@@ -63,7 +68,7 @@ const profileInitial = computed(() => activeProfileName.value?.trim().charAt(0).
             Ingresos $18,240 · Gastos $6,930
           </p>
         </div>
-        <div class="anim-up-2 rounded-3xl bg-white p-5 shadow-sm">
+        <div class="rounded-3xl bg-white p-5 shadow-sm">
           <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">
             Categorías
           </p>

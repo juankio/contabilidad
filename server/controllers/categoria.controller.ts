@@ -2,7 +2,7 @@ import type { H3Event } from 'h3'
 import { connectMongoose } from '../utils/mongoose'
 import { requireActiveProfile } from '../utils/auth'
 import { getCategoriasService } from '../services/categoria.service'
-import { defineSuccess } from '../utils/response'
+
 
 export async function getCategoriasController(event: H3Event) {
   await connectMongoose()

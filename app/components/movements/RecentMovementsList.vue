@@ -32,12 +32,12 @@ watch([() => props.previewMovimientos, () => props.pending], ([newMoves, isPendi
       // Pequeño timeout para asegurar que el v-else-if cambió en el DOM
       timeoutId = setTimeout(() => {
         if (listAnimation) listAnimation.pause()
-        listAnimation = animate('.movement-item-anim', {
-          translateY: [20, 0],
+        if (!import.meta.client) return; const els = document.querySelectorAll('.movement-item-anim'); if(!els.length) return; listAnimation = animate(Array.from(els), {
+          y: [20, 0],
           opacity: [0, 1],
           delay: stagger(50),
           duration: 800,
-          easing: 'easeOutElastic(1, .8)'
+          ease: 'outElastic(1, .8)'
         })
       }, 50)
     })
@@ -116,7 +116,7 @@ watch([() => props.previewMovimientos, () => props.pending], ([newMoves, isPendi
 <style scoped>
 .mov-enter-active { transition: all 0.28s cubic-bezier(0.22, 1, 0.36, 1); }
 .mov-leave-active { transition: all 0.18s ease; }
-.mov-enter-from   { opacity: 0; transform: translateY(-8px); }
+.mov-enter-from   { opacity: 0; transform: y(-8px); }
 .mov-leave-to     { opacity: 0; transform: translateX(16px); }
 .mov-move         { transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1); }
 </style>

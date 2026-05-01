@@ -34,7 +34,7 @@ watch(editSuccess, (val) => {
   }
 })
 
-const { resumen } = await useResumen()
+const { resumen } = useResumen()
 const saldoDisponible = computed(() => resumen.value?.saldoDisponible ?? resumen.value?.saldo ?? 0)
 
 const { activeProfileName } = useProfile()

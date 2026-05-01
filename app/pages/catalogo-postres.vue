@@ -6,6 +6,8 @@ import PostresRecetasCard from '../components/postres/PostresRecetasCard.vue'
 import PostresVentasCard from '../components/postres/PostresVentasCard.vue'
 import PostresReporteCard from '../components/postres/PostresReporteCard.vue'
 import { usePostres } from '../composables/postres/usePostres'
+import { animate, stagger } from 'animejs'
+import { onMounted } from 'vue'
 
 definePageMeta({
   requiresModule: 'catalogo-postres'
@@ -19,7 +21,9 @@ const {
   fetchData
 } = usePostres()
 
-onMounted(() => fetchData())
+onMounted(() => {
+  fetchData()
+})
 </script>
 
 <template>

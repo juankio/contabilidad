@@ -8,7 +8,7 @@ import { animate, stagger } from 'animejs'
 const props = defineProps<{
   planesPorMes: Array<{ mes: string, items: PlanCompra[] }>
   loading: boolean
-  error: string | null
+  error?: string | null
   formatCurrency: (v: number) => string
   labelMes: (mes: string) => string
 }>()
@@ -31,9 +31,9 @@ function onBeforeEnter(el: Element) {
 function onEnter(el: Element, done: () => void) {
   animate(el, {
     opacity: [0, 1],
-    translateY: [10, 0],
+    y: [10, 0],
     duration: 350,
-    easing: 'easeOutElastic(1, .8)',
+    ease: 'outElastic(1, .8)',
     onComplete: done
   })
 }
@@ -41,9 +41,9 @@ function onEnter(el: Element, done: () => void) {
 function onLeave(el: Element, done: () => void) {
   animate(el, {
     opacity: 0,
-    translateX: 24,
+    x: 24,
     duration: 200,
-    easing: 'easeInQuad',
+    ease: 'inQuad',
     onComplete: done
   })
 }
@@ -115,7 +115,14 @@ function onLeave(el: Element, done: () => void) {
         </div>
 
         <!-- Items con AnimeJS -->
-        <div v-auto-animate class="space-y-2 relative">
+        <TransitionGroup
+          tag="div"
+          name="plan"
+          @before-enter="onBeforeEnter"
+          @enter="onEnter"
+          @leave="onLeave"
+          class="space-y-2 relative"
+        >
           <PlaneadorItem
             v-for="plan in grupo.items"
             :key="plan._id"
@@ -125,7 +132,7 @@ function onLeave(el: Element, done: () => void) {
             @eliminar="emit('eliminar', $event)"
             @edit="emit('edit', $event)"
           />
-        </div>
+        </TransitionGroup>
       </div>
     </div>
   </div>

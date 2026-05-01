@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { onMounted } from 'vue'
+import { animate, stagger } from 'animejs'
 import FormField from './FormField.vue'
 import DateInputField from './DateInputField.vue'
 import { useGastoForm } from '../../composables/forms/useGastoForm'
@@ -19,6 +21,20 @@ const {
 } = useGastoForm(async () => {
   emit('saved')
 })
+
+onMounted(() => {
+  if (!import.meta.client) return;
+  const targets = Array.from(document.querySelectorAll('.form-anim-item'))
+  if (targets.length) {
+    animate(targets, {
+      x: [-20, 0],
+      opacity: [0, 1],
+      duration: 500,
+      delay: stagger(100),
+      ease: 'outQuad'
+    })
+  }
+})
 </script>
 
 <template>
@@ -27,6 +43,7 @@ const {
     @submit.prevent="submitGasto"
   >
     <FormField
+      class="form-anim-item"
       label="Descripcion"
       for-id="descripcion"
     >
@@ -41,6 +58,7 @@ const {
     </FormField>
 
     <FormField
+      class="form-anim-item"
       label="Monto"
       for-id="monto"
     >
@@ -56,6 +74,7 @@ const {
     </FormField>
 
     <FormField
+      class="form-anim-item"
       label="Categoria"
       for-id="categoria"
     >
@@ -82,6 +101,7 @@ const {
     </FormField>
 
     <DateInputField
+      class="form-anim-item"
       label="Fecha"
       for-id="fecha"
       :model-value="dateValue"
@@ -90,12 +110,13 @@ const {
 
     <p
       v-if="formError"
-      class="text-sm text-rose-500"
+      class="form-anim-item text-sm text-rose-500"
     >
       {{ formError }}
     </p>
 
     <UButton
+      class="form-anim-item"
       type="submit"
       size="lg"
       color="primary"

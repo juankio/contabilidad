@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { onMounted } from 'vue'
+import { animate, stagger } from 'animejs'
 import PlaneadorResumen from './PlaneadorResumen.vue'
 import PlaneadorForm from './PlaneadorForm.vue'
 import PlaneadorList from './PlaneadorList.vue'
@@ -9,132 +10,105 @@ import type { PlanCompra, NuevoPlan } from '../../composables/planeador/usePlane
 const props = defineProps<{
   planes: PlanCompra[]
   loading: boolean
-  error: string | null
+  error?: string | null
   submitting: boolean
-  submitError: string | null
+  submitError?: string | null
   planesPorMes: Array<{ mes: string, items: PlanCompra[] }>
   saldoDisponible: number
   formatCurrency: (val: number) => string
-  labelMes: (key: string) => string
+  labelMes: (mes: string) => string
 }>()
 
 const emit = defineEmits<{
-  (e: 'crear', nuevo: NuevoPlan, onSuccess: () => void): void
+  (e: 'crear', plan: NuevoPlan, onSuccess: () => void): void
   (e: 'editar', id: string, updates: Partial<NuevoPlan>, onSuccess: () => void): void
   (e: 'toggle', id: string): void
   (e: 'eliminar', id: string): void
 }>()
 
-const { activeProfileName } = useProfile()
-const profileInitial = computed(() => activeProfileName.value?.trim().charAt(0).toUpperCase() || 'M')
+const isEditOpen = ref(false)
+const planAEditar = ref<PlanCompra | null>(null)
 
-const formRef = ref<InstanceType<typeof PlaneadorForm> | null>(null)
-const editingPlan = ref<PlanCompra | null>(null)
-const isEditModalOpen = ref(false)
-
-const totalCompletado = computed(() => props.planes.filter(p => p.completado).length)
-const totalPendiente = computed(() => props.planes.filter(p => !p.completado).length)
-
-function onEdit(plan: PlanCompra) {
-  editingPlan.value = plan
-  isEditModalOpen.value = true
+function openEdit(plan: PlanCompra) {
+  planAEditar.value = plan
+  isEditOpen.value = true
 }
 
-function handleCrear(nuevo: NuevoPlan) {
-  emit('crear', nuevo, () => {
-    if (formRef.value) formRef.value.reset()
+function handleEditar(updates: Partial<NuevoPlan>) {
+  if (!planAEditar.value) return
+  emit('editar', planAEditar.value._id, updates, () => {
+    isEditOpen.value = false
+    planAEditar.value = null
   })
 }
 
-function handleEditar(id: string, updates: Partial<NuevoPlan>) {
-  emit('editar', id, updates, () => {
-    isEditModalOpen.value = false
+onMounted(() => {
+  if (!import.meta.client) return
+  const elements = document.querySelectorAll('.anim-up')
+  if (!elements.length) return
+
+  animate(Array.from(elements), {
+    y: [20, 0],
+    opacity: [0, 1],
+    duration: 350,
+    ease: 'outExpo',
+    delay: stagger(50)
   })
-}
+})
 </script>
 
 <template>
   <main class="min-h-screen bg-transparent text-slate-900">
-    <section class="mx-auto max-w-screen-2xl px-4 pb-12 pt-6">
-      <header class="anim-up mb-6 rounded-3xl bg-white p-5 shadow-sm">
-        <div class="flex flex-wrap items-start justify-between gap-4">
-          <div class="flex items-center gap-4 sm:gap-5">
-            <div class="relative shrink-0">
-              <div class="flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-[1.25rem] bg-gradient-to-br from-[var(--brand-500)] to-[var(--brand-600)] shadow-sm">
-                <UIcon
-                  name="lucide:shopping-bag"
-                  class="h-6 w-6 sm:h-7 sm:w-7 text-white"
-                />
-              </div>
-            </div>
-            <div>
-              <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">
-                Módulo
-              </p>
-              <h1 class="text-2xl font-bold tracking-tight text-slate-900">
-                Planeador de compras
-              </h1>
-              <p class="mt-0.5 text-xs text-slate-400">
-                Planea con anticipación y controla tu presupuesto futuro.
-              </p>
+    <div class="mx-auto max-w-screen-2xl overflow-x-clip px-4 pb-10 pt-6">
+      <header class="anim-up rounded-3xl bg-white p-5 shadow-sm mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="flex items-center gap-4 sm:gap-5">
+          <div class="relative shrink-0">
+            <div class="flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-[1.25rem] bg-gradient-to-br from-[var(--brand-500)] to-[var(--brand-600)] shadow-sm text-white">
+              <UIcon name="lucide:target" class="h-6 w-6 sm:h-7 sm:w-7" />
             </div>
           </div>
-
-          <div class="flex items-center gap-3">
-            <div class="rounded-2xl border border-slate-200 bg-transparent px-4 py-2.5">
-              <p class="text-xs text-slate-400">Pendientes</p>
-              <p class="mt-0.5 text-2xl font-bold tracking-tight text-violet-700">
-                {{ totalPendiente }}
-              </p>
-            </div>
-            <div class="rounded-2xl border border-slate-200 bg-transparent px-4 py-2.5">
-              <p class="text-xs text-slate-400">Completados</p>
-              <p class="mt-0.5 text-2xl font-bold tracking-tight text-emerald-600">
-                {{ totalCompletado }}
-              </p>
-            </div>
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">Planeador</p>
+            <h1 class="text-2xl font-bold tracking-tight text-slate-900">Metas y Compras</h1>
           </div>
         </div>
       </header>
 
-      <div class="grid gap-6 lg:grid-cols-12 items-start">
-        <div class="flex flex-col gap-6 lg:col-span-4">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <div class="anim-up lg:col-span-4 lg:sticky lg:top-8 flex flex-col gap-6">
           <PlaneadorResumen
-            class="anim-up-1"
             :planes="planes"
             :saldo-disponible="saldoDisponible"
             :format-currency="formatCurrency"
           />
           <PlaneadorForm
-            ref="formRef"
-            class="anim-up-2"
             :submitting="submitting"
             :submit-error="submitError"
-            @submit="handleCrear"
+            @submit="(nuevo, onOk) => emit('crear', nuevo, onOk)"
           />
         </div>
 
-        <div class="lg:col-span-8 flex flex-col gap-6">
+        <div class="anim-up lg:col-span-8">
           <PlaneadorList
-            class="anim-up-3"
             :planes-por-mes="planesPorMes"
             :loading="loading"
             :error="error"
             :format-currency="formatCurrency"
             :label-mes="labelMes"
-            @toggle="(id) => emit('toggle', id)"
-            @eliminar="(id) => emit('eliminar', id)"
-            @edit="onEdit"
+            @toggle="emit('toggle', $event)"
+            @edit="openEdit"
+            @delete="emit('eliminar', $event)"
           />
         </div>
       </div>
-    </section>
+    </div>
 
     <PlaneadorEditModal
-      v-model="isEditModalOpen"
-      :plan="editingPlan"
+      :model-value="isEditOpen"
+      :plan="planAEditar"
       :submitting="submitting"
       :submit-error="submitError"
+      @update:model-value="isEditOpen = $event"
       @submit="handleEditar"
     />
   </main>

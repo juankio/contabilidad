@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import PlaneadorDashboard from '../components/planeador/PlaneadorDashboard.vue'
 import { usePlaneador } from '../composables/planeador/usePlaneador'
 import type { NuevoPlan } from '../composables/planeador/usePlaneador'
@@ -11,7 +11,7 @@ const {
   fetchPlanes, crearPlan, actualizarPlan, toggleCompletado, eliminarPlan
 } = usePlaneador()
 
-const { data: resumen } = await useFetch('/api/resumen', { key: 'resumen' })
+const { data: resumen } = useFetch('/api/resumen', { key: 'resumen', lazy: true })
 const saldoDisponible = computed(() =>
   (resumen.value as { saldoDisponible?: number, saldo?: number } | null)?.saldoDisponible
   ?? (resumen.value as { saldoDisponible?: number, saldo?: number } | null)?.saldo
@@ -20,7 +20,7 @@ const saldoDisponible = computed(() =>
 
 const toast = useToast()
 
-await fetchPlanes()
+onMounted(() => fetchPlanes())
 
 async function handleCrear(nuevo: NuevoPlan, onSuccess: () => void) {
   const ok = await crearPlan(nuevo)
@@ -54,19 +54,21 @@ async function handleEliminar(id: string) {
 </script>
 
 <template>
-  <PlaneadorDashboard
-    :planes="planes"
-    :loading="loading"
-    :error="error"
-    :submitting="submitting"
-    :submit-error="submitError"
-    :planes-por-mes="planesPorMes"
-    :saldo-disponible="saldoDisponible"
-    :format-currency="formatCurrency"
-    :label-mes="labelMes"
-    @crear="handleCrear"
-    @editar="handleEditar"
-    @toggle="handleToggle"
-    @eliminar="handleEliminar"
-  />
+  <div class="h-full">
+    <PlaneadorDashboard
+      :planes="planes"
+      :loading="loading"
+      :error="error"
+      :submitting="submitting"
+      :submit-error="submitError"
+      :planes-por-mes="planesPorMes"
+      :saldo-disponible="saldoDisponible"
+      :format-currency="formatCurrency"
+      :label-mes="labelMes"
+      @crear="handleCrear"
+      @editar="handleEditar"
+      @toggle="handleToggle"
+      @eliminar="handleEliminar"
+    />
+  </div>
 </template>
