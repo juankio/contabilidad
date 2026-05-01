@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { watch, nextTick } from 'vue'
-import anime from 'animejs'
+import { animate, stagger } from 'animejs'
 import type { Lote } from '../../composables/granja/useGranjaCerdos'
 import LoteItem from './LoteItem.vue'
 
@@ -25,7 +25,7 @@ watch([() => props.loading, () => props.lotes.length], async ([loading, length])
       opacity: [0, 1],
       duration: 500,
       easing: 'easeOutExpo',
-      delay: anime.stagger(50)
+      delay: stagger(50)
     })
   }
 }, { immediate: true })

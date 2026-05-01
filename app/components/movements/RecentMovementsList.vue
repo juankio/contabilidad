@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { watch, nextTick, onBeforeUnmount } from 'vue'
-import anime from 'animejs'
+import { animate, stagger } from 'animejs'
 import MovementItem from './MovementItem.vue'
 import type { MovimientoRow } from '../../composables/movimientos/useMovementCrud'
 
@@ -21,7 +21,6 @@ let timeoutId: any = null
 onBeforeUnmount(() => {
   if (timeoutId) clearTimeout(timeoutId)
   if (listAnimation) listAnimation.pause()
-  if (import.meta.client) anime.remove('.movement-item-anim')
 })
 
 watch([() => props.previewMovimientos, () => props.pending], ([newMoves, isPending]) => {
@@ -33,11 +32,10 @@ watch([() => props.previewMovimientos, () => props.pending], ([newMoves, isPendi
       // Pequeño timeout para asegurar que el v-else-if cambió en el DOM
       timeoutId = setTimeout(() => {
         if (listAnimation) listAnimation.pause()
-        listAnimation = anime({
-          targets: '.movement-item-anim',
+        listAnimation = animate('.movement-item-anim', {
           translateY: [20, 0],
           opacity: [0, 1],
-          delay: anime.stagger(50),
+          delay: stagger(50),
           duration: 800,
           easing: 'easeOutElastic(1, .8)'
         })
@@ -101,11 +99,7 @@ watch([() => props.previewMovimientos, () => props.pending], ([newMoves, isPendi
     </template>
 
     <template v-else>
-      <TransitionGroup
-        name="mov"
-        tag="div"
-        class="space-y-2 relative"
-      >
+      <div v-auto-animate class="space-y-2 relative">
         <MovementItem
           v-for="movimiento in previewMovimientos"
           :key="movimiento._id"
@@ -114,7 +108,7 @@ watch([() => props.previewMovimientos, () => props.pending], ([newMoves, isPendi
           @edit="$emit('edit', $event)"
           @delete="$emit('delete', $event)"
         />
-      </TransitionGroup>
+      </div>
     </template>
   </div>
 </template>

@@ -9,7 +9,7 @@
         "@internationalized/date": "^3.5.0",
         "@nuxt/ui": "^4.4.0",
         "@types/node": "^25.0.10",
-        "animejs": "3.2.2",
+        "animejs": "4.4.0",
         "bcryptjs": "^2.4.3",
         "exceljs": "^4.4.0",
         "google-auth-library": "^10.5.0",
@@ -830,7 +830,7 @@
 
     "alien-signals": ["alien-signals@3.1.2", "", {}, "sha512-d9dYqZTS90WLiU0I5c6DHj/HcKkF8ZyGN3G5x8wSbslulz70KOxaqCT0hQCo9KOyhVqzqGojvNdJXoTumZOtcw=="],
 
-    "animejs": ["animejs@3.2.2", "", {}, "sha512-Ao95qWLpDPXXM+WrmwcKbl6uNlC5tjnowlaRYtuVDHHoygjtIPfDUoK9NthrlZsQSKjZXlmji2TrBUAVbiH0LQ=="],
+    "animejs": ["animejs@4.4.0", "", {}, "sha512-GcMGjPjWP6VLjOi8Z0RCLfKS4LiPc2TkXNtdCadsDFsVkRoKt/hyXyV8MSKOUy1KULLzXt0yigdRYfEcxlo9Dw=="],
 
     "ansi-regex": ["ansi-regex@5.0.1", "", {}, "sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ=="],
 

@@ -3,7 +3,7 @@ import type { PlanCompra } from '../../composables/planeador/usePlaneador'
 import PlaneadorItem from './PlaneadorItem.vue'
 import PlaneadorSkeleton from './PlaneadorSkeleton.vue'
 import PlaneadorEmptyState from './PlaneadorEmptyState.vue'
-import anime from 'animejs'
+import { animate, stagger } from 'animejs'
 
 const props = defineProps<{
   planesPorMes: Array<{ mes: string, items: PlanCompra[] }>
@@ -117,15 +117,7 @@ function onLeave(el: Element, done: () => void) {
         </div>
 
         <!-- Items con AnimeJS -->
-        <TransitionGroup
-          name="plan"
-          tag="div"
-          class="space-y-2 relative"
-          @before-enter="onBeforeEnter"
-          @enter="onEnter"
-          @leave="onLeave"
-          :css="false"
-        >
+        <div v-auto-animate class="space-y-2 relative">
           <PlaneadorItem
             v-for="plan in grupo.items"
             :key="plan._id"
@@ -135,7 +127,7 @@ function onLeave(el: Element, done: () => void) {
             @eliminar="emit('eliminar', $event)"
             @edit="emit('edit', $event)"
           />
-        </TransitionGroup>
+        </div>
       </div>
     </div>
   </div>
