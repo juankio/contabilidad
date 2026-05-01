@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import PrestamosOverviewCard from '../components/prestamos/PrestamosOverviewCard.vue'
-import PrestamoCreateFormCard from '../components/prestamos/PrestamoCreateFormCard.vue'
-import PrestamosPendingCard from '../components/prestamos/PrestamosPendingCard.vue'
-import PrestamosPaidCard from '../components/prestamos/PrestamosPaidCard.vue'
-import PrestamoDeleteModal from '../components/prestamos/PrestamoDeleteModal.vue'
-import PrestamoEditModal from '../components/prestamos/PrestamoEditModal.vue'
 import { usePrestamos } from '../composables/prestamos/usePrestamos'
 import { useResumen } from '../composables/useResumen'
+import PrestamosDashboard from '../components/prestamos/PrestamosDashboard.vue'
 
 definePageMeta({
   requiresModule: 'prestamos'
+})
+
+useSeoMeta({
+  title: 'Préstamos | Mi App',
+  description: 'Gestiona lo que prestas y lo que te deben.'
 })
 
 const {
@@ -42,138 +42,59 @@ const profileInitial = computed(() => activeProfileName.value?.trim().charAt(0).
 </script>
 
 <template>
-  <main class="min-h-screen bg-slate-50 text-slate-900">
-    <section class="mx-auto max-w-screen-2xl overflow-x-clip px-4 pb-10 pt-6">
-      <!-- Page header -->
-      <header class="anim-up mb-6 rounded-3xl bg-white p-5 shadow-sm">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div class="flex items-center gap-3">
-            <div
-              class="relative flex h-10 w-10 items-center justify-center rounded-2xl shadow-sm"
-              style="background: var(--brand-600)"
-            >
-              <span class="text-sm font-bold text-white">
-                {{ profileInitial }}
-              </span>
-              <span class="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full border-2 border-white bg-slate-700">
-                <UIcon
-                  name="lucide:handshake"
-                  class="h-3 w-3 text-white"
-                />
-              </span>
-            </div>
-            <div>
-              <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">
-                Módulo
-              </p>
-              <h1 class="text-2xl font-bold tracking-tight text-slate-900">
-                Préstamos
-              </h1>
-              <p class="text-xs text-slate-400">
-                Gestiona lo que prestas y lo que te deben
-              </p>
-            </div>
-          </div>
-
-          <div class="flex items-center gap-3 rounded-2xl bg-emerald-50 px-4 py-2 border border-emerald-100">
-            <div class="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
-              <UIcon
-                name="lucide:wallet"
-                class="h-4 w-4"
-              />
-            </div>
-            <div>
-              <p class="text-xs text-emerald-600 font-medium">
-                Disponible para prestar
-              </p>
-              <p class="text-lg font-bold text-emerald-700">
-                {{ formatCurrency(saldoDisponible) }}
-              </p>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      <div class="grid min-w-0 gap-6 lg:grid-cols-12">
-        <PrestamosOverviewCard
-          class="anim-up-1"
-          :summary="summary"
-          :format-currency="formatCurrency"
-        />
-        <PrestamoCreateFormCard
-          v-model:borrower="form.borrower"
-          v-model:amount-input="amountInput"
-          v-model:payment-plan="form.paymentPlan"
-          v-model:installments-input="installmentsInput"
-          v-model:description="form.description"
-          v-model:loan-date-value="loanDateValue"
-          v-model:collection-date-value="collectionDateValue"
-          v-model:note="form.note"
-          class="anim-up-2"
-          :creating="creating"
-          :create-error="createError"
-          :create-success="createSuccess"
-          @submit="submitPrestamo"
-        />
-        <div class="grid gap-6 lg:col-span-8">
-          <div
-            v-if="pending"
-            class="anim-up-3 rounded-2xl bg-white p-4 text-sm text-slate-500 shadow-sm"
-          >
-            Cargando prestamos...
-          </div>
-          <div
-            v-else-if="error"
-            class="anim-up-3 rounded-2xl bg-white p-4 text-sm text-rose-500 shadow-sm"
-          >
-            No se pudieron cargar los prestamos.
-          </div>
-          <template v-else>
-            <PrestamosPendingCard
-              v-model:abono-amount-input="abonoAmountInput"
-              v-model:abono-date-value="abonoDateValue"
-              v-model:abono-note="abonoForm.note"
-              class="anim-up-3"
-              :prestamos-pendientes="prestamosPendientes"
-              :open-abono-prestamo-id="openAbonoPrestamoId"
-              :deleting-prestamo-id="deletingPrestamoId"
-              :abono-saving="abonoSaving"
-              :abono-error="abonoError"
-              :abono-success="abonoSuccess"
-              :format-currency="formatCurrency"
-              :format-short-date="formatShortDate"
-              :payment-plan-label="paymentPlanLabel"
-              @toggle-abono="toggleAbonoForm"
-              @delete-prestamo="requestDeletePrestamo"
-              @submit-abono="submitAbono"
-              @edit-prestamo="startEditing"
-            />
-            <PrestamosPaidCard
-              class="anim-up-4"
-              :prestamos-pagados="prestamosPagados"
-              :format-currency="formatCurrency"
-              :format-short-date="formatShortDate"
-              :payment-plan-label="paymentPlanLabel"
-              @edit-prestamo="startEditing"
-            />
-          </template>
-        </div>
-      </div>
-    </section>
-    <PrestamoDeleteModal
-      :target="deletingTarget"
-      :deleting-prestamo-id="deletingPrestamoId"
-      :delete-error="deleteError"
-      @cancel="cancelDeletePrestamo"
-      @confirm="confirmDeletePrestamo"
-    />
-    <PrestamoEditModal
-      v-model:form="editForm"
-      :target="editingTarget"
-      :is-editing="isEditing"
-      :edit-error="editError"
-      @cancel="cancelEditing"
-      @submit="submitEdit"
-    />
-  </main>
+  <PrestamosDashboard
+    :pending="pending"
+    :error="error"
+    :summary="summary"
+    :prestamos-pendientes="prestamosPendientes"
+    :prestamos-pagados="prestamosPagados"
+    :format-currency="formatCurrency"
+    :format-short-date="formatShortDate"
+    :form="form"
+    @update:borrower="form.borrower = $event"
+    @update:payment-plan="form.paymentPlan = $event"
+    @update:description="form.description = $event"
+    @update:note="form.note = $event"
+    :amount-input="amountInput"
+    @update:amount-input="amountInput = $event"
+    :installments-input="installmentsInput"
+    @update:installments-input="installmentsInput = $event"
+    :loan-date-value="loanDateValue"
+    @update:loan-date-value="loanDateValue = $event"
+    :collection-date-value="collectionDateValue"
+    @update:collection-date-value="collectionDateValue = $event"
+    :creating="creating"
+    :create-error="createError"
+    :create-success="createSuccess"
+    :open-abono-prestamo-id="openAbonoPrestamoId"
+    :deleting-prestamo-id="deletingPrestamoId"
+    :abono-amount-input="abonoAmountInput"
+    @update:abono-amount-input="abonoAmountInput = $event"
+    :abono-date-value="abonoDateValue"
+    @update:abono-date-value="abonoDateValue = $event"
+    :abono-form="abonoForm"
+    @update:abono-note="abonoForm.note = $event"
+    :abono-saving="abonoSaving"
+    :abono-error="abonoError"
+    :abono-success="abonoSuccess"
+    :payment-plan-label="paymentPlanLabel"
+    :deleting-target="deletingTarget"
+    :delete-error="deleteError"
+    :is-editing="isEditing"
+    :edit-error="editError"
+    :editing-target="editingTarget"
+    :edit-form="editForm"
+    @update:edit-form="editForm = $event"
+    :saldo-disponible="saldoDisponible"
+    :profile-initial="profileInitial"
+    @submit-prestamo="submitPrestamo"
+    @toggle-abono-form="toggleAbonoForm"
+    @submit-abono="submitAbono"
+    @request-delete-prestamo="requestDeletePrestamo"
+    @cancel-delete-prestamo="cancelDeletePrestamo"
+    @confirm-delete-prestamo="confirmDeletePrestamo"
+    @start-editing="startEditing"
+    @cancel-editing="cancelEditing"
+    @submit-edit="submitEdit"
+  />
 </template>

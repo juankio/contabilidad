@@ -70,8 +70,8 @@ export function useGastoForm(onSaved: () => void | Promise<void>) {
       form.description = ''
       form.amount = 0
       newCategoryInput.value = ''
-    } catch {
-      formError.value = 'No se pudo guardar el gasto.'
+    } catch (error: any) {
+      formError.value = error?.data?.statusMessage || error?.data?.message || error?.message || 'No se pudo guardar el gasto.'
     } finally {
       isSaving.value = false
     }

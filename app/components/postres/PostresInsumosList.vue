@@ -56,7 +56,7 @@ const deleteInsumo = async (id: string) => {
             </span>
             <span class="text-[10px] font-bold text-slate-400 uppercase mt-1">por unid.</span>
           </div>
-          <UButton color="error" variant="ghost" icon="lucide:trash-2" size="sm" class="opacity-0 group-hover:opacity-100 transition-opacity" @click="deleteInsumo(insumo._id)" />
+          <UButton color="error" variant="ghost" icon="lucide:trash-2" size="sm" class="opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity" @click="deleteInsumo(insumo._id)" />
         </div>
       </li>
     </ul>

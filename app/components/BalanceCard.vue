@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref, watch, onBeforeUnmount } from 'vue'
 import anime from 'animejs'
 
 const {
@@ -14,6 +15,12 @@ const {
 const animatedSaldoDisponible = ref(0)
 const animatedIngresos = ref(0)
 const animatedGastos = ref(0)
+
+let currentAnimation: any = null
+
+onBeforeUnmount(() => {
+  if (currentAnimation) currentAnimation.pause()
+})
 
 watch(resumen, (newResumen) => {
   if (newResumen) {
@@ -31,7 +38,9 @@ watch(resumen, (newResumen) => {
       gastos: animatedGastos.value
     }
 
-    anime({
+    if (currentAnimation) currentAnimation.pause()
+
+    currentAnimation = anime({
       targets: obj,
       saldo: newResumen.saldoDisponible || 0,
       ingresos: newResumen.ingresos || 0,

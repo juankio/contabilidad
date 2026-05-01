@@ -56,7 +56,7 @@ function formatDate(d: string) {
           <span class="rounded-xl bg-white px-3 py-1.5 text-sm font-bold tracking-tight text-slate-700 ring-1 ring-inset ring-slate-200/60 shadow-sm">
             ×{{ venta.qty }}
           </span>
-          <UButton color="error" variant="ghost" icon="lucide:trash-2" size="sm" class="opacity-0 group-hover:opacity-100 transition-opacity" @click="deleteVenta(venta._id)" />
+          <UButton color="error" variant="ghost" icon="lucide:trash-2" size="sm" class="opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity" @click="deleteVenta(venta._id)" />
         </div>
       </li>
     </ul>

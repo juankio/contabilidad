@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { useTrabajadores } from '../composables/trabajadores/useTrabajadores'
-import TrabajadorForm from '../components/trabajadores/TrabajadorForm.vue'
-import PagoForm from '../components/trabajadores/PagoForm.vue'
-import TrabajadoresList from '../components/trabajadores/TrabajadoresList.vue'
-import TrabajadorEditModal from '../components/trabajadores/TrabajadorEditModal.vue'
-import TrabajadorDeleteModal from '../components/trabajadores/TrabajadorDeleteModal.vue'
 import { useResumen } from '../composables/useResumen'
-import { computed, ref, onMounted } from 'vue'
+import TrabajadoresDashboard from '../components/trabajadores/TrabajadoresDashboard.vue'
 
 definePageMeta({ requiresModule: 'trabajadores' })
+
+useSeoMeta({
+  title: 'Trabajadores y Nómina | Mi App',
+  description: 'Gestión de trabajadores y control de pagos.'
+})
 
 const { activeProfileName } = useProfile()
 const profileInitial = computed(() => activeProfileName.value?.trim().charAt(0).toUpperCase() || 'M')
@@ -124,81 +124,23 @@ onMounted(() => fetchTrabajadores())
 </script>
 
 <template>
-  <main class="min-h-screen bg-slate-50 text-slate-900">
-    <section class="mx-auto max-w-screen-2xl overflow-x-clip px-4 pb-10 pt-6">
-      <header class="anim-up rounded-3xl bg-white p-5 shadow-sm">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div class="flex items-center gap-3">
-            <div
-              class="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl shadow-sm"
-              style="background: var(--brand-600)"
-            >
-              <span class="text-sm font-bold text-white">{{ profileInitial }}</span>
-              <span class="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full border-2 border-white bg-slate-700">
-                <UIcon
-                  name="lucide:users"
-                  class="h-3 w-3 text-white"
-                />
-              </span>
-            </div>
-            <div>
-              <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">
-                Módulo
-              </p>
-              <h1 class="text-2xl font-bold tracking-tight text-slate-900">
-                Trabajadores y Nómina
-              </h1>
-            </div>
-          </div>
-
-          <div class="flex items-center gap-3 rounded-2xl bg-emerald-50 px-4 py-2 border border-emerald-100">
-            <div class="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
-              <UIcon
-                name="lucide:wallet"
-                class="h-4 w-4"
-              />
-            </div>
-            <div>
-              <p class="text-xs text-emerald-600 font-medium">
-                Disponible para pagos
-              </p>
-              <p class="text-lg font-bold text-emerald-700">
-                {{ formatCurrency(saldoDisponible) }}
-              </p>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-        <TrabajadorForm @submit="handleCrear" />
-        <PagoForm
-          :trabajadores="trabajadores"
-          @submit="handlePagar"
-        />
-      </div>
-
-      <TrabajadoresList
-        :trabajadores="trabajadores"
-        :loading="loading"
-        :format-currency="formatCurrency"
-        @edit="openEdit"
-        @delete="openDelete"
-      />
-    </section>
-
-    <!-- Modal Editar -->
-    <TrabajadorEditModal
-      v-model:open="isEditModalOpen"
-      :trabajador="selectedTrabajador"
-      @submit="handleEditar"
-    />
-
-    <!-- Modal Eliminar -->
-    <TrabajadorDeleteModal
-      v-model:open="isDeleteModalOpen"
-      :trabajador="trabajadorToDelete"
-      @confirm="handleEliminar"
-    />
-  </main>
+  <TrabajadoresDashboard
+    :profile-initial="profileInitial"
+    :saldo-disponible="saldoDisponible"
+    :format-currency="formatCurrency"
+    :trabajadores="trabajadores"
+    :loading="loading"
+    :is-edit-modal-open="isEditModalOpen"
+    @update:is-edit-modal-open="isEditModalOpen = $event"
+    :selected-trabajador="selectedTrabajador"
+    :is-delete-modal-open="isDeleteModalOpen"
+    @update:is-delete-modal-open="isDeleteModalOpen = $event"
+    :trabajador-to-delete="trabajadorToDelete"
+    @submit-crear="handleCrear"
+    @submit-pagar="handlePagar"
+    @open-edit="openEdit"
+    @submit-editar="handleEditar"
+    @open-delete="openDelete"
+    @submit-eliminar="handleEliminar"
+  />
 </template>

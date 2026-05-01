@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { watch, nextTick } from 'vue'
+import { watch, nextTick, onBeforeUnmount } from 'vue'
 import anime from 'animejs'
 import MovementItem from './MovementItem.vue'
 import type { MovimientoRow } from '../../composables/movimientos/useMovementCrud'
@@ -15,14 +15,25 @@ defineEmits<{
   (e: 'delete', mov: MovimientoRow): void
 }>()
 
+let listAnimation: any = null
+let timeoutId: any = null
+
+onBeforeUnmount(() => {
+  if (timeoutId) clearTimeout(timeoutId)
+  if (listAnimation) listAnimation.pause()
+  if (import.meta.client) anime.remove('.movement-item-anim')
+})
+
 watch([() => props.previewMovimientos, () => props.pending], ([newMoves, isPending]) => {
   if (!import.meta.client) return // Evitar que anime.js explote en SSR (NodeList no definido)
 
   if (!isPending && newMoves && newMoves.length > 0) {
     nextTick(() => {
+      if (timeoutId) clearTimeout(timeoutId)
       // Pequeño timeout para asegurar que el v-else-if cambió en el DOM
-      setTimeout(() => {
-        anime({
+      timeoutId = setTimeout(() => {
+        if (listAnimation) listAnimation.pause()
+        listAnimation = anime({
           targets: '.movement-item-anim',
           translateY: [20, 0],
           opacity: [0, 1],

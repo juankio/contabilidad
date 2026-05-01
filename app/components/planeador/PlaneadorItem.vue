@@ -87,7 +87,7 @@ function confirmarEliminar() {
       >
         <div
           v-if="confirmDeleteId !== plan._id"
-          class="flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-150"
+          class="flex items-center opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-150"
         >
           <button
             type="button"

@@ -86,8 +86,8 @@ export function useMovementForm() {
       form.amount = 0
       form.note = ''
       newCategoryInput.value = ''
-    } catch {
-      formError.value = 'No se pudo guardar el gasto.'
+    } catch (err: any) {
+      formError.value = err?.data?.message || err?.message || 'No se pudo guardar el movimiento.'
     } finally {
       isSaving.value = false
     }
