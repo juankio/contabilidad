@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { toRef, reactive } from 'vue'
-import FormField from '../forms/FormField.vue'
-import { useMoneyInput } from '../../composables/forms/useMoneyInput'
+import { reactive } from 'vue'
 import type { TrabajadorPayload } from '../../composables/trabajadores/useTrabajadores'
+import TrabajadorFormFields from './TrabajadorFormFields.vue'
 
 const emit = defineEmits<{ (e: 'submit', payload: TrabajadorPayload): void }>()
 
@@ -11,8 +10,6 @@ const form = reactive<TrabajadorPayload>({
   cargo: '',
   salario: 0
 })
-
-const { amountInput: salarioInput } = useMoneyInput(toRef(form, 'salario'))
 
 const onSubmit = () => {
   if (!form.nombre || !form.cargo || form.salario <= 0) return
@@ -48,49 +45,11 @@ const onSubmit = () => {
       class="flex flex-1 flex-col gap-6 mt-2"
       @submit.prevent="onSubmit"
     >
-      <FormField
-        label="Nombre"
-        for-id="nombre"
-      >
-        <UInput
-          id="nombre"
-          v-model="form.nombre"
-          placeholder="Ej. Juan Pérez"
-          icon="lucide:user"
-          size="lg"
-          required
-        />
-      </FormField>
-
-      <FormField
-        label="Cargo"
-        for-id="cargo"
-      >
-        <UInput
-          id="cargo"
-          v-model="form.cargo"
-          placeholder="Ej. Operario"
-          icon="lucide:briefcase"
-          size="lg"
-          required
-        />
-      </FormField>
-
-      <FormField
-        label="Salario base"
-        for-id="salario"
-      >
-        <UInput
-          id="salario"
-          v-model="salarioInput"
-          type="text"
-          inputmode="numeric"
-          placeholder="0"
-          icon="lucide:circle-dollar-sign"
-          size="lg"
-          required
-        />
-      </FormField>
+      <TrabajadorFormFields
+        v-model:nombre="form.nombre"
+        v-model:cargo="form.cargo"
+        v-model:salario="form.salario"
+      />
 
       <div class="mt-auto pt-2">
         <UButton

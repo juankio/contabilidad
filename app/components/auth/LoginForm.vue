@@ -2,6 +2,8 @@
 import AuthModeSwitch from './AuthModeSwitch.vue'
 import AuthColorPicker from './forms/AuthColorPicker.vue'
 import AuthModuleSelector from './forms/AuthModuleSelector.vue'
+import LoginFields from './forms/LoginFields.vue'
+import LoginSocial from './forms/LoginSocial.vue'
 import { useLoginForm } from '../../composables/auth/useLoginForm'
 
 const {
@@ -22,6 +24,10 @@ const {
   registerStep,
   themeColor
 } = useLoginForm()
+
+const setGoogleRef = (el: HTMLElement | null) => {
+  googleButtonRef.value = el
+}
 </script>
 
 <template>
@@ -62,95 +68,14 @@ const {
       </div>
       <!-- STEP 1: Datos básicos -->
       <template v-if="mode === 'login' || registerStep === 1">
-        <div class="anim-fade grid gap-1.5 text-sm">
-          <label
-            for="email"
-            class="font-semibold text-slate-700"
-          >Correo Electrónico</label>
-          <UInput
-            id="email"
-            v-model="email"
-            type="email"
-            autocomplete="email"
-            placeholder="tu@correo.com"
-            required
-            size="lg"
-            :ui="{ wrapper: 'shadow-sm rounded-xl' }"
-          >
-            <template #leading>
-              <UIcon
-                name="lucide:mail"
-                class="h-5 w-5 text-slate-400"
-              />
-            </template>
-          </UInput>
-        </div>
-
-        <div
-          v-if="mode === 'register'"
-          class="anim-fade-1 grid gap-1.5 text-sm"
-        >
-          <label
-            for="profileName"
-            class="font-semibold text-slate-700"
-          >Nombre del espacio de trabajo</label>
-          <UInput
-            id="profileName"
-            v-model="profileName"
-            type="text"
-            autocomplete="nickname"
-            placeholder="Ej: Mi Negocio"
-            :required="mode === 'register'"
-            size="lg"
-            :ui="{ wrapper: 'shadow-sm rounded-xl' }"
-          >
-            <template #leading>
-              <UIcon
-                name="lucide:briefcase"
-                class="h-5 w-5 text-slate-400"
-              />
-            </template>
-          </UInput>
-        </div>
-
-        <div class="anim-fade-2 grid gap-1.5 text-sm">
-          <label
-            for="password"
-            class="font-semibold text-slate-700"
-          >Contraseña</label>
-          <UInput
-            id="password"
-            v-model="password"
-            :type="showPassword ? 'text' : 'password'"
-            autocomplete="current-password"
-            placeholder="••••••••"
-            required
-            size="lg"
-            :ui="{ wrapper: 'shadow-sm rounded-xl' }"
-          >
-            <template #leading>
-              <UIcon
-                name="lucide:lock"
-                class="h-5 w-5 text-slate-400"
-              />
-            </template>
-            <template #trailing>
-              <UButton
-                variant="ghost"
-                color="neutral"
-                size="sm"
-                type="button"
-                class="text-slate-400 hover:text-slate-600"
-                @click="showPassword = !showPassword"
-              >
-                <UIcon
-                  :name="showPassword ? 'lucide:eye-off' : 'lucide:eye'"
-                  class="h-5 w-5"
-                />
-              </UButton>
-            </template>
-          </UInput>
-        </div>
+        <LoginFields
+          v-model:email="email"
+          v-model:profile-name="profileName"
+          v-model:password="password"
+          v-model:show-password="showPassword"
+          :mode="mode"
+          :register-step="registerStep"
+        />
       </template>
 
       <!-- STEP 2: Color y Módulos -->
@@ -197,28 +122,13 @@ const {
         </UButton>
       </div>
 
-      <div
-        v-if="mode === 'login' || registerStep === 1"
-        class="anim-fade-2 mt-2 grid gap-4"
-      >
-        <div class="relative text-center text-xs font-semibold uppercase tracking-widest text-slate-400">
-          <span class="relative z-10 bg-white/80 px-4 backdrop-blur-sm">o continuar con</span>
-          <span class="absolute inset-x-0 top-1/2 block border-t border-slate-200/80" />
-        </div>
-
-        <div
-          v-if="canUseGoogle"
-          ref="googleButtonRef"
-          class="google-button-wrap flex justify-center"
-          :class="{ 'opacity-60 pointer-events-none': googleLoading }"
+      <template v-if="mode === 'login' || registerStep === 1">
+        <LoginSocial
+          :can-use-google="canUseGoogle"
+          :google-loading="googleLoading"
+          @set-ref="setGoogleRef"
         />
-        <p
-          v-else
-          class="text-center text-xs font-medium text-slate-500"
-        >
-          Autenticación de Google no configurada.
-        </p>
-      </div>
+      </template>
 
       <p class="mt-4 text-center text-xs font-medium text-slate-500">
         Al continuar aceptas que este es un entorno privado.
@@ -226,9 +136,3 @@ const {
     </form>
   </UCard>
 </template>
-
-<style scoped>
-.google-button-wrap {
-  min-height: 44px;
-}
-</style>

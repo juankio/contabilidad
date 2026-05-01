@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { ref, reactive, computed, watch } from 'vue'
 import type { PlanCompra, NuevoPlan } from '../../composables/planeador/usePlaneador'
-import DateInputField from '../forms/DateInputField.vue'
-import FormField from '../forms/FormField.vue'
 import { CalendarDate } from '@internationalized/date'
 import { useCalendarDateInput } from '../../composables/forms/useCalendarDateInput'
 import { useMoneyInput } from '../../composables/forms/useMoneyInput'
+import PlaneadorFields from './PlaneadorFields.vue'
 
 const props = defineProps<{
   modelValue: boolean
@@ -131,56 +130,12 @@ function close() {
             class="grid gap-4"
             @submit.prevent="onSubmit"
           >
-            <FormField
-              label="¿Qué quieres comprar?"
-              for-id="edit-planeador-nombre"
-            >
-              <UInput
-                id="edit-planeador-nombre"
-                v-model="form.nombre"
-                type="text"
-                placeholder="Ej: Zapatos, celular, viaje..."
-                maxlength="80"
-                size="lg"
-              />
-            </FormField>
-
-            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <FormField
-                label="Cuánto cuesta"
-                for-id="edit-planeador-monto"
-              >
-                <UInput
-                  id="edit-planeador-monto"
-                  v-model="amountInput"
-                  type="text"
-                  inputmode="numeric"
-                  placeholder="0"
-                  size="lg"
-                />
-              </FormField>
-
-              <DateInputField
-                label="¿Para cuándo?"
-                for-id="edit-planeador-fecha"
-                :model-value="fechaPlaneadaValue"
-                @update:model-value="fechaPlaneadaValue = $event as typeof fechaPlaneadaValue"
-              />
-            </div>
-
-            <FormField
-              label="Nota"
-              for-id="edit-planeador-descripcion"
-            >
-              <UInput
-                id="edit-planeador-descripcion"
-                v-model="form.descripcion"
-                type="text"
-                placeholder="Por qué lo necesitas, dónde comprarlo..."
-                maxlength="200"
-                size="lg"
-              />
-            </FormField>
+            <PlaneadorFields
+              v-model:nombre="form.nombre"
+              v-model:descripcion="form.descripcion"
+              v-model:amountInput="amountInput"
+              v-model:fechaPlaneadaValue="fechaPlaneadaValue"
+            />
 
             <div class="mt-4 flex justify-end gap-3">
               <UButton

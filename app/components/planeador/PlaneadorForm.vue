@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import type { NuevoPlan } from '../../composables/planeador/usePlaneador'
-import DateInputField from '../forms/DateInputField.vue'
-import FormField from '../forms/FormField.vue'
 import { useCalendarDateInput } from '../../composables/forms/useCalendarDateInput'
 import { useMoneyInput } from '../../composables/forms/useMoneyInput'
+import PlaneadorFields from './PlaneadorFields.vue'
 
 const emit = defineEmits<{
   submit: [plan: NuevoPlan]
@@ -107,58 +106,12 @@ defineExpose({ reset })
       class="mt-5 grid gap-4"
       @submit.prevent="onSubmit"
     >
-      <FormField
-        label="¿Qué quieres comprar?"
-        for-id="planeador-nombre"
-        class="anim-up-1"
-      >
-        <UInput
-          id="planeador-nombre"
-          v-model="form.nombre"
-          type="text"
-          placeholder="Ej: Zapatos, celular, viaje..."
-          maxlength="80"
-          size="lg"
-        />
-      </FormField>
-
-      <div class="anim-up-2 grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <FormField
-          label="Cuánto cuesta"
-          for-id="planeador-monto"
-        >
-          <UInput
-            id="planeador-monto"
-            v-model="amountInput"
-            type="text"
-            inputmode="numeric"
-            placeholder="0"
-            size="lg"
-          />
-        </FormField>
-
-        <DateInputField
-          label="¿Para cuándo?"
-          for-id="planeador-fecha"
-          :model-value="fechaPlaneadaValue"
-          @update:model-value="fechaPlaneadaValue = $event as typeof fechaPlaneadaValue"
-        />
-      </div>
-
-      <FormField
-        label="Nota"
-        for-id="planeador-descripcion"
-        class="anim-up-3"
-      >
-        <UInput
-          id="planeador-descripcion"
-          v-model="form.descripcion"
-          type="text"
-          placeholder="Por qué lo necesitas, dónde comprarlo..."
-          maxlength="200"
-          size="lg"
-        />
-      </FormField>
+      <PlaneadorFields
+        v-model:nombre="form.nombre"
+        v-model:descripcion="form.descripcion"
+        v-model:amountInput="amountInput"
+        v-model:fechaPlaneadaValue="fechaPlaneadaValue"
+      />
 
       <!-- Submit -->
       <UButton

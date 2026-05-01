@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
-import FormField from '../forms/FormField.vue'
-import { useMoneyInput } from '../../composables/forms/useMoneyInput'
+import TrabajadorFormFields from './TrabajadorFormFields.vue'
 import type { Trabajador, TrabajadorPayload } from '../../composables/trabajadores/useTrabajadores'
 
 const props = defineProps<{
@@ -20,12 +19,6 @@ const isModalOpen = computed({
 })
 
 const editForm = ref({ nombre: '', cargo: '', salario: 0 })
-
-const editFormSalarioRef = computed({
-  get: () => editForm.value.salario,
-  set: val => editForm.value.salario = val
-})
-const { amountInput: editSalarioInput } = useMoneyInput(editFormSalarioRef)
 
 watch(() => props.trabajador, (newTrabajador) => {
   if (newTrabajador) {
@@ -88,49 +81,11 @@ const handleSubmit = () => {
             class="flex flex-col gap-6"
             @submit.prevent="handleSubmit"
           >
-            <FormField
-              label="Nombre"
-              for-id="edit-nombre"
-            >
-              <UInput
-                id="edit-nombre"
-                v-model="editForm.nombre"
-                placeholder="Nombre completo"
-                icon="lucide:user"
-                size="lg"
-                required
-              />
-            </FormField>
-
-            <FormField
-              label="Cargo"
-              for-id="edit-cargo"
-            >
-              <UInput
-                id="edit-cargo"
-                v-model="editForm.cargo"
-                placeholder="Puesto que desempeña"
-                icon="lucide:briefcase"
-                size="lg"
-                required
-              />
-            </FormField>
-
-            <FormField
-              label="Salario Base"
-              for-id="edit-salario"
-            >
-              <UInput
-                id="edit-salario"
-                v-model="editSalarioInput"
-                type="text"
-                inputmode="numeric"
-                icon="lucide:circle-dollar-sign"
-                size="lg"
-                required
-                placeholder="0"
-              />
-            </FormField>
+            <TrabajadorFormFields
+              v-model:nombre="editForm.nombre"
+              v-model:cargo="editForm.cargo"
+              v-model:salario="editForm.salario"
+            />
 
             <div class="flex justify-end gap-3 pt-4 border-t border-slate-100">
               <UButton
