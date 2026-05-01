@@ -62,26 +62,22 @@ export function usePrestamoAbonos(prestamos: ComputedRef<Prestamo[]>, refresh: (
 
     abonoSaving.value = true
     try {
-      const date = abonoDateValue.value ? abonoDateValue.value.toString() : undefined
-      await $fetch(`/api/prestamos/${prestamoId}/abonos`, {
+      await $api(`/api/prestamos/${prestamoId}/abonos`, {
         method: 'POST',
         body: {
-          amount,
-          date,
+          amount: Number(abonoForm.amount),
+          date: abonoDateValue.value ? abonoDateValue.value.toString() : undefined,
           note: abonoForm.note.trim()
         }
       })
-
       await refresh()
-      abonoSuccess.value = 'Abono registrado.'
-      resetAbonoForm()
-
-      const updated = prestamos.value.find(prestamo => prestamo._id === prestamoId)
-      if (!updated?.pendingAmount) {
-        openAbonoPrestamoId.value = null
-      }
-    } catch (error) {
-      abonoError.value = getRequestError(error, 'No se pudo registrar el abono.')
+      abonoSuccess.value = `Abono de $${Number(abonoForm.amount)} guardado.`
+      abonoForm.amount = 0
+      abonoForm.note = ''
+      abonoAmountInput.value = ''
+      openAbonoPrestamoId.value = null
+    } catch (err: unknown) {
+      abonoError.value = getApiErrorMsg(err, 'No se pudo guardar el abono.')
     } finally {
       abonoSaving.value = false
     }

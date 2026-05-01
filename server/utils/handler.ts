@@ -40,11 +40,11 @@ export function defineApiHandler<T extends EventHandlerRequest, D>(
 
       setResponseStatus(event, statusCode)
 
-      // H3 will automatically serialize this and $fetch will throw it as an error object
+      // H3 serializará esto y $fetch lo lanzará como un objeto de error en el front
       return {
         success: false,
-        statusMessage: message,
-        data: errorDetails || message
+        message: message,
+        error: errorDetails || error.message || 'Error desconocido'
       } as unknown as D
     }
   })

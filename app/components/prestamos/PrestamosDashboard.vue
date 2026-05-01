@@ -17,20 +17,20 @@ defineProps<{
   form: any
   amountInput: string | number
   installmentsInput: string | number
-  loanDateValue: string
-  collectionDateValue: string
+  loanDateValue: any
+  collectionDateValue: any
   creating: boolean
   createError: any
   createSuccess: any
   openAbonoPrestamoId: string | null
   deletingPrestamoId: string | null
   abonoAmountInput: string | number
-  abonoDateValue: string
+  abonoDateValue: any
   abonoForm: any
   abonoSaving: boolean
   abonoError: any
   abonoSuccess: any
-  paymentPlanLabel: (plan: string) => string
+  paymentPlanLabel: (plan: any, installmentsCount?: any) => string
   deletingTarget: any
   deleteError: any
   isEditing: boolean

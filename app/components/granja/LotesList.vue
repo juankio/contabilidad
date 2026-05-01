@@ -19,8 +19,7 @@ watch([() => props.loading, () => props.lotes.length], async ([loading, length])
   if (!loading && length > 0) {
     if (!import.meta.client) return
     await nextTick()
-    anime({
-      targets: '.lote-item',
+    animate('.lote-item', {
       translateY: [20, 0],
       opacity: [0, 1],
       duration: 500,

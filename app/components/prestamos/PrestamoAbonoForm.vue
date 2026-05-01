@@ -4,11 +4,11 @@ import DateInputField from '../forms/DateInputField.vue'
 
 defineProps<{
   abonoSaving: boolean
-  abonoError: string
-  abonoSuccess: string
+  abonoError: any
+  abonoSuccess: any
 }>()
 
-const abonoAmountInput = defineModel<string>('abonoAmountInput', { required: true })
+const abonoAmountInput = defineModel<string | number>('abonoAmountInput', { required: true })
 const abonoDateValue = defineModel<unknown>('abonoDateValue', { required: true })
 const abonoNote = defineModel<string>('abonoNote', { required: true })
 const emit = defineEmits<{ (e: 'submit'): void }>()

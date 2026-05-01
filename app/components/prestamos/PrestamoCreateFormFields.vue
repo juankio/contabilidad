@@ -5,9 +5,9 @@ import DateInputField from '../forms/DateInputField.vue'
 import PrestamoPaymentPlanFields from './PrestamoPaymentPlanFields.vue'
 
 const borrower = defineModel<string>('borrower', { required: true })
-const amountInput = defineModel<string>('amountInput', { required: true })
-const paymentPlan = defineModel<PaymentPlan>('paymentPlan', { required: true })
-const installmentsInput = defineModel<string>('installmentsInput', { required: true })
+const amountInput = defineModel<string | number>('amountInput', { required: true })
+const paymentPlan = defineModel<PaymentPlan | string>('paymentPlan', { required: true })
+const installmentsInput = defineModel<string | number>('installmentsInput', { required: true })
 const description = defineModel<string>('description', { required: true })
 const loanDateValue = defineModel<unknown>('loanDateValue', { required: true })
 const collectionDateValue = defineModel<unknown | null>('collectionDateValue', { required: true })

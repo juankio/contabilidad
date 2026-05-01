@@ -89,41 +89,32 @@ export function usePrestamoCreate(refresh: () => Promise<void>) {
 
     creating.value = true
     try {
-      const date = loanDateValue.value ? loanDateValue.value.toString() : undefined
-      const collectionDate = collectionDateValue.value
+      const collectionDateStr = collectionDateValue.value
         ? (collectionDateValue.value as { toString: () => string }).toString()
         : undefined
 
-      await $fetch('/api/prestamos', {
+      await $api('/api/prestamos', {
         method: 'POST',
         body: {
           borrower: form.borrower.trim(),
-          description: form.description.trim(),
+          amount: Number(form.amount),
           paymentPlan: form.paymentPlan,
-          installmentsCount: form.paymentPlan === 'installments' ? installmentsCount : undefined,
-          amount,
-          date,
-          collectionDate,
+          installments: form.installmentsCount,
+          description: form.description.trim(),
+          loanDate: loanDateValue.value ? loanDateValue.value.toString() : undefined,
+          expectedCollectionDate: collectionDateStr,
           note: form.note.trim()
         }
       })
-
       await refresh()
-      toast.add({
-        title: 'Préstamo registrado',
-        description: 'El préstamo fue guardado exitosamente.',
-        icon: 'lucide:check-circle',
-        color: 'success'
-      })
-      resetCreateForm()
-    } catch (error) {
-      const msg = getRequestError(error, 'No se pudo guardar el préstamo.')
-      toast.add({
-        title: 'Fondos insuficientes o error',
-        description: msg,
-        icon: 'lucide:alert-triangle',
-        color: 'error'
-      })
+      createSuccess.value = 'Préstamo creado correctamente.'
+      form.borrower = ''
+      form.amount = 0
+      amountInput.value = ''
+      form.description = ''
+      form.note = ''
+    } catch (err: unknown) {
+      createError.value = getApiErrorMsg(err, 'No se pudo crear el préstamo.')
     } finally {
       creating.value = false
     }

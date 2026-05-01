@@ -9,7 +9,8 @@ export const useFormatters = () => {
       maximumFractionDigits: 0
     }).format(value)
 
-  const formatShortDate = (value: string) => {
+  const formatShortDate = (value: string | Date | undefined | null) => {
+    if (!value) return '--'
     const parsed = new Date(value)
     if (Number.isNaN(parsed.getTime())) {
       return '--'

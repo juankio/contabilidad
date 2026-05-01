@@ -5,10 +5,10 @@ import PrestamoAbonosPreview from './PrestamoAbonosPreview.vue'
 const props = defineProps<{
   prestamo: Prestamo
   openAbonoPrestamoId: string | null
-  deletingPrestamoId: string
+  deletingPrestamoId: string | null
   formatCurrency: (value: number) => string
-  formatShortDate: (value: string) => string
-  paymentPlanLabel: (plan: PaymentPlan, installmentsCount: number | null) => string
+  formatShortDate: (value: string | Date) => string
+  paymentPlanLabel: (plan: PaymentPlan | string, installmentsCount?: number | null) => string
 }>()
 
 const emit = defineEmits<{

@@ -3,8 +3,8 @@ import type { PaymentPlan } from '../../composables/prestamos/types'
 import FormField from '../forms/FormField.vue'
 import DateInputField from '../forms/DateInputField.vue'
 
-const paymentPlan = defineModel<PaymentPlan>('paymentPlan', { required: true })
-const installmentsInput = defineModel<string>('installmentsInput', { required: true })
+const paymentPlan = defineModel<PaymentPlan | string>('paymentPlan', { required: true })
+const installmentsInput = defineModel<string | number>('installmentsInput', { required: true })
 const collectionDateValue = defineModel<unknown | null>('collectionDateValue', { required: true })
 </script>
 

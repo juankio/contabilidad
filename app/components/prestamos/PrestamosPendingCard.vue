@@ -6,16 +6,16 @@ import PrestamoAbonoForm from './PrestamoAbonoForm.vue'
 defineProps<{
   prestamosPendientes: Prestamo[]
   openAbonoPrestamoId: string | null
-  deletingPrestamoId: string
+  deletingPrestamoId: string | null
   abonoSaving: boolean
-  abonoError: string
-  abonoSuccess: string
+  abonoError: any
+  abonoSuccess: any
   formatCurrency: (value: number) => string
-  formatShortDate: (value: string) => string
-  paymentPlanLabel: (plan: PaymentPlan, installmentsCount: number | null) => string
+  formatShortDate: (value: string | Date) => string
+  paymentPlanLabel: (plan: PaymentPlan | string, installmentsCount?: number | null) => string
 }>()
 
-const abonoAmountInput = defineModel<string>('abonoAmountInput', { required: true })
+const abonoAmountInput = defineModel<string | number>('abonoAmountInput', { required: true })
 const abonoDateValue = defineModel<unknown>('abonoDateValue', { required: true })
 const abonoNote = defineModel<string>('abonoNote', { required: true })
 

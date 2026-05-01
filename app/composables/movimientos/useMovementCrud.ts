@@ -9,8 +9,6 @@ export type MovimientoRow = {
   date: string
 }
 
-type RequestError = { data?: { statusMessage?: string } }
-
 const REFRESH_KEYS = ['resumen', 'categorias', 'gastos', 'gastos-grouped', 'estadisticas'] as const
 
 const toDateInputValue = (value: string) => {
@@ -27,11 +25,6 @@ const formatAmountInput = (value: number) =>
 const parseAmountInput = (value: string) => {
   const numeric = value.replace(/[^\d]/g, '')
   return numeric ? Number(numeric) : 0
-}
-
-const getRequestError = (error: unknown, fallback: string) => {
-  const message = error instanceof Error ? error.message : ''
-  return (error as RequestError)?.data?.statusMessage || message || fallback
 }
 
 export function useMovementCrud(refreshMovimientos: () => Promise<void>) {
@@ -77,7 +70,7 @@ export function useMovementCrud(refreshMovimientos: () => Promise<void>) {
     editLoading.value = true
     editError.value = ''
     try {
-      await $fetch(`/api/movimientos/${editing.value._id}`, {
+      await $api(`/api/movimientos/${editing.value._id}`, {
         method: 'PATCH',
         body: {
           type: editing.value.type,
@@ -91,7 +84,7 @@ export function useMovementCrud(refreshMovimientos: () => Promise<void>) {
       closeEdit()
       return true
     } catch (error: unknown) {
-      editError.value = getRequestError(error, 'No se pudo actualizar el movimiento.')
+      editError.value = getApiErrorMsg(error, 'No se pudo actualizar el movimiento.')
       return false
     } finally {
       editLoading.value = false
@@ -113,7 +106,7 @@ export function useMovementCrud(refreshMovimientos: () => Promise<void>) {
     deleteLoading.value = true
     deleteError.value = ''
     try {
-      await $fetch(`/api/movimientos/${deleting.value._id}`, {
+      await $api(`/api/movimientos/${deleting.value._id}`, {
         method: 'DELETE',
         body: { type: deleting.value.type }
       })
@@ -121,7 +114,7 @@ export function useMovementCrud(refreshMovimientos: () => Promise<void>) {
       closeDelete()
       return true
     } catch (error: unknown) {
-      deleteError.value = getRequestError(error, 'No se pudo eliminar el movimiento.')
+      deleteError.value = getApiErrorMsg(error, 'No se pudo eliminar el movimiento.')
       return false
     } finally {
       deleteLoading.value = false

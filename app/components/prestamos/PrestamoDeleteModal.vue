@@ -3,8 +3,8 @@ import type { Prestamo } from '../../composables/prestamos/types'
 
 defineProps<{
   target: Prestamo | null
-  deletingPrestamoId: string
-  deleteError: string
+  deletingPrestamoId: string | null
+  deleteError: any
 }>()
 
 const emit = defineEmits<{

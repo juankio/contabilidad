@@ -28,7 +28,7 @@ const handlePopSubmit = async () => {
   // Elastic pop effect on button
   if (submitBtnRef.value) {
     if (btnAnimation) btnAnimation.pause()
-    btnAnimation = animate(submitBtnRef.value.$el || submitBtnRef.value, {
+    btnAnimation = animate(submitBtnRef.value, {
       scale: [0.95, 1],
       duration: 600,
       easing: 'easeOutElastic(1, 0.5)'
@@ -129,16 +129,17 @@ const handlePopSubmit = async () => {
       {{ formSuccess }}
     </p>
 
-    <UButton
-      ref="submitBtnRef"
-      type="submit"
-      size="lg"
-      color="primary"
-      block
-      :loading="isSaving"
-      class="transition-colors shadow-sm hover:shadow-md active:scale-95"
-    >
-      {{ isSaving ? 'Guardando...' : 'Guardar movimiento' }}
-    </UButton>
+    <div ref="submitBtnRef">
+      <UButton
+        type="submit"
+        size="lg"
+        color="primary"
+        block
+        :loading="isSaving"
+        class="transition-colors shadow-sm hover:shadow-md active:scale-95"
+      >
+        {{ isSaving ? 'Guardando...' : 'Guardar movimiento' }}
+      </UButton>
+    </div>
   </form>
 </template>

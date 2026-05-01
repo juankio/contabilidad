@@ -12,7 +12,7 @@ const props = defineProps<{
   error: string | null
   submitting: boolean
   submitError: string | null
-  planesPorMes: Record<string, PlanCompra[]>
+  planesPorMes: Array<{ mes: string, items: PlanCompra[] }>
   saldoDisponible: number
   formatCurrency: (val: number) => string
   labelMes: (key: string) => string

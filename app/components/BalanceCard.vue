@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, onBeforeUnmount } from 'vue'
-import { animate } from 'animejs'
+import { computed } from 'vue'
 
 const {
   resumen,
@@ -11,49 +10,9 @@ const {
   formatCurrency
 } = useResumen()
 
-// Animación de los contadores de números
-const animatedSaldoDisponible = ref(0)
-const animatedIngresos = ref(0)
-const animatedGastos = ref(0)
-
-let currentAnimation: any = null
-
-onBeforeUnmount(() => {
-  if (currentAnimation) currentAnimation.pause()
-})
-
-watch(resumen, (newResumen) => {
-  if (newResumen) {
-    // Si estamos en servidor (SSR), asignamos directo sin animar para evitar errores
-    if (!import.meta.client) {
-      animatedSaldoDisponible.value = newResumen.saldoDisponible || 0
-      animatedIngresos.value = newResumen.ingresos || 0
-      animatedGastos.value = newResumen.gastos || 0
-      return
-    }
-
-    const obj = { 
-      saldo: animatedSaldoDisponible.value,
-      ingresos: animatedIngresos.value,
-      gastos: animatedGastos.value
-    }
-
-    if (currentAnimation) currentAnimation.pause()
-
-    currentAnimation = animate(obj, {
-      saldo: newResumen.saldoDisponible || 0,
-      ingresos: newResumen.ingresos || 0,
-      gastos: newResumen.gastos || 0,
-      duration: 1200,
-      easing: 'easeOutExpo',
-      update: () => {
-        animatedSaldoDisponible.value = obj.saldo
-        animatedIngresos.value = obj.ingresos
-        animatedGastos.value = obj.gastos
-      }
-    })
-  }
-}, { deep: true, immediate: true })
+const animatedSaldoDisponible = computed(() => resumen.value?.saldoDisponible ?? 0)
+const animatedIngresos = computed(() => resumen.value?.ingresos ?? 0)
+const animatedGastos = computed(() => resumen.value?.gastos ?? 0)
 
 // Porcentaje de gastos sobre ingresos — indicador de salud financiera
 const saludPct = computed(() => {

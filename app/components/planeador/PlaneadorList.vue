@@ -29,24 +29,22 @@ function onBeforeEnter(el: Element) {
 }
 
 function onEnter(el: Element, done: () => void) {
-  anime({
-    targets: el,
+  animate(el, {
     opacity: [0, 1],
     translateY: [10, 0],
     duration: 350,
     easing: 'easeOutElastic(1, .8)',
-    complete: done
+    onComplete: done
   })
 }
 
 function onLeave(el: Element, done: () => void) {
-  anime({
-    targets: el,
+  animate(el, {
     opacity: 0,
     translateX: 24,
     duration: 200,
     easing: 'easeInQuad',
-    complete: done
+    onComplete: done
   })
 }
 </script>
