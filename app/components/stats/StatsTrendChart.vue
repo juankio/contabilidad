@@ -63,7 +63,7 @@ function ratio(value: number) {
         </div>
         
         <div class="grid gap-3">
-          <div class="flex items-center justify-between gap-2 rounded-xl bg-slate-50 p-3">
+          <div class="flex items-center justify-between gap-2 rounded-xl bg-transparent p-3">
             <div class="flex items-center gap-2">
               <span class="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
                 <UIcon name="lucide:arrow-down-left" class="h-3 w-3" />
@@ -72,7 +72,7 @@ function ratio(value: number) {
             </div>
             <span class="text-sm font-bold text-slate-900">{{ formatCurrency(props.resumen.ingresos) }}</span>
           </div>
-          <div class="flex items-center justify-between gap-2 rounded-xl bg-slate-50 p-3">
+          <div class="flex items-center justify-between gap-2 rounded-xl bg-transparent p-3">
             <div class="flex items-center gap-2">
               <span class="flex h-6 w-6 items-center justify-center rounded-full bg-amber-100 text-amber-600">
                 <UIcon name="lucide:arrow-up-right" class="h-3 w-3" />
@@ -96,7 +96,7 @@ function ratio(value: number) {
             class="group flex flex-1 flex-col items-center gap-2 relative"
           >
             <!-- Barras -->
-            <div class="flex h-24 w-full items-end justify-center gap-1 rounded-lg hover:bg-slate-50 transition-colors p-1">
+            <div class="flex h-24 w-full items-end justify-center gap-1 rounded-lg hover:bg-transparent transition-colors p-1">
               <div
                 class="w-1.5 sm:w-2 rounded-t-full bg-emerald-400/80 transition-all duration-500 group-hover:bg-emerald-500"
                 :style="{ height: `${Math.max(ratio(row.ingresos), 4)}%` }"

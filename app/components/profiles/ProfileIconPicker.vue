@@ -33,7 +33,7 @@ const open = ref(false)
             :key="option.icon"
             type="button"
             class="flex items-center justify-center rounded-lg border p-2 transition"
-            :class="props.icon === option.icon ? 'text-white' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50'"
+            :class="props.icon === option.icon ? 'text-white' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-transparent'"
             :style="props.icon === option.icon ? { background: 'var(--brand-600)', borderColor: 'var(--brand-600)' } : {}"
             @click="emit('update:icon', option.icon); open = false"
           >

@@ -46,7 +46,7 @@ const note = defineModel<string>('note', { required: true })
     v-model:installments-input="installmentsInput"
     v-model:collection-date-value="collectionDateValue"
   />
-  <details class="rounded-2xl border border-slate-200 bg-slate-50/60 px-3 py-2">
+  <details class="rounded-2xl border border-slate-200 bg-transparent/60 px-3 py-2">
     <summary class="cursor-pointer select-none text-sm font-medium text-slate-600">
       Mas opciones (opcional)
     </summary>

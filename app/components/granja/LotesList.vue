@@ -58,7 +58,7 @@ watch([() => props.loading, () => props.lotes.length], async ([loading, length])
       <div
         v-for="i in 2"
         :key="i"
-        class="p-4 rounded-2xl bg-slate-50/50 border border-slate-100"
+        class="p-4 rounded-2xl bg-transparent border border-slate-100"
       >
         <div class="flex justify-between items-start mb-3">
           <div class="flex items-center gap-3">

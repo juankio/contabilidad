@@ -26,7 +26,7 @@ const getDropdownItems = () => [
 </script>
 
 <template>
-  <div class="lote-item p-4 rounded-2xl bg-slate-50/50 border border-slate-100 hover:bg-slate-50 transition-colors">
+  <div class="lote-item p-4 rounded-2xl bg-transparent border border-slate-100 hover:bg-transparent transition-colors">
     <div class="flex justify-between items-start mb-3">
       <div class="flex items-center gap-3">
         <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white shadow-sm ring-1 ring-slate-100">

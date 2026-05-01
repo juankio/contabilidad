@@ -39,7 +39,7 @@ const openDeleteModal = (lote: import('../../composables/granja/useGranjaCerdos'
 </script>
 
 <template>
-  <main class="min-h-screen bg-slate-50 text-slate-900">
+  <main class="min-h-screen bg-transparent text-slate-900">
     <section class="mx-auto max-w-screen-2xl overflow-x-clip px-4 pb-10 pt-6">
       <header class="anim-up rounded-3xl bg-white p-5 shadow-sm">
         <div class="flex items-center gap-3">

@@ -8,7 +8,7 @@ const profileInitial = computed(() => activeProfileName.value?.trim().charAt(0).
 </script>
 
 <template>
-  <main class="min-h-screen bg-slate-50 text-slate-900">
+  <main class="min-h-screen bg-transparent text-slate-900">
     <section class="mx-auto max-w-4xl overflow-x-clip px-4 pb-10 pt-6">
       <div class="anim-up rounded-3xl bg-white p-5 shadow-sm">
         <div class="mb-4 flex items-center gap-3">
@@ -45,7 +45,7 @@ const profileInitial = computed(() => activeProfileName.value?.trim().charAt(0).
           >
             Exportar todo
           </button>
-          <button class="rounded-2xl border border-slate-200 px-4 py-2.5 text-sm font-semibold text-slate-600 transition-all duration-200 hover:border-slate-300 hover:bg-slate-50 active:scale-[0.98]">
+          <button class="rounded-2xl border border-slate-200 px-4 py-2.5 text-sm font-semibold text-slate-600 transition-all duration-200 hover:border-slate-300 hover:bg-transparent active:scale-[0.98]">
             Exportar mes actual
           </button>
         </div>

@@ -86,7 +86,7 @@ const menuItems = computed<NavigationMenuItem[]>(() => navItems.value.map((item)
           color="neutral"
           size="lg"
           :loading="switchingProfile"
-          :ui="{ base: 'font-semibold text-slate-700 bg-transparent hover:bg-slate-50 border-0 ring-0 shadow-none', leadingIcon: 'text-[var(--brand-600)] size-4' }"
+          :ui="{ base: 'font-semibold text-slate-700 bg-transparent hover:bg-transparent border-0 ring-0 shadow-none', leadingIcon: 'text-[var(--brand-600)] size-4' }"
           @update:model-value="(v) => onDesktopProfileSelect(String(v))"
         >
           <template #leading>

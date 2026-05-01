@@ -51,7 +51,7 @@ watch([() => props.previewMovimientos, () => props.pending], ([newMoves, isPendi
       <div
         v-for="i in 4"
         :key="i"
-        class="flex items-center justify-between rounded-2xl p-3 border border-slate-100 bg-slate-50/50"
+        class="flex items-center justify-between rounded-2xl p-3 border border-slate-100 bg-transparent"
       >
         <div class="flex items-center gap-3">
           <USkeleton class="h-10 w-10 rounded-xl" />
@@ -65,7 +65,7 @@ watch([() => props.previewMovimientos, () => props.pending], ([newMoves, isPendi
     </template>
 
     <template v-else-if="error || !previewMovimientos">
-      <div class="flex h-full min-h-[200px] flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-slate-50 py-8 text-center px-4">
+      <div class="flex h-full min-h-[200px] flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-transparent py-8 text-center px-4">
         <div class="flex h-12 w-12 items-center justify-center rounded-full bg-rose-50 text-rose-400 mb-3">
           <UIcon
             name="lucide:alert-triangle"
@@ -82,7 +82,7 @@ watch([() => props.previewMovimientos, () => props.pending], ([newMoves, isPendi
     </template>
 
     <template v-else-if="previewMovimientos.length === 0">
-      <div class="flex h-full min-h-[200px] flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-slate-50 py-8 text-center px-4">
+      <div class="flex h-full min-h-[200px] flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-transparent py-8 text-center px-4">
         <div class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-400 mb-3">
           <UIcon
             name="lucide:inbox"

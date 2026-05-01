@@ -34,21 +34,21 @@ defineProps<{
         v-if="!loadingData"
         class="flex items-center gap-3 overflow-x-auto pb-2 md:pb-0 scrollbar-hide min-w-0"
       >
-        <span class="shrink-0 flex items-center gap-2 rounded-xl border border-slate-200/60 bg-slate-50 px-4 py-1.5 text-sm font-bold text-slate-600 shadow-sm">
+        <span class="shrink-0 flex items-center gap-2 rounded-xl border border-slate-200/60 bg-transparent px-4 py-1.5 text-sm font-bold text-slate-600 shadow-sm">
           <UIcon
             name="lucide:package"
             class="h-4 w-4 text-slate-400"
           />
           {{ insumosCount }} Insumos
         </span>
-        <span class="shrink-0 flex items-center gap-2 rounded-xl border border-slate-200/60 bg-slate-50 px-4 py-1.5 text-sm font-bold text-slate-600 shadow-sm">
+        <span class="shrink-0 flex items-center gap-2 rounded-xl border border-slate-200/60 bg-transparent px-4 py-1.5 text-sm font-bold text-slate-600 shadow-sm">
           <UIcon
             name="lucide:book-open"
             class="h-4 w-4 text-slate-400"
           />
           {{ postresCount }} Recetas
         </span>
-        <span class="shrink-0 flex items-center gap-2 rounded-xl border border-slate-200/60 bg-slate-50 px-4 py-1.5 text-sm font-bold text-slate-600 shadow-sm">
+        <span class="shrink-0 flex items-center gap-2 rounded-xl border border-slate-200/60 bg-transparent px-4 py-1.5 text-sm font-bold text-slate-600 shadow-sm">
           <UIcon
             name="lucide:shopping-bag"
             class="h-4 w-4 text-slate-400"

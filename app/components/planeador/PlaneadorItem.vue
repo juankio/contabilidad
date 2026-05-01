@@ -31,7 +31,7 @@ function confirmarEliminar() {
   <div
     class="group flex items-center gap-3 rounded-2xl border px-4 py-3 transition-all duration-200"
     :class="plan.completado
-      ? 'border-slate-100 bg-slate-50/80 opacity-60'
+      ? 'border-slate-100 bg-transparent/80 opacity-60'
       : 'plan-item-hover border-slate-100 bg-white hover:shadow-sm'"
   >
     <!-- Checkbox -->
@@ -125,7 +125,7 @@ function confirmarEliminar() {
           </button>
           <button
             type="button"
-            class="rounded-full border border-slate-200 px-2.5 py-0.5 text-xs font-medium text-slate-500 transition-all duration-150 hover:bg-slate-50 active:scale-95"
+            class="rounded-full border border-slate-200 px-2.5 py-0.5 text-xs font-medium text-slate-500 transition-all duration-150 hover:bg-transparent active:scale-95"
             @click="cancelarEliminar"
           >
             No

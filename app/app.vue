@@ -1,5 +1,6 @@
 <script setup>
 import { buildThemeInitScript } from '~/composables/useTheme'
+import AppBackground from '~/components/backgrounds/AppBackground.vue'
 
 const { initTheme } = useTheme()
 onMounted(() => initTheme())
@@ -36,6 +37,7 @@ colorMode.preference = 'light'
 </script>
 
 <template>
+  <AppBackground />
   <NuxtLoadingIndicator
     color="var(--brand-500)"
     :height="4"
@@ -48,15 +50,7 @@ colorMode.preference = 'light'
 </template>
 
 <style>
-/* Estilos Globales FinTech Glassmorphism */
 body {
-  background-color: #f8fafc;
-  background-image: url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PScwIDAgMjAwIDIwMCcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJz48ZmlsdGVyIGlkPSdub2lzZUZpbHRlcic+PGZlVHVyYnVsZW5jZSB0eXBlPSdmcmFjdGFsTm9pc2UnIGJhc2VGcmVxdWVuY3k9JzAuODUnIG51bU9jdGF2ZXM9JzMnIHN0aXRjaFRpbGVzPSdzdGl0Y2gnLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0nMTAwJScgaGVpZ2h0PScxMDAlJyBmaWx0ZXI9J3VybCgjbm9pc2VGaWx0ZXIpJyBvcGFjaXR5PScwLjA4Jy8+PC9zdmc+");
-  background-blend-mode: multiply;
-}
-
-.fintech-bg {
-  /* Ensure it has a transparent background to let the body show through, or apply noise here directly */
-  background-color: transparent !important;
+  background-color: transparent;
 }
 </style>

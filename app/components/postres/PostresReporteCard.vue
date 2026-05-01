@@ -15,7 +15,7 @@ const rentabilidad = computed(() => {
   <section class="flex flex-col rounded-[2rem] border border-slate-200/60 bg-white p-6 sm:p-8 shadow-sm hover:shadow-md transition-all h-full">
     <div class="mb-6 flex items-start justify-between">
       <div class="flex items-center gap-4">
-        <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-50 text-slate-600 ring-1 ring-slate-100">
+        <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-transparent text-slate-600 ring-1 ring-slate-100">
           <UIcon
             name="lucide:pie-chart"
             class="h-5 w-5"
@@ -66,7 +66,7 @@ const rentabilidad = computed(() => {
       </div>
 
       <!-- Margen -->
-      <div class="mt-2 flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3 ring-1 ring-inset ring-slate-100">
+      <div class="mt-2 flex items-center justify-between rounded-xl bg-transparent px-4 py-3 ring-1 ring-inset ring-slate-100">
         <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Rentabilidad</span>
         <span
           class="text-base font-bold"

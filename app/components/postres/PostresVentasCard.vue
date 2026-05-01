@@ -9,7 +9,7 @@ import PostresVentasList from "./PostresVentasList.vue"
     <!-- Header -->
     <div class="mb-6 flex items-start justify-between">
       <div class="flex items-center gap-4">
-        <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-50 text-slate-600 ring-1 ring-slate-100">
+        <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-transparent text-slate-600 ring-1 ring-slate-100">
           <UIcon name="lucide:shopping-bag" class="h-5 w-5" />
         </div>
         <div>

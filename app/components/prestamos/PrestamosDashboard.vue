@@ -51,7 +51,7 @@ const emit = defineEmits([
 </script>
 
 <template>
-  <main class="min-h-screen bg-slate-50 text-slate-900">
+  <main class="min-h-screen bg-transparent text-slate-900">
     <section class="mx-auto max-w-screen-2xl overflow-x-clip px-4 pb-10 pt-6">
       <header class="anim-up mb-6 rounded-3xl bg-white p-5 shadow-sm">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">

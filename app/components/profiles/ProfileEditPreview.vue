@@ -7,7 +7,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="flex items-center gap-3 rounded-2xl border border-slate-100 bg-slate-50 px-4 py-3">
+  <div class="flex items-center gap-3 rounded-2xl border border-slate-100 bg-transparent px-4 py-3">
     <div
       class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition-all duration-300"
       :style="{ background: swatch }"

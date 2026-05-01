@@ -68,7 +68,7 @@ const visibleGroups = computed(() => {
 
     <div
       v-if="pending"
-      class="rounded-2xl bg-slate-50 px-4 py-3 text-sm text-slate-500"
+      class="rounded-2xl bg-transparent px-4 py-3 text-sm text-slate-500"
     >
       Cargando gastos por perfil...
     </div>
@@ -80,7 +80,7 @@ const visibleGroups = computed(() => {
     </div>
     <div
       v-else-if="!visibleGroups.length"
-      class="rounded-2xl bg-slate-50 px-4 py-3 text-sm text-slate-500"
+      class="rounded-2xl bg-transparent px-4 py-3 text-sm text-slate-500"
     >
       Aun no hay gastos para mostrar.
     </div>
@@ -112,7 +112,7 @@ const visibleGroups = computed(() => {
           <div
             v-for="gasto in group.gastos.slice(0, 6)"
             :key="gasto._id"
-            class="rounded-xl bg-slate-50 px-3 py-2"
+            class="rounded-xl bg-transparent px-3 py-2"
           >
             <p class="break-words text-sm font-medium text-slate-800">
               {{ gasto.description }}

@@ -54,7 +54,7 @@ function handleEditar(id: string, updates: Partial<NuevoPlan>) {
 </script>
 
 <template>
-  <main class="min-h-screen bg-slate-50 text-slate-900">
+  <main class="min-h-screen bg-transparent text-slate-900">
     <section class="mx-auto max-w-screen-2xl px-4 pb-12 pt-6">
       <header class="anim-up mb-6 rounded-3xl bg-white p-5 shadow-sm">
         <div class="flex flex-wrap items-start justify-between gap-4">
@@ -87,13 +87,13 @@ function handleEditar(id: string, updates: Partial<NuevoPlan>) {
           </div>
 
           <div class="flex items-center gap-3">
-            <div class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2.5">
+            <div class="rounded-2xl border border-slate-200 bg-transparent px-4 py-2.5">
               <p class="text-xs text-slate-400">Pendientes</p>
               <p class="mt-0.5 text-2xl font-bold tracking-tight text-violet-700">
                 {{ totalPendiente }}
               </p>
             </div>
-            <div class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2.5">
+            <div class="rounded-2xl border border-slate-200 bg-transparent px-4 py-2.5">
               <p class="text-xs text-slate-400">Completados</p>
               <p class="mt-0.5 text-2xl font-bold tracking-tight text-emerald-600">
                 {{ totalCompletado }}

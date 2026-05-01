@@ -26,7 +26,7 @@ const emit = defineEmits<{
     <!-- Profile switcher -->
     <div
       v-if="profiles.length > 1"
-      class="rounded-2xl bg-slate-50 p-2.5"
+      class="rounded-2xl bg-transparent p-2.5"
     >
       <p class="mb-2 px-0.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-400">
         Perfil activo

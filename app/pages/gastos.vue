@@ -19,7 +19,7 @@ const {
 </script>
 
 <template>
-  <main class="min-h-screen bg-slate-50/50 text-slate-900">
+  <main class="min-h-screen bg-transparent text-slate-900">
     <section class="mx-auto max-w-screen-2xl overflow-x-clip px-4 md:px-6 pb-12 pt-8">
       <div class="grid min-w-0 gap-6 lg:grid-cols-12 items-start">
         <GastosHeader

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-2 rounded-2xl border border-slate-100 bg-slate-50/50 p-4">
+  <div class="flex flex-col gap-2 rounded-2xl border border-slate-100 bg-transparent p-4">
     <div class="flex items-start justify-between gap-3">
       <div class="flex items-center gap-3">
         <USkeleton class="h-10 w-10 shrink-0 rounded-xl" />

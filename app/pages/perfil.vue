@@ -3,7 +3,7 @@ import ProfileEditorPanel from '../components/profiles/ProfileEditorPanel.vue'
 </script>
 
 <template>
-  <main class="min-h-screen bg-slate-50 text-slate-900">
+  <main class="min-h-screen bg-transparent text-slate-900">
     <section class="mx-auto max-w-screen-2xl overflow-x-clip px-4 pb-10 pt-6">
       <div class="grid min-w-0 gap-6 lg:grid-cols-12">
         <header class="anim-up rounded-3xl bg-white p-5 shadow-sm lg:col-span-12">

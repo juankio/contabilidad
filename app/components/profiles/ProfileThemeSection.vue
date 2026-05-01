@@ -72,7 +72,7 @@ async function select(key: typeof THEMES[number]['key']) {
 
     <div
       v-if="activeTheme"
-      class="mt-4 flex items-center gap-2.5 rounded-xl border border-slate-100 bg-slate-50 px-3 py-2"
+      class="mt-4 flex items-center gap-2.5 rounded-xl border border-slate-100 bg-transparent px-3 py-2"
     >
       <span
         class="h-3.5 w-3.5 rounded-full shrink-0"

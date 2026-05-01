@@ -42,7 +42,7 @@ const previewGastos = computed(() => (props.gastos ?? []).slice(0, 3))
     <div class="grid gap-3">
       <div
         v-if="props.pending"
-        class="rounded-2xl bg-slate-50 px-4 py-3 text-sm text-slate-500 md:col-span-2"
+        class="rounded-2xl bg-transparent px-4 py-3 text-sm text-slate-500 md:col-span-2"
       >
         Cargando gastos...
       </div>
@@ -54,7 +54,7 @@ const previewGastos = computed(() => (props.gastos ?? []).slice(0, 3))
       </div>
       <div
         v-else-if="!props.gastos?.length"
-        class="rounded-2xl bg-slate-50 px-4 py-3 text-sm text-slate-500 md:col-span-2"
+        class="rounded-2xl bg-transparent px-4 py-3 text-sm text-slate-500 md:col-span-2"
       >
         Aun no hay gastos registrados.
       </div>

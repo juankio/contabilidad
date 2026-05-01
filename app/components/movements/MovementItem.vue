@@ -18,7 +18,7 @@ const isIngreso = props.movimiento.type === 'Ingreso'
 
 <template>
   <div
-    class="group flex items-center gap-3 rounded-2xl border border-slate-100 px-3 md:px-4 py-3 transition-all duration-150 hover:border-slate-200 hover:bg-slate-50 min-w-0"
+    class="group flex items-center gap-3 rounded-2xl border border-slate-100 px-3 md:px-4 py-3 transition-all duration-150 hover:border-slate-200 hover:bg-transparent min-w-0"
   >
     <div
       class="h-2 w-2 shrink-0 rounded-full"

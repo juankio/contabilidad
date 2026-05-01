@@ -49,7 +49,7 @@ const emit = defineEmits<{
     </div>
     <div
       v-if="!prestamosPendientes.length"
-      class="mt-4 grid min-h-56 place-items-center rounded-2xl border border-dashed border-slate-200 bg-slate-50/60 px-4 py-6"
+      class="mt-4 grid min-h-56 place-items-center rounded-2xl border border-dashed border-slate-200 bg-transparent/60 px-4 py-6"
     >
       <div class="text-center">
         <UIcon

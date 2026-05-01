@@ -8,7 +8,7 @@ import AppPageHeader from '../components/layout/AppPageHeader.vue'
 </script>
 
 <template>
-  <main class="min-h-screen w-full overflow-x-hidden bg-slate-50 fintech-bg text-slate-900">
+  <main class="min-h-screen w-full overflow-x-hidden bg-transparent fintech-bg text-slate-900">
     <section class="mx-auto w-full max-w-screen-2xl overflow-x-clip px-4 md:px-6 pb-12 pt-8">
       <AppPageHeader />
 

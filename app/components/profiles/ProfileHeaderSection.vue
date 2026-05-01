@@ -15,7 +15,7 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <div class="h-full rounded-2xl bg-white border border-slate-200 bg-slate-50/70 p-4">
+  <div class="h-full rounded-2xl bg-white border border-slate-200 bg-transparent/70 p-4">
     <div class="flex items-center gap-2 text-slate-700">
       <UIcon
         name="lucide:users"

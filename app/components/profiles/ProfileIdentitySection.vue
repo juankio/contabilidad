@@ -26,7 +26,7 @@ const { activeProfileIcon } = useProfile()
     </div>
 
     <!-- Vista previa del perfil -->
-    <div class="mt-4 flex items-center gap-3 rounded-xl border border-slate-100 bg-slate-50 p-3">
+    <div class="mt-4 flex items-center gap-3 rounded-xl border border-slate-100 bg-transparent p-3">
       <div
         class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full"
         style="background: var(--brand-600)"

@@ -109,7 +109,7 @@ const closeGroupModal = () => {
       <li
         v-for="g in groups"
         :key="g.profileName"
-        class="flex items-center justify-between rounded-2xl border border-slate-100 bg-slate-50/50 p-3"
+        class="flex items-center justify-between rounded-2xl border border-slate-100 bg-transparent p-3"
       >
         <div class="flex items-center gap-3">
           <div

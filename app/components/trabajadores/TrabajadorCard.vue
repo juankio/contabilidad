@@ -27,7 +27,7 @@ const getDropdownItems = () => [
 </script>
 
 <template>
-  <div class="flex flex-col gap-2 rounded-2xl border border-slate-100 bg-slate-50/50 p-4 transition-colors hover:bg-slate-50">
+  <div class="flex flex-col gap-2 rounded-2xl border border-slate-100 bg-transparent p-4 transition-colors hover:bg-transparent">
     <div class="flex items-start justify-between gap-3">
       <div class="flex items-center gap-3">
         <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white shadow-sm ring-1 ring-slate-100">

@@ -15,7 +15,7 @@ const emit = defineEmits<{ (e: 'submit'): void }>()
 </script>
 
 <template>
-  <div class="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-3">
+  <div class="mt-4 rounded-xl border border-slate-200 bg-transparent p-3">
     <form
       class="grid gap-3"
       @submit.prevent="emit('submit')"
