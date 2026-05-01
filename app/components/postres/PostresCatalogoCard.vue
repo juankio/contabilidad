@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import PostresCatalogoForm from "./PostresCatalogoForm.vue"
+import PostresCatalogoList from "./PostresCatalogoList.vue"
 // Orquestador principal del Catálogo
 </script>
 

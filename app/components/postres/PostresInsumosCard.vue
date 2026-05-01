@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import PostresInsumosForm from "./PostresInsumosForm.vue"
+import PostresInsumosList from "./PostresInsumosList.vue"
 // Orquestador principal de Insumos
 </script>
 

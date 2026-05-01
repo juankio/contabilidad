@@ -6,7 +6,7 @@ import type { MovimientoRow } from '../../composables/movimientos/useMovementCru
 
 defineProps<{
   showAllModal: boolean
-  movimientos: MovimientoRow[] | null
+  movimientos: MovimientoRow[] | null | undefined
   
   editOpen: boolean
   editType: string | null

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import PostresVentasForm from "./PostresVentasForm.vue"
+import PostresVentasList from "./PostresVentasList.vue"
 // Orquestador principal de Ventas
 </script>
 
