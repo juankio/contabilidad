@@ -8,7 +8,7 @@ defineProps<{
 </script>
 
 <template>
-  <header class="rounded-[2rem] border border-slate-200/60 bg-white/80 p-6 sm:p-8 shadow-sm backdrop-blur-xl transition-all mb-8">
+  <header class="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm transition-all mb-8">
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
       <div class="flex items-center gap-5">
         <div class="relative">

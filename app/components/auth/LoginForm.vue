@@ -31,7 +31,7 @@ const setGoogleRef = (el: HTMLElement | null) => {
 </script>
 
 <template>
-  <UCard class="rounded-[2rem] border border-slate-200/60 bg-white/80 p-6 shadow-xl backdrop-blur-xl md:p-8">
+  <UCard class="rounded-[2rem] border border-slate-200/60 bg-white p-6 shadow-xl md:p-8">
     <template #header>
       <div class="mb-6 flex justify-center">
         <div class="flex h-16 w-16 items-center justify-center rounded-[1.5rem] bg-gradient-to-br from-[var(--brand-400)] to-[var(--brand-600)] shadow-lg shadow-brand-500/20">

@@ -58,20 +58,14 @@ function handleEditar(id: string, updates: Partial<NuevoPlan>) {
     <section class="mx-auto max-w-screen-2xl px-4 pb-12 pt-6">
       <header class="anim-up mb-6 rounded-3xl bg-white p-5 shadow-sm">
         <div class="flex flex-wrap items-start justify-between gap-4">
-          <div class="flex items-center gap-3">
-            <div
-              class="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl shadow-sm"
-              style="background: var(--brand-600)"
-            >
-              <span class="text-sm font-bold text-white">
-                {{ profileInitial }}
-              </span>
-              <span class="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full border-2 border-white bg-slate-700">
+          <div class="flex items-center gap-4 sm:gap-5">
+            <div class="relative shrink-0">
+              <div class="flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-[1.25rem] bg-gradient-to-br from-[var(--brand-500)] to-[var(--brand-600)] shadow-sm">
                 <UIcon
                   name="lucide:shopping-bag"
-                  class="h-3 w-3 text-white"
+                  class="h-6 w-6 sm:h-7 sm:w-7 text-white"
                 />
-              </span>
+              </div>
             </div>
             <div>
               <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">

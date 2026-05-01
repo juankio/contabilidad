@@ -23,7 +23,7 @@ const {
     <section class="mx-auto max-w-screen-2xl overflow-x-clip px-4 md:px-6 pb-12 pt-8">
       <div class="grid min-w-0 gap-6 lg:grid-cols-12 items-start">
         <GastosHeader
-          class="anim-up min-w-0 lg:col-span-12 rounded-[2rem] border border-slate-200/60 bg-white/80 p-6 sm:p-8 shadow-sm backdrop-blur-xl"
+          class="anim-up min-w-0 lg:col-span-12 rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm"
           :exporting="exporting"
           :on-export="exportGastos"
         />

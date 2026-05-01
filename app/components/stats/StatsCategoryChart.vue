@@ -35,7 +35,7 @@ const doughnutSegments = computed(() => {
 </script>
 
 <template>
-  <div class="h-full rounded-[2rem] border border-slate-200/60 bg-white/80 p-6 shadow-sm backdrop-blur-xl transition-all hover:shadow-md flex flex-col min-w-0">
+  <div class="h-full rounded-3xl border border-slate-200 bg-white p-6 transition-all hover:shadow-md flex flex-col min-w-0 w-full overflow-hidden">
     <h3 class="text-sm font-bold tracking-tight text-slate-900 mb-6 flex items-center gap-2">
       <UIcon name="lucide:pie-chart" class="h-4 w-4 text-[var(--brand-500)]" />
       Gastos por Categoría
@@ -45,7 +45,7 @@ const doughnutSegments = computed(() => {
       Sin gastos registrados.
     </div>
 
-    <div v-else class="flex flex-col sm:flex-row items-center gap-8 flex-1 min-w-0">
+    <div v-else class="flex flex-col sm:flex-row items-center gap-6 sm:gap-8 flex-1 min-w-0 py-4 sm:py-0">
       <!-- Doughnut SVG -->
       <div class="relative h-40 w-40 shrink-0">
         <svg viewBox="0 0 42 42" class="h-full w-full -rotate-90 transform drop-shadow-sm">
@@ -75,13 +75,13 @@ const doughnutSegments = computed(() => {
       </div>
 
       <!-- Legend -->
-      <div class="grid gap-3 w-full flex-1">
+      <div class="grid gap-3 w-full flex-1 min-w-0">
         <div
           v-for="cat in props.categorias"
           :key="cat.label"
-          class="flex items-center justify-between gap-3 text-sm"
+          class="flex items-center justify-between gap-3 text-sm min-w-0"
         >
-          <div class="flex items-center gap-2 min-w-0">
+          <div class="flex items-center gap-2 min-w-0 flex-1">
             <span class="h-3 w-3 shrink-0 rounded-full shadow-sm" :style="{ backgroundColor: cat.color }" />
             <span class="truncate font-medium text-slate-600">{{ cat.label }}</span>
           </div>

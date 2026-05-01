@@ -29,7 +29,7 @@ function ratio(value: number) {
 </script>
 
 <template>
-  <div class="h-full rounded-[2rem] border border-slate-200/60 bg-white/80 p-6 shadow-sm backdrop-blur-xl transition-all hover:shadow-md flex flex-col min-w-0">
+  <div class="h-full rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition-all hover:shadow-md flex flex-col min-w-0 w-full overflow-hidden">
     <h3 class="text-sm font-bold tracking-tight text-slate-900 mb-6 flex items-center gap-2">
       <UIcon name="lucide:trending-up" class="h-4 w-4 text-[var(--brand-500)]" />
       Tendencia & Balance
@@ -39,16 +39,17 @@ function ratio(value: number) {
       
       <!-- Lado Izquierdo: Resumen Actual -->
       <div class="flex flex-col justify-center pr-0 lg:pr-6">
-        <div class="mb-3 flex items-center justify-between">
-          <span class="text-xs font-bold uppercase tracking-widest text-slate-400">
+        <div class="mb-5">
+          <p class="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">
             {{ props.resumen.month }}
-          </span>
-          <span
-            class="text-sm font-bold"
+          </p>
+          <p
+            class="text-2xl sm:text-3xl font-extrabold tracking-tight truncate"
             :class="(props.resumen.saldoDisponible ?? props.resumen.saldo) >= 0 ? 'text-emerald-600' : 'text-rose-500'"
           >
-            {{ formatCurrency(props.resumen.saldoDisponible ?? props.resumen.saldo) }} Disp.
-          </span>
+            {{ formatCurrency(props.resumen.saldoDisponible ?? props.resumen.saldo) }}
+            <span class="text-sm font-medium text-slate-400 ml-1">Disp.</span>
+          </p>
         </div>
         
         <div class="h-4 w-full overflow-hidden rounded-full bg-slate-100 shadow-inner mb-4 flex">
@@ -85,18 +86,18 @@ function ratio(value: number) {
       </div>
 
       <!-- Lado Derecho: Histórico 6 Meses -->
-      <div class="flex flex-col justify-end pl-0 pt-6 lg:pt-0 lg:pl-6 border-t lg:border-t-0 border-slate-100">
-        <span class="mb-4 text-xs font-bold uppercase tracking-widest text-slate-400">Últimos meses</span>
+      <div class="flex flex-col justify-end pl-0 pt-8 mt-2 lg:mt-0 lg:pt-0 lg:pl-6 border-t lg:border-t-0 border-slate-100">
+        <span class="mb-6 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400">Últimos meses</span>
         
         <!-- Contenedor del Chart -->
-        <div class="flex h-32 items-end justify-between gap-2">
+        <div class="flex h-36 items-end justify-between gap-1 sm:gap-2">
           <div
             v-for="row in props.series"
             :key="row.month"
             class="group flex flex-1 flex-col items-center gap-2 relative"
           >
             <!-- Barras -->
-            <div class="flex h-24 w-full items-end justify-center gap-1 rounded-lg hover:bg-transparent transition-colors p-1">
+            <div class="flex h-28 w-full items-end justify-center gap-0.5 sm:gap-1 rounded-lg hover:bg-slate-50 transition-colors p-1">
               <div
                 class="w-1.5 sm:w-2 rounded-t-full bg-emerald-400/80 transition-all duration-500 group-hover:bg-emerald-500"
                 :style="{ height: `${Math.max(ratio(row.ingresos), 4)}%` }"
@@ -109,8 +110,8 @@ function ratio(value: number) {
             <!-- Mes -->
             <span class="text-[10px] font-medium text-slate-400">{{ row.month.substring(0,3) }}</span>
 
-            <!-- Tooltip Simple Hover -->
-            <div class="pointer-events-none absolute -top-12 left-1/2 z-10 -translate-x-1/2 opacity-0 shadow-lg transition-opacity group-hover:opacity-100 min-w-max rounded-lg bg-slate-800 px-3 py-1.5 text-xs text-white">
+            <!-- Tooltip Hover (Solo en Desktop) -->
+            <div class="hidden sm:block pointer-events-none absolute bottom-full mb-2 left-1/2 z-10 -translate-x-1/2 invisible opacity-0 shadow-lg transition-all group-hover:visible group-hover:opacity-100 w-max rounded-lg bg-slate-800 px-3 py-1.5 text-xs text-white">
               <p class="font-bold mb-1 border-b border-slate-600 pb-1">{{ row.month }}</p>
               <p class="text-emerald-400 flex justify-between gap-2"><span>Ing:</span> <span>{{ formatCurrency(row.ingresos) }}</span></p>
               <p class="text-amber-400 flex justify-between gap-2"><span>Gas:</span> <span>{{ formatCurrency(row.gastos) }}</span></p>

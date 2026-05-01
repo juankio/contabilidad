@@ -10,17 +10,14 @@ defineProps<{
 
 <template>
   <header class="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
-    <div class="flex items-center gap-5">
-      <div class="relative">
-        <div class="flex h-14 w-14 items-center justify-center rounded-[1.25rem] bg-gradient-to-br from-[var(--brand-500)] to-[var(--brand-600)] shadow-sm">
-          <span class="text-xl font-bold text-white">{{ profileInitial }}</span>
-        </div>
-        <span class="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full border-[3px] border-white bg-slate-700">
+    <div class="flex items-center gap-4 sm:gap-5">
+      <div class="relative shrink-0">
+        <div class="flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-[1.25rem] bg-gradient-to-br from-[var(--brand-500)] to-[var(--brand-600)] shadow-sm">
           <UIcon
-            name="lucide:arrow-up-right"
-            class="h-3 w-3 text-white"
+            name="lucide:receipt"
+            class="h-6 w-6 sm:h-7 sm:w-7 text-white"
           />
-        </span>
+        </div>
       </div>
       <div class="space-y-1">
         <h1 class="text-2xl font-bold tracking-tight text-slate-900">

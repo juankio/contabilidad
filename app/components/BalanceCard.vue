@@ -78,7 +78,7 @@ const saludColor = computed(() => {
       <div class="mb-8">
         <div class="flex flex-col gap-1 min-w-0">
           <span class="text-sm font-medium text-slate-500 uppercase tracking-wider truncate">Dinero Disponible</span>
-          <span class="text-4xl font-extrabold tracking-tighter text-slate-900 sm:text-5xl truncate">
+          <span class="text-3xl font-extrabold tracking-tighter text-slate-900 sm:text-4xl md:text-5xl truncate">
             {{ formatCurrency(animatedSaldoDisponible) }}
           </span>
         </div>
