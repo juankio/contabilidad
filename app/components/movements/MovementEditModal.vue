@@ -9,14 +9,14 @@ defineProps<{
   description: string
   category: string
   amountInput: string
-  date: Date | string
+  date: any
 }>()
 
 const emit = defineEmits<{
   (e: 'update:description', value: string): void
   (e: 'update:category', value: string): void
   (e: 'update:amountInput', value: string): void
-  (e: 'update:date', value: Date): void
+  (e: 'update:date', value: any): void
   (e: 'update:open', value: boolean): void
   (e: 'confirm'): void
 }>()
@@ -72,10 +72,11 @@ const emit = defineEmits<{
           @update:model-value="emit('update:amountInput', String($event ?? ''))"
         />
         <DateInputField
+          v-if="date !== null"
           label=""
           for-id="movement-edit-date"
           :model-value="date"
-          @update:model-value="emit('update:date', $event as Date)"
+          @update:model-value="emit('update:date', $event)"
         />
 
         <p

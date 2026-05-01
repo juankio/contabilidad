@@ -7,7 +7,7 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <div class="self-start rounded-[2rem] border border-white/60 bg-white/70 p-6 sm:p-8 backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:-translate-y-1 lg:col-span-4">
+  <div class="self-start rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1 lg:col-span-4">
     <div class="mb-6 flex items-start justify-between">
       <div class="flex items-center gap-4">
         <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--brand-50)] text-[var(--brand-600)] ring-1 ring-[var(--brand-500)]/20">

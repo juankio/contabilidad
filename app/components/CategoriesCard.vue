@@ -1,17 +1,21 @@
 <script setup lang="ts">
+import type { ApiResponse } from '../../server/utils/handler'
+
 type CategoriaResumen = {
   category: string
   total: number
 }
 
-const { data: categorias, pending, error } = await useFetch<CategoriaResumen[]>('/api/categorias', {
+const { data: response, pending, error } = await useFetch<ApiResponse<CategoriaResumen[]>>('/api/categorias', {
   key: 'categorias'
 })
+
+const categorias = computed(() => response.value?.data || [])
 
 const { formatCurrency } = useFormatters()
 
 const maxTotal = computed(() => {
-  if (!categorias.value?.length) return 1
+  if (!categorias.value.length) return 1
   return Math.max(...categorias.value.map(c => c.total))
 })
 
@@ -79,7 +83,7 @@ const barClass = (index: number) => `anim-bar-${Math.min(index, 5)} ${barColors[
 
     <!-- Empty -->
     <div
-      v-else-if="!categorias?.length"
+      v-else-if="categorias.length === 0"
       class="grid min-h-44 place-items-center rounded-3xl border border-dashed border-slate-200 bg-slate-50/60 px-4 py-6"
     >
       <div class="text-center">

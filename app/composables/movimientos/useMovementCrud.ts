@@ -1,4 +1,5 @@
 import { useProfile } from '../useProfile'
+import { CalendarDate } from '@internationalized/date'
 
 export type MovimientoRow = {
   _id: string
@@ -12,8 +13,15 @@ export type MovimientoRow = {
 const REFRESH_KEYS = ['resumen', 'categorias', 'gastos', 'gastos-grouped', 'estadisticas'] as const
 
 const toDateInputValue = (value: string) => {
-  if (!value) return ''
-  return value.includes('T') ? value.slice(0, 10) : value
+  if (!value) return null
+  try {
+    const d = new Date(value)
+    if (Number.isNaN(d.getTime())) return null
+    // Los meses en CalendarDate son 1-indexed (1-12)
+    return new CalendarDate(d.getUTCFullYear(), d.getUTCMonth() + 1, d.getUTCDate())
+  } catch {
+    return null
+  }
 }
 
 const formatAmountInput = (value: number) =>
@@ -34,7 +42,7 @@ export function useMovementCrud(refreshMovimientos: () => Promise<void>) {
   const editDescription = ref('')
   const editCategory = ref('')
   const editAmountInput = ref('')
-  const editDate = ref('')
+  const editDate = ref<any>(null)
   const editLoading = ref(false)
   const deleteLoading = ref(false)
   const editError = ref('')
@@ -77,7 +85,7 @@ export function useMovementCrud(refreshMovimientos: () => Promise<void>) {
           description: editDescription.value.trim(),
           category: editCategory.value.trim(),
           amount: parseAmountInput(editAmountInput.value),
-          date: editDate.value
+          date: editDate.value ? editDate.value.toString() : undefined
         }
       })
       await refreshAll()

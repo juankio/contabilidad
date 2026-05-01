@@ -150,16 +150,12 @@ export async function createIngresoService(
   // Lanzar en background
   sendEmailTask()
 
-  const syncCategoryTask = async () => {
-    try {
-      await upsertProfileCategory(user._id, profileId, 'income', doc.category)
-    } catch (e) {
-      console.error('[ingresos] Failed to sync category:', e)
-    }
+  // Esperar obligatoriamente a que la categoría se guarde para no desincronizar el Frontend
+  try {
+    await upsertProfileCategory(user._id, profileId, 'income', doc.category)
+  } catch (e) {
+    console.error('[ingresos] Failed to sync category:', e)
   }
-  
-  // Lanzar en background
-  syncCategoryTask()
 
   return {
     _id: doc._id.toString(),

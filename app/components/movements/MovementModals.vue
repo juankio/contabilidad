@@ -13,7 +13,7 @@ defineProps<{
   editDescription: string
   editCategory: string
   editAmountInput: string
-  editDate: string
+  editDate: any
   editLoading: boolean
   editError: string | null
   canSubmitEdit: boolean

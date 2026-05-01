@@ -138,15 +138,12 @@ export async function createGastoService(
 
   sendEmailTask()
 
-  const syncCategoryTask = async () => {
-    try {
-      await upsertProfileCategory(user._id, profileId, 'expense', doc.category)
-    } catch (e) {
-      console.error('[gastos] Failed to sync category:', e)
-    }
+  // Esperar obligatoriamente a que la categoría se guarde para no desincronizar el Frontend
+  try {
+    await upsertProfileCategory(user._id, profileId, 'expense', doc.category)
+  } catch (e) {
+    console.error('[gastos] Failed to sync category:', e)
   }
-  
-  syncCategoryTask()
 
   return {
     _id: doc._id.toString(),
