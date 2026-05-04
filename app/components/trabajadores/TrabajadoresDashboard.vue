@@ -1,9 +1,4 @@
 <script setup lang="ts">
-import TrabajadorForm from './TrabajadorForm.vue'
-import PagoForm from './PagoForm.vue'
-import TrabajadoresList from './TrabajadoresList.vue'
-import TrabajadorEditModal from './TrabajadorEditModal.vue'
-import TrabajadorDeleteModal from './TrabajadorDeleteModal.vue'
 import type { Trabajador, TrabajadorPayload, PagoPayload } from '../../composables/trabajadores/useTrabajadores'
 
 defineProps<{

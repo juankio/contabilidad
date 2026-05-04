@@ -1,9 +1,5 @@
 <script setup lang="ts">
-import { ref, onBeforeUnmount } from 'vue'
 import { animate } from 'animejs'
-import FormField from './FormField.vue'
-import DateInputField from './DateInputField.vue'
-import { useMovementForm } from '../../composables/forms/useMovementForm'
 
 const {
   form,
@@ -28,7 +24,7 @@ const handlePopSubmit = async () => {
   // Elastic pop effect on button
   if (submitBtnRef.value) {
     if (btnAnimation) btnAnimation.pause()
-    btnAnimation = animate(submitBtnRef.value.$el || submitBtnRef.value, {
+    btnAnimation = animate((submitBtnRef.value as any).$el || submitBtnRef.value, {
       scale: [0.95, 1],
       duration: 600,
       ease: 'outElastic(1, 0.5)'

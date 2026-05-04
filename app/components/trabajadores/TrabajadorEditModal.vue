@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
-import TrabajadorFormFields from './TrabajadorFormFields.vue'
 import type { Trabajador, TrabajadorPayload } from '../../composables/trabajadores/useTrabajadores'
 
 const props = defineProps<{

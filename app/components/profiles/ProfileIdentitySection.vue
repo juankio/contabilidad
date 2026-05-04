@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useProfile } from '../../composables/useProfile'
 
 defineProps<{
   profileName: string

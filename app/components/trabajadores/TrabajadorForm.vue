@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
 import type { TrabajadorPayload } from '../../composables/trabajadores/useTrabajadores'
-import TrabajadorFormFields from './TrabajadorFormFields.vue'
 
 const emit = defineEmits<{ (e: 'submit', payload: TrabajadorPayload): void }>()
 

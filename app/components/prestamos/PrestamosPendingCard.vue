@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import type { PaymentPlan, Prestamo } from '../../composables/prestamos/types'
-import PrestamoPendingItem from './PrestamoPendingItem.vue'
-import PrestamoAbonoForm from './PrestamoAbonoForm.vue'
 
 defineProps<{
   prestamosPendientes: Prestamo[]

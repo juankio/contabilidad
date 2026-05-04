@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import type { CalendarDate } from '@internationalized/date'
-import DateInputField from '../forms/DateInputField.vue'
-import FormField from '../forms/FormField.vue'
 
 defineProps<{
   nombre: string

@@ -1,24 +1,18 @@
-import { refreshAuthUser, useAuthUser } from '../composables/auth/useAuth'
-
 export default defineNuxtRouteMiddleware(async (to) => {
-  const authUser = useAuthUser()
+  const authStore = useAuthStore()
 
-  if (!authUser.value) {
-    await refreshAuthUser()
+  if (!authStore.user) {
+    await authStore.refreshAuthUser()
   }
 
-  if (to.matched.length === 0) {
-    return authUser.value ? navigateTo('/') : navigateTo('/login')
-  }
+  const publicRoutes = ['/login']
+  const isPublicRoute = publicRoutes.includes(to.path)
 
-  if (to.path === '/login') {
-    if (authUser.value) {
-      return navigateTo('/')
-    }
-    return
-  }
-
-  if (!authUser.value) {
+  if (!authStore.user && !isPublicRoute) {
     return navigateTo('/login')
+  }
+
+  if (authStore.user && isPublicRoute) {
+    return navigateTo('/')
   }
 })

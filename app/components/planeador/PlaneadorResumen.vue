@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
 import { animate, stagger } from 'animejs'
 import type { PlanCompra } from '../../composables/planeador/usePlaneador'
 

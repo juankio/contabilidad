@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import type { PlanCompra } from '../../composables/planeador/usePlaneador'
 
 const props = defineProps<{

@@ -1,8 +1,4 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useRoute } from 'vue-router'
-import AppHeaderMain from '../components/layout/AppHeaderMain.vue'
-import AppFooter from '../components/layout/AppFooter.vue'
 
 const route = useRoute()
 const showHeader = computed(() => route.path !== '/login')

@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import StatsTrendChart from './stats/StatsTrendChart.vue'
-import StatsCategoryChart from './stats/StatsCategoryChart.vue'
 
 const {
   selectedProfileId,

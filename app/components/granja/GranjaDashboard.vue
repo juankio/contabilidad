@@ -1,10 +1,4 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import LoteForm from './LoteForm.vue'
-import ConcentradoForm from './ConcentradoForm.vue'
-import LotesList from './LotesList.vue'
-import LoteEditModal from './LoteEditModal.vue'
-import LoteDeleteModal from './LoteDeleteModal.vue'
 
 const props = defineProps<{
   lotes: import('../../composables/granja/useGranjaCerdos').Lote[]

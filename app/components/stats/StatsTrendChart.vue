@@ -39,17 +39,19 @@ function ratio(value: number) {
       
       <!-- Lado Izquierdo: Resumen Actual -->
       <div class="flex flex-col justify-center pr-0 lg:pr-6">
-        <div class="mb-5">
-          <p class="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">
+        <div class="mb-5 min-w-0 w-full">
+          <p class="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400 mb-1 truncate">
             {{ props.resumen.month }}
           </p>
-          <p
-            class="text-2xl sm:text-3xl font-extrabold tracking-tight truncate"
-            :class="(props.resumen.saldoDisponible ?? props.resumen.saldo) >= 0 ? 'text-emerald-600' : 'text-rose-500'"
-          >
-            {{ formatCurrency(props.resumen.saldoDisponible ?? props.resumen.saldo) }}
-            <span class="text-sm font-medium text-slate-400 ml-1">Disp.</span>
-          </p>
+          <div class="flex items-baseline gap-2 flex-wrap min-w-0">
+            <p
+              class="text-[clamp(1.5rem,3vw,1.875rem)] leading-none font-extrabold tracking-tight break-words line-clamp-2"
+              :class="(props.resumen.saldoDisponible ?? props.resumen.saldo) >= 0 ? 'text-emerald-600' : 'text-rose-500'"
+            >
+              {{ formatCurrency(props.resumen.saldoDisponible ?? props.resumen.saldo) }}
+            </p>
+            <span class="text-sm font-medium text-slate-400 shrink-0">Disp.</span>
+          </div>
         </div>
         
         <div class="h-4 w-full overflow-hidden rounded-full bg-slate-100 shadow-inner mb-4 flex">
@@ -86,15 +88,15 @@ function ratio(value: number) {
       </div>
 
       <!-- Lado Derecho: Histórico 6 Meses -->
-      <div class="flex flex-col justify-end pl-0 pt-8 mt-2 lg:mt-0 lg:pt-0 lg:pl-6 border-t lg:border-t-0 border-slate-100">
+      <div class="flex flex-col justify-end pl-0 pt-8 mt-2 lg:mt-0 lg:pt-0 lg:pl-6 border-t lg:border-t-0 border-slate-100 min-w-0 w-full overflow-hidden">
         <span class="mb-6 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400">Últimos meses</span>
         
         <!-- Contenedor del Chart -->
-        <div class="flex h-36 items-end justify-between gap-1 sm:gap-2">
+        <div class="grid grid-cols-6 h-36 items-end gap-1 sm:gap-2 w-full">
           <div
             v-for="row in props.series"
             :key="row.month"
-            class="group flex flex-1 flex-col items-center gap-2 relative"
+            class="group flex flex-col items-center gap-2 relative w-full"
           >
             <!-- Barras -->
             <div class="flex h-28 w-full items-end justify-center gap-0.5 sm:gap-1 rounded-lg hover:bg-slate-50 transition-colors p-1">

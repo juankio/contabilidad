@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { toRef, reactive } from 'vue'
-import FormField from '../forms/FormField.vue'
-import { useMoneyInput } from '../../composables/forms/useMoneyInput'
 import type { Trabajador, PagoPayload } from '../../composables/trabajadores/useTrabajadores'
 
 defineProps<{

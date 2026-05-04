@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import type { PlanCompra } from '../../composables/planeador/usePlaneador'
-import PlaneadorItem from './PlaneadorItem.vue'
-import PlaneadorSkeleton from './PlaneadorSkeleton.vue'
-import PlaneadorEmptyState from './PlaneadorEmptyState.vue'
 import { animate, stagger } from 'animejs'
 
 const props = defineProps<{

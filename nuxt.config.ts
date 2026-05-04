@@ -4,16 +4,22 @@ import { defineNuxtConfig } from 'nuxt/config'
 export default defineNuxtConfig({
   modules: [
     '@nuxt/eslint',
-    '@nuxt/ui'
+    '@nuxt/ui',
+    '@pinia/nuxt'
   ],
 
   components: [
-    { path: 'app/components', pathPrefix: false }
+    { path: '~/components/ui', pathPrefix: false },
+    { path: '~/components/layout', pathPrefix: false },
+    { path: '~/components/features', pathPrefix: false },
+    { path: '~/components/auth', pathPrefix: false },
+    { path: '~/components', pathPrefix: false }
   ],
 
   imports: {
     dirs: [
-      'app/composables/**'
+      'composables/**',
+      'stores/**'
     ]
   },
 

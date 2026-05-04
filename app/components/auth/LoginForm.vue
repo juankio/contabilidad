@@ -1,10 +1,4 @@
 <script setup lang="ts">
-import AuthModeSwitch from './AuthModeSwitch.vue'
-import AuthColorPicker from './forms/AuthColorPicker.vue'
-import AuthModuleSelector from './forms/AuthModuleSelector.vue'
-import LoginFields from './forms/LoginFields.vue'
-import LoginSocial from './forms/LoginSocial.vue'
-import { useLoginForm } from '../../composables/auth/useLoginForm'
 
 const {
   mode,

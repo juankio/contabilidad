@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import MovementFormFields from './forms/MovementFormFields.client.vue'
 </script>
 
 <template>

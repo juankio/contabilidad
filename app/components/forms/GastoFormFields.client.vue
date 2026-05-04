@@ -1,9 +1,5 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
 import { animate, stagger } from 'animejs'
-import FormField from './FormField.vue'
-import DateInputField from './DateInputField.vue'
-import { useGastoForm } from '../../composables/forms/useGastoForm'
 
 const emit = defineEmits<{
   (e: 'saved'): void

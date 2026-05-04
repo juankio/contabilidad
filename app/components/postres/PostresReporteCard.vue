@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { usePostres } from '../../composables/postres/usePostres'
 
 const { report, sendToContabilidad, sending, sendSuccess, sendError, loadingData, fetchData } = usePostres()
 const { formatCurrency } = useFormatters()

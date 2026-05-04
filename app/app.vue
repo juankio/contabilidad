@@ -1,6 +1,4 @@
 <script setup>
-import { buildThemeInitScript } from '~/composables/useTheme'
-import AppBackground from '~/components/backgrounds/AppBackground.vue'
 
 const { initTheme } = useTheme()
 onMounted(() => initTheme())

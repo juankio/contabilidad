@@ -1,5 +1,5 @@
 import type { Ref } from 'vue'
-import type { AuthUser } from '../auth/useAuth'
+import type { AuthUser } from '../../stores/auth'
 import type { ProfileRequestError, ProfilesResponse } from './profileApiTypes'
 
 type ValidatedProfileName

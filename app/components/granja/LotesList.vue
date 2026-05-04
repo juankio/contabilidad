@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { watch, nextTick } from 'vue'
 import { animate, stagger } from 'animejs'
 import type { Lote } from '../../composables/granja/useGranjaCerdos'
-import LoteItem from './LoteItem.vue'
 
 const props = defineProps<{
   lotes: Lote[]

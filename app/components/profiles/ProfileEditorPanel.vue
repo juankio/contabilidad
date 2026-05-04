@@ -1,13 +1,4 @@
 <script setup lang="ts">
-import { useProfilePage } from '../../composables/profile/useProfilePage'
-import ProfileCategoriesSection from './ProfileCategoriesSection.vue'
-import ProfileCreateModal from './ProfileCreateModal.vue'
-import ProfileDeleteModal from './ProfileDeleteModal.vue'
-import ProfileFooterSection from './ProfileFooterSection.vue'
-import ProfileHeaderSection from './ProfileHeaderSection.vue'
-import ProfileIdentitySection from './ProfileIdentitySection.vue'
-import ProfileModulesSection from './ProfileModulesSection.vue'
-import ProfileRenameModal from './ProfileRenameModal.vue'
 
 defineOptions({ inheritAttrs: false })
 

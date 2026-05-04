@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import type { PaymentPlan } from '../../composables/prestamos/types'
-import FormField from '../forms/FormField.vue'
-import DateInputField from '../forms/DateInputField.vue'
 
 const paymentPlan = defineModel<PaymentPlan | string>('paymentPlan', { required: true })
 const installmentsInput = defineModel<string | number>('installmentsInput', { required: true })

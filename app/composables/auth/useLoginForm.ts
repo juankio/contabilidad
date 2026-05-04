@@ -1,4 +1,3 @@
-import { refreshAuthUser } from './useAuth'
 import { OPTIONAL_MODULE_KEYS, OPTIONAL_MODULES, type OptionalModuleKey } from '../../utils/modules'
 
 type AuthMode = 'login' | 'register'
@@ -82,7 +81,8 @@ export function useLoginForm() {
         return
       }
 
-      await refreshAuthUser()
+      const authStore = useAuthStore()
+      await authStore.refreshAuthUser()
       await navigateTo('/')
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : ''
@@ -165,7 +165,8 @@ export function useLoginForm() {
           body: { email: email.value, password: password.value }
         })
       }
-      await refreshAuthUser()
+      const authStore = useAuthStore()
+      await authStore.refreshAuthUser()
       await navigateTo('/')
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : ''

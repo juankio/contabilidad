@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import GastoFormFields from './forms/GastoFormFields.client.vue'
 
 const emit = defineEmits<{
   (e: 'saved'): void

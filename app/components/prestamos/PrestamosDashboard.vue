@@ -1,12 +1,5 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
 import { animate, stagger } from 'animejs'
-import PrestamosOverviewCard from './PrestamosOverviewCard.vue'
-import PrestamoCreateFormCard from './PrestamoCreateFormCard.vue'
-import PrestamosPendingCard from './PrestamosPendingCard.vue'
-import PrestamosPaidCard from './PrestamosPaidCard.vue'
-import PrestamoDeleteModal from './PrestamoDeleteModal.vue'
-import PrestamoEditModal from './PrestamoEditModal.vue'
 
 defineProps<{
   pending: boolean

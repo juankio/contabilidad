@@ -1,9 +1,6 @@
 <script setup lang="ts">
-import { watch, nextTick } from 'vue'
 import { animate, stagger } from 'animejs'
 import type { Trabajador } from '../../composables/trabajadores/useTrabajadores'
-import TrabajadorCard from './TrabajadorCard.vue'
-import TrabajadorSkeleton from './TrabajadorSkeleton.vue'
 
 const props = defineProps<{
   trabajadores: Trabajador[]

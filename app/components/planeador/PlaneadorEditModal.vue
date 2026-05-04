@@ -1,10 +1,6 @@
 <script setup lang="ts">
-import { ref, reactive, computed, watch } from 'vue'
 import type { PlanCompra, NuevoPlan } from '../../composables/planeador/usePlaneador'
 import { CalendarDate } from '@internationalized/date'
-import { useCalendarDateInput } from '../../composables/forms/useCalendarDateInput'
-import { useMoneyInput } from '../../composables/forms/useMoneyInput'
-import PlaneadorFields from './PlaneadorFields.vue'
 
 const props = defineProps<{
   modelValue: boolean

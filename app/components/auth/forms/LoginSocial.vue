@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref, watch, onMounted } from 'vue'
 
 defineProps<{
   canUseGoogle: boolean

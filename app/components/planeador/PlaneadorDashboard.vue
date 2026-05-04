@@ -1,10 +1,5 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
 import { animate, stagger } from 'animejs'
-import PlaneadorResumen from './PlaneadorResumen.vue'
-import PlaneadorForm from './PlaneadorForm.vue'
-import PlaneadorList from './PlaneadorList.vue'
-import PlaneadorEditModal from './PlaneadorEditModal.vue'
 import type { PlanCompra, NuevoPlan } from '../../composables/planeador/usePlaneador'
 
 const props = defineProps<{
@@ -84,7 +79,7 @@ onMounted(() => {
           <PlaneadorForm
             :submitting="submitting"
             :submit-error="submitError"
-            @submit="(nuevo, onOk) => emit('crear', nuevo, onOk)"
+            @submit="(nuevo: NuevoPlan, onOk: () => void) => emit('crear', nuevo, onOk)"
           />
         </div>
 
@@ -107,9 +102,9 @@ onMounted(() => {
       :model-value="isEditOpen"
       :plan="planAEditar"
       :submitting="submitting"
-      :submit-error="submitError"
-      @update:model-value="isEditOpen = $event"
-      @submit="handleEditar"
-    />
+            :submit-error="submitError"
+            @update:model-value="isEditOpen = $event"
+            @submit="(id: string, updates: Partial<NuevoPlan>) => handleEditar(updates)"
+          />
   </main>
 </template>

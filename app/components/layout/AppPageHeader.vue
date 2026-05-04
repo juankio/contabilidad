@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { refreshAuthUser } from '../../composables/auth/useAuth'
-
 const props = defineProps<{
   title?: string
   subtitle?: string
@@ -20,9 +17,8 @@ const greeting = computed(() => {
 const finalTitle = computed(() => props.title || activeProfileName.value || 'Mi Contabilidad')
 
 const logout = async () => {
-  await $fetch('/api/auth/logout', { method: 'POST' })
-  await refreshAuthUser()
-  await navigateTo('/login')
+  const authStore = useAuthStore()
+  await authStore.logout()
 }
 
 const goToProfile = async () => {

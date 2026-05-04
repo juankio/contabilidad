@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { watch, nextTick } from 'vue'
 import { animate, stagger } from 'animejs'
 
 defineOptions({

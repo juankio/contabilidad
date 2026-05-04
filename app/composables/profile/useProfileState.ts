@@ -1,7 +1,12 @@
-import { useAuthUser } from '../auth/useAuth'
-
 export function useProfileState() {
-  const authUser = useAuthUser()
+  const authStore = useAuthStore()
+  
+  // To allow mutation from profile helpers, we need to return the actual reactive ref or a writable computed
+  const authUser = computed({
+    get: () => authStore.user,
+    set: (val) => { authStore.user = val }
+  })
+  
   const activeProfile = computed(() => {
     const user = authUser.value
     if (!user) {

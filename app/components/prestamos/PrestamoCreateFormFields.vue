@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import type { PaymentPlan } from '../../composables/prestamos/types'
-import FormField from '../forms/FormField.vue'
-import DateInputField from '../forms/DateInputField.vue'
-import PrestamoPaymentPlanFields from './PrestamoPaymentPlanFields.vue'
 
 const borrower = defineModel<string>('borrower', { required: true })
 const amountInput = defineModel<string | number>('amountInput', { required: true })

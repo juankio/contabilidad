@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import ProfileCustomCategoriesSection from './ProfileCustomCategoriesSection.vue'
-import ProfileDefaultCategoriesSection from './ProfileDefaultCategoriesSection.vue'
 
 type CategoryType = 'income' | 'expense'
 

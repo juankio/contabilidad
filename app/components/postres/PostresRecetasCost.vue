@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { usePostres } from '../../composables/postres/usePostres'
 
 const { activePostre, activePostreCost, activePostreProfit } = usePostres()
 const { formatCurrency } = useFormatters()

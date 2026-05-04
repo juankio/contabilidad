@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useFormatters } from '../../composables/useFormatters'
 import type { MovimientoRow } from '../../composables/movimientos/useMovementCrud'
 
 const props = defineProps<{

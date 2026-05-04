@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import type { Prestamo } from '../../composables/prestamos/types'
-import FormField from '../forms/FormField.vue'
-import DateInputField from '../forms/DateInputField.vue'
 
 const props = defineProps<{
   target: Prestamo | null

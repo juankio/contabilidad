@@ -1,4 +1,3 @@
-import { refreshAuthUser } from '../auth/useAuth'
 import { getProfileRequestError, isProfileNameValid, syncAuthProfiles } from './profileApiHelpers'
 import type { ProfilesResponse } from './profileApiTypes'
 import type { useProfileState } from './useProfileState'
@@ -54,7 +53,8 @@ export function useProfileSettingsActions(state: ProfileState) {
           ...(hiddenExpenseCustoms ? { hiddenExpenseCustoms } : {})
         }
       })
-      await refreshAuthUser()
+      const authStore = useAuthStore()
+      await authStore.refreshAuthUser()
       return true
     } catch (error: unknown) {
       errorMessage.value = getProfileRequestError(error, 'No se pudo actualizar el perfil')

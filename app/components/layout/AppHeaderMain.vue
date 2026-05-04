@@ -1,9 +1,4 @@
 <script setup lang="ts">
-import AppHeaderDesktopNav from './AppHeaderDesktopNav.vue'
-import AppHeaderMobileMenu from './AppHeaderMobileMenu.vue'
-import AppLogo from './AppLogo.vue'
-import { useHeaderProfiles } from '../../composables/layout/useHeaderProfiles'
-import { useModuleNavigation } from '../../composables/modules/useModuleNavigation'
 import type { NavigationMenuItem } from '@nuxt/ui'
 
 const {
@@ -54,24 +49,26 @@ const menuItems = computed<NavigationMenuItem[]>(() => navItems.value.map((item)
       overlay: 'sm:hidden backdrop-blur-sm bg-slate-900/20',
       content: 'sm:hidden rounded-t-[2rem] border border-slate-200 bg-white shadow-2xl pb-4',
       body: 'p-3',
-      container: 'mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8 h-[60px] sm:h-[72px] flex items-center w-full justify-between'
+      container: 'mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8 h-[60px] sm:h-[72px] grid grid-cols-[auto_1fr_auto] gap-4 w-full items-center',
+      left: 'min-w-0 flex items-center',
+      right: 'min-w-0 flex items-center justify-end overflow-hidden'
     }"
   >
     <template #left>
-      <div class="flex items-center gap-3 lg:gap-5">
+      <div class="flex items-center gap-3 lg:gap-5 shrink-0">
         <NuxtLink
           to="/"
           no-prefetch
           class="flex items-center gap-2.5 group"
         >
           <AppLogo />
-          <span class="text-xl font-black text-slate-900 tracking-tight transition-colors group-hover:text-[var(--brand-600)] hidden sm:block">Mi Contabilidad</span>
+          <span class="text-xl font-black text-slate-900 tracking-tight transition-colors group-hover:text-[var(--brand-600)] hidden md:block shrink-0">Mi Contabilidad</span>
         </NuxtLink>
 
         <!-- Divider Style Vercel -->
         <div
           v-if="profileItems.length > 1"
-          class="hidden sm:flex h-6 w-px bg-slate-300/80 transform rotate-12"
+          class="hidden md:flex h-6 w-px bg-slate-300/80 transform rotate-12 shrink-0"
         />
 
         <!-- Profile Selector / Workspace Switcher -->
@@ -81,7 +78,7 @@ const menuItems = computed<NavigationMenuItem[]>(() => navItems.value.map((item)
           :items="profileItems"
           value-key="value"
           label-key="label"
-          class="hidden sm:flex w-44"
+          class="hidden md:flex w-24 lg:w-36 shrink-0"
           variant="ghost"
           color="neutral"
           size="lg"
@@ -100,8 +97,8 @@ const menuItems = computed<NavigationMenuItem[]>(() => navItems.value.map((item)
     </template>
 
     <template #right>
-      <div class="flex items-center gap-2 w-full justify-end">
-        <div class="hidden items-center sm:flex w-full justify-end">
+      <div class="flex items-center gap-2 w-full justify-end min-w-0">
+        <div class="hidden items-center sm:flex w-full justify-end min-w-0">
           <AppHeaderDesktopNav
             :menu-items="menuItems"
           />

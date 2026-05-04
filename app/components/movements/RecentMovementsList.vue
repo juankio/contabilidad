@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { watch, nextTick, onBeforeUnmount } from 'vue'
 import { animate, stagger } from 'animejs'
-import MovementItem from './MovementItem.vue'
 import type { MovimientoRow } from '../../composables/movimientos/useMovementCrud'
 
 const props = defineProps<{

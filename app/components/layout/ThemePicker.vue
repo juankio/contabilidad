@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useTheme, THEMES } from '../../composables/useTheme'
 
 const { activeColor, setProfileTheme } = useTheme()
 const { activeProfile, activeProfileId, updateProfileThemeColor } = useProfile()

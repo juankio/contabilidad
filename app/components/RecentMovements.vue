@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import MovementModals from './movements/MovementModals.vue'
-import RecentMovementsList from './movements/RecentMovementsList.vue'
-import { useRecentMovements } from '../composables/movimientos/useRecentMovements'
 
 defineOptions({ inheritAttrs: false })
 

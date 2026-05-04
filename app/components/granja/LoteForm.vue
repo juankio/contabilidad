@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import FormField from '../forms/FormField.vue'
 import type { LotePayload } from '../../composables/granja/useGranjaCerdos'
 
 const emit = defineEmits<{ (e: 'submit', payload: LotePayload): void }>()

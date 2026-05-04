@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { THEMES } from '../../composables/useTheme'
 import type { ThemeKey } from '../../composables/useTheme'
 
 defineProps<{ activeColor: string, saving: boolean }>()

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { usePostres } from '../../composables/postres/usePostres'
 import { animate } from 'animejs'
 
 const { postres, eliminar, loadingData } = usePostres()

@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import MovementListModal from './MovementListModal.vue'
-import MovementEditModal from './MovementEditModal.vue'
-import MovementDeleteModal from './MovementDeleteModal.vue'
 import type { MovimientoRow } from '../../composables/movimientos/useMovementCrud'
 
 defineProps<{

@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import FormField from '../forms/FormField.vue'
-import { useMoneyInput } from '../../composables/forms/useMoneyInput'
 
 const nombre = defineModel<string>('nombre', { required: true })
 const cargo = defineModel<string>('cargo', { required: true })

@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import PostresRecetasForm from "./PostresRecetasForm.vue"
-import PostresRecetasCost from "./PostresRecetasCost.vue"
-import PostresRecetasList from "./PostresRecetasList.vue"
 // Orquestador principal de Recetas
 </script>
 

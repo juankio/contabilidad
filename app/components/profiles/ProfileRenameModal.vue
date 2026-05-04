@@ -57,8 +57,8 @@ const emit = defineEmits<{
           <div class="grid gap-1.5 text-sm">
             <label class="font-semibold text-slate-700">Icono representativo</label>
             <ProfileIconPicker
-              :model-value="icon"
-              @update:model-value="emit('update:icon', $event)"
+              :icon="icon"
+              @update:icon="emit('update:icon', $event)"
             />
           </div>
 

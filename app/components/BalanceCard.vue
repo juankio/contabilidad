@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 
 const {
   resumen,
@@ -75,10 +74,10 @@ const saludColor = computed(() => {
       v-else
       class="flex-1 flex flex-col justify-center"
     >
-      <div class="mb-8">
-        <div class="flex flex-col gap-1 min-w-0">
+      <div class="mb-8 w-full min-w-0">
+        <div class="flex flex-col gap-1 w-full min-w-0">
           <span class="text-sm font-medium text-slate-500 uppercase tracking-wider truncate">Dinero Disponible</span>
-          <span class="text-3xl font-extrabold tracking-tighter text-slate-900 sm:text-4xl md:text-5xl truncate">
+          <span class="text-[clamp(1.875rem,5vw,3rem)] leading-[1.1] font-extrabold tracking-tighter text-slate-900 break-words line-clamp-2">
             {{ formatCurrency(animatedSaldoDisponible) }}
           </span>
         </div>

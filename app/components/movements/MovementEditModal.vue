@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import DateInputField from '../forms/DateInputField.vue'
 
 defineProps<{
   open: boolean

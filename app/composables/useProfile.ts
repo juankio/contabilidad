@@ -1,13 +1,12 @@
-import { useAuthUser } from './auth/useAuth'
 import { useProfileLifecycleActions } from './profile/useProfileLifecycleActions'
 import { useProfileSettingsActions } from './profile/useProfileSettingsActions'
 import { useProfileState } from './profile/useProfileState'
 
 export function useActiveProfile() {
-  const authUser = useAuthUser()
+  const authStore = useAuthStore()
 
   return computed(() => {
-    const user = authUser.value
+    const user = authStore.user
     if (!user) {
       return null
     }

@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import LoginHero from '../components/auth/LoginHero.vue'
-import LoginForm from '../components/auth/LoginForm.vue'
 </script>
 
 <template>

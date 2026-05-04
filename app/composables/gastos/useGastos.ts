@@ -62,8 +62,8 @@ export const useGastos = () => {
   const handleGastoSaved = async () => {
     await refresh()
     await refreshGrouped()
-    clearNuxtData((key) => key.startsWith('stats-'))
-    await refreshNuxtData((key) => key.startsWith('stats-'))
+    clearNuxtData((key: string) => key.startsWith('stats-'))
+    // refreshNuxtData doesn't accept a function, we must just let components refetch or refresh all stats explicitly
     triggerRefresh.value++
   }
 

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import MovementItem from './MovementItem.vue'
 import type { MovimientoRow } from '../../composables/movimientos/useMovementCrud'
 
 defineProps<{

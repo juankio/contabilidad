@@ -1,11 +1,8 @@
 <script setup lang="ts">
 import type { NuevoPlan } from '../../composables/planeador/usePlaneador'
-import { useCalendarDateInput } from '../../composables/forms/useCalendarDateInput'
-import { useMoneyInput } from '../../composables/forms/useMoneyInput'
-import PlaneadorFields from './PlaneadorFields.vue'
 
 const emit = defineEmits<{
-  submit: [plan: NuevoPlan]
+  submit: [plan: NuevoPlan, onSuccess: () => void]
 }>()
 
 const props = defineProps<{
@@ -59,7 +56,7 @@ function onSubmit() {
     ...form,
     monto: String(monto.value),
     fechaPlaneada: fechaPlaneada.value
-  })
+  }, reset)
 }
 
 function toMonthKey(value: unknown): string {

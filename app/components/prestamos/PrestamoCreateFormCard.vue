@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { PaymentPlan } from '../../composables/prestamos/types'
-import PrestamoCreateFormFields from './PrestamoCreateFormFields.vue'
 
 defineProps<{
   creating: boolean
