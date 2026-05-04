@@ -22,7 +22,7 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <div class="grid gap-3 sm:hidden">
+  <div class="grid gap-3 lg:hidden">
     <!-- Profile switcher -->
     <div
       v-if="profiles.length > 1"

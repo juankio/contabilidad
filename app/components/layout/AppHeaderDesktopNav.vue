@@ -1,15 +1,21 @@
 <script setup lang="ts">
 import type { NavigationMenuItem } from '@nuxt/ui'
 
+type LauncherApp = NavigationMenuItem & {
+  description: string
+  moduleKey: string
+}
+
 const props = defineProps<{
   menuItems: NavigationMenuItem[]
+  launcherApps: LauncherApp[]
 }>()
 </script>
 
 <template>
-  <nav class="hidden sm:flex items-center gap-1 w-full justify-end overflow-hidden shrink min-w-0">
-    <!-- Nav items -->
-    <div class="flex items-center gap-1.5 lg:gap-2 overflow-x-auto custom-scrollbar mask-edges min-w-0 pr-8 w-full justify-start pb-1">
+  <nav class="hidden lg:flex items-center gap-2 w-full justify-end overflow-hidden shrink min-w-0 pr-4">
+    <!-- Main Core Nav items -->
+    <div class="flex items-center gap-1.5 lg:gap-2 justify-end">
       <NuxtLink
         v-for="item in menuItems"
         :key="String(item.to)"
@@ -30,6 +36,10 @@ const props = defineProps<{
           class="absolute bottom-0 left-1/2 h-[3px] w-8 -translate-x-1/2 rounded-full bg-[var(--brand-500)]"
         />
       </NuxtLink>
+
+      <div v-if="launcherApps.length > 0" class="h-6 w-px bg-slate-200 mx-1 rounded-full"></div>
+
+      <AppModuleLauncher v-if="launcherApps.length > 0" :apps="launcherApps" />
     </div>
   </nav>
 </template>
@@ -37,23 +47,5 @@ const props = defineProps<{
 <style scoped>
 .nav-link {
   will-change: transform, background, color;
-}
-.custom-scrollbar {
-  scrollbar-width: thin;
-  scrollbar-color: #cbd5e1 transparent;
-}
-.custom-scrollbar::-webkit-scrollbar {
-  height: 4px;
-}
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
-}
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #cbd5e1;
-  border-radius: 10px;
-}
-.mask-edges {
-  mask-image: linear-gradient(to right, black 95%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to right, black 95%, transparent 100%);
 }
 </style>

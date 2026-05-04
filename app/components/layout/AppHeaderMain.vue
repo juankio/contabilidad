@@ -12,7 +12,7 @@ const {
   onMobileProfileSelect
 } = useHeaderProfiles()
 
-const { navItems } = useModuleNavigation()
+const { navItems, launcherItems } = useModuleNavigation()
 const route = useRoute()
 
 const iconByRoute: Record<string, string> = {
@@ -36,6 +36,17 @@ const menuItems = computed<NavigationMenuItem[]>(() => navItems.value.map((item)
     active: isRoot ? route.path === '/' : route.path.startsWith(item.to)
   }
 }))
+
+const launcherApps = computed(() => launcherItems.value.map((item) => {
+  return {
+    label: item.label,
+    to: item.to,
+    description: item.description,
+    moduleKey: item.moduleKey,
+    icon: iconByRoute[item.to] ?? 'i-lucide-circle',
+    active: route.path.startsWith(item.to)
+  }
+}))
 </script>
 
 <template>
@@ -46,12 +57,13 @@ const menuItems = computed<NavigationMenuItem[]>(() => navItems.value.map((item)
     :toggle="false"
     class="border-b border-slate-200/80 bg-white/95 text-slate-900 backdrop-blur-2xl shadow-sm sticky top-0 z-50 transition-all duration-300"
     :ui="{
-      overlay: 'sm:hidden backdrop-blur-sm bg-slate-900/20',
-      content: 'sm:hidden rounded-t-[2rem] border border-slate-200 bg-white shadow-2xl pb-4',
+      overlay: 'lg:hidden backdrop-blur-sm bg-slate-900/20',
+      content: 'lg:hidden rounded-t-[2rem] border border-slate-200 bg-white shadow-2xl pb-4',
       body: 'p-3',
-      container: 'mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8 h-[60px] sm:h-[72px] grid grid-cols-[auto_1fr_auto] gap-4 w-full items-center',
+      container: 'mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8 h-[60px] sm:h-[72px] grid grid-cols-[auto_1fr_auto] gap-2 lg:gap-4 w-full items-center',
       left: 'min-w-0 flex items-center',
-      right: 'min-w-0 flex items-center justify-end overflow-hidden'
+      center: 'min-w-0 flex items-center justify-end overflow-hidden',
+      right: 'flex items-center justify-end shrink-0'
     }"
   >
     <template #left>
@@ -62,7 +74,7 @@ const menuItems = computed<NavigationMenuItem[]>(() => navItems.value.map((item)
           class="flex items-center gap-2.5 group"
         >
           <AppLogo />
-          <span class="text-xl font-black text-slate-900 tracking-tight transition-colors group-hover:text-[var(--brand-600)] hidden md:block shrink-0">Mi Contabilidad</span>
+          <span class="text-lg sm:text-xl font-black text-slate-900 tracking-tight transition-colors group-hover:text-[var(--brand-600)] shrink-0">Mi Contabilidad</span>
         </NuxtLink>
 
         <!-- Divider Style Vercel -->
@@ -96,19 +108,19 @@ const menuItems = computed<NavigationMenuItem[]>(() => navItems.value.map((item)
       </div>
     </template>
 
+    <div class="hidden items-center lg:flex w-full justify-end min-w-0 pr-2 lg:pr-4">
+      <AppHeaderDesktopNav :menu-items="menuItems" :launcher-apps="launcherApps" />
+    </div>
+
     <template #right>
-      <div class="flex items-center gap-2 w-full justify-end min-w-0">
-        <div class="hidden items-center sm:flex w-full justify-end min-w-0">
-          <AppHeaderDesktopNav
-            :menu-items="menuItems"
-          />
-        </div>
+      <div class="flex items-center gap-2">
+        <!-- Any other right items if needed -->
       </div>
     </template>
 
     <template #toggle="{ open, toggle }">
       <UButton
-        class="sm:hidden"
+        class="lg:hidden"
         color="neutral"
         :variant="open ? 'soft' : 'ghost'"
         size="md"
@@ -129,7 +141,7 @@ const menuItems = computed<NavigationMenuItem[]>(() => navItems.value.map((item)
         :active-profile-id="activeProfileId"
         :profile-selection="profileSelection"
         :switching-profile="switchingProfile"
-        :menu-items="menuItems"
+        :menu-items="[...menuItems, ...launcherApps]"
         @select-profile="onMobileProfileSelect"
         @close-menu="mobileMenuOpen = false"
       />
