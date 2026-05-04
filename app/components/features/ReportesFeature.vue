@@ -12,28 +12,42 @@ onMounted(() => {
   <main class="min-h-screen bg-transparent text-slate-900">
     <section class="mx-auto max-w-4xl overflow-x-clip px-4 pb-10 pt-6">
       <div class="rounded-3xl bg-white p-5 shadow-sm">
-        <div class="mb-4 flex items-center gap-3">
-          <div
-            class="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl shadow-sm"
-            style="background: var(--brand-600)"
-          >
-            <span class="text-sm font-bold text-white">
-              {{ profileInitial }}
-            </span>
-            <span class="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full border-2 border-white bg-slate-700">
-              <UIcon
-                name="lucide:line-chart"
-                class="h-3 w-3 text-white"
-              />
-            </span>
+        <div class="mb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <div
+              class="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl shadow-sm"
+              style="background: var(--brand-600)"
+            >
+              <span class="text-sm font-bold text-white">
+                {{ profileInitial }}
+              </span>
+              <span class="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full border-2 border-white bg-slate-700">
+                <UIcon
+                  name="lucide:line-chart"
+                  class="h-3 w-3 text-white"
+                />
+              </span>
+            </div>
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">
+                Módulo
+              </p>
+              <h1 class="text-2xl font-bold tracking-tight text-slate-900">
+                Reportes
+              </h1>
+            </div>
           </div>
-          <div>
-            <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">
-              Módulo
-            </p>
-            <h1 class="text-2xl font-bold tracking-tight text-slate-900">
-              Reportes
-            </h1>
+          
+          <div class="flex items-center gap-3">
+            <UButton
+              color="neutral"
+              variant="soft"
+              icon="lucide:arrow-left"
+              class="rounded-xl px-5 font-medium transition-colors hover:bg-slate-100 w-full md:w-auto justify-center"
+              to="/"
+            >
+              Volver
+            </UButton>
           </div>
         </div>
         <p class="text-sm text-slate-500">

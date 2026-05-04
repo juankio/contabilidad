@@ -29,32 +29,46 @@ defineProps<{
         </div>
       </div>
 
-      <!-- Quick Stats -->
-      <div
-        v-if="!loadingData"
-        class="flex items-center gap-3 overflow-x-auto pb-2 md:pb-0 scrollbar-hide min-w-0"
-      >
-        <span class="shrink-0 flex items-center gap-2 rounded-xl border border-slate-200/60 bg-transparent px-4 py-1.5 text-sm font-bold text-slate-600 shadow-sm">
-          <UIcon
-            name="lucide:package"
-            class="h-4 w-4 text-slate-400"
-          />
-          {{ insumosCount }} Insumos
-        </span>
-        <span class="shrink-0 flex items-center gap-2 rounded-xl border border-slate-200/60 bg-transparent px-4 py-1.5 text-sm font-bold text-slate-600 shadow-sm">
-          <UIcon
-            name="lucide:book-open"
-            class="h-4 w-4 text-slate-400"
-          />
-          {{ postresCount }} Recetas
-        </span>
-        <span class="shrink-0 flex items-center gap-2 rounded-xl border border-slate-200/60 bg-transparent px-4 py-1.5 text-sm font-bold text-slate-600 shadow-sm">
-          <UIcon
-            name="lucide:shopping-bag"
-            class="h-4 w-4 text-slate-400"
-          />
-          {{ ventasCount }} Ventas
-        </span>
+      <!-- Quick Stats & Back -->
+      <div class="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
+        <div
+          v-if="!loadingData"
+          class="flex items-center gap-3 overflow-x-auto pb-2 md:pb-0 scrollbar-hide min-w-0 w-full sm:w-auto"
+        >
+          <span class="shrink-0 flex items-center gap-2 rounded-xl border border-slate-200/60 bg-transparent px-4 py-1.5 text-sm font-bold text-slate-600 shadow-sm">
+            <UIcon
+              name="lucide:package"
+              class="h-4 w-4 text-slate-400"
+            />
+            {{ insumosCount }} Insumos
+          </span>
+          <span class="shrink-0 flex items-center gap-2 rounded-xl border border-slate-200/60 bg-transparent px-4 py-1.5 text-sm font-bold text-slate-600 shadow-sm">
+            <UIcon
+              name="lucide:book-open"
+              class="h-4 w-4 text-slate-400"
+            />
+            {{ postresCount }} Recetas
+          </span>
+          <span class="shrink-0 flex items-center gap-2 rounded-xl border border-slate-200/60 bg-transparent px-4 py-1.5 text-sm font-bold text-slate-600 shadow-sm">
+            <UIcon
+              name="lucide:shopping-bag"
+              class="h-4 w-4 text-slate-400"
+            />
+            {{ ventasCount }} Ventas
+          </span>
+        </div>
+        
+        <div class="flex items-center w-full sm:w-auto shrink-0">
+          <UButton
+            color="neutral"
+            variant="soft"
+            icon="lucide:arrow-left"
+            class="rounded-xl px-5 font-medium transition-colors hover:bg-slate-100 w-full sm:w-auto justify-center"
+            to="/"
+          >
+            Volver
+          </UButton>
+        </div>
       </div>
     </div>
   </header>

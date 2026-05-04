@@ -67,6 +67,17 @@ onMounted(() => {
             <h1 class="text-2xl font-bold tracking-tight text-slate-900">Metas y Compras</h1>
           </div>
         </div>
+        <div class="flex items-center gap-3">
+          <UButton
+            color="neutral"
+            variant="soft"
+            icon="lucide:arrow-left"
+            class="rounded-xl px-5 font-medium transition-colors hover:bg-slate-100 w-full md:w-auto justify-center"
+            to="/"
+          >
+            Volver
+          </UButton>
+        </div>
       </header>
 
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">

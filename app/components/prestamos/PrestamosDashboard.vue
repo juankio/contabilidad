@@ -86,21 +86,32 @@ onMounted(() => {
             </div>
           </div>
 
-          <div class="flex items-center justify-between w-full md:w-auto gap-3 rounded-2xl bg-emerald-50 px-4 py-2 sm:py-3 border border-emerald-100 mt-4 md:mt-0">
-            <div class="flex items-center gap-3">
-              <div class="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
-                <UIcon
-                  name="lucide:wallet"
-                  class="h-4 w-4"
-                />
-              </div>
-              <div>
-                <p class="text-xs text-emerald-600 font-medium">
-                  Disponible para prestar
-                </p>
-                <p class="text-lg font-bold text-emerald-700">
-                  {{ formatCurrency(saldoDisponible) }}
-                </p>
+          <div class="flex flex-col sm:flex-row items-center justify-between w-full md:w-auto gap-3 mt-4 md:mt-0">
+            <UButton
+              color="neutral"
+              variant="soft"
+              icon="lucide:arrow-left"
+              class="rounded-xl px-5 font-medium transition-colors hover:bg-slate-100 w-full sm:w-auto justify-center"
+              to="/"
+            >
+              Volver
+            </UButton>
+            <div class="flex items-center justify-between w-full md:w-auto gap-3 rounded-2xl bg-emerald-50 px-4 py-2 sm:py-3 border border-emerald-100">
+              <div class="flex items-center gap-3">
+                <div class="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
+                  <UIcon
+                    name="lucide:wallet"
+                    class="h-4 w-4"
+                  />
+                </div>
+                <div>
+                  <p class="text-[10px] font-bold uppercase tracking-wider text-emerald-700/70">
+                    Disponible
+                  </p>
+                  <p class="text-sm font-extrabold text-emerald-900 tabular-nums">
+                    {{ formatCurrency(saldoDisponible) }}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
