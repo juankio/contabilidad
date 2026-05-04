@@ -63,20 +63,20 @@ watch(
 </script>
 
 <template>
-  <div class="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1 lg:col-span-4">
-    <div class="mb-6 flex items-start justify-between">
-      <div class="flex items-center gap-4">
-        <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--brand-50)] text-[var(--brand-600)] ring-1 ring-[var(--brand-500)]/20">
+  <div class="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1 lg:col-span-4 min-w-0 w-full overflow-hidden">
+    <div class="mb-6 flex items-start justify-between min-w-0">
+      <div class="flex items-center gap-3 sm:gap-4 min-w-0">
+        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--brand-50)] text-[var(--brand-600)] ring-1 ring-[var(--brand-500)]/20">
           <UIcon
             name="lucide:users"
             class="h-6 w-6"
           />
         </div>
-        <div>
-          <h2 class="text-lg font-bold tracking-tight text-slate-900">
+        <div class="min-w-0">
+          <h2 class="text-lg font-bold tracking-tight text-slate-900 truncate">
             Resumen de perfiles
           </h2>
-          <p class="text-sm text-slate-500">
+          <p class="text-xs sm:text-sm text-slate-500 truncate">
             Desglose de gastos
           </p>
         </div>
@@ -132,9 +132,9 @@ watch(
       <li
         v-for="g in groups"
         :key="g.profileName"
-        class="profile-list-item flex items-center justify-between rounded-2xl border border-slate-100 bg-transparent p-3"
+        class="profile-list-item flex items-center justify-between rounded-2xl border border-slate-100 bg-transparent p-3 min-w-0 gap-2"
       >
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-3 min-w-0">
           <div
             class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full shadow-sm text-white"
             :style="{ backgroundColor: g.avatarColor }"
@@ -144,13 +144,13 @@ watch(
               class="h-5 w-5"
             />
           </div>
-          <div>
-            <p class="text-sm font-bold text-slate-900">
+          <div class="min-w-0">
+            <p class="text-sm font-bold text-slate-900 truncate">
               {{ g.profileName }}
             </p>
           </div>
         </div>
-        <p class="text-base font-bold text-slate-900">
+        <p class="text-sm sm:text-base font-bold text-slate-900 shrink-0 tabular-nums truncate">
           {{ formatCurrency(g.total) }}
         </p>
       </li>

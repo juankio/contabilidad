@@ -19,7 +19,7 @@ export default defineApiHandler(async (event) => {
   const scope = query.scope === 'all' ? 'all' : 'active'
 
   let profileObjectIds: mongoose.Types.ObjectId[] = []
-  if (requestedProfileId && requestedProfileId !== 'all') {
+  if (requestedProfileId && requestedProfileId !== 'all' && requestedProfileId !== 'active') {
     const user = await requireUser(event)
     const exists = (user.profiles ?? []).some(profile => profile._id?.toString() === requestedProfileId)
     if (!exists) {
@@ -28,11 +28,17 @@ export default defineApiHandler(async (event) => {
       profileObjectIds = [new mongoose.Types.ObjectId(requestedProfileId)]
     }
   } else if (requestedProfileId === 'all' || scope === 'all') {
+    // Si realmente quiere ver "Todos" (consolidados globales)
     const user = await requireUser(event)
     profileObjectIds = (user.profiles ?? [])
       .map(profile => profile._id)
       .filter((value): value is mongoose.Types.ObjectId => Boolean(value))
+  } else if (requestedProfileId === 'active') {
+    // Solo el perfil que está activamente seleccionado en la sesión
+    const { profileId } = await requireActiveProfile(event)
+    profileObjectIds = [new mongoose.Types.ObjectId(profileId)]
   } else {
+    // Fallback por defecto: el perfil activo
     const { profileId } = await requireActiveProfile(event)
     profileObjectIds = [new mongoose.Types.ObjectId(profileId)]
   }

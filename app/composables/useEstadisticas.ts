@@ -21,27 +21,22 @@ type Estadisticas = {
 
 export const useEstadisticas = () => {
   const { profiles, activeProfileId } = useProfile()
-  const selectedProfileId = ref<string>('all')
+  const selectedProfileId = ref<string>('active') // El por defecto es el "Perfil actual" para la app.
 
   watch(
     activeProfileId,
     (value) => {
-      if (!value) {
-        return
-      }
-      if (selectedProfileId.value === 'all') {
-        return
-      }
-      const exists = profiles.value.some(profile => profile._id === selectedProfileId.value)
-      if (!exists) {
-        selectedProfileId.value = value
+      if (!value) return
+      if (selectedProfileId.value === 'active' || selectedProfileId.value === 'all' || !profiles.value.some(p => p._id === selectedProfileId.value)) {
+        // Mantenemos el selected de forma coherente si cambian de perfil
       }
     },
     { immediate: true }
   )
 
   const profileFilterItems = computed(() => [
-    { label: 'Todos', value: 'all' },
+    { label: 'Perfil actual', value: 'active' },
+    { label: 'Todos combinados', value: 'all' },
     ...profiles.value.map(profile => ({ label: profile.name, value: profile._id }))
   ])
 

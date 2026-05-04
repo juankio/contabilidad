@@ -32,14 +32,14 @@ const {
         </p>
 
         <!-- Columna Izquierda: Formulario (Sticky) y Resumen -->
-        <div class="flex flex-col gap-6 lg:col-span-4">
+        <div class="flex flex-col gap-6 lg:col-span-4 min-w-0 w-full overflow-hidden">
           <GastoForm
-            class="anim-up-1 min-w-0"
+            class="anim-up-1 min-w-0 w-full"
             @saved="handleGastoSaved"
           />
 
           <GastosProfilesSummary
-            class="anim-up-3 min-w-0"
+            class="anim-up-3 min-w-0 w-full"
             :groups="groupedByProfile"
             :pending="groupedPending"
             :error="!!groupedError"
@@ -49,8 +49,8 @@ const {
         </div>
 
         <!-- Columna Derecha: Gráficas (Expansivo) -->
-        <div class="flex flex-col gap-6 lg:col-span-8">
-          <StatsCharts class="anim-up-2 min-w-0 h-full" />
+        <div class="flex flex-col gap-6 lg:col-span-8 min-w-0 w-full overflow-hidden">
+          <StatsCharts class="anim-up-2 min-w-0 w-full h-full" />
         </div>
       </div>
     </section>
