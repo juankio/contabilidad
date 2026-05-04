@@ -15,46 +15,50 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <div class="grid gap-2 text-sm text-slate-600">
-    <p class="font-medium">
+  <div class="grid gap-3 text-sm text-slate-600">
+    <p class="font-bold text-slate-800">
       {{ title }}
     </p>
     <div class="flex flex-wrap gap-2">
       <div
         v-for="category in categories"
         :key="`custom-${type}-${category}`"
-        class="inline-flex items-center gap-1"
+        class="inline-flex items-center gap-0.5 rounded-xl border border-slate-200 transition-colors"
+        :class="[
+            hiddenSet.has(category.toLocaleLowerCase())
+              ? 'bg-slate-50 text-slate-400 opacity-60 hover:opacity-100 hover:bg-slate-100'
+              : type === 'income'
+                ? 'border-emerald-200 bg-emerald-50 text-emerald-800 hover:bg-emerald-100'
+                : 'border-rose-200 bg-rose-50 text-rose-800 hover:bg-rose-100'
+          ]"
       >
         <button
           type="button"
-          class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs"
-          :class="[
-            hiddenSet.has(category.toLocaleLowerCase())
-              ? 'bg-slate-100 text-slate-500'
-              : type === 'income'
-                ? 'bg-emerald-100 text-emerald-800'
-                : 'bg-sky-100 text-sky-800'
-          ]"
+          class="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-medium"
           :disabled="loading"
           @click="emit('toggle', type, category)"
         >
+          <UIcon 
+            :name="hiddenSet.has(category.toLocaleLowerCase()) ? 'lucide:eye-off' : 'lucide:eye'" 
+            class="h-3.5 w-3.5"
+            :class="hiddenSet.has(category.toLocaleLowerCase()) ? 'text-slate-400' : (type === 'income' ? 'text-emerald-500' : 'text-rose-500')"
+          />
           {{ category }}
-          <span class="font-semibold">
-            {{ hiddenSet.has(category.toLocaleLowerCase()) ? 'Oculta' : 'Visible' }}
-          </span>
         </button>
+        <span class="h-4 w-px bg-slate-200" />
         <button
           type="button"
-          class="rounded-full px-2 py-1 text-[11px] font-semibold text-slate-600 hover:bg-rose-100 hover:text-rose-700 disabled:cursor-not-allowed disabled:opacity-50"
+          class="flex items-center justify-center rounded-r-xl px-2 py-1.5 text-slate-400 hover:text-rose-600 disabled:cursor-not-allowed disabled:opacity-50"
           :disabled="loading"
           @click="emit('remove', type, category)"
+          title="Eliminar categoría personalizada"
         >
-          Eliminar
+          <UIcon name="lucide:trash-2" class="h-3.5 w-3.5" />
         </button>
       </div>
       <p
         v-if="!categories.length"
-        class="text-xs text-slate-600"
+        class="text-xs text-slate-400 italic"
       >
         {{ emptyMessage }}
       </p>

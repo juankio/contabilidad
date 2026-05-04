@@ -3,23 +3,36 @@
     <section class="mx-auto max-w-screen-2xl overflow-x-clip px-4 pb-10 pt-6">
       <div class="grid min-w-0 gap-6 lg:grid-cols-12">
         <header class="anim-up rounded-3xl bg-white p-5 shadow-sm lg:col-span-12">
-          <div class="flex items-center gap-3">
-            <div
-              class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl shadow-sm"
-              style="background: var(--brand-600)"
-            >
-              <UIcon
-                name="lucide:user-round"
-                class="h-5 w-5 text-white"
-              />
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+              <div
+                class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl shadow-sm"
+                style="background: var(--brand-600)"
+              >
+                <UIcon
+                  name="lucide:user-round"
+                  class="h-5 w-5 text-white"
+                />
+              </div>
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">
+                  Configuración
+                </p>
+                <h1 class="text-2xl font-bold tracking-tight text-slate-900">
+                  Editar perfil
+                </h1>
+              </div>
             </div>
-            <div>
-              <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">
-                Configuración
-              </p>
-              <h1 class="text-2xl font-bold tracking-tight text-slate-900">
-                Editar perfil
-              </h1>
+            <div class="flex items-center gap-3">
+              <UButton
+                color="neutral"
+                variant="soft"
+                icon="lucide:arrow-left"
+                class="rounded-xl px-5 font-medium transition-colors hover:bg-slate-100 w-full md:w-auto justify-center"
+                to="/"
+              >
+                Volver
+              </UButton>
             </div>
           </div>
           <p class="mt-3 text-sm text-slate-500">

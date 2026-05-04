@@ -24,33 +24,49 @@ const setModule = (key: OptionalModuleKey, value: boolean, current: string[]) =>
 </script>
 
 <template>
-  <section class="rounded-2xl border border-slate-200 bg-white p-4">
-    <div class="flex items-center gap-2 text-slate-700">
-      <UIcon
-        name="lucide:blocks"
-        class="h-4 w-4"
-      />
-      <p class="text-sm font-semibold">
-        Modulos del negocio
-      </p>
+  <section class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+    <div class="flex items-center gap-3 text-slate-900 mb-2">
+      <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--brand-50)] border border-[var(--brand-100)] shadow-sm">
+        <UIcon
+          name="lucide:blocks"
+          class="h-5 w-5 text-[var(--brand-600)]"
+        />
+      </div>
+      <div>
+        <p class="text-base font-bold tracking-tight">
+          Módulos del negocio
+        </p>
+        <p class="text-xs text-slate-500">
+          Activa solo las herramientas que vayas a usar.
+        </p>
+      </div>
     </div>
 
-    <p class="mt-2 text-xs text-slate-600">
-      Activa solo los modulos que uses en tu negocio.
-    </p>
-
-    <div class="mt-3 grid gap-2 md:grid-cols-2">
-      <UCheckbox
+    <div class="mt-6 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+      <div
         v-for="module in OPTIONAL_MODULES"
         :key="module.key"
-        color="primary"
-        variant="card"
-        :label="module.label"
-        :description="module.description"
-        :model-value="selectedModules.includes(module.key)"
-        :disabled="loading"
-        @update:model-value="setModule(module.key, Boolean($event), selectedModules)"
-      />
+        class="group relative flex items-start space-x-3 rounded-2xl border p-4 transition-all duration-200"
+        :class="selectedModules.includes(module.key) ? 'border-[var(--brand-200)] bg-[var(--brand-50)]/50 ring-1 ring-[var(--brand-500)]/20' : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50 cursor-pointer'"
+        @click="!loading && setModule(module.key, !selectedModules.includes(module.key), selectedModules)"
+      >
+        <div class="flex h-6 items-center">
+          <UCheckbox
+            :model-value="selectedModules.includes(module.key)"
+            :disabled="loading"
+            class="pointer-events-none"
+            :ui="{ base: 'h-5 w-5 bg-white border-slate-300' }"
+          />
+        </div>
+        <div class="flex flex-col">
+          <span class="text-sm font-bold text-slate-900 transition-colors" :class="selectedModules.includes(module.key) ? 'text-[var(--brand-700)]' : ''">
+            {{ module.label }}
+          </span>
+          <span class="text-xs text-slate-500 line-clamp-2 mt-0.5">
+            {{ module.description }}
+          </span>
+        </div>
+      </div>
     </div>
   </section>
 </template>

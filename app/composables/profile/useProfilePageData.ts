@@ -19,6 +19,7 @@ export function useProfilePageData(setActionError?: (msg: string) => void) {
   const profile = useProfile()
   const nameInput = ref('')
   const iconInput = ref('i-lucide-user')
+  const themeInput = ref('violet')
   const hiddenIncomeDefaultsInput = ref<string[]>([])
   const hiddenExpenseDefaultsInput = ref<string[]>([])
   const hiddenIncomeCustomsInput = ref<string[]>([])
@@ -37,6 +38,9 @@ export function useProfilePageData(setActionError?: (msg: string) => void) {
   }, { immediate: true })
   watch(profile.activeProfileIcon, (value) => {
     iconInput.value = value ?? 'i-lucide-user'
+  }, { immediate: true })
+  watch(profile.activeProfileThemeColor, (value) => {
+    themeInput.value = value ?? 'violet'
   }, { immediate: true })
   syncList(profile.activeHiddenIncomeDefaults, hiddenIncomeDefaultsInput)
   syncList(profile.activeHiddenExpenseDefaults, hiddenExpenseDefaultsInput)
@@ -64,6 +68,7 @@ export function useProfilePageData(setActionError?: (msg: string) => void) {
     !hasSameItems(modulesInput.value, profile.activeModules.value)
   )
   const hasIconChanged = computed(() => iconInput.value !== profile.activeProfileIcon.value)
+  const hasThemeChanged = computed(() => themeInput.value !== profile.activeProfileThemeColor.value)
 
   const hasUnsavedChanges = computed(() => hasNameChanged.value
     || hasHiddenIncomeChanged.value
@@ -71,7 +76,8 @@ export function useProfilePageData(setActionError?: (msg: string) => void) {
     || hasHiddenIncomeCustomsChanged.value
     || hasHiddenExpenseCustomsChanged.value
     || hasModulesChanged.value
-    || hasIconChanged.value)
+    || hasIconChanged.value
+    || hasThemeChanged.value)
   const canSaveProfile = computed(() =>
     Boolean(profile.activeProfileId.value)
     && normalizedNameInput.value.length >= 2
@@ -84,6 +90,7 @@ export function useProfilePageData(setActionError?: (msg: string) => void) {
     const ok = await profile.updateProfileSettings({
       name: normalizedNameInput.value,
       avatarIcon: iconInput.value,
+      themeColor: themeInput.value,
       modules: modulesInput.value,
       hiddenIncomeDefaults: hiddenIncomeDefaultsInput.value,
       hiddenExpenseDefaults: hiddenExpenseDefaultsInput.value,
@@ -97,6 +104,18 @@ export function useProfilePageData(setActionError?: (msg: string) => void) {
     }
   }
 
+  const saveIdentityOnly = async (newName: string, newIcon: string, newTheme: string) => {
+    const ok = await profile.updateProfileSettings({
+      name: newName,
+      avatarIcon: newIcon,
+      themeColor: newTheme
+    })
+    if (!ok) {
+      setActionError?.(profile.errorMessage.value || 'No se pudo actualizar el perfil.')
+    }
+    return ok
+  }
+
   const deleteCustomCategory = async (type: CategoryType, category: string) =>
     profile.removeProfileCategory(type, category)
 
@@ -104,6 +123,7 @@ export function useProfilePageData(setActionError?: (msg: string) => void) {
     ...profile,
     nameInput,
     iconInput,
+    themeInput,
     hiddenIncomeDefaultsInput,
     hiddenExpenseDefaultsInput,
     hiddenIncomeCustomsInput,
@@ -112,6 +132,7 @@ export function useProfilePageData(setActionError?: (msg: string) => void) {
     hasUnsavedChanges,
     canSaveProfile,
     save,
+    saveIdentityOnly,
     deleteCustomCategory
   }
 }

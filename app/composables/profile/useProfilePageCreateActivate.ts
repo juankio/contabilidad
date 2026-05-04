@@ -3,7 +3,7 @@ import { refreshProfilePageData } from './useProfilePageRefresh'
 import { DEFAULT_PROFILE_ICON } from '../../utils/profile-icons'
 
 type Inputs = {
-  createProfile: (name: string, avatarIcon?: string) => Promise<boolean>
+  createProfile: (name: string, avatarIcon?: string, themeColor?: string) => Promise<boolean>
   setActiveProfile: (profileId: string) => Promise<boolean>
   errorMessage: Ref<string>
   resetActionFeedback: () => void
@@ -14,12 +14,13 @@ type Inputs = {
 export function useProfilePageCreateActivate(inputs: Inputs) {
   const newProfileName = ref('')
   const newProfileIcon = ref(DEFAULT_PROFILE_ICON)
+  const newProfileTheme = ref('violet')
   const showCreateProfileModal = ref(false)
 
-  const createNewProfile = async (name?: string, icon?: string) => {
+  const createNewProfile = async (name?: string, icon?: string, theme?: string) => {
     const targetName = (name ?? newProfileName.value).trim()
     inputs.resetActionFeedback()
-    const ok = await inputs.createProfile(targetName, icon ?? newProfileIcon.value)
+    const ok = await inputs.createProfile(targetName, icon ?? newProfileIcon.value, theme ?? newProfileTheme.value)
     if (!ok) {
       inputs.setActionError(inputs.errorMessage.value || 'No se pudo crear el perfil.')
       return false
@@ -28,6 +29,7 @@ export function useProfilePageCreateActivate(inputs: Inputs) {
     await refreshProfilePageData()
     newProfileName.value = ''
     newProfileIcon.value = DEFAULT_PROFILE_ICON
+    newProfileTheme.value = 'violet'
     inputs.setActionMessage('Perfil creado.')
     return true
   }
@@ -49,6 +51,7 @@ export function useProfilePageCreateActivate(inputs: Inputs) {
     inputs.resetActionFeedback()
     newProfileName.value = prefillName.trim()
     newProfileIcon.value = DEFAULT_PROFILE_ICON
+    newProfileTheme.value = useTheme().activeColor.value || 'violet'
     showCreateProfileModal.value = true
   }
 
@@ -56,10 +59,18 @@ export function useProfilePageCreateActivate(inputs: Inputs) {
     showCreateProfileModal.value = false
     newProfileName.value = ''
     newProfileIcon.value = DEFAULT_PROFILE_ICON
+    newProfileTheme.value = 'violet'
+    useTheme().initTheme() // Revert to currently active theme if they cancel
   }
 
+  watch(newProfileTheme, (newTheme) => {
+    if (showCreateProfileModal.value && newTheme) {
+      useTheme().applyTheme(newTheme)
+    }
+  })
+
   const confirmCreateProfile = async () => {
-    const ok = await createNewProfile(undefined, newProfileIcon.value)
+    const ok = await createNewProfile(undefined, newProfileIcon.value, newProfileTheme.value)
     if (ok) {
       showCreateProfileModal.value = false
     }
@@ -68,6 +79,7 @@ export function useProfilePageCreateActivate(inputs: Inputs) {
   return {
     newProfileName,
     newProfileIcon,
+    newProfileTheme,
     showCreateProfileModal,
     createNewProfile,
     activateProfile,

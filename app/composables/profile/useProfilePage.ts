@@ -34,9 +34,11 @@ export function useProfilePage() {
     activeProfileId: data.activeProfileId,
     nameInput: data.nameInput,
     iconInput: data.iconInput,
+    themeInput: data.themeInput,
     resetActionFeedback: feedback.resetActionFeedback,
     setActionError: feedback.setActionError,
-    setActionMessage: feedback.setActionMessage
+    setActionMessage: feedback.setActionMessage,
+    saveIdentityOnly: data.saveIdentityOnly
   })
 
   const deletion = useProfilePageDelete({
@@ -53,6 +55,7 @@ export function useProfilePage() {
     nameInput: data.nameInput,
     modulesInput: data.modulesInput,
     iconInput: data.iconInput,
+    themeInput: data.themeInput,
     hasUnsavedChanges: data.hasUnsavedChanges,
     canSaveProfile: data.canSaveProfile,
     profiles: data.profiles,

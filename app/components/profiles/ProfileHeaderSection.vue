@@ -15,71 +15,65 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <div class="h-full rounded-2xl bg-white border border-slate-200 bg-transparent/70 p-4">
-    <div class="flex items-center gap-2 text-slate-700">
-      <UIcon
-        name="lucide:users"
-        class="h-4 w-4"
-      />
-      <p class="text-sm font-semibold">
-        Perfiles contables
-      </p>
+  <div class="h-full rounded-3xl bg-white border border-slate-200 bg-transparent/70 p-6 shadow-sm">
+    <div class="flex items-center gap-3 text-slate-900 mb-2">
+      <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-50 border border-slate-100 shadow-sm">
+        <UIcon
+          name="lucide:users"
+          class="h-5 w-5 text-slate-700"
+        />
+      </div>
+      <div>
+        <p class="text-base font-bold tracking-tight">
+          Perfiles contables
+        </p>
+        <p class="text-xs text-slate-500">
+          Tus espacios de trabajo aislados.
+        </p>
+      </div>
     </div>
 
-    <div class="mt-3 flex flex-wrap gap-2">
+    <div class="mt-5 flex flex-wrap gap-2">
       <button
         v-for="profile in profiles"
         :key="profile._id"
         type="button"
-        class="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs transition-colors"
+        class="inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm font-medium shadow-sm transition-all duration-200"
         :class="profile._id === activeProfileId
-          ? 'border-emerald-200 bg-emerald-100 text-emerald-900'
-          : 'border-slate-200 bg-white/80 text-slate-600 hover:border-slate-300 hover:bg-slate-100 hover:text-slate-800'"
+          ? 'border-[var(--brand-200)] bg-[var(--brand-50)] text-[var(--brand-700)] ring-1 ring-[var(--brand-500)]/20'
+          : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900 active:scale-95'"
         :disabled="loading || profile._id === activeProfileId"
         @click="emit('activate', profile._id)"
       >
+        <UIcon v-if="profile._id === activeProfileId" name="lucide:check-circle-2" class="h-4 w-4" />
         {{ profile.name }}
-        <span
-          v-if="profile._id === activeProfileId"
-          class="font-semibold text-emerald-700"
-        >
-          Activo
-        </span>
       </button>
     </div>
 
-    <div class="mt-3 flex flex-wrap gap-2">
+    <div class="mt-6 flex flex-wrap gap-3">
       <UButton
         color="neutral"
-        variant="soft"
-        class="bg-emerald-100 text-emerald-900 hover:bg-emerald-200"
+        variant="outline"
+        class="bg-white hover:bg-slate-50 text-slate-700 font-semibold shadow-sm"
         type="button"
+        icon="lucide:plus"
         :loading="loading"
         @click="emit('create')"
       >
-        Crear perfil
+        Nuevo perfil
       </UButton>
       <UButton
         color="neutral"
-        variant="soft"
-        class="border border-rose-200 bg-rose-100 text-rose-700 hover:bg-rose-200"
+        variant="ghost"
+        class="text-rose-600 hover:bg-rose-50 hover:text-rose-700 font-semibold"
         type="button"
+        icon="lucide:trash-2"
         :loading="loading"
         :disabled="!activeProfileId || !canDeleteProfiles"
         @click="emit('deleteActive')"
       >
-        Eliminar perfil
+        Eliminar activo
       </UButton>
     </div>
-
-    <p class="mt-2 text-xs text-slate-600">
-      Antes de crear o eliminar, te pediremos confirmacion.
-    </p>
-    <p
-      v-if="!canDeleteProfiles"
-      class="mt-1 text-xs text-slate-600"
-    >
-      Debes mantener al menos un perfil.
-    </p>
   </div>
 </template>

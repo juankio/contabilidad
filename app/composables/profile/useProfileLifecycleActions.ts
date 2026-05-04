@@ -54,7 +54,7 @@ export function useProfileLifecycleActions(state: ProfileState) {
     fallback: 'No se pudo cambiar el perfil activo'
   })
 
-  const createProfile = async (name: string, avatarIcon?: string) => {
+  const createProfile = async (name: string, avatarIcon?: string, themeColor?: string) => {
     const validation = isProfileNameValid(name)
     if (!validation.ok) {
       errorMessage.value = validation.message.replace('El nombre', 'El nombre del perfil')
@@ -64,7 +64,7 @@ export function useProfileLifecycleActions(state: ProfileState) {
     return runProfileMutation({
       url: '/api/profiles',
       method: 'POST',
-      body: { name: validation.value, modules: activeModules.value, avatarIcon },
+      body: { name: validation.value, modules: activeModules.value, avatarIcon, themeColor },
       fallback: 'No se pudo crear el perfil'
     })
   }

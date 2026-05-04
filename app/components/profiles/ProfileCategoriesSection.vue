@@ -20,7 +20,7 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <div class="mt-6">
+  <div class="mt-2">
     <ProfileDefaultCategoriesSection
       title="Categorias base de ingresos"
       type="income"
