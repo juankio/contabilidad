@@ -45,14 +45,8 @@ export async function createGastoService(
     throw new Error('La fecha proporcionada no es válida')
   }
 
-  // 1. Reglas de negocio: Chequear saldo disponible
-  const balanceActual = await getAvailableBalance(profileId)
-  if (data.amount > balanceActual) {
-    throw createError({
-      statusCode: 400,
-      statusMessage: `Fondos insuficientes. Intentas gastar $${data.amount} pero solo tienes $${balanceActual} disponibles.`
-    })
-  }
+  // 1. Reglas de negocio: Ya no bloqueamos por fondos insuficientes, permitimos saldo negativo.
+  // const balanceActual = await getAvailableBalance(profileId)
 
   // 2. Guardar en BD
   const doc = await GastoModel.create({

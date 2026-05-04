@@ -8,7 +8,6 @@ import { GastoModel } from '../../models/gasto'
 import { IngresoModel } from '../../models/ingreso'
 import { toIsoDate } from '../../utils/date'
 import { upsertProfileCategory } from '../../utils/profile-category-store'
-import { getAvailableBalance } from '../../utils/balance'
 
 const payloadSchema = z.object({
   type: z.enum(['Gasto', 'Ingreso']),
@@ -52,16 +51,7 @@ export default defineApiHandler(async (event) => {
     if (!existingDoc) {
       throw createError({ statusCode: 404, statusMessage: 'Movimiento no encontrado.' })
     }
-    const amountDifference = parsed.data.amount - (existingDoc.amount || 0)
-    if (amountDifference > 0) {
-      const balanceActual = await getAvailableBalance(profileId)
-      if (amountDifference > balanceActual) {
-        throw createError({
-          statusCode: 400,
-          statusMessage: `Fondos insuficientes. Intentas aumentar el gasto en $${amountDifference} pero solo tienes $${balanceActual} disponibles.`
-        })
-      }
-    }
+    // NOTA: Se eliminó la validación de fondos insuficientes para permitir saldo negativo en la realidad contable.
   }
 
   const doc = await model.findOneAndUpdate(

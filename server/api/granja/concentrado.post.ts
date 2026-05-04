@@ -24,13 +24,7 @@ export default defineApiHandler(async (event) => {
   await connectMongoose()
   const { profileId } = await requireActiveProfile(event)
 
-  const balanceActual = await getAvailableBalance(profileId)
-  if (parsed.data.amount > balanceActual) {
-    throw createError({
-      statusCode: 400,
-      statusMessage: `Fondos insuficientes. Intentas comprar $${parsed.data.amount} pero solo tienes $${balanceActual} disponibles.`
-    })
-  }
+  // Se permite saldo negativo en la realidad contable.
 
   const date = parsed.data.date ? new Date(parsed.data.date) : new Date()
 

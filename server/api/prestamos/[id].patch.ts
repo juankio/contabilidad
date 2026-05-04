@@ -51,14 +51,7 @@ export default defineApiHandler(async (event) => {
     }
 
     if (newAmount > prestamo.amount) {
-      const difference = newAmount - prestamo.amount
-      const balanceActual = await getAvailableBalance(profileId)
-      if (difference > balanceActual) {
-        throw createError({
-          statusCode: 400,
-          statusMessage: `Fondos insuficientes para aumentar el préstamo. Faltan $${difference - balanceActual}.`
-        })
-      }
+      // Se permite que el saldo quede negativo en la realidad si se presta más dinero
     }
     prestamo.amount = newAmount
   }

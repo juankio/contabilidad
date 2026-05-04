@@ -61,13 +61,7 @@ export default defineApiHandler(async (event) => {
   await connectMongoose()
   const { profileId } = await requireActiveProfile(event)
 
-  const balanceActual = await getAvailableBalance(profileId)
-  if (parsed.data.amount > balanceActual) {
-    throw createError({
-      statusCode: 400,
-      statusMessage: `Fondos insuficientes. No puedes prestar $${parsed.data.amount} porque solo tienes $${balanceActual} disponibles.`
-    })
-  }
+  // NOTA: Se eliminó la verificación de balanceActual para permitir que los préstamos dejen el saldo negativo si es necesario.
 
   const paymentPlan = parsed.data.paymentPlan
   const installmentsCount = paymentPlan === 'installments'
