@@ -69,7 +69,7 @@ const emit = defineEmits<{
                 </div>
                 <div>
                   <p class="text-xs text-emerald-600 font-medium">
-                    Disponible para pagos
+                    Flujo de caja
                   </p>
                   <p class="text-lg font-bold text-emerald-700">
                     {{ formatCurrency(saldoDisponible) }}

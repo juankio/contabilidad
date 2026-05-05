@@ -73,7 +73,7 @@ const emit = defineEmits<{ (e: 'submit'): void }>()
         block
         :loading="creating"
       >
-        {{ creating ? 'Guardando...' : 'Guardar prestamo' }}
+        {{ creating ? 'Guardando...' : 'Entregar Préstamo (-COP)' }}
       </UButton>
     </form>
   </div>

@@ -98,12 +98,12 @@ const onSubmit = () => {
         <UButton
           type="submit"
           block
-          color="success"
-          icon="lucide:check-circle"
+          color="primary"
+          icon="lucide:banknote"
           size="lg"
           class="font-semibold shadow-sm"
         >
-          Realizar Pago
+          Pagar Nómina (-COP)
         </UButton>
       </div>
     </form>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { animate } from 'animejs'
 
-const { postres, eliminar, loadingData } = usePostres()
+const { postres, eliminar, loadingData, activePostreId, activePostre } = usePostres()
 const toast = useToast()
 const { formatCurrency } = useFormatters()
 
@@ -9,11 +9,20 @@ const deletePostre = async (id: string) => {
   if (!confirm('¿Eliminar postre?')) return
   try {
     await eliminar('postres', id)
+    if (activePostreId.value === id) {
+       activePostreId.value = ''
+       activePostre.value = null
+    }
     toast.add({ title: 'Postre eliminado', color: 'success' })
   } catch (err: unknown) {
     const errorMsg = err as Error
     toast.add({ title: 'Error al eliminar', description: errorMsg.message, color: 'error' })
   }
+}
+
+const selectPostre = (postre: any) => {
+  activePostreId.value = postre._id
+  activePostre.value = postre
 }
 
 function onBeforeEnter(el: Element) {
@@ -33,7 +42,7 @@ function onLeave(el: Element, done: () => void) {
 
 <template>
   <div class="mt-6 flex-1 min-h-0">
-    <ul v-if="loadingData" class="space-y-3 overflow-y-auto max-h-[30vh] md:max-h-[220px] pr-1">
+    <ul v-if="loadingData" class="space-y-3 overflow-y-auto max-h-[40vh] md:max-h-[350px] pr-1">
       <li v-for="i in 3" :key="i" class="flex items-center justify-between rounded-2xl border border-slate-100 bg-transparent p-3">
         <div class="flex items-center gap-3">
           <USkeleton class="h-10 w-10 rounded-xl" />
@@ -58,12 +67,16 @@ function onLeave(el: Element, done: () => void) {
       @before-enter="onBeforeEnter"
       @enter="onEnter"
       @leave="onLeave"
-      class="space-y-3 overflow-y-auto max-h-[30vh] md:max-h-[220px] pr-1 scrollbar-thin scrollbar-thumb-slate-200 relative"
+      class="space-y-3 overflow-y-auto max-h-[40vh] md:max-h-[350px] pr-1 scrollbar-thin scrollbar-thumb-slate-200 relative"
     >
-      <li v-for="postre in postres" :key="postre._id" class="group flex items-center justify-between rounded-2xl border border-slate-100 bg-transparent p-3 transition-colors hover:bg-transparent">
+      <li v-for="postre in postres" :key="postre._id" 
+          @click="selectPostre(postre)"
+          class="group flex cursor-pointer items-center justify-between rounded-2xl border p-3 transition-colors hover:bg-slate-50"
+          :class="activePostreId === postre._id ? 'border-primary bg-primary/5 ring-1 ring-primary' : 'border-slate-100 bg-transparent'">
         <div class="flex items-center gap-3">
-          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-white shadow-sm ring-1 ring-slate-100/80">
-            <UIcon name="lucide:cake" class="h-5 w-5 text-slate-500" />
+          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-white shadow-sm ring-1 ring-slate-100/80"
+               :class="activePostreId === postre._id ? 'text-primary ring-primary/20' : 'text-slate-500'">
+            <UIcon name="lucide:cake" class="h-5 w-5" />
           </div>
           <div>
             <p class="text-sm font-bold text-slate-900">{{ postre.name }}</p>
@@ -71,10 +84,11 @@ function onLeave(el: Element, done: () => void) {
           </div>
         </div>
         <div class="flex items-center gap-3">
-          <span class="rounded-xl bg-white px-3 py-1.5 text-sm font-bold tracking-tight text-slate-700 ring-1 ring-inset ring-slate-200/60 shadow-sm">
+          <span class="rounded-xl bg-white px-3 py-1.5 text-sm font-bold tracking-tight shadow-sm ring-1 ring-inset"
+                :class="activePostreId === postre._id ? 'text-primary ring-primary/30' : 'text-slate-700 ring-slate-200/60'">
             {{ formatCurrency(postre.price) }}
           </span>
-          <UButton color="error" variant="ghost" icon="lucide:trash-2" size="sm" class="opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity" @click="deletePostre(postre._id)" />
+          <UButton color="error" variant="ghost" icon="lucide:trash-2" size="sm" class="opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity" @click.stop="deletePostre(postre._id)" />
         </div>
       </li>
     </TransitionGroup>

@@ -68,7 +68,7 @@ const emit = defineEmits<{ (e: 'submit'): void }>()
         size="sm"
         :loading="abonoSaving"
       >
-        {{ abonoSaving ? 'Guardando...' : 'Guardar abono' }}
+        {{ abonoSaving ? 'Guardando...' : 'Recibir Abono (+COP)' }}
       </UButton>
     </form>
   </div>

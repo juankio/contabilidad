@@ -65,7 +65,7 @@ const submit = async () => {
 
     <div class="pt-2">
       <UButton color="primary" icon="lucide:check-circle" block size="lg" class="font-semibold shadow-sm" :loading="submitting" @click="submit">
-        Guardar insumo
+        Comprar Insumo (-COP)
       </UButton>
     </div>
     <p v-if="error" class="text-sm font-medium text-rose-500">{{ error }}</p>

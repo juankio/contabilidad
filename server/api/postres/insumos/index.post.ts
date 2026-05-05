@@ -4,6 +4,7 @@ import { z } from 'zod'
 import { connectMongoose } from '../../../utils/mongoose'
 import { requireActiveProfile } from '../../../utils/auth'
 import { PostreInsumoModel } from '../../../models/postre-insumo'
+import { GastoModel } from '../../../models/gasto'
 
 const InsumoSchema = z.object({
   name: z.string().min(1),
@@ -24,5 +25,14 @@ export default defineApiHandler(async (event) => {
   })
 
   await newInsumo.save()
+
+  await GastoModel.create({
+    profileId,
+    description: `Compra de ${parsed.name}`,
+    category: 'Insumos Postres',
+    amount: parsed.cost,
+    date: new Date()
+  })
+
   return newInsumo
 })

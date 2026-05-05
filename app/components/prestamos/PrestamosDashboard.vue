@@ -106,7 +106,7 @@ onMounted(() => {
                 </div>
                 <div>
                   <p class="text-[10px] font-bold uppercase tracking-wider text-emerald-700/70">
-                    Disponible
+                    Flujo de caja
                   </p>
                   <p class="text-sm font-extrabold text-emerald-900 tabular-nums">
                     {{ formatCurrency(saldoDisponible) }}

@@ -76,8 +76,9 @@ const saludColor = computed(() => {
     >
       <div class="mb-8 w-full min-w-0">
         <div class="flex flex-col gap-1 w-full min-w-0">
-          <span class="text-sm font-medium text-slate-500 uppercase tracking-wider truncate">Dinero Disponible</span>
-          <span class="text-[clamp(1.875rem,5vw,3rem)] leading-[1.1] font-extrabold tracking-tighter text-slate-900 break-words line-clamp-2">
+          <span class="text-sm font-medium text-slate-500 uppercase tracking-wider truncate">Flujo de Caja Neto</span>
+          <span class="text-[clamp(1.875rem,5vw,3rem)] leading-[1.1] font-extrabold tracking-tighter break-words line-clamp-2"
+                :class="(animatedSaldoDisponible) >= 0 ? 'text-slate-900' : 'text-rose-600'">
             {{ formatCurrency(animatedSaldoDisponible) }}
           </span>
         </div>

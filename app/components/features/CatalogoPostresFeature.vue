@@ -24,20 +24,17 @@ onMounted(() => {
         :loading-data="loadingData"
       />
 
-      <div class="mt-8 grid gap-8 lg:grid-cols-12">
-        <!-- Columna Izquierda (Insumos y Recetas) -->
-        <div class="flex flex-col gap-8 lg:col-span-8">
-          <div class="grid gap-8 md:grid-cols-2 h-full">
-            <PostresInsumosCard class="anim-up-1" />
-            <PostresRecetasCard class="anim-up-2" />
-          </div>
-
-          <PostresCatalogoCard class="anim-up-3" />
+      <div class="mt-8 grid gap-8 lg:grid-cols-12 items-start">
+        <!-- Panel Principal (Catálogo y Recetas apilados) -->
+        <div class="flex flex-col gap-8 lg:col-span-8 xl:col-span-9">
+          <PostresCatalogoCard class="anim-up-1" />
+          <PostresRecetasCard class="anim-up-2" />
         </div>
 
-        <!-- Columna Derecha (Ventas y Reporte) -->
-        <div class="flex flex-col gap-8 lg:col-span-4">
-          <PostresVentasCard class="anim-up-4 flex-1" />
+        <!-- Sidebar Derecha (Insumos, Ventas, Reportes) -->
+        <div class="flex flex-col gap-8 lg:col-span-4 xl:col-span-3 lg:sticky lg:top-8">
+          <PostresInsumosCard class="anim-up-3" />
+          <PostresVentasCard class="anim-up-4" />
           <PostresReporteCard class="anim-up-5" />
         </div>
       </div>

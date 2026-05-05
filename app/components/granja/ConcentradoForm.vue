@@ -104,7 +104,7 @@ const onSubmit = () => {
           size="lg"
           class="font-semibold shadow-sm"
         >
-          Registrar Gasto
+          Comprar Concentrado (-COP)
         </UButton>
       </div>
     </form>
