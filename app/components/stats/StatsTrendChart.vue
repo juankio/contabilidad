@@ -60,13 +60,13 @@ onMounted(() => {
             {{ props.resumen.month }}
           </p>
           <div class="flex items-baseline gap-2 flex-wrap min-w-0">
-            <p
-              class="text-[clamp(1.75rem,4vw,2.5rem)] leading-none font-extrabold tracking-tight break-all line-clamp-2"
-              :class="(props.resumen.saldoDisponible ?? props.resumen.saldo) >= 0 ? 'text-emerald-600' : 'text-rose-500'"
-            >
-              {{ formatCurrency(props.resumen.saldoDisponible ?? props.resumen.saldo) }}
+            <p class="text-[clamp(1.75rem,4vw,2.5rem)] leading-none font-extrabold tracking-tight break-all line-clamp-2 text-slate-900">
+              <span v-if="(props.resumen.saldoDisponible ?? props.resumen.saldo) < 0" class="text-rose-500 mr-1">-</span>
+              <span :class="(props.resumen.saldoDisponible ?? props.resumen.saldo) >= 0 ? 'text-emerald-600' : ''">
+                {{ formatCurrency(Math.abs(props.resumen.saldoDisponible ?? props.resumen.saldo)) }}
+              </span>
             </p>
-            <span class="text-sm font-medium text-slate-400 shrink-0">Disp.</span>
+            <span class="text-sm font-medium text-slate-400 shrink-0">Balance</span>
           </div>
         </div>
         

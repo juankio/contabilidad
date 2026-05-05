@@ -105,11 +105,12 @@ onMounted(() => {
                   />
                 </div>
                 <div>
-                  <p class="text-[10px] font-bold uppercase tracking-wider text-emerald-700/70">
-                    Flujo de caja
+                  <p class="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                    Balance Actual
                   </p>
-                  <p class="text-sm font-extrabold text-emerald-900 tabular-nums">
-                    {{ formatCurrency(saldoDisponible) }}
+                  <p class="text-sm font-extrabold text-slate-900 tabular-nums">
+                    <span v-if="saldoDisponible < 0" class="text-rose-500 mr-0.5">-</span>
+                    <span>{{ formatCurrency(Math.abs(saldoDisponible)) }}</span>
                   </p>
                 </div>
               </div>

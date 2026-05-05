@@ -76,10 +76,9 @@ const saludColor = computed(() => {
     >
       <div class="mb-8 w-full min-w-0">
         <div class="flex flex-col gap-1 w-full min-w-0">
-          <span class="text-sm font-medium text-slate-500 uppercase tracking-wider truncate">Flujo de Caja Neto</span>
-          <span class="text-[clamp(1.875rem,5vw,3rem)] leading-[1.1] font-extrabold tracking-tighter break-words line-clamp-2"
-                :class="(animatedSaldoDisponible) >= 0 ? 'text-slate-900' : 'text-rose-600'">
-            {{ formatCurrency(animatedSaldoDisponible) }}
+          <span class="text-sm font-medium text-slate-500 uppercase tracking-wider truncate">Balance Actual</span>
+          <span class="text-[clamp(1.875rem,5vw,3rem)] leading-[1.1] font-extrabold tracking-tighter break-words line-clamp-2 text-slate-900">
+            <span v-if="animatedSaldoDisponible < 0" class="text-rose-500 mr-1">-</span><span>{{ formatCurrency(Math.abs(animatedSaldoDisponible)) }}</span>
           </span>
         </div>
         <p

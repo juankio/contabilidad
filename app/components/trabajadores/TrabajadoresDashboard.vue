@@ -68,11 +68,12 @@ const emit = defineEmits<{
                   />
                 </div>
                 <div>
-                  <p class="text-xs text-emerald-600 font-medium">
-                    Flujo de caja
+                  <p class="text-xs text-slate-500 font-medium uppercase tracking-wider">
+                    Balance Actual
                   </p>
-                  <p class="text-lg font-bold text-emerald-700">
-                    {{ formatCurrency(saldoDisponible) }}
+                  <p class="text-lg font-bold text-slate-900 tabular-nums">
+                    <span v-if="saldoDisponible < 0" class="text-rose-500 mr-0.5">-</span>
+                    <span>{{ formatCurrency(Math.abs(saldoDisponible)) }}</span>
                   </p>
                 </div>
               </div>
