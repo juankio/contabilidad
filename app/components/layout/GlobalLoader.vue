@@ -21,7 +21,7 @@ onMounted(() => {
           name="lucide:wallet"
           class="h-12 w-12"
         />
-        <div class="absolute inset-0 rounded-3xl ring-2 ring-white/20"></div>
+        <div class="absolute inset-0 rounded-3xl ring-2 ring-white/20" />
       </div>
       <h1 class="mt-8 text-2xl font-extrabold tracking-tight text-slate-900">
         Mi Contabilidad
