@@ -26,7 +26,7 @@ const resumen = computed(() => data.value?.resumen ?? {
     <!-- Header Controls -->
     <div class="mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 w-full">
       <div class="flex items-center gap-3">
-        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-[var(--brand-600)] shadow-sm ring-1 ring-slate-200 shrink-0">
+        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--brand-50)] text-[var(--brand-600)] ring-1 ring-[var(--brand-500)]/20 shrink-0">
           <UIcon
             name="lucide:activity"
             class="h-5 w-5"

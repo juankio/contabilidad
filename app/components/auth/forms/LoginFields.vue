@@ -2,6 +2,7 @@
 defineProps<{
   mode: 'login' | 'register'
   registerStep: number
+  disabled?: boolean
 }>()
 
 const email = defineModel<string>('email', { required: true })
@@ -24,6 +25,7 @@ const showPassword = defineModel<boolean>('showPassword', { required: true })
       placeholder="tu@correo.com"
       required
       size="lg"
+      :disabled="disabled"
       :ui="{ wrapper: 'shadow-sm rounded-xl' }"
     >
       <template #leading>
@@ -51,6 +53,7 @@ const showPassword = defineModel<boolean>('showPassword', { required: true })
       placeholder="Ej: Mi Negocio"
       :required="mode === 'register'"
       size="lg"
+      :disabled="disabled"
       :ui="{ wrapper: 'shadow-sm rounded-xl' }"
     >
       <template #leading>
@@ -75,6 +78,7 @@ const showPassword = defineModel<boolean>('showPassword', { required: true })
       placeholder="••••••••"
       required
       size="lg"
+      :disabled="disabled"
       :ui="{ wrapper: 'shadow-sm rounded-xl' }"
     >
       <template #leading>
@@ -89,6 +93,7 @@ const showPassword = defineModel<boolean>('showPassword', { required: true })
           color="neutral"
           size="sm"
           type="button"
+          :disabled="disabled"
           class="text-slate-400 hover:text-slate-600"
           @click="showPassword = !showPassword"
         >

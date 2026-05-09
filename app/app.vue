@@ -34,6 +34,7 @@ colorMode.preference = 'light'
 </script>
 
 <template>
+  <GlobalLoader />
   <AppBackground />
   <NuxtLoadingIndicator
     color="var(--brand-500)"
