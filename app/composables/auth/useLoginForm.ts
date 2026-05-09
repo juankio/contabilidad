@@ -84,11 +84,14 @@ export function useLoginForm() {
       const authStore = useAuthStore()
       await authStore.refreshAuthUser()
       await navigateTo('/')
-    } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : ''
-      errorMessage.value = (error as { data?: { statusMessage?: string } })?.data?.statusMessage
-        || message
-        || 'No se pudo iniciar con Google'
+    } catch (error: any) {
+      const serverMessage = error?.data?.message || error?.data?.statusMessage || ''
+
+      if (error?.response?.status === 409 || serverMessage.includes('already registered')) {
+        errorMessage.value = 'Esta cuenta de Google ya está registrada o el correo ya existe.'
+      } else {
+        errorMessage.value = serverMessage || 'No se pudo iniciar con Google'
+      }
     } finally {
       googleLoading.value = false
     }
@@ -168,11 +171,19 @@ export function useLoginForm() {
       const authStore = useAuthStore()
       await authStore.refreshAuthUser()
       await navigateTo('/')
-    } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : ''
-      errorMessage.value = (error as { data?: { statusMessage?: string } })?.data?.statusMessage
-        || message
-        || 'No se pudo iniciar sesion'
+    } catch (error: any) {
+      const serverMessage = error?.data?.message || error?.data?.statusMessage || ''
+
+      // Mapear errores comunes a mensajes amigables en español
+      if (error?.response?.status === 409 || serverMessage.includes('already registered')) {
+        errorMessage.value = 'Este correo electrónico ya está registrado.'
+      } else if (error?.response?.status === 400 || serverMessage.includes('Invalid payload')) {
+        errorMessage.value = 'Por favor revisa que todos los campos sean correctos.'
+      } else if (error?.response?.status === 401 || serverMessage.includes('Invalid credentials')) {
+        errorMessage.value = 'Correo o contraseña incorrectos.'
+      } else {
+        errorMessage.value = serverMessage || 'Ocurrió un error inesperado al procesar la solicitud.'
+      }
     } finally {
       loading.value = false
     }
