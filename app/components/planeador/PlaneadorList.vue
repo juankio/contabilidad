@@ -115,10 +115,10 @@ function onLeave(el: Element, done: () => void) {
         <TransitionGroup
           tag="div"
           name="plan"
+          class="space-y-2 relative"
           @before-enter="onBeforeEnter"
           @enter="onEnter"
           @leave="onLeave"
-          class="space-y-2 relative"
         >
           <PlaneadorItem
             v-for="plan in grupo.items"

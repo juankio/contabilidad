@@ -23,7 +23,7 @@ export const $api = async <T = any>(request: string, opts?: any) => {
     const response = await $fetch<T>(request, {
       ...opts,
       headers: {
-        ...opts?.headers,
+        ...opts?.headers
         // Aquí puedes inyectar headers globales si en un futuro usas Bearer tokens
       }
     })

@@ -103,7 +103,7 @@ const previewGastos = computed(() => (props.gastos ?? []).slice(0, 3))
         </button>
       </div>
 
-        <div class="grid max-h-[65vh] gap-3 overflow-y-auto overflow-x-hidden pr-1">
+      <div class="grid max-h-[65vh] gap-3 overflow-y-auto overflow-x-hidden pr-1">
         <div
           v-for="gasto in props.gastos || []"
           :key="`modal-${gasto._id}`"

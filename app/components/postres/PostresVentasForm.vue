@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 const { postres, crear } = usePostres()
 const toast = useToast()
 
@@ -39,22 +38,55 @@ const submit = async () => {
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <div class="space-y-2">
         <label class="text-xs font-semibold uppercase tracking-wider text-slate-500">Postre vendido</label>
-        <USelect v-model="postreId" :items="postreItems" placeholder="Seleccionar postre" size="lg" class="font-medium" icon="lucide:cake" />
+        <USelect
+          v-model="postreId"
+          :items="postreItems"
+          placeholder="Seleccionar postre"
+          size="lg"
+          class="font-medium"
+          icon="lucide:cake"
+        />
       </div>
       <div class="space-y-2">
         <label class="text-xs font-semibold uppercase tracking-wider text-slate-500">Cantidad</label>
-        <UInput v-model="qty" placeholder="0" inputmode="numeric" size="lg" class="font-medium" icon="lucide:hash" />
+        <UInput
+          v-model="qty"
+          placeholder="0"
+          inputmode="numeric"
+          size="lg"
+          class="font-medium"
+          icon="lucide:hash"
+        />
       </div>
     </div>
     <div class="space-y-2">
       <label class="text-xs font-semibold uppercase tracking-wider text-slate-500">Fecha de venta</label>
-      <UInput v-model="date" type="date" size="lg" class="font-medium" icon="lucide:calendar" />
+      <UInput
+        v-model="date"
+        type="date"
+        size="lg"
+        class="font-medium"
+        icon="lucide:calendar"
+      />
     </div>
     <div class="pt-2">
-      <UButton color="primary" icon="lucide:check-circle" block size="lg" class="font-semibold shadow-sm mt-1" :loading="submitting" @click="submit">
+      <UButton
+        color="primary"
+        icon="lucide:check-circle"
+        block
+        size="lg"
+        class="font-semibold shadow-sm mt-1"
+        :loading="submitting"
+        @click="submit"
+      >
         Registrar Venta (+COP)
       </UButton>
     </div>
-    <p v-if="error" class="text-sm font-medium text-rose-500">{{ error }}</p>
+    <p
+      v-if="error"
+      class="text-sm font-medium text-rose-500"
+    >
+      {{ error }}
+    </p>
   </div>
 </template>

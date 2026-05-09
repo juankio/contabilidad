@@ -17,7 +17,7 @@ watch([() => props.loading, () => props.lotes.length], async ([loading, length])
   if (!loading && length > 0) {
     if (!import.meta.client) return
     await nextTick()
-    if (!import.meta.client) return;
+    if (!import.meta.client) return
     const elements = document.querySelectorAll('.lote-item')
     if (!elements.length) return
     animate(Array.from(elements), {

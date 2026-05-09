@@ -61,8 +61,8 @@ export function useProfilePageRename(inputs: Inputs) {
 
     isSavingIdentity.value = true
     const ok = await inputs.saveIdentityOnly(
-      trimmed, 
-      renameProfileIcon.value || inputs.iconInput.value, 
+      trimmed,
+      renameProfileIcon.value || inputs.iconInput.value,
       renameProfileTheme.value || inputs.themeInput.value
     )
     isSavingIdentity.value = false

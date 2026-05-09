@@ -1,19 +1,21 @@
 <script setup lang="ts">
-
 const nombre = defineModel<string>('nombre', { required: true })
 const cargo = defineModel<string>('cargo', { required: true })
 const salario = defineModel<number>('salario', { required: true })
 
 const salarioRef = computed({
   get: () => salario.value,
-  set: (val) => salario.value = val
+  set: val => salario.value = val
 })
 
 const { amountInput: salarioInput } = useMoneyInput(salarioRef)
 </script>
 
 <template>
-  <FormField label="Nombre" for-id="nombre">
+  <FormField
+    label="Nombre"
+    for-id="nombre"
+  >
     <UInput
       id="nombre"
       v-model="nombre"
@@ -24,7 +26,10 @@ const { amountInput: salarioInput } = useMoneyInput(salarioRef)
     />
   </FormField>
 
-  <FormField label="Cargo" for-id="cargo">
+  <FormField
+    label="Cargo"
+    for-id="cargo"
+  >
     <UInput
       id="cargo"
       v-model="cargo"
@@ -35,7 +40,10 @@ const { amountInput: salarioInput } = useMoneyInput(salarioRef)
     />
   </FormField>
 
-  <FormField label="Salario base" for-id="salario">
+  <FormField
+    label="Salario base"
+    for-id="salario"
+  >
     <UInput
       id="salario"
       v-model="salarioInput"

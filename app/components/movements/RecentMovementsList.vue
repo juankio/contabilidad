@@ -30,7 +30,7 @@ watch([() => props.previewMovimientos, () => props.pending], ([newMoves, isPendi
       // Pequeño timeout para asegurar que el v-else-if cambió en el DOM
       timeoutId = setTimeout(() => {
         if (listAnimation) listAnimation.pause()
-        if (!import.meta.client) return; const els = document.querySelectorAll('.movement-item-anim'); if(!els.length) return; listAnimation = animate(Array.from(els), {
+        if (!import.meta.client) return; const els = document.querySelectorAll('.movement-item-anim'); if (!els.length) return; listAnimation = animate(Array.from(els), {
           y: [20, 0],
           opacity: [0, 1],
           delay: stagger(50),
@@ -97,7 +97,10 @@ watch([() => props.previewMovimientos, () => props.pending], ([newMoves, isPendi
     </template>
 
     <template v-else>
-      <div v-auto-animate class="space-y-2 relative">
+      <div
+        v-auto-animate
+        class="space-y-2 relative"
+      >
         <MovementItem
           v-for="movimiento in previewMovimientos"
           :key="movimiento._id"

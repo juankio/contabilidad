@@ -19,7 +19,7 @@ const emit = defineEmits<{
 
 const isOpen = computed({
   get: () => props.open,
-  set: (val) => emit('update:open', val)
+  set: val => emit('update:open', val)
 })
 
 watch(isOpen, async (val) => {
@@ -32,7 +32,7 @@ watch(isOpen, async (val) => {
       ease: 'outExpo',
       delay: stagger(100, { start: 100 })
     })
-    
+
     animate('.color-btn', {
       scale: [0, 1],
       opacity: [0, 1],
@@ -53,7 +53,10 @@ watch(isOpen, async (val) => {
       <div class="px-6 pt-6 pb-4 border-b border-slate-100 flex items-center justify-between">
         <div class="flex items-center gap-3">
           <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--brand-50)] text-[var(--brand-600)] ring-1 ring-[var(--brand-500)]/20 shadow-sm">
-            <UIcon name="lucide:plus" class="h-5 w-5" />
+            <UIcon
+              name="lucide:plus"
+              class="h-5 w-5"
+            />
           </div>
           <div>
             <h2 class="text-lg font-bold tracking-tight text-slate-900">
@@ -74,9 +77,15 @@ watch(isOpen, async (val) => {
       </div>
 
       <div class="p-6">
-        <form class="grid gap-6" @submit.prevent="emit('confirm')">
+        <form
+          class="grid gap-6"
+          @submit.prevent="emit('confirm')"
+        >
           <div class="anim-modal-item grid gap-2 text-sm opacity-0">
-            <label for="newProfileName" class="font-bold text-slate-700">Nombre del nuevo espacio</label>
+            <label
+              for="newProfileName"
+              class="font-bold text-slate-700"
+            >Nombre del nuevo espacio</label>
             <UInput
               id="newProfileName"
               :model-value="name"

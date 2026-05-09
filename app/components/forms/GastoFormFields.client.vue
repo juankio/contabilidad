@@ -19,7 +19,7 @@ const {
 })
 
 onMounted(() => {
-  if (!import.meta.client) return;
+  if (!import.meta.client) return
   const targets = Array.from(document.querySelectorAll('.form-anim-item'))
   if (targets.length) {
     animate(targets, {

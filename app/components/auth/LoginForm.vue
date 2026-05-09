@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 const {
   mode,
   email,
@@ -54,7 +53,10 @@ const setGoogleRef = (el: HTMLElement | null) => {
         class="absolute inset-0 z-50 flex flex-col items-center justify-center rounded-[1.5rem] bg-white/40 backdrop-blur-sm transition-all duration-300"
       >
         <div class="flex items-center gap-3 rounded-full bg-white px-5 py-3 shadow-xl ring-1 ring-slate-200/50">
-          <UIcon name="lucide:loader-circle" class="h-5 w-5 animate-spin text-[var(--brand-500)]" />
+          <UIcon
+            name="lucide:loader-circle"
+            class="h-5 w-5 animate-spin text-[var(--brand-500)]"
+          />
           <p class="text-sm font-bold text-slate-700">
             {{ googleLoading ? 'Conectando...' : 'Preparando tu espacio...' }}
           </p>

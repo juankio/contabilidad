@@ -59,7 +59,10 @@ const setModule = (key: OptionalModuleKey, value: boolean, current: string[]) =>
           />
         </div>
         <div class="flex flex-col">
-          <span class="text-sm font-bold text-slate-900 transition-colors" :class="selectedModules.includes(module.key) ? 'text-[var(--brand-700)]' : ''">
+          <span
+            class="text-sm font-bold text-slate-900 transition-colors"
+            :class="selectedModules.includes(module.key) ? 'text-[var(--brand-700)]' : ''"
+          >
             {{ module.label }}
           </span>
           <span class="text-xs text-slate-500 line-clamp-2 mt-0.5">

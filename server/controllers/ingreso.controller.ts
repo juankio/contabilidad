@@ -10,7 +10,7 @@ export async function createIngresoController(event: H3Event) {
   // 1. Conexión y Auth
   await connectMongoose()
   const { profileId, user } = await requireActiveProfile(event)
-  
+
   // 2. Validación de Zod (si falla, H3 tira un error 400 automáticamente)
   const body = await readValidatedBody(event, IngresoCreateSchema.parse)
 

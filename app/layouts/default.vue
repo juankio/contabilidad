@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 const route = useRoute()
 const showHeader = computed(() => route.path !== '/login')
 </script>

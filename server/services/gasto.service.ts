@@ -36,8 +36,8 @@ function formatCurrency(value: number) {
 }
 
 export async function createGastoService(
-  profileId: string, 
-  user: UserDocument, 
+  profileId: string,
+  user: UserDocument,
   data: GastoCreateDto
 ) {
   const date = data.date ? new Date(data.date) : new Date()
@@ -56,11 +56,11 @@ export async function createGastoService(
     amount: data.amount,
     date
   })
-  
+
   if (!doc) throw new Error('Failed to create gasto')
 
   // 3. Tareas asíncronas
-  let emailNotificationSent = true
+  const emailNotificationSent = true
 
   const sendEmailTask = async () => {
     try {
@@ -103,7 +103,7 @@ export async function createGastoService(
       const resend = getResendClient()
       const from = getResendFrom()
       const subject = 'Se registro un nuevo gasto en tus cuentas'
-      
+
       const html = `
         <!doctype html>
         <html lang="es">
@@ -120,7 +120,7 @@ export async function createGastoService(
           </body>
         </html>
       `
-      
+
       const text = `Gasto registrado: ${doc.description} por ${formattedAmount}`
 
       const result = await resend.emails.send({ from, to: user.email, subject, html, text })

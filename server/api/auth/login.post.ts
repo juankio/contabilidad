@@ -8,7 +8,7 @@ import { serializeProfilesFromCategoryStore } from '../../utils/serialize'
 
 const payloadSchema = z.object({
   email: z.string().email().transform(value => value.toLowerCase().trim()),
-  password: z.string().min(1)
+  password: z.string().min(1).transform(value => value.trim())
 })
 
 export default defineApiHandler(async (event) => {

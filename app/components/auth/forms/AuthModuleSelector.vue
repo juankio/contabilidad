@@ -35,8 +35,8 @@ function getModuleIcon(key: string) {
         :key="module.key"
         type="button"
         class="group relative flex cursor-pointer flex-col items-start gap-2 rounded-2xl border-2 p-3 text-left transition-all duration-200 active:scale-[0.98]"
-        :class="selectedModules.includes(module.key as OptionalModuleKey) 
-          ? 'border-slate-800 bg-slate-50 shadow-sm' 
+        :class="selectedModules.includes(module.key as OptionalModuleKey)
+          ? 'border-slate-800 bg-slate-50 shadow-sm'
           : 'border-slate-200/80 bg-slate-50/50 hover:border-slate-300 hover:bg-slate-50'"
         @click="emit('toggleModule', module.key as OptionalModuleKey)"
       >

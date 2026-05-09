@@ -21,7 +21,10 @@ const emit = defineEmits<{ (e: 'update:color', key: ThemeKey): void }>()
         class="absolute inset-0 flex items-center justify-center rounded-full ring-2 ring-white ring-offset-2 shadow-sm"
         :style="{ '--tw-ring-offset-color': t.swatch }"
       >
-        <UIcon name="lucide:check" class="h-4 w-4 text-white" />
+        <UIcon
+          name="lucide:check"
+          class="h-4 w-4 text-white"
+        />
       </span>
     </button>
   </div>

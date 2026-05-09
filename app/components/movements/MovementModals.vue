@@ -4,7 +4,7 @@ import type { MovimientoRow } from '../../composables/movimientos/useMovementCru
 defineProps<{
   showAllModal: boolean
   movimientos: MovimientoRow[] | null | undefined
-  
+
   editOpen: boolean
   editType: string | null
   editDescription: string
@@ -14,7 +14,7 @@ defineProps<{
   editLoading: boolean
   editError: string | null
   canSubmitEdit: boolean
-  
+
   deleteOpen: boolean
   deleteType: string | null
   deleteLabel: string
@@ -28,11 +28,11 @@ const emit = defineEmits<{
   (e: 'update:editCategory', value: string): void
   (e: 'update:editAmountInput', value: string): void
   (e: 'update:editDate', value: string): void
-  
+
   (e: 'edit', mov: MovimientoRow): void
   (e: 'closeEdit'): void
   (e: 'submitEdit'): void
-  
+
   (e: 'delete', mov: MovimientoRow): void
   (e: 'closeDelete'): void
   (e: 'confirmDelete'): void
@@ -42,8 +42,8 @@ const emit = defineEmits<{
 <template>
   <MovementListModal
     :open="showAllModal"
-    @update:open="emit('update:showAllModal', $event)"
     :movimientos="movimientos || []"
+    @update:open="emit('update:showAllModal', $event)"
     @edit="emit('edit', $event)"
     @delete="emit('delete', $event)"
   />

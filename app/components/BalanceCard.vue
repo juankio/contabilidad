@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 const {
   resumen,
   pending,
@@ -17,11 +16,12 @@ const animatedGastos = computed(() => resumen.value?.gastos ?? 0)
 const saludPct = computed(() => {
   const ing = resumen.value?.ingresos ?? 0
   const gas = resumen.value?.gastos ?? 0
-  if (ing <= 0) return 0
-  return Math.min(100, Math.round((gas / ing) * 100))
+  if (ing <= 0) return gas > 0 ? -1 : 0 // -1 significa sobregirado sin ingresos
+  return Math.round((gas / ing) * 100)
 })
 
 const saludColor = computed(() => {
+  if (saludPct.value === -1 || saludPct.value > 100) return { bar: 'bg-rose-500', text: 'text-rose-600', label: 'Sobregirado' }
   if (saludPct.value >= 90) return { bar: 'bg-rose-400', text: 'text-rose-600', label: 'Cuidado' }
   if (saludPct.value >= 70) return { bar: 'bg-amber-400', text: 'text-amber-600', label: 'Ajustado' }
   return { bar: 'bg-emerald-400', text: 'text-emerald-600', label: 'Saludable' }
@@ -31,8 +31,8 @@ const saludColor = computed(() => {
 <template>
   <div class="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1 flex flex-col min-h-[300px]">
     <div class="mb-6 flex items-start justify-between">
-        <div class="flex items-center gap-4 min-w-0">
-        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-slate-50 text-slate-600 ring-1 ring-slate-100">
+      <div class="flex items-center gap-4 min-w-0">
+        <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--brand-50)] text-[var(--brand-600)] ring-1 ring-[var(--brand-500)]/20">
           <UIcon
             name="lucide:wallet"
             class="h-5 w-5"
@@ -74,42 +74,48 @@ const saludColor = computed(() => {
       v-else
       class="flex-1 flex flex-col justify-center"
     >
-      <div class="mb-8 w-full min-w-0">
-        <div class="flex flex-col gap-1 w-full min-w-0">
-          <span class="text-sm font-medium text-slate-500 uppercase tracking-wider truncate">Balance Actual</span>
-          <span class="text-[clamp(1.875rem,5vw,3rem)] leading-[1.1] font-extrabold tracking-tighter break-words line-clamp-2 text-slate-900">
-            <span v-if="animatedSaldoDisponible < 0" class="text-rose-500 mr-1">-</span><span>{{ formatCurrency(Math.abs(animatedSaldoDisponible)) }}</span>
+      <div class="mb-6 w-full min-w-0">
+        <div class="flex flex-col w-full min-w-0">
+          <span class="text-sm font-medium text-slate-500 uppercase tracking-wider truncate mb-1">Balance Actual</span>
+          <span class="text-[clamp(1.875rem,5vw,3rem)] leading-[1.1] font-bold tracking-tight break-words line-clamp-2 text-slate-700">
+            <span
+              v-if="animatedSaldoDisponible < 0"
+              class="text-rose-500 mr-1"
+            >-</span><span>{{ formatCurrency(Math.abs(animatedSaldoDisponible)) }}</span>
           </span>
         </div>
-        <p
-          class="mt-3 flex items-center gap-2 text-xs sm:text-sm font-medium flex-wrap"
-          :class="(resumen?.saldo || 0) >= 0 ? 'text-emerald-600' : 'text-rose-600'"
-        >
-          <span class="flex items-center gap-1 shrink-0">
-            <UIcon
-              :name="(resumen?.saldo || 0) >= 0 ? 'lucide:trending-up' : 'lucide:trending-down'"
-              class="h-4 w-4"
+
+        <div class="mt-5 flex items-center gap-3">
+          <div class="h-1.5 flex-1 overflow-hidden rounded-full bg-slate-100">
+            <div
+              class="h-full rounded-full transition-all duration-500"
+              :class="saludColor.bar"
+              :style="{ width: `${saludPct === -1 ? 100 : Math.min(100, saludPct)}%` }"
             />
-            {{ (resumen?.saldo || 0) >= 0 ? 'Flujo del mes positivo' : 'Flujo del mes negativo' }}
+          </div>
+          <span
+            class="text-xs font-semibold tracking-wide"
+            :class="saludColor.text"
+          >
+            {{ saludPct === -1 ? 'Gastos sin ingresos' : `${saludPct}% Consumido` }}
           </span>
-          <span class="font-bold truncate">({{ formatCurrency(resumen?.saldo || 0) }})</span>
-        </p>
+        </div>
       </div>
 
-      <div class="mt-auto grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 rounded-2xl bg-slate-50 p-4 ring-1 ring-slate-100">
+      <div class="mt-auto grid grid-cols-2 gap-4 border-t border-slate-100/80 pt-5">
         <div class="min-w-0">
-          <p class="text-xs font-semibold uppercase tracking-wider text-slate-500 truncate">
+          <p class="text-xs font-semibold uppercase tracking-wider text-slate-400 truncate">
             Ingresos
           </p>
-          <p class="mt-1 font-bold text-emerald-600 truncate">
+          <p class="mt-1 font-semibold text-slate-700 truncate text-lg">
             {{ formatCurrency(animatedIngresos) }}
           </p>
         </div>
         <div class="min-w-0">
-          <p class="text-xs font-semibold uppercase tracking-wider text-slate-500 truncate">
+          <p class="text-xs font-semibold uppercase tracking-wider text-slate-400 truncate">
             Gastos
           </p>
-          <p class="mt-1 font-bold text-rose-600 truncate">
+          <p class="mt-1 font-semibold text-slate-700 truncate text-lg">
             {{ formatCurrency(animatedGastos) }}
           </p>
         </div>

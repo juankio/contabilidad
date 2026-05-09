@@ -10,7 +10,7 @@ defineProps<{
 }>()
 
 onMounted(() => {
-  if (!import.meta.client) return;
+  if (!import.meta.client) return
   const targets = Array.from(document.querySelectorAll('.header-anim'))
   if (targets.length) {
     animate(targets, {

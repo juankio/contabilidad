@@ -34,6 +34,8 @@ export default defineNuxtConfig({
     fallback: 'light'
   },
 
+  spaLoadingTemplate: 'spa-loading-template.html',
+
   runtimeConfig: {
     mongoUri: process.env.MONGO_URI || '',
     authSecret: process.env.AUTH_SECRET || '',
@@ -63,8 +65,6 @@ export default defineNuxtConfig({
     preset: 'vercel',
     compressPublicAssets: true
   },
-
-  spaLoadingTemplate: 'spa-loading-template.html',
 
   eslint: {
     config: {

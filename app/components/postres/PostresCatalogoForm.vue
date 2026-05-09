@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 const { crear } = usePostres()
 const toast = useToast()
 
@@ -39,20 +38,48 @@ const submit = async () => {
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <div class="space-y-2">
         <label class="text-xs font-semibold uppercase tracking-wider text-slate-500">Nombre</label>
-        <UInput v-model="name" placeholder="Ej: Torta 3 leches" size="lg" class="font-medium" icon="lucide:tag" />
+        <UInput
+          v-model="name"
+          placeholder="Ej: Torta 3 leches"
+          size="lg"
+          class="font-medium"
+          icon="lucide:tag"
+        />
       </div>
       <div class="space-y-2">
         <label class="text-xs font-semibold uppercase tracking-wider text-slate-500">Precio Venta</label>
-        <UInput v-model="price" placeholder="0" inputmode="numeric" size="lg" class="font-medium" :ui="{ icon: { leading: { pointer: '' } } }">
-          <template #leading><span class="text-slate-500">$</span></template>
+        <UInput
+          v-model="price"
+          placeholder="0"
+          inputmode="numeric"
+          size="lg"
+          class="font-medium"
+          :ui="{ icon: { leading: { pointer: '' } } }"
+        >
+          <template #leading>
+            <span class="text-slate-500">$</span>
+          </template>
         </UInput>
       </div>
     </div>
     <div class="pt-2">
-      <UButton color="primary" icon="lucide:check-circle" block size="lg" class="font-semibold shadow-sm" :loading="submitting" @click="submit">
+      <UButton
+        color="primary"
+        icon="lucide:check-circle"
+        block
+        size="lg"
+        class="font-semibold shadow-sm"
+        :loading="submitting"
+        @click="submit"
+      >
         Guardar producto
       </UButton>
     </div>
-    <p v-if="error" class="text-sm font-medium text-rose-500">{{ error }}</p>
+    <p
+      v-if="error"
+      class="text-sm font-medium text-rose-500"
+    >
+      {{ error }}
+    </p>
   </div>
 </template>

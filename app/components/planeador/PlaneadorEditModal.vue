@@ -129,8 +129,8 @@ function close() {
             <PlaneadorFields
               v-model:nombre="form.nombre"
               v-model:descripcion="form.descripcion"
-              v-model:amountInput="amountInput"
-              v-model:fechaPlaneadaValue="fechaPlaneadaValue"
+              v-model:amount-input="amountInput"
+              v-model:fecha-planeada-value="fechaPlaneadaValue"
             />
 
             <div class="mt-4 flex justify-end gap-3">

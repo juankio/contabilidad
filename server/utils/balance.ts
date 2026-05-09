@@ -7,8 +7,8 @@ import { CompraConcentradoModel } from '../models/compra-concentrado'
 import { PostreVentaModel } from '../models/postre-venta'
 
 export async function getAvailableBalance(profileMatch: string | mongoose.Types.ObjectId | { $in: mongoose.Types.ObjectId[] }): Promise<number> {
-  const match = typeof profileMatch === 'string' 
-    ? new mongoose.Types.ObjectId(profileMatch) 
+  const match = typeof profileMatch === 'string'
+    ? new mongoose.Types.ObjectId(profileMatch)
     : profileMatch
 
   // 1. Suma de ingresos normales

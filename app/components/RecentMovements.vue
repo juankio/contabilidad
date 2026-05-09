@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 defineOptions({ inheritAttrs: false })
 
 const {
@@ -60,7 +59,7 @@ const {
   <MovementModals
     :show-all-modal="showAllModal"
     :movimientos="movimientos"
-    
+
     :edit-open="editOpen"
     :edit-type="editType"
     :edit-description="editDescription"
@@ -70,7 +69,7 @@ const {
     :edit-loading="editLoading"
     :edit-error="editError"
     :can-submit-edit="canSubmitEdit"
-    
+
     :delete-open="deleteOpen"
     :delete-type="deleteType"
     :delete-label="deleteLabel"
@@ -82,11 +81,11 @@ const {
     @update:edit-category="editCategory = $event"
     @update:edit-amount-input="editAmountInput = $event"
     @update:edit-date="editDate = $event"
-    
+
     @edit="openEdit"
     @close-edit="closeEdit"
     @submit-edit="submitEdit"
-    
+
     @delete="openDelete"
     @close-delete="closeDelete"
     @confirm-delete="confirmDelete"

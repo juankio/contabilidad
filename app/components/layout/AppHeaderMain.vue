@@ -109,7 +109,10 @@ const launcherApps = computed(() => launcherItems.value.map((item) => {
     </template>
 
     <div class="hidden items-center lg:flex w-full justify-end min-w-0 pr-2 lg:pr-4">
-      <AppHeaderDesktopNav :menu-items="menuItems" :launcher-apps="launcherApps" />
+      <AppHeaderDesktopNav
+        :menu-items="menuItems"
+        :launcher-apps="launcherApps"
+      />
     </div>
 
     <template #right>

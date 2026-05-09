@@ -106,8 +106,8 @@ defineExpose({ reset })
       <PlaneadorFields
         v-model:nombre="form.nombre"
         v-model:descripcion="form.descripcion"
-        v-model:amountInput="amountInput"
-        v-model:fechaPlaneadaValue="fechaPlaneadaValue"
+        v-model:amount-input="amountInput"
+        v-model:fecha-planeada-value="fechaPlaneadaValue"
       />
 
       <!-- Submit -->

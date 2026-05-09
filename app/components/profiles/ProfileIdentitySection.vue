@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 defineProps<{
   profileName: string
   loading: boolean

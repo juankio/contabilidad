@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 defineProps<{
   canUseGoogle: boolean
   googleLoading: boolean

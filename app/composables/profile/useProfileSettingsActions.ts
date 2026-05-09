@@ -19,7 +19,7 @@ type UpdatePayload = {
 export function useProfileSettingsActions(state: ProfileState) {
   const { authUser, activeProfileId, loading, errorMessage } = state
 
-    const updateProfileSettings = async ({
+  const updateProfileSettings = async ({
     name,
     avatarIcon,
     themeColor,
@@ -58,14 +58,14 @@ export function useProfileSettingsActions(state: ProfileState) {
       })
       const authStore = useAuthStore()
       await authStore.refreshAuthUser()
-      
+
       // If we changed the theme, apply it right now so UI doesn't lag
       if (themeColor) {
         const { applyTheme, saveProfileTheme } = useTheme()
         applyTheme(themeColor)
         saveProfileTheme(activeProfileId.value, themeColor)
       }
-      
+
       return true
     } catch (error: unknown) {
       errorMessage.value = getProfileRequestError(error, 'No se pudo actualizar el perfil')

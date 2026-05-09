@@ -6,8 +6,9 @@ type CategoriaResumen = {
   total: number
 }
 
-const { data: response, pending, error } = await useFetch<ApiResponse<CategoriaResumen[]>>('/api/categorias', {
-  key: 'categorias'
+const { data: response, pending, error } = useFetch<ApiResponse<CategoriaResumen[]>>('/api/categorias', {
+  key: 'categorias',
+  lazy: true
 })
 
 const categorias = computed(() => response.value?.data || [])

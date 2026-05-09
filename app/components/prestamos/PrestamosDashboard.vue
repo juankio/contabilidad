@@ -45,7 +45,7 @@ const emit = defineEmits([
 ])
 
 onMounted(() => {
-  if (!import.meta.client) return;
+  if (!import.meta.client) return
   const targets = Array.from(document.querySelectorAll('.anim-up, .anim-up-1, .anim-up-2, .anim-up-3, .anim-up-4'))
   if (targets.length) {
     animate(targets, {
@@ -109,7 +109,10 @@ onMounted(() => {
                     Balance Actual
                   </p>
                   <p class="text-sm font-extrabold text-slate-900 tabular-nums">
-                    <span v-if="saldoDisponible < 0" class="text-rose-500 mr-0.5">-</span>
+                    <span
+                      v-if="saldoDisponible < 0"
+                      class="text-rose-500 mr-0.5"
+                    >-</span>
                     <span>{{ formatCurrency(Math.abs(saldoDisponible)) }}</span>
                   </p>
                 </div>
@@ -127,25 +130,25 @@ onMounted(() => {
         />
         <PrestamoCreateFormCard
           :borrower="form.borrower"
-          @update:borrower="emit('update:borrower', $event)"
           :amount-input="amountInput"
-          @update:amount-input="emit('update:amountInput', $event)"
           :payment-plan="form.paymentPlan"
-          @update:payment-plan="emit('update:paymentPlan', $event)"
           :installments-input="installmentsInput"
-          @update:installments-input="emit('update:installmentsInput', $event)"
           :description="form.description"
-          @update:description="emit('update:description', $event)"
           :loan-date-value="loanDateValue"
-          @update:loan-date-value="emit('update:loanDateValue', $event)"
           :collection-date-value="collectionDateValue"
-          @update:collection-date-value="emit('update:collectionDateValue', $event)"
           :note="form.note"
-          @update:note="emit('update:note', $event)"
           class="anim-up-2"
           :creating="creating"
           :create-error="createError"
+          @update:borrower="emit('update:borrower', $event)"
           :create-success="createSuccess"
+          @update:amount-input="emit('update:amountInput', $event)"
+          @update:payment-plan="emit('update:paymentPlan', $event)"
+          @update:installments-input="emit('update:installmentsInput', $event)"
+          @update:description="emit('update:description', $event)"
+          @update:loan-date-value="emit('update:loanDateValue', $event)"
+          @update:collection-date-value="emit('update:collectionDateValue', $event)"
+          @update:note="emit('update:note', $event)"
           @submit="emit('submitPrestamo')"
         />
         <div class="grid gap-6 lg:col-span-8">
@@ -164,11 +167,8 @@ onMounted(() => {
           <template v-else>
             <PrestamosPendingCard
               :abono-amount-input="abonoAmountInput"
-              @update:abono-amount-input="emit('update:abonoAmountInput', $event)"
               :abono-date-value="abonoDateValue"
-              @update:abono-date-value="emit('update:abonoDateValue', $event)"
               :abono-note="abonoForm.note"
-              @update:abono-note="emit('update:abonoNote', $event)"
               class="anim-up-3"
               :prestamos-pendientes="prestamosPendientes"
               :open-abono-prestamo-id="openAbonoPrestamoId"
@@ -177,8 +177,11 @@ onMounted(() => {
               :abono-error="abonoError"
               :abono-success="abonoSuccess"
               :format-currency="formatCurrency"
+              @update:abono-amount-input="emit('update:abonoAmountInput', $event)"
               :format-short-date="formatShortDate"
+              @update:abono-date-value="emit('update:abonoDateValue', $event)"
               :payment-plan-label="paymentPlanLabel"
+              @update:abono-note="emit('update:abonoNote', $event)"
               @toggle-abono="emit('toggleAbonoForm', $event)"
               @delete-prestamo="emit('requestDeletePrestamo', $event)"
               @submit-abono="emit('submitAbono', $event)"
@@ -205,10 +208,10 @@ onMounted(() => {
     />
     <PrestamoEditModal
       :form="editForm"
-      @update:form="emit('update:editForm', $event)"
       :target="editingTarget"
       :is-editing="isEditing"
       :edit-error="editError"
+      @update:form="emit('update:editForm', $event)"
       @cancel="emit('cancelEditing')"
       @submit="emit('submitEdit')"
     />

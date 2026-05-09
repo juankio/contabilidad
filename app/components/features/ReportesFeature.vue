@@ -37,7 +37,7 @@ onMounted(() => {
               </h1>
             </div>
           </div>
-          
+
           <div class="flex items-center gap-3">
             <UButton
               color="neutral"

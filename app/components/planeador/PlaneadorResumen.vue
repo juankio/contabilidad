@@ -28,7 +28,7 @@ const alertaConfig = computed(() => ({
 }[alerta.value]))
 
 onMounted(() => {
-  if (!import.meta.client) return;
+  if (!import.meta.client) return
   const els = document.querySelectorAll('.anim-up, .anim-up-1, .anim-up-2, .anim-up-3, .anim-up-4')
   if (els.length) {
     animate(Array.from(els), {

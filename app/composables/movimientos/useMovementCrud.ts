@@ -49,8 +49,7 @@ export function useMovementCrud(refreshMovimientos: () => Promise<void>) {
   const deleteError = ref('')
 
   const canSubmitEdit = computed(() =>
-    editDescription.value.trim().length > 0
-    && editCategory.value.trim().length > 0
+    editCategory.value.trim().length > 0
     && parseAmountInput(editAmountInput.value) > 0
     && Boolean(editDate.value)
   )
@@ -78,11 +77,12 @@ export function useMovementCrud(refreshMovimientos: () => Promise<void>) {
     editLoading.value = true
     editError.value = ''
     try {
+      const finalDesc = editDescription.value.trim() || editCategory.value.trim()
       await $api(`/api/movimientos/${editing.value._id}`, {
         method: 'PATCH',
         body: {
           type: editing.value.type,
-          description: editDescription.value.trim(),
+          description: finalDesc,
           category: editCategory.value.trim(),
           amount: parseAmountInput(editAmountInput.value),
           date: editDate.value ? editDate.value.toString() : undefined

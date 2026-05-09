@@ -6,7 +6,7 @@ export function useModuleNavigation() {
 
   const navItems = computed<ModuleNavItem[]>(() => {
     const items: ModuleNavItem[] = []
-    
+
     // Core routes that are always visible in the main top bar
     const base = MODULES.find(module => module.key === 'contabilidad')
     if (base) {
@@ -26,10 +26,10 @@ export function useModuleNavigation() {
   const launcherItems = computed(() => {
     const items: (ModuleNavItem & { description: string, moduleKey: string })[] = []
     const enabled = new Set(activeModules.value as OptionalModuleKey[])
-    
+
     for (const module of MODULES) {
       if (module.key === 'contabilidad' || module.key === 'reportes') continue
-      
+
       if (enabled.has(module.key as OptionalModuleKey)) {
         // Assume each module has 1 primary route for the launcher
         const primaryNav = module.nav[0]

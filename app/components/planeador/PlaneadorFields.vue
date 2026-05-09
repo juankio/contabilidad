@@ -26,11 +26,11 @@ defineEmits<{
       <UInput
         id="planeador-nombre"
         :model-value="nombre"
-        @update:model-value="$emit('update:nombre', $event as string)"
         type="text"
         placeholder="Ej: Zapatos, celular, viaje..."
         maxlength="80"
         size="lg"
+        @update:model-value="$emit('update:nombre', $event as string)"
       />
     </FormField>
 
@@ -42,11 +42,11 @@ defineEmits<{
         <UInput
           id="planeador-monto"
           :model-value="amountInput"
-          @update:model-value="$emit('update:amountInput', $event as string)"
           type="text"
           inputmode="numeric"
           placeholder="0"
           size="lg"
+          @update:model-value="$emit('update:amountInput', $event as string)"
         />
       </FormField>
 
@@ -66,11 +66,11 @@ defineEmits<{
       <UInput
         id="planeador-descripcion"
         :model-value="descripcion"
-        @update:model-value="$emit('update:descripcion', $event as string)"
         type="text"
         placeholder="Por qué lo necesitas, dónde comprarlo..."
         maxlength="200"
         size="lg"
+        @update:model-value="$emit('update:descripcion', $event as string)"
       />
     </FormField>
   </div>

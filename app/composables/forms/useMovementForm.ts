@@ -50,19 +50,17 @@ export function useMovementForm() {
     formError.value = ''
     formSuccess.value = ''
 
-    if (!form.note.trim()) {
-      formError.value = 'Agrega una nota o descripcion.'
+    if (!selectedCategory.value.trim()) {
+      formError.value = 'Selecciona o escribe una categoria.'
       return
     }
+
+    // Si no se proporciona una nota, se usa la categoría como nota
+    const finalNote = form.note.trim() || selectedCategory.value.trim()
 
     const amount = Number(form.amount)
     if (!Number.isFinite(amount) || amount <= 0) {
       formError.value = 'Agrega un monto valido.'
-      return
-    }
-
-    if (!selectedCategory.value.trim()) {
-      formError.value = 'Selecciona o escribe una categoria.'
       return
     }
 
@@ -74,7 +72,7 @@ export function useMovementForm() {
       await $fetch(endpoint, {
         method: 'POST',
         body: {
-          description: form.note.trim(),
+          description: finalNote,
           category: selectedCategory.value,
           amount,
           date

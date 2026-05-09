@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 defineOptions({ inheritAttrs: false })
 
 const page = reactive(useProfilePage())

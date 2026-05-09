@@ -57,7 +57,7 @@ defineProps<{
             {{ ventasCount }} Ventas
           </span>
         </div>
-        
+
         <div class="flex items-center w-full sm:w-auto shrink-0">
           <UButton
             color="neutral"

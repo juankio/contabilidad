@@ -34,8 +34,8 @@ function formatCurrency(value: number) {
 }
 
 export async function createIngresoService(
-  profileId: string, 
-  user: UserDocument, 
+  profileId: string,
+  user: UserDocument,
   data: IngresoCreateDto
 ) {
   const date = data.date ? new Date(data.date) : new Date()
@@ -53,7 +53,7 @@ export async function createIngresoService(
   })
 
   // 2. Tareas en segundo plano (Fire and forget para no bloquear la request)
-  let emailNotificationSent = true
+  const emailNotificationSent = true
 
   const sendEmailTask = async () => {
     try {
@@ -92,7 +92,7 @@ export async function createIngresoService(
       const resend = getResendClient()
       const from = getResendFrom()
       const subject = 'Se registro un nuevo ingreso en tus cuentas'
-      
+
       const html = `
         <!doctype html>
         <html lang="es">
@@ -137,7 +137,7 @@ export async function createIngresoService(
           </body>
         </html>
       `
-      
+
       const text = `Se registro un nuevo ingreso: ${doc.description} por ${formattedAmount}`
 
       const result = await resend.emails.send({ from, to: user.email, subject, html, text })

@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import type mongoose from 'mongoose'
 import { IngresoModel } from '../models/ingreso'
 import { GastoModel } from '../models/gasto'
 import { PrestamoModel } from '../models/prestamo'
@@ -52,8 +52,8 @@ export async function getMonthlyStats(
   const totalIngresos = (ingresosRes[0]?.total ?? 0) + (abonosRes[0]?.total ?? 0) + (ventasPostresRes[0]?.total ?? 0)
   const totalGastos = (gastosRes[0]?.total ?? 0) + (prestamosGastosRes[0]?.total ?? 0) + (pagosTrabajadoresRes[0]?.total ?? 0) + (comprasConcentradoRes[0]?.total ?? 0)
 
-  return { 
-    ingresos: totalIngresos, 
+  return {
+    ingresos: totalIngresos,
     gastos: totalGastos,
     breakdown: {
       gastosNormales: gastosRes[0]?.total ?? 0,
@@ -101,8 +101,8 @@ export async function getSeriesWithOtherModules(
   monthsKeys: MonthKey[]
 ) {
   const map: Record<string, { ingresos: number, gastos: number }> = {}
-  
-  monthsKeys.forEach(m => {
+
+  monthsKeys.forEach((m) => {
     map[`${m.year}-${m.month}`] = { ingresos: 0, gastos: 0 }
   })
 
@@ -110,7 +110,7 @@ export async function getSeriesWithOtherModules(
   await Promise.all(monthsKeys.map(async (monthKey) => {
     const start = new Date(Date.UTC(monthKey.year, monthKey.month - 1, 1))
     const end = new Date(Date.UTC(monthKey.year, monthKey.month, 1))
-    
+
     const stats = await getMonthlyStats(profileMatch, start, end)
     map[`${monthKey.year}-${monthKey.month}`] = {
       ingresos: stats.ingresos,

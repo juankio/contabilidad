@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 const props = defineProps<{
   lotes: import('../../composables/granja/useGranjaCerdos').Lote[]
   loading: boolean

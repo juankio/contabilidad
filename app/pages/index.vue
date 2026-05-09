@@ -4,4 +4,3 @@
 <template>
   <DashboardFeature />
 </template>
-

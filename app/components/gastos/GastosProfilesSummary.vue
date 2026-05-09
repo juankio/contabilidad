@@ -45,7 +45,7 @@ watch(
   async (isPending) => {
     if (!isPending && props.groups?.length) {
       await nextTick()
-      if (!import.meta.client) return;
+      if (!import.meta.client) return
       const elements = document.querySelectorAll('.profile-list-item')
       if (elements.length) {
         animate(Array.from(elements), {

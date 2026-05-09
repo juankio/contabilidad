@@ -37,7 +37,7 @@ const emit = defineEmits<{
 
         <template v-if="!canDeleteProfiles">
           <p class="text-sm text-slate-600">
-            No puedes eliminar tu unico perfil activo. 
+            No puedes eliminar tu unico perfil activo.
             Crea otro perfil primero si quieres eliminar este.
           </p>
           <div class="mt-4 flex justify-end">
@@ -56,8 +56,11 @@ const emit = defineEmits<{
             Esta accion borrara todos los datos asociados a este perfil
             (gastos, prestamos, clientes). No se puede deshacer.
           </p>
-          
-          <form class="mt-4 grid gap-3" @submit.prevent="emit('confirm')">
+
+          <form
+            class="mt-4 grid gap-3"
+            @submit.prevent="emit('confirm')"
+          >
             <p class="text-sm text-slate-700">
               Escribe <span class="font-bold">borrar {{ profileName }}</span> para confirmar:
             </p>

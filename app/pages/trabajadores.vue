@@ -10,4 +10,3 @@ useSeoMeta({
 <template>
   <TrabajadoresFeature />
 </template>
-

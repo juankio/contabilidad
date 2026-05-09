@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 const { activeColor, setProfileTheme } = useTheme()
 const { activeProfile, activeProfileId, updateProfileThemeColor } = useProfile()
 const open = ref(false)

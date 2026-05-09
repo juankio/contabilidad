@@ -59,12 +59,19 @@ onMounted(() => {
         <div class="flex items-center gap-4 sm:gap-5">
           <div class="relative shrink-0">
             <div class="flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-[1.25rem] bg-gradient-to-br from-[var(--brand-500)] to-[var(--brand-600)] shadow-sm text-white">
-              <UIcon name="lucide:target" class="h-6 w-6 sm:h-7 sm:w-7" />
+              <UIcon
+                name="lucide:target"
+                class="h-6 w-6 sm:h-7 sm:w-7"
+              />
             </div>
           </div>
           <div>
-            <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">Planeador</p>
-            <h1 class="text-2xl font-bold tracking-tight text-slate-900">Metas y Compras</h1>
+            <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">
+              Planeador
+            </p>
+            <h1 class="text-2xl font-bold tracking-tight text-slate-900">
+              Metas y Compras
+            </h1>
           </div>
         </div>
         <div class="flex items-center gap-3">
@@ -113,9 +120,9 @@ onMounted(() => {
       :model-value="isEditOpen"
       :plan="planAEditar"
       :submitting="submitting"
-            :submit-error="submitError"
-            @update:model-value="isEditOpen = $event"
-            @submit="(id: string, updates: Partial<NuevoPlan>) => handleEditar(updates)"
-          />
+      :submit-error="submitError"
+      @update:model-value="isEditOpen = $event"
+      @submit="(id: string, updates: Partial<NuevoPlan>) => handleEditar(updates)"
+    />
   </main>
 </template>

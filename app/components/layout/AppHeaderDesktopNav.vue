@@ -37,9 +37,15 @@ const props = defineProps<{
         />
       </NuxtLink>
 
-      <div v-if="launcherApps.length > 0" class="h-6 w-px bg-slate-200 mx-1 rounded-full"></div>
+      <div
+        v-if="launcherApps.length > 0"
+        class="h-6 w-px bg-slate-200 mx-1 rounded-full"
+      />
 
-      <AppModuleLauncher v-if="launcherApps.length > 0" :apps="launcherApps" />
+      <AppModuleLauncher
+        v-if="launcherApps.length > 0"
+        :apps="launcherApps"
+      />
     </div>
   </nav>
 </template>

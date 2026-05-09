@@ -72,7 +72,10 @@ const emit = defineEmits<{
                     Balance Actual
                   </p>
                   <p class="text-lg font-bold text-slate-900 tabular-nums">
-                    <span v-if="saldoDisponible < 0" class="text-rose-500 mr-0.5">-</span>
+                    <span
+                      v-if="saldoDisponible < 0"
+                      class="text-rose-500 mr-0.5"
+                    >-</span>
                     <span>{{ formatCurrency(Math.abs(saldoDisponible)) }}</span>
                   </p>
                 </div>
@@ -102,16 +105,16 @@ const emit = defineEmits<{
     <!-- Modal Editar -->
     <TrabajadorEditModal
       :open="isEditModalOpen"
-      @update:open="emit('update:isEditModalOpen', $event)"
       :trabajador="selectedTrabajador"
+      @update:open="emit('update:isEditModalOpen', $event)"
       @submit="(id, payload) => emit('submitEditar', id, payload)"
     />
 
     <!-- Modal Eliminar -->
     <TrabajadorDeleteModal
       :open="isDeleteModalOpen"
-      @update:open="emit('update:isDeleteModalOpen', $event)"
       :trabajador="trabajadorToDelete"
+      @update:open="emit('update:isDeleteModalOpen', $event)"
       @confirm="emit('submitEliminar', $event)"
     />
   </main>

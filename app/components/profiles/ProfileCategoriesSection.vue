@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 type CategoryType = 'income' | 'expense'
 
 defineProps<{

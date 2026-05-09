@@ -31,8 +31,8 @@ const emit = defineEmits<{
         ]"
         @click="emit('toggle', type, category)"
       >
-        <UIcon 
-          :name="hiddenSet.has(category.toLocaleLowerCase()) ? 'lucide:eye-off' : 'lucide:eye'" 
+        <UIcon
+          :name="hiddenSet.has(category.toLocaleLowerCase()) ? 'lucide:eye-off' : 'lucide:eye'"
           class="h-3.5 w-3.5"
           :class="hiddenSet.has(category.toLocaleLowerCase()) ? 'text-slate-400' : (type === 'income' ? 'text-emerald-500' : 'text-rose-500')"
         />

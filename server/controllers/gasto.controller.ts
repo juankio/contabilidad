@@ -10,7 +10,7 @@ export async function createGastoController(event: H3Event) {
   // 1. Conexión y Auth
   await connectMongoose()
   const { profileId, user } = await requireActiveProfile(event)
-  
+
   // 2. Zod
   const body = await readValidatedBody(event, GastoCreateSchema.parse)
 

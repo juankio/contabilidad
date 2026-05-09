@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 defineProps<{
   abonoSaving: boolean
   abonoError: any

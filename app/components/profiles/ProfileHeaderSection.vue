@@ -45,7 +45,11 @@ const emit = defineEmits<{
         :disabled="loading || profile._id === activeProfileId"
         @click="emit('activate', profile._id)"
       >
-        <UIcon v-if="profile._id === activeProfileId" name="lucide:check-circle-2" class="h-4 w-4" />
+        <UIcon
+          v-if="profile._id === activeProfileId"
+          name="lucide:check-circle-2"
+          class="h-4 w-4"
+        />
         {{ profile.name }}
       </button>
     </div>

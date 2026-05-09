@@ -16,7 +16,7 @@ const emit = defineEmits<{
 watch(() => props.loading, async (newVal) => {
   if (!newVal) {
     await nextTick()
-    if (!import.meta.client) return;
+    if (!import.meta.client) return
     const targets = Array.from(document.querySelectorAll('.trabajador-item-anim'))
     if (targets.length) {
       animate(targets, {

@@ -4,11 +4,10 @@ import { requireActiveProfile } from '../utils/auth'
 import { IngresoModel } from '../models/ingreso'
 import { toIsoDate } from '../utils/date'
 
-
 export async function getIngresosController(event: H3Event) {
   await connectMongoose()
   const { profileId } = await requireActiveProfile(event)
-  
+
   const ingresos = await IngresoModel.find({ profileId })
     .sort({ date: -1, _id: -1 })
     .limit(100)
