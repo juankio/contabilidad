@@ -56,7 +56,7 @@ const submit = async () => {
           inputmode="numeric"
           size="lg"
           class="font-medium"
-          :ui="{ icon: { leading: { pointer: '' } } }"
+          :ui="{ leading: 'pointer-events-auto' }"
         >
           <template #leading>
             <span class="text-slate-500">$</span>
