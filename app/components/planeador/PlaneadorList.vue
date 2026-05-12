@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { PlanCompra } from '../../composables/planeador/usePlaneador'
-import { animate, stagger } from 'animejs'
+import { animate } from 'animejs'
 
-const props = defineProps<{
+defineProps<{
   planesPorMes: Array<{ mes: string, items: PlanCompra[] }>
   loading: boolean
   error?: string | null

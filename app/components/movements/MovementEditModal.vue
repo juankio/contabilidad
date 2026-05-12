@@ -11,9 +11,7 @@ defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'update:description', value: string): void
-  (e: 'update:category', value: string): void
-  (e: 'update:amountInput', value: string): void
+  (e: 'update:description' | 'update:category' | 'update:amountInput', value: string): void
   (e: 'update:date', value: any): void
   (e: 'update:open', value: boolean): void
   (e: 'confirm'): void

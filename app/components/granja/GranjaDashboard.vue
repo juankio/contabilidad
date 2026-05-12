@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const props = defineProps<{
+defineProps<{
   lotes: import('../../composables/granja/useGranjaCerdos').Lote[]
   loading: boolean
 }>()
@@ -10,9 +10,6 @@ const emit = defineEmits<{
   (e: 'editar', id: string, data: { nombreLoteMadre: string }, onSuccess: () => void): void
   (e: 'eliminar', id: string, onSuccess: () => void): void
 }>()
-
-const { activeProfileName } = useProfile()
-const profileInitial = computed(() => activeProfileName.value?.trim().charAt(0).toUpperCase() || 'M')
 
 const editModalOpen = ref(false)
 const loteEditando = ref<import('../../composables/granja/useGranjaCerdos').Lote | null>(null)

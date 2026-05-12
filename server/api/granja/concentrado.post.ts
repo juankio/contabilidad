@@ -4,7 +4,6 @@ import { z } from 'zod'
 import { connectMongoose } from '../../utils/mongoose'
 import { requireActiveProfile } from '../../utils/auth'
 import { CompraConcentradoModel } from '../../models/compra-concentrado'
-import { getAvailableBalance } from '../../utils/balance'
 
 const schema = z.object({
   formula: z.string().trim().min(1),

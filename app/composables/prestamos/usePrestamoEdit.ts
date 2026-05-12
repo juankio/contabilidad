@@ -1,5 +1,5 @@
-import { ref, watch } from 'vue'
-import type { Prestamo, PaymentPlan } from './types'
+import { ref } from 'vue'
+import type { Prestamo } from './types'
 
 export function usePrestamoEdit(refreshList: () => Promise<void>) {
   const isEditing = ref(false)

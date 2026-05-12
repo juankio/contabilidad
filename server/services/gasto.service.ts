@@ -3,8 +3,6 @@ import { GastoModel } from '../models/gasto'
 import { IngresoModel } from '../models/ingreso'
 import { getResendClient, getResendFrom } from '../utils/resend'
 import { upsertProfileCategory } from '../utils/profile-category-store'
-import { getAvailableBalance } from '../utils/balance'
-import { createError } from 'h3'
 import type { GastoCreateDto } from '../schemas/gasto.schema'
 import type { UserDocument } from '../models/user'
 
@@ -84,15 +82,7 @@ export async function createGastoService(
       const gastos = gastosAgg[0]?.total ?? 0
       const saldo = ingresos - gastos
 
-      const month = new Intl.DateTimeFormat('es-CO', {
-        month: 'long',
-        year: 'numeric',
-        timeZone: 'UTC'
-      }).format(now)
-
       const formattedAmount = formatCurrency(doc.amount)
-      const formattedIngresos = formatCurrency(ingresos)
-      const formattedGastos = formatCurrency(gastos)
       const formattedSaldo = formatCurrency(saldo)
       const formattedDate = doc.date.toISOString().split('T')[0]
       const expenseRatio = ingresos > 0 ? Math.min(100, Math.round((gastos / ingresos) * 100)) : (gastos > 0 ? 100 : 0)

@@ -5,7 +5,6 @@ import { connectMongoose } from '../../utils/mongoose'
 import { requireActiveProfile } from '../../utils/auth'
 import { PrestamoModel } from '../../models/prestamo'
 import { toIsoDate } from '../../utils/date'
-import { getAvailableBalance } from '../../utils/balance'
 
 const prestamoEditSchema = z.object({
   borrower: z.string().trim().min(1).max(60).optional(),

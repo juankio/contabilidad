@@ -6,7 +6,7 @@ defineProps<{
   lote: Lote | null
 }>()
 
-const emit = defineEmits<{
+defineEmits<{
   (e: 'update:open', value: boolean): void
   (e: 'confirm', id: string): void
 }>()

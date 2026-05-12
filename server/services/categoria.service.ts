@@ -1,5 +1,4 @@
 import mongoose from 'mongoose'
-import { GastoModel } from '../models/gasto'
 import { getCategoriesWithOtherModules } from '../utils/stats-aggregations'
 
 export type CategoriaResumen = {

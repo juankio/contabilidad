@@ -99,7 +99,7 @@ onMounted(() => {
             class="text-slate-100"
           />
           <circle
-            v-for="(segment, idx) in doughnutSegments"
+            v-for="segment in doughnutSegments"
             :key="segment.label"
             cx="21"
             cy="21"
@@ -122,7 +122,7 @@ onMounted(() => {
       <!-- Legend -->
       <div class="flex flex-col gap-4 w-full flex-1 min-w-0 mt-2">
         <div
-          v-for="(cat, idx) in props.categorias"
+          v-for="cat in props.categorias"
           :key="cat.label"
           class="anim-legend opacity-0 flex flex-col gap-1.5 w-full min-w-0"
         >

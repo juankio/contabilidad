@@ -6,7 +6,6 @@ const {
   crear
 } = usePostres()
 const toast = useToast()
-const { formatCurrency } = useFormatters()
 
 const name = ref('')
 const price = ref('')

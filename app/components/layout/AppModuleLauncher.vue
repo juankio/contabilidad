@@ -6,7 +6,7 @@ type LauncherApp = NavigationMenuItem & {
   moduleKey: string
 }
 
-const props = defineProps<{
+defineProps<{
   apps: LauncherApp[]
 }>()
 

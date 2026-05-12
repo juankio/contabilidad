@@ -3,8 +3,6 @@ const {
   resumen,
   pending,
   error,
-  exporting,
-  exportResumen,
   formatCurrency
 } = useResumen()
 

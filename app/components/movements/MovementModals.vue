@@ -24,18 +24,10 @@ defineProps<{
 
 const emit = defineEmits<{
   (e: 'update:showAllModal', value: boolean): void
-  (e: 'update:editDescription', value: string): void
-  (e: 'update:editCategory', value: string): void
-  (e: 'update:editAmountInput', value: string): void
-  (e: 'update:editDate', value: string): void
+  (e: 'update:editDescription' | 'update:editCategory' | 'update:editAmountInput' | 'update:editDate', value: string): void
 
-  (e: 'edit', mov: MovimientoRow): void
-  (e: 'closeEdit'): void
-  (e: 'submitEdit'): void
-
-  (e: 'delete', mov: MovimientoRow): void
-  (e: 'closeDelete'): void
-  (e: 'confirmDelete'): void
+  (e: 'edit' | 'delete', mov: MovimientoRow): void
+  (e: 'closeEdit' | 'submitEdit' | 'closeDelete' | 'confirmDelete'): void
 }>()
 </script>
 

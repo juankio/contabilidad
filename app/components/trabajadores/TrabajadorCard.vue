@@ -7,8 +7,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'edit', trabajador: Trabajador): void
-  (e: 'delete', trabajador: Trabajador): void
+  (e: 'edit' | 'delete', trabajador: Trabajador): void
 }>()
 
 const getDropdownItems = () => [

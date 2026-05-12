@@ -28,17 +28,6 @@ const props = defineProps<{
   formatCurrency: (value: number) => string
   formatDate: (value: string) => string
 }>()
-const attrs = useAttrs()
-
-const selectedGroup = ref<ProfileGastosGroup | null>(null)
-
-const openGroupModal = (group: ProfileGastosGroup) => {
-  selectedGroup.value = group
-}
-
-const closeGroupModal = () => {
-  selectedGroup.value = null
-}
 
 watch(
   () => props.pending,

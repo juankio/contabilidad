@@ -124,7 +124,9 @@ export function usePostres() {
         body: payload
       })
       sendSuccess.value = 'ok'
-      setTimeout(() => { sendSuccess.value = '' }, 3000)
+      setTimeout(() => {
+        sendSuccess.value = ''
+      }, 3000)
     } catch (e) {
       sendError.value = getRequestError(e, 'No se pudo sincronizar')
     } finally {
