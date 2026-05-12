@@ -4,7 +4,6 @@ import { z } from 'zod'
 import { connectMongoose } from '../../utils/mongoose'
 import { requireActiveProfile } from '../../utils/auth'
 import { PagoTrabajadorModel } from '../../models/pago-trabajador'
-import { getAvailableBalance } from '../../utils/balance'
 
 const schema = z.object({
   trabajadorId: z.string().trim().min(1),

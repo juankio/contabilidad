@@ -77,17 +77,10 @@ export async function createIngresoService(
       const gastos = gastosAgg[0]?.total ?? 0
       const saldo = ingresos - gastos
 
-      const month = new Intl.DateTimeFormat('es-CO', {
-        month: 'long',
-        year: 'numeric',
-        timeZone: 'UTC'
-      }).format(now)
-
       const formattedAmount = formatCurrency(doc.amount)
       const formattedIngresos = formatCurrency(ingresos)
       const formattedGastos = formatCurrency(gastos)
       const formattedSaldo = formatCurrency(saldo)
-      const formattedDate = doc.date.toISOString().split('T')[0]
 
       const resend = getResendClient()
       const from = getResendFrom()

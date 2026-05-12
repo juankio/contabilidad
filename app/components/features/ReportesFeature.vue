@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { animate, stagger } from 'animejs'
-
 const { activeProfileName } = useProfile()
 const profileInitial = computed(() => activeProfileName.value?.trim().charAt(0).toUpperCase() || 'M')
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { report, sendToContabilidad, sending, sendSuccess, sendError, loadingData, fetchData } = usePostres()
+const { report, sendSuccess, sendError, loadingData, fetchData } = usePostres()
 const { formatCurrency } = useFormatters()
 
 const rentabilidad = computed(() => {

@@ -2,9 +2,6 @@
 definePageMeta({
   requiresModule: 'catalogo-tienda'
 })
-
-const { activeProfileName } = useProfile()
-const profileInitial = computed(() => activeProfileName.value?.trim().charAt(0).toUpperCase() || 'M')
 </script>
 
 <template>

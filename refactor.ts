@@ -1,6 +1,5 @@
 import fs from 'fs'
 import path from 'path'
-import { globSync } from 'glob' // I will just use pure Node.js recursive read
 
 function getFiles(dir: string, fileList: string[] = []): string[] {
   const files = fs.readdirSync(dir)

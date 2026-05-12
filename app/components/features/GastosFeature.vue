@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { animate, stagger } from 'animejs'
-
 const {
   groupedByProfile,
   groupedPending,

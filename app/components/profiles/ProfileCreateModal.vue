@@ -10,9 +10,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'update:name', value: string): void
-  (e: 'update:icon', value: string): void
-  (e: 'update:themeColor', value: string): void
+  (e: 'update:name' | 'update:icon' | 'update:themeColor', value: string): void
   (e: 'update:open', value: boolean): void
   (e: 'confirm'): void
 }>()

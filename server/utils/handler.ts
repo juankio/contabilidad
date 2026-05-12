@@ -1,4 +1,4 @@
-import { defineEventHandler, createError, setResponseStatus } from 'h3'
+import { defineEventHandler, setResponseStatus } from 'h3'
 import type { EventHandler, EventHandlerRequest } from 'h3'
 import { ZodError } from 'zod'
 

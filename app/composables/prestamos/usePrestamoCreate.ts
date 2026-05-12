@@ -1,7 +1,6 @@
 import { useCalendarDateInput } from '../forms/useCalendarDateInput'
 import { useMoneyInput } from '../forms/useMoneyInput'
 import type { PaymentPlan } from './types'
-import { getRequestError } from './helpers'
 import { useToast } from '#imports'
 
 export function usePrestamoCreate(refresh: () => Promise<void>) {
@@ -40,16 +39,6 @@ export function usePrestamoCreate(refresh: () => Promise<void>) {
       }
     }
   )
-
-  const resetCreateForm = () => {
-    form.borrower = ''
-    form.description = ''
-    form.paymentPlan = 'single'
-    form.installmentsCount = 0
-    form.amount = 0
-    form.note = ''
-    collectionDateValue.value = null
-  }
 
   const submitPrestamo = async () => {
     createError.value = ''

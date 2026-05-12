@@ -2,7 +2,7 @@
 import { animate, stagger } from 'animejs'
 import type { PlanCompra, NuevoPlan } from '../../composables/planeador/usePlaneador'
 
-const props = defineProps<{
+defineProps<{
   planes: PlanCompra[]
   loading: boolean
   error?: string | null
@@ -17,8 +17,7 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'crear', plan: NuevoPlan, onSuccess: () => void): void
   (e: 'editar', id: string, updates: Partial<NuevoPlan>, onSuccess: () => void): void
-  (e: 'toggle', id: string): void
-  (e: 'eliminar', id: string): void
+  (e: 'toggle' | 'eliminar', id: string): void
 }>()
 
 const isEditOpen = ref(false)

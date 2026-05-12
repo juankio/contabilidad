@@ -12,8 +12,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: 'toggle-abono', prestamoId: string): void
-  (e: 'delete-prestamo', prestamo: Prestamo): void
-  (e: 'edit-prestamo', prestamo: Prestamo): void
+  (e: 'delete-prestamo' | 'edit-prestamo', prestamo: Prestamo): void
 }>()
 
 const cuotasProgress = computed(() => {

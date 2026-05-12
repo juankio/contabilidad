@@ -14,13 +14,11 @@ defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'update:isEditModalOpen', val: boolean): void
-  (e: 'update:isDeleteModalOpen', val: boolean): void
+  (e: 'update:isEditModalOpen' | 'update:isDeleteModalOpen', val: boolean): void
   (e: 'submitCrear', payload: TrabajadorPayload): void
   (e: 'submitPagar', payload: PagoPayload): void
-  (e: 'openEdit', trabajador: Trabajador): void
+  (e: 'openEdit' | 'openDelete', trabajador: Trabajador): void
   (e: 'submitEditar', id: string, payload: Partial<TrabajadorPayload>): void
-  (e: 'openDelete', trabajador: Trabajador): void
   (e: 'submitEliminar', id: string): void
 }>()
 </script>

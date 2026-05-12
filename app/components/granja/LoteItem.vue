@@ -6,8 +6,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'edit', lote: Lote): void
-  (e: 'delete', lote: Lote): void
+  (e: 'edit' | 'delete', lote: Lote): void
 }>()
 
 const getDropdownItems = () => [

@@ -8,8 +8,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'cancel'): void
-  (e: 'submit'): void
+  (e: 'cancel' | 'submit'): void
 }>()
 
 const form = defineModel<{

@@ -9,8 +9,7 @@ const props = defineProps<{
 }>()
 
 defineEmits<{
-  (e: 'edit', mov: MovimientoRow): void
-  (e: 'delete', mov: MovimientoRow): void
+  (e: 'edit' | 'delete', mov: MovimientoRow): void
 }>()
 
 let listAnimation: any = null
@@ -30,7 +29,10 @@ watch([() => props.previewMovimientos, () => props.pending], ([newMoves, isPendi
       // Pequeño timeout para asegurar que el v-else-if cambió en el DOM
       timeoutId = setTimeout(() => {
         if (listAnimation) listAnimation.pause()
-        if (!import.meta.client) return; const els = document.querySelectorAll('.movement-item-anim'); if (!els.length) return; listAnimation = animate(Array.from(els), {
+        if (!import.meta.client) return
+        const els = document.querySelectorAll('.movement-item-anim')
+        if (!els.length) return
+        listAnimation = animate(Array.from(els), {
           y: [20, 0],
           opacity: [0, 1],
           delay: stagger(50),

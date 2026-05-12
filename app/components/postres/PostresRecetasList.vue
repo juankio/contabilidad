@@ -72,7 +72,7 @@ function onLeave(el: Element, done: () => void) {
       @leave="onLeave"
     >
       <li
-        v-for="(item, idx) in activePostre.receta"
+        v-for="item in activePostre.receta"
         :key="item.insumoId"
         class="group flex items-center justify-between rounded-2xl border border-slate-100 bg-transparent p-3 transition-colors hover:bg-transparent"
       >

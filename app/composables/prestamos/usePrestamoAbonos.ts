@@ -2,7 +2,6 @@ import { useCalendarDateInput } from '../forms/useCalendarDateInput'
 import { useMoneyInput } from '../forms/useMoneyInput'
 import type { ComputedRef } from 'vue'
 import type { Prestamo } from './types'
-import { getRequestError } from './helpers'
 
 export function usePrestamoAbonos(prestamos: ComputedRef<Prestamo[]>, refresh: () => Promise<void>) {
   const openAbonoPrestamoId = ref<string | null>(null)
