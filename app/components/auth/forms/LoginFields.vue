@@ -26,7 +26,7 @@ const showPassword = defineModel<boolean>('showPassword', { required: true })
       required
       size="lg"
       :disabled="disabled"
-      :ui="{ wrapper: 'shadow-sm rounded-xl' }"
+      :ui="{ root: 'shadow-sm rounded-xl' }"
     >
       <template #leading>
         <UIcon
@@ -54,7 +54,7 @@ const showPassword = defineModel<boolean>('showPassword', { required: true })
       :required="mode === 'register'"
       size="lg"
       :disabled="disabled"
-      :ui="{ wrapper: 'shadow-sm rounded-xl' }"
+      :ui="{ root: 'shadow-sm rounded-xl' }"
     >
       <template #leading>
         <UIcon
@@ -79,7 +79,7 @@ const showPassword = defineModel<boolean>('showPassword', { required: true })
       required
       size="lg"
       :disabled="disabled"
-      :ui="{ wrapper: 'shadow-sm rounded-xl' }"
+      :ui="{ root: 'shadow-sm rounded-xl' }"
     >
       <template #leading>
         <UIcon

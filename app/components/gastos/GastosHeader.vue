@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { animate, stagger } from 'animejs'
+
 defineProps<{
   exporting: boolean
   onExport: () => void
