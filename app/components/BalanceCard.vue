@@ -10,12 +10,16 @@ const animatedSaldoDisponible = computed(() => resumen.value?.saldoDisponible ??
 const animatedIngresos = computed(() => resumen.value?.ingresos ?? 0)
 const animatedGastos = computed(() => resumen.value?.gastos ?? 0)
 
-// Porcentaje de gastos sobre ingresos — indicador de salud financiera
+// Porcentaje de gastos sobre fondos totales disponibles (incluyendo saldo histórico)
 const saludPct = computed(() => {
-  const ing = resumen.value?.ingresos ?? 0
-  const gas = resumen.value?.gastos ?? 0
-  if (ing <= 0) return gas > 0 ? -1 : 0 // -1 significa sobregirado sin ingresos
-  return Math.round((gas / ing) * 100)
+  const saldoActual = resumen.value?.saldoDisponible ?? 0
+  const gastosMes = resumen.value?.gastos ?? 0
+  
+  // Total de fondos de los que se disponía ANTES de los gastos de este mes
+  const fondosBase = saldoActual + gastosMes
+  
+  if (fondosBase <= 0) return gastosMes > 0 ? -1 : 0 // -1 significa sobregirado sin fondos
+  return Math.round((gastosMes / fondosBase) * 100)
 })
 
 const saludColor = computed(() => {
@@ -95,7 +99,7 @@ const saludColor = computed(() => {
             class="text-xs font-semibold tracking-wide"
             :class="saludColor.text"
           >
-            {{ saludPct === -1 ? 'Gastos sin ingresos' : `${saludPct}% Consumido` }}
+            {{ saludPct === -1 ? 'Gastos sin fondos' : `${saludPct}% Consumido` }}
           </span>
         </div>
       </div>
