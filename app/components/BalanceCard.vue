@@ -10,23 +10,36 @@ const animatedSaldoDisponible = computed(() => resumen.value?.saldoDisponible ??
 const animatedIngresos = computed(() => resumen.value?.ingresos ?? 0)
 const animatedGastos = computed(() => resumen.value?.gastos ?? 0)
 
-// Porcentaje de gastos sobre fondos totales disponibles (incluyendo saldo histórico)
+// 1. Capacidad Total (Fondos Base = Saldo + Gastos)
 const saludPct = computed(() => {
   const saldoActual = resumen.value?.saldoDisponible ?? 0
   const gastosMes = resumen.value?.gastos ?? 0
-  
-  // Total de fondos de los que se disponía ANTES de los gastos de este mes
   const fondosBase = saldoActual + gastosMes
   
-  if (fondosBase <= 0) return gastosMes > 0 ? -1 : 0 // -1 significa sobregirado sin fondos
+  if (fondosBase <= 0) return gastosMes > 0 ? -1 : 0
   return Math.round((gastosMes / fondosBase) * 100)
 })
 
 const saludColor = computed(() => {
-  if (saludPct.value === -1 || saludPct.value > 100) return { bar: 'bg-rose-500', text: 'text-rose-600', label: 'Sobregirado' }
-  if (saludPct.value >= 90) return { bar: 'bg-rose-400', text: 'text-rose-600', label: 'Cuidado' }
-  if (saludPct.value >= 70) return { bar: 'bg-amber-400', text: 'text-amber-600', label: 'Ajustado' }
-  return { bar: 'bg-emerald-400', text: 'text-emerald-600', label: 'Saludable' }
+  if (saludPct.value === -1 || saludPct.value > 100) return { bar: 'bg-rose-500', text: 'text-rose-600' }
+  if (saludPct.value >= 90) return { bar: 'bg-rose-400', text: 'text-rose-600' }
+  if (saludPct.value >= 70) return { bar: 'bg-amber-400', text: 'text-amber-600' }
+  return { bar: 'bg-emerald-400', text: 'text-emerald-600' }
+})
+
+// 2. Flujo Mensual (Gastos del Mes vs Ingresos del Mes)
+const flujoPct = computed(() => {
+  const ing = resumen.value?.ingresos ?? 0
+  const gas = resumen.value?.gastos ?? 0
+  if (ing <= 0) return gas > 0 ? -1 : 0 // -1 significa gastando de ahorros (sin ingresos)
+  return Math.round((gas / ing) * 100)
+})
+
+const flujoColor = computed(() => {
+  if (flujoPct.value === -1) return { bar: 'bg-indigo-400', text: 'text-indigo-600' } // Usando ahorros
+  if (flujoPct.value > 100) return { bar: 'bg-orange-400', text: 'text-orange-600' } // Déficit mensual
+  if (flujoPct.value >= 80) return { bar: 'bg-amber-400', text: 'text-amber-600' } // Al límite mensual
+  return { bar: 'bg-sky-400', text: 'text-sky-600' } // Ahorrando
 })
 </script>
 
@@ -87,20 +100,48 @@ const saludColor = computed(() => {
           </span>
         </div>
 
-        <div class="mt-5 flex items-center gap-3">
-          <div class="h-1.5 flex-1 overflow-hidden rounded-full bg-slate-100">
-            <div
-              class="h-full rounded-full transition-all duration-500"
-              :class="saludColor.bar"
-              :style="{ width: `${saludPct === -1 ? 100 : Math.min(100, saludPct)}%` }"
-            />
+        <div class="mt-5 space-y-4">
+          <!-- Barra 1: Liquidez Total -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-end gap-2">
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider truncate">Tus Fondos Totales</span>
+              <span
+                class="text-[11px] font-bold tracking-wide shrink-0"
+                :class="saludColor.text"
+              >
+                {{ saludPct === -1 ? 'Sobregiro' : `${saludPct}% consumido` }}
+              </span>
+            </div>
+            <div class="h-1.5 w-full overflow-hidden rounded-full bg-slate-100">
+              <div
+                class="h-full rounded-full transition-all duration-500"
+                :class="saludColor.bar"
+                :style="{ width: `${saludPct === -1 ? 100 : Math.min(100, saludPct)}%` }"
+              />
+            </div>
           </div>
-          <span
-            class="text-xs font-semibold tracking-wide"
-            :class="saludColor.text"
-          >
-            {{ saludPct === -1 ? 'Gastos sin fondos' : `${saludPct}% Consumido` }}
-          </span>
+
+          <!-- Barra 2: Flujo Mensual -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-end gap-2">
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider truncate">Flujo de este mes</span>
+              <span
+                class="text-[11px] font-bold tracking-wide shrink-0"
+                :class="flujoColor.text"
+              >
+                <template v-if="flujoPct === -1">Usando ahorros</template>
+                <template v-else-if="flujoPct > 100">{{ flujoPct }}% (Déficit)</template>
+                <template v-else>{{ flujoPct }}% de ingresos</template>
+              </span>
+            </div>
+            <div class="h-1.5 w-full overflow-hidden rounded-full bg-slate-100">
+              <div
+                class="h-full rounded-full transition-all duration-500"
+                :class="flujoColor.bar"
+                :style="{ width: `${flujoPct === -1 ? 100 : Math.min(100, flujoPct)}%` }"
+              />
+            </div>
+          </div>
         </div>
       </div>
 
